@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/TrevorFrench/Project_Management#readme",
   "dependencies": {
+    "express": "^4.17.1"
   },
   "engines": {
     "node": "10.x"
