@@ -1,0 +1,24 @@
+{
+  "name": "project-management",
+  "version": "1.0.0",
+  "description": "Project Management Program",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git + https://github.com/TrevorFrench/Project_Management"
+  },
+  "author": "Trevor French",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TrevorFrench/Project_Management"
+  },
+  "homepage": "https://github.com/TrevorFrench/Project_Management#readme",
+  "dependencies": {
+  },
+  "engines": {
+    "node": "10.x"
+  }
+}
