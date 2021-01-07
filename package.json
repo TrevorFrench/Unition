@@ -18,7 +18,8 @@
   "homepage": "https://github.com/TrevorFrench/Project_Management#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "express-fileupload": "^1.2.0"
+    "express-fileupload": "^1.2.0",
+    "pg": "^8.5.1"
   },
   "engines": {
     "node": "10.x"

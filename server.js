@@ -1,15 +1,10 @@
-/*var express = require('express');
-var app = express();
-app.use(express.static(__dirname + '/'));
-app.listen('3000');
-console.log('working on 3000');
-app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));*/
-
 const express = require('express'); // easier to work with that the HTTP module.
 const path = require('path'); // works with diretories and file paths
 var bodyParser = require("body-parser");
 const app = express(); // instantiate the module into a variable
 const fileUpload = require('express-fileupload');
+const db = require('./queries')
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.set('views', __dirname + '/public/views');
@@ -35,38 +30,8 @@ app.listen(app.get("port"), function () { // listens on the port and displays a 
 	console.log("Now listening for connection on port: " + app.get("port"));
 });
 
-app.post("/contact", function(req, res) {
-	if(req.body){
-			let keys = Object.keys(req.body);
-			var transporter = nodemailer.createTransport({
-  				service: 'gmail',
-  				auth: {
-    			user: 'trevorf96@gmail.com',
-    			pass: 'ozbsbndwilnqstiy'
-  						}
-					});
-
-			//var i = req.body[keys[2]];
-			res.redirect('back');
-            
-            console.log('req.body keys 0: ' + req.body[keys[0]]);
-            console.log('req.body keys: ' + req.body[keys]);
-
-var mailOptions = {
-  from: req.body[keys[0]],
-  to: '9103915219@vtext.com,',
-  subject: req.body.subject + 'REF: ' + req.body.reference,
-  text: 'From: ' + req.body.name + '(' + req.body.email + ')' + req.body.message
-};
-
-transporter.sendMail(mailOptions, function(error, info){
-  if (error) {
-    console.log(error);
-  } else {
-    console.log('Email sent: ' + info.response);
-  }
-});
-
-
-	}
-});
+app.get('/users', db.getUsers)
+app.get('/users/:id', db.getUserById)
+app.post('/users', db.createUser)
+app.put('/users/:id', db.updateUser)
+app.delete('/users/:id', db.deleteUser)
