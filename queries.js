@@ -29,7 +29,7 @@ const getUserById = (request, response) => {
 const createUser = (request, response) => {
   const { name, email } = request.body
 
-  pool.query('ALTER TABLE projects ADD COLUMN responsible VARCHAR (50) NOT NULL;', (error, results) => {
+  pool.query("INSERT INTO projects(description, duedate, responsible, status, title) VALUES ('This is a test project with no action items.','2022-01-01', 'Trevor French', 'Open', 'Test Project')", (error, results) => {
     if (error) {
       throw error
     }
