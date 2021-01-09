@@ -37,3 +37,5 @@ app.delete('/users/:id', db.deleteUser)
 
 app.post('/allProjects', db.selectAll)
 app.post('/openProjects', db.selectOpen)
+
+app.get('openProject', db.getProject)
