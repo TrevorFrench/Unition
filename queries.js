@@ -71,7 +71,7 @@ const selectAll = function(req, res) {
 		  throw error;
 	  }
 	  var tableText = '<p>TABLE</p>';
-	  results.rows.forEach(element => tableText += '<p>' + element + '</p>');
+	  results.rows.forEach(element => tableText += '<p>' + element.title + element.project_id + element.status + element.responsible + element.duedate + element.description + '</p>');
 	res.render("dashboard.ejs", {statusMessage: tableText})
 })
 };
