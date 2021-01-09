@@ -39,5 +39,4 @@ app.post('/dashboard', function(req, res){
 	db.selectAll
 	res.render('dashboard.ejs', {statusMessage: "Error. Please double check to make sure you spelled your ticker correctly and make sure that you did not include any spaces."});
 	
-};
-)
+});
