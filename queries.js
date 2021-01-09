@@ -84,7 +84,7 @@ const selectOpen = function(req, res) {
 		  throw error;
 	  }
 	  var tableText = '<table><tr><th>TITLE</th><th>PROJECT ID</th><th>STATUS</th><th>RESPONSIBLE</th><th>DUE DATE</th><th>DESCRIPTION</th></tr>';
-	  results.rows.forEach(element => tableText += '<tr><td>' + element.title + '</td><td>' + element.project_id + '</td><td>' + element.status + '</td><td>' + element.responsible + '</td><td>' + element.duedate + '</td><td>' + element.description + '</td></tr>');
+	  results.rows.forEach(element => tableText += '<tr><td><form id="myform" action="/allProjects" method="post"><input type=text value=' + element.project_id + ' id=' + element.project_id + '>' + '<a href="javascript: submitform()">' + element.title + '</a></form></td><td>' + element.project_id + '</td><td>' + element.status + '</td><td>' + element.responsible + '</td><td>' + element.duedate + '</td><td>' + element.description + '</td></tr>');
 	tableText += '</table>';
 	res.render("dashboard.ejs", {statusMessage: tableText})
 })
