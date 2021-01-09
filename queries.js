@@ -67,7 +67,7 @@ const deleteUser = (request, response) => {
 const selectAll = (req, res) => {
   pool
   .query('SELECT * FROM projects WHERE project_id = $1', [1])
-  .then(res => console.log('user:', res.rows[0]))
+  .then(res => res.render('dashboard.ejs', {statusMessage: res.rows[0]}))
   .catch(err =>
     setImmediate(() => {
       throw err
