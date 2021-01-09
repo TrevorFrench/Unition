@@ -64,14 +64,15 @@ const deleteUser = (request, response) => {
   })
 }
 
-const selectAll = (request, response) => {
-  pool.query('SELECT * FROM projects ORDER BY project_id ASC', (error, results) => {
-    if (error) {
-      throw error
-    }
-    response.render('dashboard.ejs', {statusMessage: "Error. Please double check to make sure you spelled your ticker correctly and make sure that you did not include any spaces."})
-	console.log(response.status(200).json(results.rows))
-  })
+const selectAll = (req, res) => {
+  pool
+  .query('SELECT * FROM projects WHERE project_id = $1', [1])
+  .then(res => console.log('user:', res.rows[0]))
+  .catch(err =>
+    setImmediate(() => {
+      throw err
+    })
+  )
 }
 
 module.exports = {
