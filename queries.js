@@ -109,4 +109,5 @@ module.exports = {
   deleteUser,
   selectAll,
   selectOpen,
+  getProject,
 }
