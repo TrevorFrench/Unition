@@ -70,8 +70,9 @@ const selectAll = function(req, res) {
 	  if (error) {
 		  throw error;
 	  }
-	  var tableText = '<p>TABLE</p>';
-	  results.rows.forEach(element => tableText += '<p>' + element.title + element.project_id + element.status + element.responsible + element.duedate + element.description + '</p>');
+	  var tableText = '<table><tr><th>TITLE</th><th>PROJECT ID</th><th>STATUS</th><th>RESPONSIBLE</th><th>DUE DATE</th><th>DESCRIPTION</th></tr>';
+	  results.rows.forEach(element => tableText += '<tr><td>' + element.title + '</td><td>' + element.project_id + '</td><td>' + element.status + '</td><td>' + element.responsible + '</td><td>' + element.duedate + '</td><td>' + element.description + '</td></tr>');
+	tableText += '</table>';
 	res.render("dashboard.ejs", {statusMessage: tableText})
 })
 };
