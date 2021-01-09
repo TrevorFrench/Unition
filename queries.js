@@ -97,4 +97,5 @@ module.exports = {
   updateUser,
   deleteUser,
   selectAll,
+  selectOpen,
 }
