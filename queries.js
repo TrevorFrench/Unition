@@ -65,7 +65,7 @@ const deleteUser = (request, response) => {
 }
 
 const selectAll = (request, response) => {
-  pool.query('SELECT * FROM projects ORDER BY id ASC', (error, results) => {
+  pool.query('SELECT * FROM projects ORDER BY project_id ASC', (error, results) => {
     if (error) {
       throw error
     }
