@@ -35,4 +35,4 @@ app.put('/users/:id', db.updateUser)
 app.delete('/users/:id', db.deleteUser)
 
 
-app.post('/dashboard', db.selectAll)
+app.post('/allProjects', db.selectAll)
