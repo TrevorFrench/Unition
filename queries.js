@@ -93,7 +93,7 @@ const selectOpen = function(req, res) {
 const getProject = (request, response) => {
   const id = parseInt(request.params.id)
 
-  pool.query('SELECT * FROM users WHERE id = $1', [id], (error, results) => {
+  pool.query('SELECT * FROM projects WHERE id = $1', [id], (error, results) => {
     if (error) {
       throw error
     }
