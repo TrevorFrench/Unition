@@ -90,6 +90,11 @@ li:hover{
   cursor: pointer;
 }
 
+.main {
+	display:inline;
+	float:right;
+	}
+
 
 		</style>
 		<script type="text/javascript">
@@ -110,14 +115,20 @@ li:hover{
 	<img src="./public/SwireLogo.png" alt="Swire Coca-Cola, USA Logo" width="280" height="60">
 	
 	 <div class="container">
+	     <div class="main">
+	<form action="/users" method="post">
+		  <input type="submit" value="PSQL CHANGES">
+		</form>
+	</div>
   <div class="card">
+
     <div class="header">
       <h3>Menu IU <i class="fas fa-angle-down iconM"></i></h3>
     </div>
     <div class="body">
       <ul>
         <li><i class="fas fa-home icon"></i> Home</li>
-        <li><i class="fas fa-underline icon"></i><form id="myform" action="/dashboard" method="post"><a href="javascript: submitform()">Submit</a></form></li>
+        <li><i class="fas fa-underline icon"></i><form id="myform" action="/dashboard" method="post"><a href="javascript: submitform()">All Projects</a></form></li>
         <li><i class="fas fa-boxes icon"></i> Widgets</li>
         <li><i class="fas fa-table icon"></i> Tables</li>
         <li><i class="fab fa-wpforms icon"></i> Forms
@@ -130,19 +141,9 @@ li:hover{
       </ul>
     </div>
   </div>
+
+
 </div>
-
-		<table><tr></tr>
-		<tr><td><a href="">Home</a></td></tr>
-		<tr><td><a href="">Dashboard</a></td></tr>
-		<tr><td><a href="">Users</a></td></tr>
-		</table>
-		
-		<form action="/users" method="post">
-		  <input type="submit" value="PSQL CHANGES">
-		</form>
-		
-
 		
 	</body>
 </html
