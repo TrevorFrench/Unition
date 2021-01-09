@@ -24,8 +24,6 @@ app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html'))); //
 
 app.post('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
 
-app.get('/.well-known/brave-rewards-verification.txt', (req, res) => res.sendFile(path.join(__dirname, '.well-known/brave-rewards-verification.txt')));
-
 app.listen(app.get("port"), function () { // listens on the port and displays a message to the console
 	console.log("Now listening for connection on port: " + app.get("port"));
 });
@@ -35,3 +33,6 @@ app.get('/users/:id', db.getUserById)
 app.post('/users', db.createUser)
 app.put('/users/:id', db.updateUser)
 app.delete('/users/:id', db.deleteUser)
+
+
+app.post('/dashboard', (req, res) => res.render('dashboard.ejs', {statusMessage: "Error. Please double check to make sure you spelled your ticker correctly and make sure that you did not include any spaces."}));
