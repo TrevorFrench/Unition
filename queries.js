@@ -69,7 +69,8 @@ const selectAll = (request, response) => {
     if (error) {
       throw error
     }
-    console.log(response.status(200).json(results.rows))
+    response.render('dashboard.ejs', {statusMessage: "Error. Please double check to make sure you spelled your ticker correctly and make sure that you did not include any spaces."})
+	console.log(response.status(200).json(results.rows))
   })
 }
 
