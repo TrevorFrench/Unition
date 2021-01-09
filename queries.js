@@ -77,6 +77,19 @@ const selectAll = function(req, res) {
 })
 };
 
+const selectOpen = function(req, res) {
+  const sql = 'SELECT * FROM projects WHERE status = "Open" ORDER BY project_id ASC';
+  pool.query(sql, (error, results) => {
+	  if (error) {
+		  throw error;
+	  }
+	  var tableText = '<table><tr><th>TITLE</th><th>PROJECT ID</th><th>STATUS</th><th>RESPONSIBLE</th><th>DUE DATE</th><th>DESCRIPTION</th></tr>';
+	  results.rows.forEach(element => tableText += '<tr><td>' + element.title + '</td><td>' + element.project_id + '</td><td>' + element.status + '</td><td>' + element.responsible + '</td><td>' + element.duedate + '</td><td>' + element.description + '</td></tr>');
+	tableText += '</table>';
+	res.render("dashboard.ejs", {statusMessage: tableText})
+})
+};
+
 module.exports = {
   getUsers,
   getUserById,

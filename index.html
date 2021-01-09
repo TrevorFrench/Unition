@@ -102,7 +102,11 @@ li:hover{
 			function submitform()
 			{
 			document.forms["myform"].submit();
-			alert("Value is sumitted");
+			}
+			
+			function submitopen()
+			{
+			document.forms["openform"].submit();
 			}
 		</script>
 		<script defer src="./node_modules/@fortawesome/fontawesome-free/js/brands.js"></script>
@@ -127,7 +131,7 @@ li:hover{
         <li><i class="fas fa-home icon"></i> <a href="./index.html">Home</a></li>
         <li><i class="fas fa-underline icon"></i> Projects
 			<ul>
-				<li><i class="fas fa-pencil-alt icon"></i> First form</li>
+				<li><i class="fas fa-pencil-alt icon"></i> <form id="openform" action="/openProjects" method="post"><a href="javascript: submitopen()">Open Projects</a></form></li>
 				<li><i class="fas fa-paper-plane icon"></i> <form id="myform" action="/allProjects" method="post"><a href="javascript: submitform()">All Projects</a></form></li>
           </ul>
 		</li>
