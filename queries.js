@@ -70,7 +70,8 @@ const selectAll = function(req, res) {
 	  if (error) {
 		  throw error;
 	  }
-	res.render("dashboard.ejs", {statusMessage: results.rows[0].title})
+	  const tableText = results.rows[0].title;
+	res.render("dashboard.ejs", {statusMessage: tableText})
 })
 };
 
