@@ -97,7 +97,7 @@ const getProject = (request, response) => {
     if (error) {
       throw error
     }
-    response.render("dashboard.ejs", {statusMessage: results.rows})
+    response.render("dashboard.ejs", {statusMessage: results.rows.title})
   })
 }
 
