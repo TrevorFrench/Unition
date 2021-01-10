@@ -98,7 +98,7 @@ const getProject = (request, response) => {
       throw error
     }
 	var projectText = 'Project listed below<br><br>';
-	results.rows.forEach(element => projectText += '<b>TITLE:</b> ' + element.title + '<br><br><b>STATUS:</b> <input type=text id=statusSQL name=statusSQL value=' + element.status + '><br><br><b>DUE DATE:</b> ' + element.duedate + '<br><br><b>RESPONSIBLE:</b> ' + element.responsible + '<br><br><b>PROJECT ID:</b> ' + element.project_id + '<br><br><b>DESCRIPTION:</b> ' + element.description);
+	results.rows.forEach(element => projectText += '<b>TITLE:</b> <input type=text name=title id=title hidden>' + element.title + '<br><br><b>STATUS:</b> <input type=text id=statusSQL name=statusSQL value=' + element.status + '><br><br><b>DUE DATE:</b> ' + element.duedate + '<br><br><b>RESPONSIBLE:</b> ' + element.responsible + '<br><br><b>PROJECT ID:</b> ' + element.project_id + '<br><br><b>DESCRIPTION:</b> ' + element.description);
     response.render("dashboard.ejs", {statusMessage: projectText})
   })
 }
