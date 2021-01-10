@@ -16,7 +16,7 @@ a {
 }
 
 .container{
-  padding: 50px;
+  padding: 30px;
   display: flex;
 }
 
@@ -94,6 +94,7 @@ li:hover{
 .main {
 	display:inline;
 	float:right;
+	padding: 20px;
 	}
 
 
@@ -129,7 +130,7 @@ li:hover{
   <div class="card">
 
     <div class="header">
-      <h3>PRGM Project Manager <i class="fas fa-angle-down iconM"></i></h3>
+      <h3>PRGM Projects <i class="fas fa-angle-down iconM"></i></h3>
     </div>
     <div class="body">
       <ul>
@@ -153,9 +154,16 @@ li:hover{
       </ul>
     </div>
   </div>
-		     <div class="main">
-	<form action="/users" method="post">
+	<div class="main">
+		<form action="/users" method="post">
 		  <input type="submit" value="PSQL CHANGES">
+		</form>
+		<form action="/createProject" method="post">
+			<input type="text" name="title" id="title">
+			<input type="text" name="description" id="description">
+			<input type="text" name="status" id="status">
+			<input type="text" name="responsible" id="responsible">
+			<input type="date" name="duedate" id="duedate">
 		</form>
 	</div>
 
