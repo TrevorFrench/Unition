@@ -114,6 +114,7 @@ const postProject = (request, response) => {
 	const statusSQL = request.body.statusSQL
 	const responsible = request.body.responsible
 	const duedate = request.body.duedate
+	console.log("TITLE: " + title)
 	const sql = 'INSERT INTO projects(title, description, status, responsible, duedate) VALUES (' + title + ', ' + description + ', ' + statusSQL + ', ' + responsible + ', ' + duedate + ')';
 	pool.query(sql, (error, results) => {
 	  if (error) {
