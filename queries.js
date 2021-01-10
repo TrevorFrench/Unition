@@ -104,7 +104,7 @@ const getProject = (request, response) => {
 }
 
 const createProject = (request, response) => {
-	var projectFrame = "<form action='/createProject' method='post'> <input type='text' name='title' id='title'><input type='text' name='description' id='description'><input type='text' name='statusSQL' id='status'><input type='text' name='responsible' id='responsible'><input type='date' name='duedate' id='duedate'><input type='submit' value='Create Project'></form>";
+	var projectFrame = "<form action='/postProject' method='post'> <input type='text' name='title' id='title'><input type='text' name='description' id='description'><input type='text' name='statusSQL' id='status'><input type='text' name='responsible' id='responsible'><input type='date' name='duedate' id='duedate'><input type='submit' value='Create Project'></form>";
 	response.render("dashboard.ejs", {statusMessage: projectFrame})
 }
 
