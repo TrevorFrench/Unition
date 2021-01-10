@@ -98,9 +98,26 @@ const getProject = (request, response) => {
       throw error
     }
 	var projectText = 'Project listed below<br><br>';
-	results.rows.forEach(element => projectText += '<b>TITLE:</b> <input type=text name=title id=title hidden>' + element.title + '<br><br><b>STATUS:</b> <input type=text id=statusSQL name=statusSQL value=' + element.status + '><br><br><b>DUE DATE:</b> ' + element.duedate + '<br><br><b>RESPONSIBLE:</b> ' + element.responsible + '<br><br><b>PROJECT ID:</b> ' + element.project_id + '<br><br><b>DESCRIPTION:</b> ' + element.description);
+	results.rows.forEach(element => projectText += '<form action="/updateProject" method="post"> <b>TITLE:</b> <input type=text name=title id=title value=' + element.title + 'hidden>' + element.title + '<br><br><b>STATUS:</b> <input type=text id=statusSQL name=statusSQL value=' + element.status + '><br><br><b>DUE DATE:</b> <input type=text name=duedate id=duedate value=' + element.duedate + 'hidden>' + element.duedate + '<br><br><b>RESPONSIBLE:</b> <input type=text name=responsible id=responsible value=' + element.responsible + 'hidden>' + element.responsible + '<br><br><b>PROJECT ID:</b> <input type=text name=project_id id=project_id value=' + element.project_id + 'hidden>' + element.project_id + '<br><br><b>DESCRIPTION:</b> <input type=text name=description id=description value=' + element.description + 'hidden>' + element.description + '<input type="submit" value="Update Project"></form>');
     response.render("dashboard.ejs", {statusMessage: projectText})
   })
+}
+
+const updateProject = (request, response) => {
+	const title = request.body.title
+	const description = request.body.description
+	const statusSQL = request.body.statusSQL
+	const responsible = request.body.responsible
+	const duedate = request.body.duedate
+	const id = request.body.project_id
+	console.log("TITLE: " + title)
+	const sql = "UPDATE projects set status = " + statusSQL + "WHERE project_id = " + id;
+	pool.query(sql, (error, results) => {
+	  if (error) {
+		  throw error;
+	  }
+	response.render("dashboard.ejs", {statusMessage: "Successfully updated project: "})
+})
 }
 
 const createProject = (request, response) => {
