@@ -39,3 +39,5 @@ app.post('/allProjects', db.selectAll)
 app.post('/openProjects', db.selectOpen)
 
 app.post('/openProject', db.getProject)
+
+app.post('/createProject', db.createProject)
