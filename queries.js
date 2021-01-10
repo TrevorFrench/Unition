@@ -109,11 +109,11 @@ const createProject = (request, response) => {
 }
 
 const postProject = (request, response) => {
-	const title = parseInt(request.body.title)
-	const description = parseInt(request.body.description)
-	const statusSQL = parseInt(request.body.statusSQL)
-	const responsible = parseInt(request.body.responsible)
-	const duedate = parseInt(request.body.duedate)
+	const title = request.body.title
+	const description = request.body.description
+	const statusSQL = request.body.statusSQL
+	const responsible = request.body.responsible
+	const duedate = request.body.duedate
 	const sql = 'INSERT INTO projects(title, description, status, responsible, duedate) VALUES (' + title + ', ' + description + ', ' + statusSQL + ', ' + responsible + ', ' + duedate + ')';
 	pool.query(sql, (error, results) => {
 	  if (error) {
