@@ -117,4 +117,5 @@ module.exports = {
   selectAll,
   selectOpen,
   getProject,
+  createProject,
 }
