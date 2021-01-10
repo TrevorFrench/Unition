@@ -152,4 +152,5 @@ module.exports = {
   getProject,
   createProject,
   postProject,
+  updateProject,
 }
