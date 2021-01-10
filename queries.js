@@ -120,6 +120,7 @@ const postProject = (request, response) => {
 		  throw error;
 	  }
 	response.render("dashboard.ejs", {statusMessage: "Successfully created project: "})
+})
 }
 
 module.exports = {
