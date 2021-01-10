@@ -111,7 +111,7 @@ const updateProject = (request, response) => {
 	const duedate = request.body.duedate
 	const id = parseInt(request.body.project_id)
 	console.log("TITLE: " + title)
-	const sql = "UPDATE projects SET status =" + statusSQL + " WHERE project_id =" + id;
+	const sql = "UPDATE projects SET status = '" + statusSQL + "' WHERE project_id = " + id;
 	pool.query(sql, (error, results) => {
 	  if (error) {
 		  throw error;
