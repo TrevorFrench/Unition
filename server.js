@@ -42,3 +42,5 @@ app.post('/openProject', db.getProject)
 
 app.post('/createProject', db.createProject)
 app.post('/postProject', db.postProject)
+
+app.post('/adminPage', (req, res) => res.render("dashboard.ejs", {statusMessage: "<form action='/users' method='post'><input type='submit' value='PSQL CHANGES'></form>"}));

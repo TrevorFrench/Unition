@@ -150,7 +150,7 @@ input[type="submit"] {
           </ul>
 		</li>
 		
-        <li><i class="fas fa-boxes icon"></i> Widgets</li>
+        <li><i class="fas fa-boxes icon"></i><form id="openform" action="/adminPage" method="post"><a href="javascript: submitopen()">Admin</a></form></li>
         <li><i class="fas fa-table icon"></i> Tables</li>
         <li><i class="fab fa-wpforms icon"></i> Forms
           <ul>
@@ -163,9 +163,7 @@ input[type="submit"] {
     </div>
   </div>
 	<div class="main">
-		<form action="/users" method="post">
-		  <input type="submit" value="PSQL CHANGES">
-		</form>
+
 		
 		<form action="/createProject" method="post">
 		  <input type="submit" value="Create a new project">
