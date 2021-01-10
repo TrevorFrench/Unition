@@ -109,7 +109,7 @@ const updateProject = (request, response) => {
 	const statusSQL = request.body.statusSQL
 	const responsible = request.body.responsible
 	const duedate = request.body.duedate
-	const id = request.body.project_id
+	const id = parseInt(request.body.project_id)
 	console.log("TITLE: " + title)
 	const sql = "UPDATE projects set status = " + statusSQL + "WHERE project_id = " + id;
 	pool.query(sql, (error, results) => {
