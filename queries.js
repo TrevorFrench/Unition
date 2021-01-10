@@ -97,7 +97,9 @@ const getProject = (request, response) => {
     if (error) {
       throw error
     }
-    response.status(200).json(results.rows)
+	var projectText = 'Project listed below';
+	results.rows.forEach(element => projectText += 'TITLE: ' + element.title + 'DESCRIPTION: ' + element.description);
+    response.render("dashboard.ejs", {statusMessage: projectText})
   })
 }
 
