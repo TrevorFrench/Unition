@@ -84,7 +84,7 @@ const selectOpen = function(req, res) {
 		  throw error;
 	  }
 	  var tableText = '<table><tr><th>TITLE</th><th>PROJECT ID</th><th>STATUS</th><th>RESPONSIBLE</th><th>DUE DATE</th><th>DESCRIPTION</th></tr>';
-	  results.rows.forEach(element => tableText += '<tr><td><form id="projectform" action="/openProject" method="post"><input type=text name=ticketID value=' + element.project_id + ' id=' + element.project_id + ' hidden>' + '<input type="submit" value="' + element.title + '"></form></td><td>' + element.project_id + '</td><td>' + element.status + '</td><td>' + element.responsible + '</td><td>' + element.duedate + '</td><td>' + element.description + '</td></tr>');
+	  results.rows.forEach(element => tableText += "<tr><td><form id='projectform' action='/openProject' method='post'><input type='text' name='ticketID' value='" + element.project_id + "' id='" + element.project_id + "' hidden>" + "<input type='submit' value='" + element.title + "'></form></td><td>" + element.project_id + "</td><td>" + element.status + "</td><td>" + element.responsible + "</td><td>" + element.duedate + "</td><td>" + element.description + "</td></tr>");
 	tableText += '</table>';
 	res.render("dashboard.ejs", {statusMessage: tableText})
 })
@@ -98,7 +98,7 @@ const getProject = (request, response) => {
       throw error
     }
 	var projectText = 'Project listed below<br><br>';
-	results.rows.forEach(element => projectText += '<form action="/updateProject" method="post"> <b>TITLE:</b> <input type=text name=title id=title value=' + element.title + 'hidden>' + element.title + '<br><br><b>STATUS:</b> <input type=text id=statusSQL name=statusSQL value=' + element.status + '><br><br><b>DUE DATE:</b> <input type=text name=duedate id=duedate value=' + element.duedate + 'hidden>' + element.duedate + '<br><br><b>RESPONSIBLE:</b> <input type=text name=responsible id=responsible value=' + element.responsible + 'hidden>' + element.responsible + '<br><br><b>PROJECT ID:</b> <input type=text name=project_id id=project_id value=' + element.project_id + 'hidden>' + element.project_id + '<br><br><b>DESCRIPTION:</b> <input type=text name=description id=description value=' + element.description + 'hidden>' + element.description + '<input type="submit" value="Update Project"></form>');
+	results.rows.forEach(element => projectText += "<form action='/updateProject' method='post'> <b>TITLE:</b> <input type='text' name='title' id='title' value='" + element.title + "' hidden>" + element.title + "<br><br><b>STATUS:</b> <input type='text' id='statusSQL' name='statusSQL' value='" + element.status + "'><br><br><b>DUE DATE:</b> <input type='text' name='duedate' id='duedate' value='" + element.duedate + "'hidden>" + element.duedate + "<br><br><b>RESPONSIBLE:</b> <input type='text' name='responsible' id='responsible' value='" + element.responsible + "' hidden>" + element.responsible + "<br><br><b>PROJECT ID:</b> <input type='text' name='project_id' id='project_id' value='" + element.project_id + "' hidden>" + element.project_id + "<br><br><b>DESCRIPTION:</b> <input type='text' name='description' id=description value='" + element.description + "' hidden>" + element.description + "<input type='submit' value='Update Project'></form>");
     response.render("dashboard.ejs", {statusMessage: projectText})
   })
 }
