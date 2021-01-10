@@ -104,8 +104,22 @@ const getProject = (request, response) => {
 }
 
 const createProject = (request, response) => {
-	var projectFrame = "<form action='/createProject' method='post'> <input type='text' name='title' id='title'><input type='text' name='description' id='description'><input type='text' name='status' id='status'><input type='text' name='responsible' id='responsible'><input type='date' name='duedate' id='duedate'><input type='submit' value='Create Project'></form>";
+	var projectFrame = "<form action='/createProject' method='post'> <input type='text' name='title' id='title'><input type='text' name='description' id='description'><input type='text' name='statusSQL' id='status'><input type='text' name='responsible' id='responsible'><input type='date' name='duedate' id='duedate'><input type='submit' value='Create Project'></form>";
 	response.render("dashboard.ejs", {statusMessage: projectFrame})
+}
+
+const postProject = (request, response) => {
+	const title = parseInt(request.body.title)
+	const description = parseInt(request.body.description)
+	const statusSQL = parseInt(request.body.statusSQL)
+	const responsible = parseInt(request.body.responsible)
+	const duedate = parseInt(request.body.duedate)
+	const sql = 'INSERT INTO projects(title, description, status, responsible, duedate) VALUES (' + title + ', ' + description + ', ' + statusSQL + ', ' + responsible + ', ' + duedate + ')';
+	pool.query(sql, (error, results) => {
+	  if (error) {
+		  throw error;
+	  }
+	response.render("dashboard.ejs", {statusMessage: "Successfully created project: "})
 }
 
 module.exports = {
@@ -118,4 +132,5 @@ module.exports = {
   selectOpen,
   getProject,
   createProject,
+  postProject,
 }
