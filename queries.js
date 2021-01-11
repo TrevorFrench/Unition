@@ -78,7 +78,7 @@ const selectAll = function(req, res) {
 };
 
 const selectOpen = function(req, res) {
-  const sql = "SELECT project_id, title, status, responsible, duedate, description FROM projects WHERE status = 'Open' ORDER BY project_id ASC";
+  const sql = "SELECT project_id, title, status, responsible, TO_CHAR(duedate, 'MM/DD/YYYY'), description FROM projects WHERE status = 'Open' ORDER BY project_id ASC";
   pool.query(sql, (error, results) => {
 	  if (error) {
 		  throw error;
@@ -91,7 +91,7 @@ const selectOpen = function(req, res) {
 };
 
 const selectInprocess = function(req, res) {
-  const sql = "SELECT project_id, title, status, responsible, duedate, description FROM projects WHERE status = 'In-process' ORDER BY project_id ASC";
+  const sql = "SELECT project_id, title, status, responsible, TO_CHAR(duedate, 'MM/DD/YYYY'), description FROM projects WHERE status = 'In-process' ORDER BY project_id ASC";
   pool.query(sql, (error, results) => {
 	  if (error) {
 		  throw error;
