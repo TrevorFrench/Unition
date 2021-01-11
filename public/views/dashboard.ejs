@@ -113,6 +113,11 @@ input[type="submit"].redButton {
 			document.forms["openform"].submit();
 			}
 			
+			function submitinprocess()
+			{
+			document.forms["inprocessform"].submit();
+			}
+			
 			function submitproject()
 			{
 			document.forms["projectform"].submit();
@@ -146,6 +151,7 @@ input[type="submit"].redButton {
 				<li><i class="fas fa-underline icon"></i> Projects
 					<ul>
 						<li><i class="fas fa-pencil-alt icon"></i> <form id="openform" action="/openProjects" method="post"><a href="javascript: submitopen()">Open Projects</a></form></li>
+						<li><i class="fas fa-pencil-alt icon"></i> <form id="inprocessform" action="/openProjects" method="post"><a href="javascript: submitinprocess()">In-Process Projects</a></form></li>
 						<li><i class="fas fa-paper-plane icon"></i> <form id="myform" action="/allProjects" method="post"><a href="javascript: submitform()">All Projects</a></form></li>
 				  </ul>
 				</li>
