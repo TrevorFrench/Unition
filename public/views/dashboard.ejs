@@ -2,118 +2,31 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<style>
-			
-@import url('https://fonts.googleapis.com/css?family=Roboto');
-
-form {
-	display: inline;
-}
-
-a {
-  color: inherit; /* blue colors for links too */
-  text-decoration: inherit; /* no underline */
-}
-
-.container{
-  padding: 30px;
-  display: flex;
-}
-
-.card{
-  width: 300px;
-  height: 420px;
-  background-color: #1E2B32;
-  border-radius: 10px 10px;
-}
-
-.header{
-  border-radius: 10px 10px 0px 0px;
-  padding: 5px;
-  background-color: #2A3942;
-}
-
-h3{
-  color: #FFFFFF;
-  font-family: 'Roboto', sans-serif;
-  margin-left: 1rem;
-}
-
-.iconM{
-  font-size: 18px;
-  margin-left: 170px;
-  color: #2f89fc;
-}
-
-.icon{
-  margin-right: 8px;
-}
-
-.body li{
-  transition: 1s all;
-  font-family: 'Roboto', sans-serif;
-  font-size: 18px;
-  padding: 15px;
-  margin-left: -40px;
-  margin-top: 0px;
-  color: #fff;
-  list-style: none;
-  display: block;
-  border-top-right-radius: 10px 10px;
-  border-bottom-right-radius: 10px 10px;
-}
-
-li:hover{
-  transition: 1s all;
-  color: #2f89fc;
-  background-color: rgba(42, 56, 65, 0.82);
-  border-top-right-radius: 10px 10px;
-  border-bottom-right-radius: 10px 10px;
-  cursor: pointer;
-}
-
-.body > li{
-  float: left;
-}
-
-.body li ul{
-  background: #1E2B32;
-  margin-left: 280px;
-  margin-top: -38px;
-  display: none;
-  position: absolute;
-  border-top-right-radius: 15px 15px;
-  border-bottom-right-radius: 15px 15px;
-}
-
-.body li:hover > ul{
-  display: block;
-  cursor: pointer;
-}
-
-.main {
-	display:inline;
-	float:right;
-	padding: 20px;
-	}
-
-
-		</style>
+		<link href="../style.css" rel="stylesheet" type="text/css">
 		<script type="text/javascript">
 			function submitform()
 			{
 			document.forms["myform"].submit();
-			alert("Value is sumitted");
+			}
+			
+			function submitopen()
+			{
+			document.forms["openform"].submit();
 			}
 			
 			function submitproject()
 			{
 			document.forms["projectform"].submit();
 			}
+			
+			function loadAdmin()
+			{
+			document.forms["loadAdmin"].submit();
+			}
 		</script>
 		<script defer src="./node_modules/@fortawesome/fontawesome-free/js/brands.js"></script>
-  <script defer src="./node_modules/@fortawesome/fontawesome-free/js/solid.js"></script>
-  <script defer src="./node_modules/@fortawesome/fontawesome-free/js/fontawesome.js"></script>
+		<script defer src="./node_modules/@fortawesome/fontawesome-free/js/solid.js"></script>
+		<script defer src="./node_modules/@fortawesome/fontawesome-free/js/fontawesome.js"></script>
 
 	</head>
 	
@@ -123,27 +36,33 @@ li:hover{
 	
 	 <div class="container">
 
-  <div class="card">
+		<div class="card">
 
-    <div class="header">
-      <h3>PRGM Projects <i class="fas fa-angle-down iconM"></i></h3>
-    </div>
-    <div class="body">
-      <ul>
-        <li><i class="fas fa-home icon"></i> <a href="./index.html">Home</a></li>
-        <li><i class="fas fa-underline icon"></i><form id="myform" action="/dashboard" method="post"><a href="javascript: submitform()">All Projects</a></form></li>
-        <li><i class="fas fa-boxes icon"></i> Widgets</li>
-        <li><i class="fas fa-table icon"></i> Tables</li>
-        <li><i class="fab fa-wpforms icon"></i> Forms
-          <ul>
-            <li><i class="fas fa-pencil-alt icon"></i> First form</li>
-            <li><i class="fas fa-paper-plane icon"></i> Second form</li>
-          </ul>
-        </li>
-        <li><i class="fas fa-chart-pie icon"></i> Charts</li>
-      </ul>
-    </div>
-  </div>
+			<div class="header">
+			  <h3>PRGM Projects <i class="fas fa-angle-down iconM"></i></h3>
+			</div>
+			<div class="body">
+			  <ul>
+				<li><i class="fas fa-home icon"></i> <a href="./index.html">Home</a></li>
+				<li><i class="fas fa-underline icon"></i> Projects
+					<ul>
+						<li><i class="fas fa-pencil-alt icon"></i> <form id="openform" action="/openProjects" method="post"><a href="javascript: submitopen()">Open Projects</a></form></li>
+						<li><i class="fas fa-paper-plane icon"></i> <form id="myform" action="/allProjects" method="post"><a href="javascript: submitform()">All Projects</a></form></li>
+				  </ul>
+				</li>
+				
+				<li><i class="fas fa-boxes icon"></i><form id="loadAdmin" action="/adminPage" method="post"><a href="javascript: loadAdmin()">Admin</a></form></li>
+				<li><i class="fas fa-table icon"></i> Tables</li>
+				<li><i class="fab fa-wpforms icon"></i> Forms
+				  <ul>
+					<li><i class="fas fa-pencil-alt icon"></i> First form</li>
+					<li><i class="fas fa-paper-plane icon"></i> Second form</li>
+				  </ul>
+				</li>
+				<li><i class="fas fa-chart-pie icon"></i> Charts</li>
+			  </ul>
+			</div>
+		</div>
   
   	<div class="main">
           <%- statusMessage %>
