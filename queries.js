@@ -65,7 +65,7 @@ const deleteUser = (request, response) => {
 }
 
 const selectAll = function(req, res) {
-  const sql = 'SELECT * FROM projects ORDER BY project_id ASC';
+  const sql = "SELECT project_id, title, status, responsible, TO_CHAR(duedate, 'MM/DD/YYYY') AS duedate, description FROM projects ORDER BY project_id ASC";
   pool.query(sql, (error, results) => {
 	  if (error) {
 		  throw error;
@@ -106,7 +106,7 @@ const selectInprocess = function(req, res) {
 const getProject = (request, response) => {
   const id = parseInt(request.body.ticketID)
 	console.log(request.body)
-  pool.query('SELECT * FROM projects WHERE project_id =' + id, (error, results) => {
+  pool.query("SELECT project_id, title, status, responsible, TO_CHAR(duedate, 'MM/DD/YYYY') AS duedate, description FROM projects WHERE project_id =" + id, (error, results) => {
     if (error) {
       throw error
     }
