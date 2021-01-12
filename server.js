@@ -17,13 +17,13 @@ app.use(bodyParser.json());
 app.set('views', __dirname + '/public/views');
 app.set('view engine', 'ejs');
 
-app.set("port", (process.env.PORT || 5000));                                                         // sets the port to 5000
-app.use(express.static(path.join(__dirname, '')));                                                   // this allows js and css files to be linked to the HTML
-app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));                        // when the root directory loads, send the index.html file to the client
+app.set("port", (process.env.PORT || 5000));                                                          // sets the port to 5000
+app.use(express.static(path.join(__dirname, '')));                                                    // this allows js and css files to be linked to the HTML
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));                         // when the root directory loads, send the index.html file to the client
 
-app.post('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));                       // maybe not necessary - but handles a post request for home page
+app.post('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));                        // maybe not necessary - but handles a post request for home page
 
-app.listen(app.get("port"), function () {                                                            // listens on the port and displays a message to the console
+app.listen(app.get("port"), function () {                                                             // listens on the port and displays a message to the console
 	console.log("Now listening for connection on port: " + app.get("port"));
 });
 
@@ -75,4 +75,17 @@ app.post('/adminPage', (req, res) =>
      links to the User table
    - Make a new landing page for 
      successful database connections
-   - Update the admin query/call       */
+   - Update the admin query/call
+   - Format the project creation screen 
+   - Build out Graphs page with Charts.js
+   - Build a "Comments" table
+   - Create functionality that adds a 
+     comment every time an update is made 
+	 to a project
+   - Protect the Admin page
+   - Create an external script for 
+     functions
+   - Order tables by due date
+   - Description box to text area
+   - If a column has a NOT NULL restraint,
+     make the form element required     */
