@@ -10,12 +10,13 @@ const db = require('./queries')                                                 
 //---------------------------------------
 //-------------LOGIN MODULES-------------
 //---------------------------------------
+const dbusers = require('.users')
 var passport = require('passport');
 var Strategy = require('passport-local').Strategy;
 
 passport.use(new Strategy(
   function(username, password, cb) {
-    db.users.findByUsername(username, function(err, user) {
+    dbusers.findByUsername(username, function(err, user) {
       if (err) { return cb(err); }
       if (!user) { return cb(null, false); }
       if (user.password != password) { return cb(null, false); }
@@ -39,7 +40,7 @@ app.use(passport.session());
 
 app.get('/login',
   function(req, res){
-    res.render("dashboard.ejs", {statusMessage: '<form action="/login" method="post"><div><label>Username:</label><input type="text" name="username"/><br/></div><div><label>Password:</label><input type="password" name="password"/></div><div>input type="submit" value="Submit"/></div></form>'});
+    res.render("dashboard.ejs", {statusMessage: '<form action="/login" method="post"><div><label>Username:</label><input type="text" name="username"/><br/></div><div><label>Password:</label><input type="password" name="password"/></div><div><input type="submit" value="Submit"/></div></form>'});
   });
   
 app.post('/login', 
