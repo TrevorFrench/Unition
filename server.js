@@ -89,6 +89,9 @@ app.post('/adminPage', (req, res) =>
 //---------------------------------------
 //-------------LOGIN MODULES-------------
 //---------------------------------------
+var passport = require('passport');
+var Strategy = require('passport-local').Strategy;
+var db = require('./db');
 // Configure the local strategy for use by Passport.
 //
 // The local strategy require a `verify` function which receives the credentials
