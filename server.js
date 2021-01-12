@@ -1,17 +1,44 @@
 //---------------------------------------
 //---------ENVIRONMENT VARIABLES---------
 //---------------------------------------
+const express = require('express');                                                                   // easier to work with than the HTTP module.
+const path = require('path');                                                                         // works with diretories and file paths
+var bodyParser = require("body-parser");                                                              // middleware
+const app = express();                                                                                // instantiate the module into a variable
+const db = require('./queries')                                                                       // reference queries.js to interact with postgreSQL database
 
-const express = require('express');                                                                  // easier to work with than the HTTP module.
-const path = require('path');                                                                        // works with diretories and file paths
-var bodyParser = require("body-parser");                                                             // middleware
-const app = express();                                                                               // instantiate the module into a variable
-const db = require('./queries')                                                                      // reference queries.js to interact with postgreSQL database
+//---------------------------------------
+//-------------LOGIN MODULES-------------
+//---------------------------------------
+var passport = require('passport');
+var Strategy = require('passport-local').Strategy;
 
+passport.use(new Strategy(
+  function(username, password, cb) {
+    db.users.findByUsername(username, function(err, user) {
+      if (err) { return cb(err); }
+      if (!user) { return cb(null, false); }
+      if (user.password != password) { return cb(null, false); }
+      return cb(null, user);
+    });
+  }));
+  
+passport.serializeUser(function(user, cb) {
+  cb(null, user.id);
+});
+
+passport.deserializeUser(function(id, cb) {
+  db.users.findById(id, function (err, user) {
+    if (err) { return cb(err); }
+    cb(null, user);
+  });
+});
+
+app.use(passport.initialize());
+app.use(passport.session());
 //---------------------------------------
 //-----------ENVIRONMENT SETUP-----------
 //---------------------------------------
-
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.set('views', __dirname + '/public/views');
@@ -33,7 +60,6 @@ app.listen(app.get("port"), function () {                                       
 /*  These queries exist temporarily for
     reference and will ultimately be 
     deleted                            */
-
 app.get('/users', db.getUsers)
 app.get('/users/:id', db.getUserById)
 app.post('/users', db.createUser)
@@ -43,8 +69,6 @@ app.delete('/users/:id', db.deleteUser)
 //---------------------------------------
 //----------FUNCTIONAL QUERIES-----------
 //---------------------------------------
-
-
 app.post('/allProjects', db.selectAll)                                                                // select every project that has been created
 app.post('/openProjects', db.selectOpen)                                                              // select only projects where status = 'Open'
 app.post('/inprocessProjects', db.selectInprocess)                                                    // select only projects where status = 'In-process'
