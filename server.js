@@ -5,19 +5,19 @@ const express = require('express');                                             
 const path = require('path');                                                                         // works with diretories and file paths
 var bodyParser = require("body-parser");                                                              // middleware
 const app = express();                                                                                // instantiate the module into a variable
-const db = require('./queries')                                                                       // reference queries.js to interact with postgreSQL database
+const db2 = require('./queries')                                                                       // reference queries.js to interact with postgreSQL database
 
 //---------------------------------------
 //-------------LOGIN MODULES-------------
 //---------------------------------------
-var db2 = require('./db');
+var db = require('./db');
 var passport = require('passport');
 var Strategy = require('passport-local').Strategy;
 
 passport.use(new Strategy(
   function(username, password, cb) {
-    db2.users.findByUsername(username, function(err, user) {
-      if (err) { return cb(err); console.log("ERROR: " + err)}
+    db.users.findByUsername(username, function(err, user) {
+      if (err) { return cb(err); }
       if (!user) { return cb(null, false); }
       if (user.password != password) { return cb(null, false); }
       return cb(null, user);
@@ -29,7 +29,7 @@ passport.serializeUser(function(user, cb) {
 });
 
 passport.deserializeUser(function(id, cb) {
-  db2.users.findById(id, function (err, user) {
+  db.users.findById(id, function (err, user) {
     if (err) { return cb(err); }
     cb(null, user);
   });
@@ -82,24 +82,24 @@ app.listen(app.get("port"), function () {                                       
 /*  These queries exist temporarily for
     reference and will ultimately be 
     deleted                            */
-app.get('/users', db.getUsers)
-app.get('/users/:id', db.getUserById)
-app.post('/users', db.createUser)
-app.put('/users/:id', db.updateUser)
-app.delete('/users/:id', db.deleteUser)
+app.get('/users', db2.getUsers)
+app.get('/users/:id', db2.getUserById)
+app.post('/users', db2.createUser)
+app.put('/users/:id', db2.updateUser)
+app.delete('/users/:id', db2.deleteUser)
 
 //---------------------------------------
 //----------FUNCTIONAL QUERIES-----------
 //---------------------------------------
-app.post('/allProjects', db.selectAll)                                                                // select every project that has been created
-app.post('/openProjects', db.selectOpen)                                                              // select only projects where status = 'Open'
-app.post('/inprocessProjects', db.selectInprocess)                                                    // select only projects where status = 'In-process'
+app.post('/allProjects', db2.selectAll)                                                                // select every project that has been created
+app.post('/openProjects', db2.selectOpen)                                                              // select only projects where status = 'Open'
+app.post('/inprocessProjects', db2.selectInprocess)                                                    // select only projects where status = 'In-process'
 
-app.post('/openProject', db.getProject)                                                               // displays individual project information when selected from a table of projects
+app.post('/openProject', db2.getProject)                                                               // displays individual project information when selected from a table of projects
 
-app.post('/createProject', db.createProject)	                                                      // renders a form for project creation
-app.post('/postProject', db.postProject)                                                              // posts project from previous form to the database
-app.post('/updateProject', db.updateProject)                                                          // allows users to change attributes of a project (currently only allows status to be changed
+app.post('/createProject', db2.createProject)	                                                      // renders a form for project creation
+app.post('/postProject', db2.postProject)                                                              // posts project from previous form to the database
+app.post('/updateProject', db2.updateProject)                                                          // allows users to change attributes of a project (currently only allows status to be changed
 
 app.post('/adminPage', (req, res) => 
 	res.render("dashboard.ejs", 
