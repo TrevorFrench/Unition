@@ -10,13 +10,13 @@ const db = require('./queries')                                                 
 //---------------------------------------
 //-------------LOGIN MODULES-------------
 //---------------------------------------
-const dbusers = require('./users')
+const db2 = require('./db')
 var passport = require('passport');
 var Strategy = require('passport-local').Strategy;
 
 passport.use(new Strategy(
   function(username, password, cb) {
-    dbusers.findByUsername(username, function(err, user) {
+    db2.findByUsername(username, function(err, user) {
       if (err) { return cb(err); }
       if (!user) { return cb(null, false); }
       if (user.password != password) { return cb(null, false); }
@@ -29,7 +29,7 @@ passport.serializeUser(function(user, cb) {
 });
 
 passport.deserializeUser(function(id, cb) {
-  db.users.findById(id, function (err, user) {
+  db2.findById(id, function (err, user) {
     if (err) { return cb(err); }
     cb(null, user);
   });
