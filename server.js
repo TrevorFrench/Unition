@@ -11,7 +11,7 @@ const db2 = require('./queries')                                                
 // logging, parsing, and session handling.
 app.use(require('morgan')('combined'));
 app.use(require('body-parser').urlencoded({ extended: true }));
-app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: true }));
+app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: true, cookie: { maxAge: 60 * 60 * 1000 } // 1 hour }));
 
 
 //---------------------------------------
@@ -38,7 +38,7 @@ app.listen(app.get("port"), function () {                                       
 /*  These queries exist temporarily for
     reference and will ultimately be 
     deleted                            */
-app.get('/users', db2.getUsers)
+app.get('/users', require('connect-ensure-login').ensureLoggedIn(), db2.getUsers)
 app.get('/users/:id', db2.getUserById)
 app.post('/users', db2.createUser)
 app.put('/users/:id', db2.updateUser)
@@ -47,7 +47,7 @@ app.delete('/users/:id', db2.deleteUser)
 //---------------------------------------
 //----------FUNCTIONAL QUERIES-----------
 //---------------------------------------
-app.post('/allProjects', require('connect-ensure-login').ensureLoggedIn(), db2.selectAll)                                                                // select every project that has been created
+app.post('/allProjects', db2.selectAll)                                                                // select every project that has been created
 app.post('/openProjects', db2.selectOpen)                                                              // select only projects where status = 'Open'
 app.post('/inprocessProjects', db2.selectInprocess)                                                    // select only projects where status = 'In-process'
 
