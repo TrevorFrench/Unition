@@ -11,7 +11,7 @@ const db2 = require('./queries')                                                
 // logging, parsing, and session handling.
 app.use(require('morgan')('combined'));
 app.use(require('body-parser').urlencoded({ extended: true }));
-app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
+app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: true }));
 
 
 //---------------------------------------
@@ -47,13 +47,13 @@ app.delete('/users/:id', db2.deleteUser)
 //---------------------------------------
 //----------FUNCTIONAL QUERIES-----------
 //---------------------------------------
-app.post('/allProjects', require('connect-ensure-login').ensureLoggedIn(), db2.selectAll)                                                                // select every project that has been created
+app.post('/allProjects', db2.selectAll)                                                                // select every project that has been created
 app.post('/openProjects', db2.selectOpen)                                                              // select only projects where status = 'Open'
 app.post('/inprocessProjects', db2.selectInprocess)                                                    // select only projects where status = 'In-process'
 
 app.post('/openProject', db2.getProject)                                                               // displays individual project information when selected from a table of projects
 
-app.post('/createProject', db2.createProject)	                                                      // renders a form for project creation
+app.post('/createProject', db2.createProject)	                                                       // renders a form for project creation
 app.post('/postProject', db2.postProject)                                                              // posts project from previous form to the database
 app.post('/updateProject', db2.updateProject)                                                          // allows users to change attributes of a project (currently only allows status to be changed
 
@@ -132,19 +132,6 @@ passport.deserializeUser(function(id, cb) {
     cb(null, user);
   });
 });
-
-
-
-
-
-
-
-
-// Use application-level middleware for common functionality, including
-// logging, parsing, and session handling.
-app.use(require('morgan')('combined'));
-app.use(require('body-parser').urlencoded({ extended: true }));
-app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
 
 // Initialize Passport and restore authentication state, if any, from the
 // session.
