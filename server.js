@@ -36,6 +36,23 @@ passport.deserializeUser(function(id, cb) {
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.get('/login',
+  function(req, res){
+    res.render("dashboard.ejs", {statusMessage: '<form action="/login" method="post"><div><label>Username:</label><input type="text" name="username"/><br/></div><div><label>Password:</label><input type="password" name="password"/></div><div>input type="submit" value="Submit"/></div></form>'});
+  });
+  
+app.post('/login', 
+  passport.authenticate('local', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/');
+  });
+  
+app.get('/logout',
+  function(req, res){
+    req.logout();
+    res.redirect('/');
+  });
 //---------------------------------------
 //-----------ENVIRONMENT SETUP-----------
 //---------------------------------------
