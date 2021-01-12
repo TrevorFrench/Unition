@@ -11,7 +11,7 @@ const db2 = require('./queries')                                                
 // logging, parsing, and session handling.
 app.use(require('morgan')('combined'));
 app.use(require('body-parser').urlencoded({ extended: true }));
-app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: true, cookie: { maxAge: 60 * 60 * 1000 } // 1 hour }));
+app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: true, cookie: { maxAge: 60 * 60 * 1000 } /* 1 hour */ }));
 
 
 //---------------------------------------
