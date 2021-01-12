@@ -6,7 +6,6 @@ const express = require('express');                                             
 const path = require('path');                                                                        // works with diretories and file paths
 var bodyParser = require("body-parser");                                                             // middleware
 const app = express();                                                                               // instantiate the module into a variable
-const fileUpload = require('express-fileupload');                                                    // https://www.npmjs.com/package/express-fileupload
 const db = require('./queries')                                                                      // reference queries.js to interact with postgreSQL database
 
 //---------------------------------------
@@ -17,11 +16,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.set('views', __dirname + '/public/views');
 app.set('view engine', 'ejs');
-//app.use(fileUpload());                                                                             // maybe delete file upload functionality until it becomes an actual feature
-app.use(fileUpload({
-    useTempFiles : true,
-    tempFileDir : '/tmp/'
-}));
 
 app.set("port", (process.env.PORT || 5000));                                                         // sets the port to 5000
 app.use(express.static(path.join(__dirname, '')));                                                   // this allows js and css files to be linked to the HTML
@@ -75,5 +69,10 @@ app.post('/adminPage', (req, res) =>
    - Create a "filter" page
    - Develop "User" table and let it feed
      into a drop-down on projects
-   - Create 'Status' table and let it feed
-     into a drop-down on projects        */
+   - Develop "Status" table and let it 
+     feed into a drop-down on projects
+   - Create login functionality that 
+     links to the User table
+   - Make a new landing page for 
+     successful database connections
+   - Update the admin query/call       */

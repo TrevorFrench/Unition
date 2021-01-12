@@ -1,3 +1,6 @@
+//------------------------------------------------------------------------------
+//---------------------------INITIALIZE DB CONNECTION---------------------------
+//------------------------------------------------------------------------------
 const Pool = require('pg').Pool
 const pool = new Pool({
   user: 'xdlepbswgkuwsn',
@@ -6,6 +9,10 @@ const pool = new Pool({
   password: '43fc7fd35e724f6a212661eb4fd3ae514003079f9d3a56a56b2d96eb959dbaeb',
   port: 5432,
 })
+
+//------------------------------------------------------------------------------
+//--------------------------------GENERIC QUERIES-------------------------------
+//------------------------------------------------------------------------------
 const getUsers = (request, response) => {
   pool.query('SELECT * FROM users ORDER BY id ASC', (error, results) => {
     if (error) {
@@ -64,6 +71,9 @@ const deleteUser = (request, response) => {
   })
 }
 
+//------------------------------------------------------------------------------
+//------------------------------SELECTS ALL PROJECTS----------------------------
+//------------------------------------------------------------------------------
 const selectAll = function(req, res) {
   const sql = "SELECT project_id, title, status, responsible, TO_CHAR(duedate, 'MM/DD/YYYY') AS duedate, description FROM projects ORDER BY project_id ASC";
   pool.query(sql, (error, results) => {
@@ -77,6 +87,9 @@ const selectAll = function(req, res) {
 })
 };
 
+//------------------------------------------------------------------------------
+//-----------------------------SELECTS OPEN PROJECTS----------------------------
+//------------------------------------------------------------------------------
 const selectOpen = function(req, res) {
   const sql = "SELECT project_id, title, status, responsible, TO_CHAR(duedate, 'MM/DD/YYYY') AS duedate, description FROM projects WHERE status = 'Open' ORDER BY project_id ASC";
   pool.query(sql, (error, results) => {
@@ -90,6 +103,9 @@ const selectOpen = function(req, res) {
 })
 };
 
+//------------------------------------------------------------------------------
+//--------------------------SELECTS IN-PROCESS PROJECTS-------------------------
+//------------------------------------------------------------------------------
 const selectInprocess = function(req, res) {
   const sql = "SELECT project_id, title, status, responsible, TO_CHAR(duedate, 'MM/DD/YYYY') AS duedate, description FROM projects WHERE status = 'In-process' ORDER BY project_id ASC";
   pool.query(sql, (error, results) => {
@@ -103,6 +119,9 @@ const selectInprocess = function(req, res) {
 })
 };
 
+//------------------------------------------------------------------------------
+//-------------------------------GETS PROJECT BY ID-----------------------------
+//------------------------------------------------------------------------------
 const getProject = (request, response) => {
   const id = parseInt(request.body.ticketID)
 	console.log(request.body)
@@ -116,6 +135,9 @@ const getProject = (request, response) => {
   })
 }
 
+//------------------------------------------------------------------------------
+//--------------------------------UPDATES PROJECT-------------------------------
+//------------------------------------------------------------------------------
 const updateProject = (request, response) => {
 	const title = request.body.title
 	const description = request.body.description
@@ -133,11 +155,17 @@ const updateProject = (request, response) => {
 })
 }
 
+//------------------------------------------------------------------------------
+//----------------DELIVERS THE PROJECT CREATION FORM (NO QUERIES)---------------
+//------------------------------------------------------------------------------
 const createProject = (request, response) => {
 	var projectFrame = "<form action='/postProject' method='post'> <label for='title'>Title:</label> <input type='text' name='title' id='title'><br><label for='description'>Description:</label><input type='text' name='description' id='description'><br><label for='statusSQL'>Status:</label><input type='text' name='statusSQL' id='statusSQL'><br><label for='responsible'>Responsible:</label><input type='text' name='responsible' id='responsible'><br><label for='duedate'>Due Date:</label><input type='date' name='duedate' id='duedate'><input type='submit' value='Create Project'></form>";
 	response.render("dashboard.ejs", {statusMessage: projectFrame})
 }
 
+//------------------------------------------------------------------------------
+//-----------------------------CREATES NEW PROJECT------------------------------
+//------------------------------------------------------------------------------
 const postProject = (request, response) => {
 	const title = request.body.title
 	const description = request.body.description
@@ -154,6 +182,9 @@ const postProject = (request, response) => {
 })
 }
 
+//------------------------------------------------------------------------------
+//--------------------------------EXPORT MODULES--------------------------------
+//------------------------------------------------------------------------------
 module.exports = {
   getUsers,
   getUserById,
