@@ -17,7 +17,7 @@ var Strategy = require('passport-local').Strategy;
 passport.use(new Strategy(
   function(username, password, cb) {
     db2.users.findByUsername(username, function(err, user) {
-      if (err) { return cb(err); }
+      if (err) { return cb(err); console.log("ERROR: " + err)}
       if (!user) { return cb(null, false); }
       if (user.password != password) { return cb(null, false); }
       return cb(null, user);
@@ -55,7 +55,7 @@ app.get('/logout',
     res.redirect('/');
   });
   
-  app.use(require('morgan')('combined'));
+app.use(require('morgan')('combined'));
 app.use(require('body-parser').urlencoded({ extended: true }));
 app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
 //---------------------------------------
