@@ -10,7 +10,7 @@ const db = require('./queries')                                                 
 //---------------------------------------
 //-------------LOGIN MODULES-------------
 //---------------------------------------
-const dbusers = require('.users')
+const dbusers = require('./users')
 var passport = require('passport');
 var Strategy = require('passport-local').Strategy;
 
