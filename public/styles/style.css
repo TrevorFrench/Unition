@@ -96,7 +96,7 @@ li:hover{
 .main {
 	display:inline;
 	float:right;
-	padding: 20px;
+	padding: 0px 20px;
 	}
 	
 /*--------------------------------------------*/
@@ -116,7 +116,7 @@ input[type="submit"].redButton {
 /*--------------------------------------------*/
 .styled-table {
     border-collapse: collapse;
-    margin: 25px 0;
+    /*margin: 25px 0;*/
     font-size: 0.9em;
     font-family: sans-serif;
     min-width: 400px;

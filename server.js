@@ -43,53 +43,7 @@ app.post('/users', db2.createUser)
 app.put('/users/:id', db2.updateUser)
 app.delete('/users/:id', db2.deleteUser)
 
-//---------------------------------------
-//----------FUNCTIONAL QUERIES-----------
-//---------------------------------------
 
-app.post('/openProjects', db2.selectOpen)                                                              // select only projects where status = 'Open'
-app.post('/inprocessProjects', db2.selectInprocess)                                                    // select only projects where status = 'In-process'
-
-app.post('/openProject', db2.getProject)                                                               // displays individual project information when selected from a table of projects
-
-app.post('/createProject', db2.createProject)	                                                       // renders a form for project creation
-app.post('/postProject', db2.postProject)                                                              // posts project from previous form to the database
-app.post('/updateProject', db2.updateProject)                                                          // allows users to change attributes of a project (currently only allows status to be changed
-
-app.post('/adminPage', (req, res) => 
-	res.render("dashboard.ejs", 
-		{statusMessage: 
-			"<form action='/users' method='post'><input type='submit' value='PSQL CHANGES'></form>"   // renders a page which is used for administration
-		})); 
-
-//---------------------------------------
-//--------------ACTION LIST--------------
-//---------------------------------------
-/* - Escape apostrophes/quotaion marks in
-     SQL queries
-   - Create a "filter" page
-   - Develop "User" table and let it feed
-     into a drop-down on projects
-   - Develop "Status" table and let it 
-     feed into a drop-down on projects
-   - Create login functionality that 
-     links to the User table
-   - Make a new landing page for 
-     successful database connections
-   - Update the admin query/call
-   - Format the project creation screen 
-   - Build out Graphs page with Charts.js
-   - Build a "Comments" table
-   - Create functionality that adds a 
-     comment every time an update is made 
-	 to a project
-   - Protect the Admin page
-   - Create an external script for 
-     functions
-   - Order tables by due date
-   - Description box to text area
-   - If a column has a NOT NULL restraint,
-     make the form element required     */
 	 
 //---------------------------------------
 //-------------LOGIN MODULES-------------
@@ -165,5 +119,52 @@ app.get('/profile',
   function(req, res){
     res.render('profile', { user: req.user });
   });
-  
+
+//---------------------------------------
+//----------FUNCTIONAL QUERIES-----------
+//---------------------------------------
+
+app.post('/openProjects', db2.selectOpen)                                                              // select only projects where status = 'Open'
+app.post('/inprocessProjects', db2.selectInprocess)                                                    // select only projects where status = 'In-process'
 app.post('/allProjects', require('connect-ensure-login').ensureLoggedIn(), db2.selectAll)                                                                // select every project that has been created
+
+app.post('/openProject', db2.getProject)                                                               // displays individual project information when selected from a table of projects
+
+app.post('/createProject', db2.createProject)	                                                       // renders a form for project creation
+app.post('/postProject', db2.postProject)                                                              // posts project from previous form to the database
+app.post('/updateProject', db2.updateProject)                                                          // allows users to change attributes of a project (currently only allows status to be changed
+
+app.post('/adminPage', (req, res) => 
+	res.render("dashboard.ejs", 
+		{statusMessage: 
+			"<form action='/users' method='post'><input type='submit' value='PSQL CHANGES'></form>"   // renders a page which is used for administration
+		})); 
+
+//---------------------------------------
+//--------------ACTION LIST--------------
+//---------------------------------------
+/* - Escape apostrophes/quotaion marks in
+     SQL queries
+   - Create a "filter" page
+   - Develop "User" table and let it feed
+     into a drop-down on projects
+   - Develop "Status" table and let it 
+     feed into a drop-down on projects
+   - Create login functionality that 
+     links to the User table
+   - Make a new landing page for 
+     successful database connections
+   - Update the admin query/call
+   - Format the project creation screen 
+   - Build out Graphs page with Charts.js
+   - Build a "Comments" table
+   - Create functionality that adds a 
+     comment every time an update is made 
+	 to a project
+   - Protect the Admin page
+   - Create an external script for 
+     functions
+   - Order tables by due date
+   - Description box to text area
+   - If a column has a NOT NULL restraint,
+     make the form element required     */
