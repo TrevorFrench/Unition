@@ -167,4 +167,5 @@ app.post('/adminPage', require('connect-ensure-login').ensureLoggedIn(), (req, r
    - Order tables by due date
    - Description box to text area
    - If a column has a NOT NULL restraint,
-     make the form element required     */
+     make the form element required
+   - Error handling                     */
