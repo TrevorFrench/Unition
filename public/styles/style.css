@@ -14,7 +14,7 @@ a {
   padding: 0;
   display: flex;
   height: 92%;
-  margin-top: 60px;
+  margin-top: 70px;
 }
 
 /*--------------------------------------------*/
@@ -99,7 +99,7 @@ li:hover{
 .main {
 	display:inline;
 	float:right;
-	padding: 0px 20px;
+	padding: 20px 20px;
 	background-color: white;
 	width: 100%;
 	}
