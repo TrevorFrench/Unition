@@ -37,7 +37,7 @@ app.listen(app.get("port"), function () {                                       
 /*  These queries exist temporarily for
     reference and will ultimately be 
     deleted                            */
-app.get('/users', require('connect-ensure-login').ensureLoggedIn(), db2.getUsers)
+app.get('/users', db2.getUsers)
 app.get('/users/:id', db2.getUserById)
 app.post('/users', db2.createUser)
 app.put('/users/:id', db2.updateUser)
