@@ -150,7 +150,7 @@ const updateProject = (request, response) => {
 	const sql = "UPDATE projects SET status = '" + statusSQL + "' WHERE project_id = " + id;
 	pool.query(sql, (error, results) => {
 	  if (error) {
-		  
+		  throw error;
 		  response.render("dashboard.ejs", {statusMessage: "There was an error processing your project. Please try again."});
 	  }
 	response.render("dashboard.ejs", {statusMessage: "Successfully updated project: "})
@@ -179,6 +179,7 @@ const postProject = (request, response) => {
 	pool.query(sql, (error, results) => {
 	  if (error) {
 		  throw error;
+		  response.render("dashboard.ejs", {statusMessage: "There was an error processing your project. Please try again."});
 	  }
 	response.render("dashboard.ejs", {statusMessage: "Successfully created project: "})
 })
