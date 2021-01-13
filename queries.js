@@ -160,7 +160,7 @@ const updateProject = (request, response) => {
 //----------------DELIVERS THE PROJECT CREATION FORM (NO QUERIES)---------------
 //------------------------------------------------------------------------------
 const createProject = (request, response) => {
-	var projectFrame = "<form action='/postProject' method='post' id='description'> <label for='title'>Title:</label> <input type='text' name='title' id='title'><br><br><label for='description'>Description:</label><textarea form='description' name='description' id='description'>Describe your project here...</textarea><br><br><label for='statusSQL'>Status:</label><input type='text' name='statusSQL' id='statusSQL'><br><br><label for='responsible'>Responsible:</label><input type='text' name='responsible' id='responsible'><br><br><label for='duedate'>Due Date:</label><input type='date' name='duedate' id='duedate'><br><br><input type='submit' value='Create Project'></form>";
+	var projectFrame = "<form action='/postProject' method='post' id='description'> <label for='title'>Title:</label> <input type='text' name='title' id='title' pattern='[^'\x22]+'><br><br><label for='description'>Description:</label><textarea form='description' name='description' id='description'>Describe your project here...</textarea><br><br><label for='statusSQL'>Status:</label><input type='text' name='statusSQL' id='statusSQL'><br><br><label for='responsible'>Responsible:</label><input type='text' name='responsible' id='responsible'><br><br><label for='duedate'>Due Date:</label><input type='date' name='duedate' id='duedate'><br><br><input type='submit' value='Create Project'></form>";
 	response.render("dashboard.ejs", {statusMessage: projectFrame})
 }
 
