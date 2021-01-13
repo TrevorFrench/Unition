@@ -37,7 +37,7 @@ const getUserById = (request, response) => {
 const createUser = (request, response) => {
   const { name, email } = request.body
 
-  pool.query("ALTER TABLE projects ADD COLUMN created_date TIMESTAMP;", (error, results) => {
+  pool.query("ALTER TABLE projects ALTER COLUMN created_date SET DEFAULT now();", (error, results) => {
     if (error) {
       throw error
     }
