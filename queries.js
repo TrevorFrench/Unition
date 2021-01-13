@@ -121,6 +121,24 @@ const selectInprocess = function(req, res) {
 };
 
 //------------------------------------------------------------------------------
+//--------------------------SELECTS IN-PROCESS PROJECTS TEST-------------------------
+//------------------------------------------------------------------------------
+const selectTest = function(req, res) {
+	const user = user.displayName;
+	console.log("USER: " + user);
+  const sql = "SELECT project_id, title, status, responsible, TO_CHAR(duedate, 'MM/DD/YYYY') AS duedate, description FROM projects WHERE status = 'In-process' ORDER BY project_id ASC";
+  pool.query(sql, (error, results) => {
+	  if (error) {
+		  throw error;
+	  }
+	  var tableText = "<table class='styled-table'><tr><th>TITLE</th><th>PROJECT ID</th><th>STATUS</th><th>RESPONSIBLE</th><th>DUE DATE</th><th>DESCRIPTION</th></tr>";
+	  results.rows.forEach(element => tableText += "<tr><td><form id='projectform' action='/openProject' method='post'><input type='text' name='ticketID' value='" + element.project_id + "' id='" + element.project_id + "' hidden>" + "<input type='submit' value='" + element.title + "'></form></td><td>" + element.project_id + "</td><td>" + element.status + "</td><td>" + element.responsible + "</td><td>" + element.duedate + "</td><td>" + element.description + "</td></tr>");
+	tableText += '</table>';
+	res.render("dashboard.ejs", {statusMessage: tableText})
+})
+};
+
+//------------------------------------------------------------------------------
 //-------------------------------GETS PROJECT BY ID-----------------------------
 //------------------------------------------------------------------------------
 const getProject = (request, response) => {
@@ -199,4 +217,5 @@ module.exports = {
   postProject,
   updateProject,
   selectInprocess,
+  selectTest,
 }

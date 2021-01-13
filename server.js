@@ -120,6 +120,7 @@ app.get('/profile',
     res.render('profile', { user: req.user });
   });
 
+app.post('/testTest', require('connect-ensure-login').ensureLoggedIn(), db2.selectTest)    
 //---------------------------------------
 //----------FUNCTIONAL QUERIES-----------
 //---------------------------------------
