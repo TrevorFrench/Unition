@@ -191,8 +191,9 @@ const postProject = (request, response) => {
 	const statusSQL = request.body.statusSQL
 	const responsible = request.body.responsible
 	const duedate = request.body.duedate
-	console.log("TITLE: " + title)
-	const sql = "INSERT INTO projects(title, description, status, responsible, duedate) VALUES ('" + title + "', '" + description + "', '" + statusSQL + "', '" + responsible + "', '" + duedate + "')";
+	const user = req.user.displayName;
+	console.log("USER: " + user)
+	const sql = "INSERT INTO projects(title, description, status, responsible, duedate, created_by) VALUES ('" + title + "', '" + description + "', '" + statusSQL + "', '" + responsible + "', '" + duedate + "', '" + user + "' )";
 	pool.query(sql, (error, results) => {
 	  if (error) {
 		throw error;
