@@ -134,8 +134,7 @@ app.post('/createProject', require('connect-ensure-login').ensureLoggedIn(), db2
 app.post('/postProject', require('connect-ensure-login').ensureLoggedIn(), db2.postProject)                                                              // posts project from previous form to the database
 app.post('/updateProject', require('connect-ensure-login').ensureLoggedIn(), db2.updateProject)                                                          // allows users to change attributes of a project (currently only allows status to be changed
 
-app.post('/adminPage', (req, res) => 
-	require('connect-ensure-login').ensureLoggedIn(),
+app.post('/adminPage', require('connect-ensure-login').ensureLoggedIn(), (req, res) => 
 	res.render("dashboard.ejs", 
 		{statusMessage: 
 			"<form action='/users' method='post'><input type='submit' value='PSQL CHANGES'></form>"   // renders a page which is used for administration
