@@ -178,7 +178,6 @@ const postProject = (request, response) => {
 	const sql = "INSERT INTO projects(title, description, status, responsible, duedate) VALUES ('" + title + "', '" + description + "', '" + statusSQL + "', '" + responsible + "', '" + duedate + "')";
 	pool.query(sql, (error, results) => {
 	  if (error) {
-		  throw error;
 		  response.render("dashboard.ejs", {statusMessage: "There was an error processing your project. Please try again."});
 	  }
 	response.render("dashboard.ejs", {statusMessage: "Successfully created project: "})
