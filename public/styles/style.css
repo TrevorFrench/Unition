@@ -8,6 +8,7 @@ form {
 a {
   color: inherit; /* blue colors for links too */
   text-decoration: inherit; /* no underline */
+  cursor: pointer;
 }
 
 .container{
