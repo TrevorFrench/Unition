@@ -151,7 +151,6 @@ const updateProject = (request, response) => {
 	pool.query(sql, (error, results) => {
 	  if (error) {
 		  throw error;
-		  response.render("dashboard.ejs", {statusMessage: "There was an error processing your project. Please try again."});
 	  }
 	response.render("dashboard.ejs", {statusMessage: "Successfully updated project: "})
 })
@@ -161,7 +160,7 @@ const updateProject = (request, response) => {
 //----------------DELIVERS THE PROJECT CREATION FORM (NO QUERIES)---------------
 //------------------------------------------------------------------------------
 const createProject = (request, response) => {
-	var projectFrame = "<p><i>*Please do not use quotation marks or apostrophes in the form.</i></p><form action='/postProject' method='post' id='description'> <label for='title'>Title:</label> <input type='text' name='title' id='title' pattern=[^'\x22]+><br><br><label for='statusSQL'>Status:</label><input type='text' name='statusSQL' id='statusSQL'><br><br><label for='responsible'>Responsible:</label><input type='text' name='responsible' id='responsible'><br><br><label for='duedate'>Due Date:</label><input type='date' name='duedate' id='duedate'><br><br><label for='description'>Description:</label><textarea form='description' name='description' id='description'>Describe your project here...</textarea><br><br><input type='submit' value='Create Project'></form>";
+	var projectFrame = "<p><i>*Please do not use quotation marks or apostrophes in the form.</i></p><form action='/postProject' method='post' id='description'> <label for='title'>Title:</label> <input type='text' name='title' id='title' pattern=[^'\x22]+><br><br><label for='statusSQL'>Status:</label><input type='text' name='statusSQL' id='statusSQL' pattern=[^'\x22]+><br><br><label for='responsible'>Responsible:</label><input type='text' name='responsible' id='responsible' pattern=[^'\x22]+><br><br><label for='duedate'>Due Date:</label><input type='date' name='duedate' id='duedate' pattern=[^'\x22]+><br><br><label for='description'>Description:</label><textarea form='description' name='description' id='description' pattern=[^'\x22]+>Describe your project here...</textarea><br><br><input type='submit' value='Create Project'></form>";
 	response.render("dashboard.ejs", {statusMessage: projectFrame})
 }
 
@@ -178,8 +177,7 @@ const postProject = (request, response) => {
 	const sql = "INSERT INTO projects(title, description, status, responsible, duedate) VALUES ('" + title + "', '" + description + "', '" + statusSQL + "', '" + responsible + "', '" + duedate + "')";
 	pool.query(sql, (error, results) => {
 	  if (error) {
-
-		  response.write('\n');
+		throw error;
 	  }
 	response.render("dashboard.ejs", {statusMessage: "Successfully created project: "})
 })
