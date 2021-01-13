@@ -46,7 +46,7 @@ app.delete('/users/:id', db2.deleteUser)
 //---------------------------------------
 //----------FUNCTIONAL QUERIES-----------
 //---------------------------------------
-app.get('/allProjects', require('connect-ensure-login').ensureLoggedIn(), db2.selectAll)                                                                // select every project that has been created
+
 app.post('/openProjects', db2.selectOpen)                                                              // select only projects where status = 'Open'
 app.post('/inprocessProjects', db2.selectInprocess)                                                    // select only projects where status = 'In-process'
 
@@ -165,3 +165,5 @@ app.get('/profile',
   function(req, res){
     res.render('profile', { user: req.user });
   });
+  
+app.post('/allProjects', require('connect-ensure-login').ensureLoggedIn(), db2.selectAll)                                                                // select every project that has been created
