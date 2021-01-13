@@ -38,6 +38,7 @@
 	<body>
 	
 	<img src="./public/SwireLogo.png" alt="Swire Coca-Cola, USA Logo" width="280" height="60">
+	<a href="/profile" style="display:flex; float:right;">Profile</a>
 	
 	 <div class="container">
 
@@ -81,15 +82,6 @@
 		</div>
   
   	<div class="main">
-			<p>
-				ID: <%= user.id %><br/>
-				Username: <%= user.username %><br/>
-				Name: <%= user.displayName %><br/>
-				<% if (user.emails) { %>
-				Email: <%= user.emails[0].value %><br/>
-				<% } %>
-			</p>
-			<a href="/logout">Log out</a>
           <%- statusMessage %>
 	</div>
 
