@@ -10,14 +10,13 @@ const db2 = require('./queries')                                                
 // Use application-level middleware for common functionality, including
 // logging, parsing, and session handling.
 app.use(require('morgan')('combined'));
-app.use(require('body-parser').urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: true, cookie: { maxAge: 60 * 60 * 1000 } /* 1 hour */ }));
 
 
 //---------------------------------------
 //-----------ENVIRONMENT SETUP-----------
 //---------------------------------------
-app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.set('views', __dirname + '/public/views');
 app.set('view engine', 'ejs');
