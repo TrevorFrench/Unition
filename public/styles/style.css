@@ -1,5 +1,8 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 
+body {
+	margin: 0px;
+}
 form {
 	display: inline;
 }
