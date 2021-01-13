@@ -126,7 +126,7 @@ const selectInprocess = function(req, res) {
 const selectTest = function(req, res) {
 	const user = req.user.displayName;
 	console.log("USER: " + user);
-  const sql = "SELECT project_id, title, status, responsible, TO_CHAR(duedate, 'MM/DD/YYYY') AS duedate, description FROM projects WHERE status = 'In-process' ORDER BY project_id ASC";
+  const sql = "SELECT project_id, title, status, responsible, TO_CHAR(duedate, 'MM/DD/YYYY') AS duedate, description FROM projects WHERE status = 'In-process' AND responsible = '" + user + "' ORDER BY project_id ASC";
   pool.query(sql, (error, results) => {
 	  if (error) {
 		  throw error;
