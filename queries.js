@@ -178,7 +178,7 @@ const updateProject = (request, response) => {
 //----------------DELIVERS THE PROJECT CREATION FORM (NO QUERIES)---------------
 //------------------------------------------------------------------------------
 const createProject = (request, response) => {
-	var projectFrame = "<p><i>*Please do not use quotation marks or apostrophes in the form.</i></p><form action='/postProject' method='post' id='description'> <label for='title'>Title:</label><br><br><input type='text' name='title' id='title' pattern=[^'\x22]+><br><br><label for='statusSQL'>Status:</label><br><br><select id='statusSQL' name='statusSQL'><option value='Open'>Open</option><option value='In-process'>In-process</option><option value='Closed'>Closed</option></select><br><br><label for='responsible'>Responsible:</label><br><br><input type='text' name='responsible' id='responsible' pattern=[^'\x22]+><br><br><label for='duedate'>Due Date:</label><br><br><input type='date' name='duedate' id='duedate' pattern=[^'\x22]+><br><br><label for='description'>Description:</label><br><br><input type='text' style='width:300px; height:300px;' name='description' id='description' pattern=[^'\x22]+><br><br><input type='submit' value='Create Project'></form>";
+	var projectFrame = "<p><i>*Please do not use quotation marks or apostrophes in the form.</i></p><form action='/postProject' method='post' id='description'> <label for='title'>Title:</label><br><br><input type='text' name='title' id='title' pattern=[^'\x22]+><br><br><label for='statusSQL'>Status:</label><br><br><select id='statusSQL' name='statusSQL'><option value='Open'>Open</option><option value='In-process'>In-process</option><option value='Closed'>Closed</option></select><br><br><label for='responsible'>Responsible:</label><br><br><input type='text' name='responsible' id='responsible' pattern=[^'\x22]+><br><br><label for='duedate'>Due Date:</label><br><br><input type='date' name='duedate' id='duedate' pattern=[^'\x22]+><br><br><label for='description'>Description:</label><br><br><input type='text' style='width:300px; height:300px;' name='description' id='description'><br><br><input type='submit' value='Create Project'></form>";
 	response.render("dashboard.ejs", {statusMessage: projectFrame})
 }
 
@@ -187,7 +187,8 @@ const createProject = (request, response) => {
 //------------------------------------------------------------------------------
 const postProject = (request, response) => {
 	const title = request.body.title
-	const description = request.body.description
+	const descriptionstring = request.body.description
+	var description = descriptionstring.replace("'","\'");
 	const statusSQL = request.body.statusSQL
 	const responsible = request.body.responsible
 	const duedate = request.body.duedate
