@@ -23,9 +23,7 @@ app.set('view engine', 'ejs');
 
 app.set("port", (process.env.PORT || 5000));                                                          // sets the port to 5000
 app.use(express.static(path.join(__dirname, '')));                                                    // this allows js and css files to be linked to the HTML
-app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));                         // when the root directory loads, send the index.html file to the client
 
-app.post('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));                        // maybe not necessary - but handles a post request for home page
 
 app.listen(app.get("port"), function () {                                                             // listens on the port and displays a message to the console
 	console.log("Now listening for connection on port: " + app.get("port"));
@@ -124,6 +122,9 @@ app.post('/testTest', require('connect-ensure-login').ensureLoggedIn(), db2.sele
 //---------------------------------------
 //----------FUNCTIONAL QUERIES-----------
 //---------------------------------------
+app.get('/', require('connect-ensure-login').ensureLoggedIn(), (req, res) => response.render("dashboard.ejs", {statusMessage: " "}));                         // when the root directory loads, send the index.html file to the client
+
+app.post('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));                        // maybe not necessary - but handles a post request for home page
 
 app.post('/openProjects', require('connect-ensure-login').ensureLoggedIn(), db2.selectOpen)                                                              // select only projects where status = 'Open'
 app.post('/inprocessProjects', require('connect-ensure-login').ensureLoggedIn(), db2.selectInprocess)                                                    // select only projects where status = 'In-process'
