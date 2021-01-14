@@ -116,6 +116,8 @@ input[type="submit"].redButton {
 	color: #fff;
 	font-family: 'Roboto', sans-serif;
 	cursor: pointer;
+	border: none;
+	font-size: large;
 }
 
 /*--------------------------------------------*/

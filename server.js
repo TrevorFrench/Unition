@@ -170,4 +170,6 @@ app.post('/adminPage', require('connect-ensure-login').ensureLoggedIn(), (req, r
    - If a column has a NOT NULL restraint,
      make the form element required
    - Error handling
-   - Create a public forms directory    */
+   - Create a public forms directory
+   - Get rid of index.html           
+   - Make menus drop onclick for phones */
