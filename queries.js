@@ -189,7 +189,7 @@ const postProject = (request, response) => {
 	const title = request.body.title
 	const descriptionstring = request.body.description
 	var description2 = descriptionstring.replace("'","''");
-	var description = description2.replace(""","'''");
+	var description = description2.replace("\"","''");
 	const statusSQL = request.body.statusSQL
 	const responsible = request.body.responsible
 	const duedate = request.body.duedate
