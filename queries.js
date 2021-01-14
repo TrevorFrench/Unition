@@ -188,12 +188,15 @@ const createProject = (request, response) => {
 const postProject = (request, response) => {
 	const title = request.body.title
 	const descriptionstring = request.body.description
-	var description = descriptionstring.replace("'","\'");
+	var description2 = descriptionstring.replace("'","''");
+	var description = description2.replace(""","'''");
 	const statusSQL = request.body.statusSQL
 	const responsible = request.body.responsible
 	const duedate = request.body.duedate
 	const user = request.user.displayName;
-	console.log("USER: " + user)
+	console.log("DESCRIPTION STRING: " + descriptionstring)
+	console.log("DESCRIPTION 2: " + description2)
+	console.log("DESCRIPTION: " + description)
 	const sql = "INSERT INTO projects(title, description, status, responsible, duedate, created_by) VALUES ('" + title + "', '" + description + "', '" + statusSQL + "', '" + responsible + "', '" + duedate + "', '" + user + "' )";
 	pool.query(sql, (error, results) => {
 	  if (error) {
