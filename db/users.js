@@ -30,7 +30,7 @@ exports.findByUsername = function(username, cb) {
 //------------------------------------------------------------------------------
 //----------------DELIVERS THE PROJECT CREATION FORM (NO QUERIES)---------------
 //------------------------------------------------------------------------------
-exports.createProject2 = (request, response) => {
+exports.createProject2 = function(request, response) => {
 	process.nextTick(function() {
     var userSelect= "<select id='responsible' name='responsible'>";
 	for (var i = 0, len = records.length; i < len; i++) {

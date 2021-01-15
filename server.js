@@ -132,7 +132,7 @@ app.post('/allProjects', require('connect-ensure-login').ensureLoggedIn(), db2.s
 
 app.post('/openProject', require('connect-ensure-login').ensureLoggedIn(), db2.getProject)                                                               // displays individual project information when selected from a table of projects
 
-app.post('/createProject', require('connect-ensure-login').ensureLoggedIn(), db.users.createProject)	                                                       // renders a form for project creation
+app.post('/createProject', require('connect-ensure-login').ensureLoggedIn(), function(req, res){db.users.createProject})	                                                       // renders a form for project creation
 app.post('/postProject', require('connect-ensure-login').ensureLoggedIn(), db2.postProject)                                                              // posts project from previous form to the database
 app.post('/updateProject', require('connect-ensure-login').ensureLoggedIn(), db2.updateProject)                                                          // allows users to change attributes of a project (currently only allows status to be changed
 
