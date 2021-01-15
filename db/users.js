@@ -35,10 +35,10 @@ exports.createProject2 = (request, response) => {
     var userSelect= "<select id='responsible' name='responsible'>";
 	for (var i = 0, len = records.length; i < len; i++) {
       var record = records[i];
-      var userSelect += "<option value='" + record.displayName + "'>" + record.displayName + "</option>";
+      userSelect += "<option value='" + record.displayName + "'>" + record.displayName + "</option>";
 
     }
- var userSelect += "</select>";
+	userSelect += "</select>";
   });
 	var projectFrame = "<p><i>*Please do not use quotation marks or apostrophes in the form.</i></p><form action='/postProject' method='post' id='description'> <label for='title'>Title:</label><br><br><input type='text' name='title' id='title' pattern=[^'\x22]+><br><br><label for='statusSQL'>Status:</label><br><br><select id='statusSQL' name='statusSQL'><option value='Open'>Open</option><option value='In-process'>In-process</option><option value='Closed'>Closed</option></select><br><br><label for='responsible'>Responsible:</label><br><br>" + userSelect + "<br><br><label for='duedate'>Due Date:</label><br><br><input type='date' name='duedate' id='duedate' pattern=[^'\x22]+><br><br><label for='description'>Description:</label><br><br><textarea style='width:300px; height:300px;' name='description' id='description' form='description' Placeholder='Describe your project here...'></textarea><br><br><input type='submit' value='Create Project'></form>";
 	response.render("dashboard.ejs", {statusMessage: projectFrame})
