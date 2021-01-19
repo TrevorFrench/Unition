@@ -62,10 +62,6 @@ app.get('/', (req, res) => 										    // when the root directory loads, send 
 	res.sendFile(path.join(__dirname, 'index.html'))
 );
 
-app.post('/', (req, res) => 										// maybe not necessary - but handles a post request for home page
-	res.sendFile(path.join(__dirname, 'index.html'))
-);
-
 app.listen(app.get("port"), function () {                           // listens on the port and displays a message to the console
 	console.log("Now listening on port: " + app.get("port"));
 });
