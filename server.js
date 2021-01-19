@@ -77,14 +77,13 @@ passport.use(new Strategy(											// Configure the local strategy for use by 
 	}
 ));
 
-// Configure Passport authenticated session persistence.
-passport.serializeUser(function(user, cb) {							// In order to restore authentication state across HTTP requests, Passport needs
-	cb(null, user.id);												// to serialize users into and deserialize users out of the session.  The
-});																	// typical implementation of this is as simple as supplying the user ID when
-																	// serializing, and querying the user record by ID from the database when
-passport.deserializeUser(function(id, cb) {							// deserializing.
-	db.users.findById(id, function (err, user) {
-		if (err) { return cb(err); }
+passport.serializeUser(function(user, cb) {							// Configure Passport authenticated session persistence.
+	cb(null, user.id);												// In order to restore authentication state across HTTP requests, Passport needs
+});																	// to serialize users into and deserialize users out of the session.  The
+
+passport.deserializeUser(function(id, cb) {							// typical implementation of this is as simple as supplying the user ID when
+	db.users.findById(id, function (err, user) {					// serializing, and querying the user record by ID from the database when
+		if (err) { return cb(err); }								// deserializing.
 		cb(null, user);
 	});
 });
@@ -131,7 +130,7 @@ app.post('/updateProject', 											// allows users to change attributes of a 
 	db2.updateProject
 	)
 	
-app.post('/myProjects', 												// My projects?
+app.post('/myProjects', 											// My projects selects all 'Open' and 'In-process' projects assigned to the current user
 	require('connect-ensure-login').ensureLoggedIn(), 
 	db2.selectMyProjects
 	)
@@ -147,20 +146,17 @@ app.post('/adminPage', 												// renders a page which is used for administr
 				"<form action='/users' method='post'>\
 				<input type='submit' value='PSQL CHANGES'>\
 				</form>"
-			})
+			}
+		)
 	); 
 
 app.get('/', 														// when the root directory loads, send the index.html file to the client
+	require('connect-ensure-login').ensureLoggedIn(),
 	(req, res) =>
 		res.sendFile(
 			path.join(__dirname, 'index.html')
 		)
 	);
-	
-app.get('/',
-  function(req, res) {
-    res.render('home', { user: req.user });
-  });
 
 app.get('/login',
   function(req, res){
