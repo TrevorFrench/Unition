@@ -151,31 +151,30 @@ app.post('/adminPage', 												// renders a page which is used for administr
 	); 
 
 app.get('/', 														// when the root directory loads, send the index.html file to the client
-	require('connect-ensure-login').ensureLoggedIn(),
 	(req, res) =>
 		res.sendFile(
 			path.join(__dirname, 'index.html')
 		)
 	);
 
-app.get('/login',
+app.get('/login',													// Delivers the login screen
   function(req, res){
     res.render('login');
   });
   
-app.post('/login', 
-  passport.authenticate('local', { failureRedirect: '/login' }),
+app.post('/login', 													// Posts the login credentials
+  passport.authenticate('local', { failureRedirect: '/login' }),	// Tests credentials, if credentials fail the login screen is rendered again
   function(req, res) {
-    res.redirect('/');
+    res.redirect('/');												// Home screen is delivered if credentials are tested successfully
   });
   
-app.get('/logout',
+app.get('/logout',													// logs the current user out and delivers the home screen
   function(req, res){
     req.logout();
     res.redirect('/');
   });
 
-app.get('/profile',
+app.get('/profile',													// renders the 'profile' for the current user
   require('connect-ensure-login').ensureLoggedIn(),
   function(req, res){
     res.render('profile', { user: req.user });

@@ -37,7 +37,7 @@ const getUserById = (request, response) => {
 const createUser = (request, response) => {
   const { name, email } = request.body
 
-  pool.query("ALTER TABLE projects ADD COLUMN created_by TEXT;", (error, results) => {
+  pool.query("CREATE TABLE comments (comment_id serial PRIMARY KEY, created_by TEXT NOT NULL, created_date TIMESTAMP NOT NULL, description TEXT NOT NULL);", (error, results) => {
     if (error) {
       throw error
     }
