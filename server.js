@@ -51,7 +51,7 @@ app.use(require('express-session')
 	({  secret: 'keyboard cat', 
 		resave: false, 
 		saveUninitialized: true, 
-		cookie: { maxAge: 60 * 60 * 1000 } /* 1 hour */ 
+		cookie: { maxAge: 60 * 60 * 1000 }							// 1 hour cookie
 	})
 );
 
@@ -66,75 +66,31 @@ app.listen(app.get("port"), function () {                           // listens o
 //--------------------------LOGIN MODULES--------------------------
 //-----------------------------------------------------------------
 
-// Configure the local strategy for use by Passport.
-//
-// The local strategy require a `verify` function which receives the credentials
-// (`username` and `password`) submitted by the user.  The function must verify
-// that the password is correct and then invoke `cb` with a user object, which
-// will be set at `req.user` in route handlers after authentication.
-passport.use(new Strategy(
-	function(username, password, cb) {
-	  db.users.findByUsername(username, function(err, user) {
-		  if (err) { return cb(err); }
-		  if (!user) { return cb(null, false); }
-		  if (user.password != password) { return cb(null, false); }
-		  return cb(null, user);
+passport.use(new Strategy(											// Configure the local strategy for use by Passport.
+	function(username, password, cb) {								
+	  db.users.findByUsername(username, function(err, user) {		// The local strategy require a `verify` function which receives the credentials
+	    if (err) { return cb(err); }								// (`username` and `password`) submitted by the user.  The function must verify
+		if (!user) { return cb(null, false); }						// that the password is correct and then invoke `cb` with a user object, which
+		if (user.password != password) { return cb(null, false); }	// will be set at `req.user` in route handlers after authentication.
+		return cb(null, user);
 	  });
 	}
 ));
 
-
 // Configure Passport authenticated session persistence.
-//
-// In order to restore authentication state across HTTP requests, Passport needs
-// to serialize users into and deserialize users out of the session.  The
-// typical implementation of this is as simple as supplying the user ID when
-// serializing, and querying the user record by ID from the database when
-// deserializing.
-passport.serializeUser(function(user, cb) {
-	cb(null, user.id);
-});
-
-passport.deserializeUser(function(id, cb) {
+passport.serializeUser(function(user, cb) {							// In order to restore authentication state across HTTP requests, Passport needs
+	cb(null, user.id);												// to serialize users into and deserialize users out of the session.  The
+});																	// typical implementation of this is as simple as supplying the user ID when
+																	// serializing, and querying the user record by ID from the database when
+passport.deserializeUser(function(id, cb) {							// deserializing.
 	db.users.findById(id, function (err, user) {
 		if (err) { return cb(err); }
 		cb(null, user);
 	});
 });
 
-// Initialize Passport and restore authentication state, if any, from the
-// session.
-app.use(passport.initialize());
+app.use(passport.initialize());										// Initialize Passport and restore authentication state, if any, from the session
 app.use(passport.session());
-
-// Define routes.
-app.get('/',
-  function(req, res) {
-    res.render('home', { user: req.user });
-  });
-
-app.get('/login',
-  function(req, res){
-    res.render('login');
-  });
-  
-app.post('/login', 
-  passport.authenticate('local', { failureRedirect: '/login' }),
-  function(req, res) {
-    res.redirect('/');
-  });
-  
-app.get('/logout',
-  function(req, res){
-    req.logout();
-    res.redirect('/');
-  });
-
-app.get('/profile',
-  require('connect-ensure-login').ensureLoggedIn(),
-  function(req, res){
-    res.render('profile', { user: req.user });
-  });
  
 //-----------------------------------------------------------------
 //-----------------------FUNCTIONAL QUERIES------------------------
@@ -175,9 +131,9 @@ app.post('/updateProject', 											// allows users to change attributes of a 
 	db2.updateProject
 	)
 	
-app.post('/testTest', 												// My projects?
+app.post('/myProjects', 												// My projects?
 	require('connect-ensure-login').ensureLoggedIn(), 
-	db2.selectTest
+	db2.selectMyProjects
 	)
 
 //-----------------------------------------------------------------
@@ -198,8 +154,36 @@ app.get('/', 														// when the root directory loads, send the index.html
 	(req, res) =>
 		res.sendFile(
 			path.join(__dirname, 'index.html')
-			)
+		)
 	);
+	
+app.get('/',
+  function(req, res) {
+    res.render('home', { user: req.user });
+  });
+
+app.get('/login',
+  function(req, res){
+    res.render('login');
+  });
+  
+app.post('/login', 
+  passport.authenticate('local', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/');
+  });
+  
+app.get('/logout',
+  function(req, res){
+    req.logout();
+    res.redirect('/');
+  });
+
+app.get('/profile',
+  require('connect-ensure-login').ensureLoggedIn(),
+  function(req, res){
+    res.render('profile', { user: req.user });
+  });
 
 //-----------------------------------------------------------------
 //-------------------------GENERIC QUERIES-------------------------
