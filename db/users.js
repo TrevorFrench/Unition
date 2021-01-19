@@ -28,7 +28,7 @@ exports.findByUsername = function(username, cb) {
 }
 
 //------------------------------------------------------------------------------
-//----------------DELIVERS THE PROJECT CREATION FORM (NO QUERIES)---------------
+//----------------------DELIVERS THE PROJECT CREATION FORM ---------------------
 //------------------------------------------------------------------------------
 exports.createProject2 = function(req, res) {
 	process.nextTick(function() {
