@@ -58,10 +58,6 @@ app.use(require('express-session')
 app.set("port", (process.env.PORT || 5000));                        // sets the port to 5000
 app.use(express.static(path.join(__dirname, '')));                  // this allows js and css files to be linked to the HTML
 
-app.get('/', (req, res) => 										    // when the root directory loads, send the index.html file to the client
-	res.sendFile(path.join(__dirname, 'index.html'))
-);
-
 app.listen(app.get("port"), function () {                           // listens on the port and displays a message to the console
 	console.log("Now listening on port: " + app.get("port"));
 });
@@ -197,6 +193,13 @@ app.post('/adminPage', 												// renders a page which is used for administr
 				</form>"
 			})
 	); 
+
+app.get('/', 														// when the root directory loads, send the index.html file to the client
+	(req, res) =>
+		res.sendFile(
+			path.join(__dirname, 'index.html')
+			)
+	);
 
 //-----------------------------------------------------------------
 //-------------------------GENERIC QUERIES-------------------------
