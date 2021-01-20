@@ -144,7 +144,7 @@ const selectMyProjects = function(req, res) {
 const getProject = (request, response) => {
   const id = parseInt(request.body.ticketID)
 	console.log(request.body)
-  pool.query("SELECT project_id, title, status, responsible, TO_CHAR(duedate, 'MM/DD/YYYY') AS duedate, description FROM projects WHERE project_id =" + id, (error, results) => {
+  pool.query("SELECT projects.project_id, title, status, responsible, TO_CHAR(duedate, 'MM/DD/YYYY') AS duedate, projects.description, comments.description FROM projects JOIN comments ON projects.project_id = comments.project_id WHERE porjects.project_id =" + id, (error, results) => {
     if (error) {
       throw error
     }
