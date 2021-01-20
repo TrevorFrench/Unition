@@ -96,7 +96,7 @@
 			</form>
 			<br>
 			<br>
-			<canvas id="myChart" width="50%" height="50%" style="responsive: false;"></canvas>
+			<canvas id="myChart" width="50%" height="50%"></canvas>
 
           
 	</div>
@@ -129,6 +129,7 @@ var myChart = new Chart(ctx, {
         }]
     },
     options: {
+		responsive: false
         scales: {
             yAxes: [{
                 ticks: {
