@@ -282,5 +282,6 @@ module.exports = {
   updateProject,
   selectInprocess,
   selectMyProjects,
-  plusComment
+  plusComment,
+  selectCharts
 }
