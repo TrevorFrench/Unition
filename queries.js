@@ -261,7 +261,8 @@ const selectCharts = (request, response) => {
 	  if (error) {
 		  throw error;
 	  }
-	response.render("dashboard.ejs", {statusMessage: results.rows[0].project_month + " " + results.rows[0].project_count})
+	  console.log(results.rows);
+	response.render("charts.ejs", {statusMessage: results.rows[0].project_month + " " + results.rows[0].project_count})
 })
 }
 
