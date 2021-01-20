@@ -263,10 +263,10 @@ const selectCharts = (request, response) => {
 	  }
 	  let dataArray = [];
 	  let labelArray = [];
-	  results.rows.forEach(element => labelArray.push(element.project_month));
+	  results.rows.forEach(element => labelArray.push("'" + element.project_month + "'"));
 	  var texts= "labels: [" + labelArray + "],\
         datasets: [{\
-            label: '# of Votes',\
+            label: '# of Projects',\
             data: " 
 		results.rows.forEach(element => dataArray.push(element.project_count));
 		texts+= "[" + dataArray + "]";
