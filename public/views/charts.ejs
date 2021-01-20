@@ -1,0 +1,144 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link href="./public/styles/style.css" rel="stylesheet">
+		<script type="text/javascript">
+			function submitform()
+			{
+			document.forms["myform"].submit();
+			}
+			
+			function submitopen()
+			{
+			document.forms["openform"].submit();
+			}
+			
+			function submitinprocess()
+			{
+			document.forms["inprocessform"].submit();
+			}
+			
+			function submitproject()
+			{
+			document.forms["projectform"].submit();
+			}
+			
+			function loadAdmin()
+			{
+			document.forms["loadAdmin"].submit();
+			}
+			
+			
+		</script>
+		<script defer src="./node_modules/@fortawesome/fontawesome-free/js/brands.js"></script>
+		<script defer src="./node_modules/@fortawesome/fontawesome-free/js/solid.js"></script>
+		<script defer src="./node_modules/@fortawesome/fontawesome-free/js/fontawesome.js"></script>
+
+	</head>
+	
+	<body>
+	
+	<div class="topbar">
+	<img src="./public/SwireLogo.png" alt="Swire Coca-Cola, USA Logo" width="210" height="45">
+	<a href="/profile" style="display:flex; float:right;"><i class="fas fa-user" height=45></i></a>
+	</div>
+	
+	 <div class="container">
+
+		<div class="card">
+
+			<div class="header">
+			  <h3>PRGM Projects </h3>
+			</div>
+			<div class="body">
+			  <ul>
+				<li><i class="fas fa-home icon"></i> <a href="./index.html">Home</a></li>
+				<li><i class="fas fa-underline icon"></i> Projects
+					<ul>
+						<li>
+							<i class="fas fa-pencil-alt icon"></i>
+							<form id="openform" action="/openProjects" method="post">
+								<a href="javascript: submitopen()">Open Projects</a>
+							</form>
+						</li>
+						<li>
+							<i class="fas fa-pencil-alt icon"></i>
+								<form id="inprocessform" action="/inprocessProjects" method="post">
+									<a href="javascript: submitinprocess()">In-Process Projects</a>
+								</form>
+						</li>
+						<li><i class="fas fa-paper-plane icon"></i> <form id="myform" action="/allProjects" method="post"><a href="javascript: submitform()">All Projects</a></form></li>
+				  </ul>
+				</li>
+				
+				<li><i class="fas fa-boxes icon"></i><form id="loadAdmin" action="/adminPage" method="post"><a href="javascript: loadAdmin()">Admin</a></form></li>
+				<li><i class="fas fa-table icon"></i> Tables</li>
+				<li><i class="fab fa-wpforms icon"></i> Forms
+				  <ul>
+					<li><i class="fas fa-pencil-alt icon"></i> First form</li>
+					<li><i class="fas fa-paper-plane icon"></i> Second form</li>
+				  </ul>
+				</li>
+				<li><i class="fas fa-chart-pie icon"></i> Charts</li>
+			  </ul>
+			</div>
+		</div>
+  
+  	<div class="main">
+	<form action="/createProject" method="post">
+				<input class="redButton" type="submit" value="Create Project">
+			</form>
+			<form action="/myProjects" method="post">
+				<input class="redButton" type="submit" value="My Projects">
+			</form>
+			<br>
+			<br>
+			<canvas id="myChart" width="400" height="400"></canvas>
+<script>
+var ctx = document.getElementById('myChart').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        datasets: [{
+            label: '# of Votes',
+            data: [12, 19, 3, 5, 2, 3],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+</script>
+          <%- statusMessage %>
+	</div>
+
+
+</div>
+		
+	</body>
+</html

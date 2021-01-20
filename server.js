@@ -155,6 +155,14 @@ app.post('/adminPage', 												// renders a page which is used for administr
 		)
 	); 
 
+app.post('/openCharts', 												// renders the charts view
+	require('connect-ensure-login').ensureLoggedIn(), 
+	(req, res) => 
+		res.render("charts.ejs", 
+			{statusMessage: ""}
+		)
+	); 
+
 app.get('/', 														// when the root directory loads, send the index.html file to the client
 	(req, res) =>
 		res.sendFile(
