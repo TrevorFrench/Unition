@@ -262,7 +262,9 @@ const selectCharts = (request, response) => {
 		  throw error;
 	  }
 	  let dataArray = [];
-	  var texts= "labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],\
+	  let labelArray = [];
+	  results.rows.forEach(element => labelArray.push(element.project_month));
+	  var texts= "labels: [" + labelArray + "],\
         datasets: [{\
             label: '# of Votes',\
             data: " 
