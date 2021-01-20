@@ -134,6 +134,11 @@ app.post('/myProjects', 											// My projects selects all 'Open' and 'In-pro
 	require('connect-ensure-login').ensureLoggedIn(), 
 	db2.selectMyProjects
 	)
+	
+app.post('/addComment', 											// Adds a comment to current project
+	require('connect-ensure-login').ensureLoggedIn(), 
+	db2.plusComment
+	)
 
 //-----------------------------------------------------------------
 //-----------------------------ROUTES------------------------------

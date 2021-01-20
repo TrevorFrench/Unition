@@ -37,7 +37,7 @@ const getUserById = (request, response) => {
 const createUser = (request, response) => {
   const { name, email } = request.body
 
-  pool.query("CREATE TABLE comments (comment_id serial PRIMARY KEY, created_by TEXT NOT NULL, created_date TIMESTAMP NOT NULL, description TEXT NOT NULL);", (error, results) => {
+  pool.query("ALTER TABLE comments ADD COLUMN project_id int4 NOT NULL;", (error, results) => {
     if (error) {
       throw error
     }
@@ -149,7 +149,7 @@ const getProject = (request, response) => {
       throw error
     }
 	var projectText = '<br><br>';
-	results.rows.forEach(element => projectText += "<form action='/updateProject' method='post' style='white-space:pre-line;'> <b>TITLE:</b> <input type='text' name='title' id='title' value='" + element.title + "' hidden>" + element.title + "<br><br><b>STATUS:</b> <select id='statusSQL' name='statusSQL'><option value='Open'>Open</option><option value='In-process'>In-process</option><option value='Closed'>Closed</option></select><br><br><b>DUE DATE:</b> <input type='text' name='duedate' id='duedate' value='" + element.duedate + "'hidden>" + element.duedate + "<br><br><b>RESPONSIBLE:</b> <input type='text' name='responsible' id='responsible' value='" + element.responsible + "' hidden>" + element.responsible + "<br><br><b>PROJECT ID:</b> <input type='text' name='project_id' id='project_id' value='" + element.project_id + "' hidden>" + element.project_id + "<br><br><b>DESCRIPTION:</b> <input type='text' name='description' id=description value='" + element.description + "' hidden>" + element.description + "<br><br><input type='submit' value='Update Project'></form><form><submit>ADD COMMENT</submit></form>");
+	results.rows.forEach(element => projectText += "<form action='/updateProject' method='post' style='white-space:pre-line;'> <b>TITLE:</b> <input type='text' name='title' id='title' value='" + element.title + "' hidden>" + element.title + "<br><br><b>STATUS:</b> <select id='statusSQL' name='statusSQL'><option value='Open'>Open</option><option value='In-process'>In-process</option><option value='Closed'>Closed</option></select><br><br><b>DUE DATE:</b> <input type='text' name='duedate' id='duedate' value='" + element.duedate + "'hidden>" + element.duedate + "<br><br><b>RESPONSIBLE:</b> <input type='text' name='responsible' id='responsible' value='" + element.responsible + "' hidden>" + element.responsible + "<br><br><b>PROJECT ID:</b> <input type='text' name='project_id' id='project_id' value='" + element.project_id + "' hidden>" + element.project_id + "<br><br><b>DESCRIPTION:</b> <input type='text' name='description' id=description value='" + element.description + "' hidden>" + element.description + "<br><br><input type='submit' value='Update Project'></form><hr><form action='/addComment' method='post' id='commentDescription' style='white-space:pre-line;'><label for='duedate'>Due Date:</label><br><br><textarea style='width:300px; height:300px;' name='commentDescription' id='commentDescription' form='commentDescription' Placeholder='Describe your comment here...'></textarea><input type='text' name='project_id' id='project_id' value='" + element.project_id + "' hidden><input type='submit' value='ADD COMMENT'></input></form>");
     response.render("dashboard.ejs", {statusMessage: projectText})
   })
 }
@@ -203,6 +203,27 @@ const postProject = (request, response) => {
 		throw error;
 	  }
 	response.render("dashboard.ejs", {statusMessage: "Successfully created project: "})
+})
+}
+
+//------------------------------------------------------------------------------
+//---------------------------ADDS COMMENT TO PROJECT----------------------------
+//------------------------------------------------------------------------------
+const plusComment = (request, response) => {
+	const descriptionstring = request.body.commentDescription
+	var description2 = descriptionstring.replace(/'/gi,"''");
+	var description = description2.replace(/\"/gi,"''");
+	const user = request.user.displayName;
+	const project_id = request.body.project_id
+	console.log("DESCRIPTION STRING: " + descriptionstring)
+	console.log("DESCRIPTION 2: " + description2)
+	console.log("DESCRIPTION: " + description)
+	const sql = "INSERT INTO comments(created_by, description, project_id) VALUES ('" + user + "', '" + description + "', '" + project_id + "' )";
+	pool.query(sql, (error, results) => {
+	  if (error) {
+		throw error;
+	  }
+	response.render("dashboard.ejs", {statusMessage: "Successfully added comment: "})
 })
 }
 
