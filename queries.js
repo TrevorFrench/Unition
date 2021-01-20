@@ -244,7 +244,7 @@ const plusComment = (request, response) => {
 }
 
 //------------------------------------------------------------------------------
-//--------------------------------UPDATES PROJECT-------------------------------
+//---------------------------------RENDER CHARTS--------------------------------
 //------------------------------------------------------------------------------
 const selectCharts = (request, response) => {
 	const sql = "SELECT DISTINCT\
@@ -269,7 +269,7 @@ const selectCharts = (request, response) => {
 		results.rows.foreach(element => dataArray.push(element.project_count));
 		texts+= dataArray;
 	  console.log(results.rows);
-	response.render("charts.ejs", {statusMessage: texts}
+	response.render("charts.ejs", {statusMessage: texts})
 })
 }
 
