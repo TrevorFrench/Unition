@@ -99,6 +99,11 @@ app.post('/openProjects', 											// select only projects where status = 'Ope
 	require('connect-ensure-login').ensureLoggedIn(), 
 	db2.selectOpen
 	)
+	
+app.post('/openCharts', 											// renders the charts view
+	require('connect-ensure-login').ensureLoggedIn(), 
+	db2.selectCharts
+	)
 
 app.post('/inprocessProjects', 										// select only projects where status = 'In-process'
 	require('connect-ensure-login').ensureLoggedIn(), 
@@ -152,14 +157,6 @@ app.post('/adminPage', 												// renders a page which is used for administr
 				<input type='submit' value='PSQL CHANGES'>\
 				</form>"
 			}
-		)
-	); 
-
-app.post('/openCharts', 												// renders the charts view
-	require('connect-ensure-login').ensureLoggedIn(), 
-	(req, res) => 
-		res.render("charts.ejs", 
-			{statusMessage: ""}
 		)
 	); 
 

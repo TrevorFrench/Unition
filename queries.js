@@ -244,6 +244,28 @@ const plusComment = (request, response) => {
 }
 
 //------------------------------------------------------------------------------
+//--------------------------------UPDATES PROJECT-------------------------------
+//------------------------------------------------------------------------------
+const selectCharts = (request, response) => {
+	const sql = "SELECT DISTINCT\
+				CONCAT(date_part('year', created_date), '-', date_part('month', created_date)) AS PROJECT_MONTH,\
+				COUNT(DISTINCT project_id) AS PROJECT_COUNT\
+				FROM\
+				   projects\
+				GROUP BY\
+				   date_part('year', created_date),\
+				   date_part('month', created_date)\
+				ORDER BY\
+				   PROJECT_MONTH;"
+	pool.query(sql, (error, results) => {
+	  if (error) {
+		  throw error;
+	  }
+	response.render("dashboard.ejs", {statusMessage: results.rows[0].project_month + " " + results.rows[0].project_count})
+})
+}
+
+//------------------------------------------------------------------------------
 //--------------------------------EXPORT MODULES--------------------------------
 //------------------------------------------------------------------------------
 module.exports = {
