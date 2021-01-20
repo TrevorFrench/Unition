@@ -266,7 +266,7 @@ const selectCharts = (request, response) => {
         datasets: [{\
             label: '# of Votes',\
             data: " 
-		results.rows.foreach(element => dataArray.push(element.project_count));
+		results.rows.forEach(element => dataArray.push(element.project_count));
 		texts+= dataArray;
 	  console.log(results.rows);
 	response.render("charts.ejs", {statusMessage: texts})
