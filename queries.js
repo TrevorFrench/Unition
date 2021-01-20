@@ -76,7 +76,7 @@ const deleteUser = (request, response) => {
 //------------------------------SELECTS ALL PROJECTS----------------------------
 //------------------------------------------------------------------------------
 const selectAll = function(req, res) {
-  const sql = "SELECT project_id, title, status, responsible, TO_CHAR(duedate, 'MM/DD/YYYY') AS duedate, description FROM projects ORDER BY project_id ASC";
+  const sql = "SELECT project_id, title, status, responsible, TO_CHAR(duedate, 'MM/DD/YYYY') AS duedate, description FROM projects ORDER BY duedate DESC";
   pool.query(sql, (error, results) => {
 	  if (error) {
 		  throw error;
