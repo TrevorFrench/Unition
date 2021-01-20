@@ -261,8 +261,15 @@ const selectCharts = (request, response) => {
 	  if (error) {
 		  throw error;
 	  }
+	  let dataArray = [];
+	  var texts= "labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],\
+        datasets: [{\
+            label: '# of Votes',\
+            data: " 
+		results.rows.foreach(element => dataArray.push(element.project_count));
+		texts+= dataArray;
 	  console.log(results.rows);
-	response.render("charts.ejs", {statusMessage: results.rows[0].project_month + " " + results.rows[0].project_count})
+	response.render("charts.ejs", {statusMessage: texts)
 })
 }
 
