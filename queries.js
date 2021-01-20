@@ -244,4 +244,5 @@ module.exports = {
   updateProject,
   selectInprocess,
   selectMyProjects,
+  plusComment
 }
