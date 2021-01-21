@@ -168,8 +168,3 @@ html, body {
 	height: 100%;
 	font-family: 'Roboto', sans-serif;
 }
-
-.chartjs-hidden-iframe {
-	height: 0px;
-	width: 0px;
-}

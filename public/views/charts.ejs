@@ -120,7 +120,10 @@ var myChart = new Chart(ctx, {
         }]
     },
     options: {
-        scales: {
+        layout: {
+			responsive: false
+		},
+		scales: {
             yAxes: [{
                 ticks: {
                     beginAtZero: true
