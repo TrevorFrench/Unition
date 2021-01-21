@@ -168,3 +168,15 @@ html, body {
 	height: 100%;
 	font-family: 'Roboto', sans-serif;
 }
+
+.projectDiv {
+	width:95%;
+	background-color:#f3f3f3;
+	padding: 20px;
+}
+
+.commentDiv {
+	background-color:#f3f3f3;
+	padding: 20px;
+	width: 50%;
+}
