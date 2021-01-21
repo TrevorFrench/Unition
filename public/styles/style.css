@@ -186,3 +186,12 @@ html, body {
 	width: 70%;
 	margin-left: 15%;
 }
+
+.projectTitle {
+	background: none!important;
+	border: none;
+	padding: 0!important;
+	text-decoration: underline;
+	cursor: pointer; 
+	color: #e7222c;
+}
