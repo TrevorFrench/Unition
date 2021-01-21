@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
+		<link rel="shortcut icon" type="image/png" href="./public/favicon.ico">
 		<link href="./public/styles/style.css" rel="stylesheet">
 		<script type="text/javascript">
 			function submitform()
@@ -29,7 +30,10 @@
 			document.forms["loadAdmin"].submit();
 			}
 			
-			
+			function submitcharts()
+			{
+			document.forms["opencharts"].submit();
+			}
 		</script>
 		<script defer src="./node_modules/@fortawesome/fontawesome-free/js/brands.js"></script>
 		<script defer src="./node_modules/@fortawesome/fontawesome-free/js/solid.js"></script>
@@ -80,7 +84,7 @@
 					<li><i class="fas fa-paper-plane icon"></i> Second form</li>
 				  </ul>
 				</li>
-				<li><i class="fas fa-chart-pie icon"></i> Charts</li>
+				<li><i class="fas fa-chart-pie icon"></i> <form id="opencharts" action="/openCharts" method="post"><a href="javascript: submitcharts()">Charts</a></form></li>
 			  </ul>
 			</div>
 		</div>
