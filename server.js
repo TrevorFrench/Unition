@@ -189,7 +189,7 @@ app.get('/profile',													// renders the 'profile' for the current user
   });
   
 app.get('/Excel', 													// select every project that has been created for Excel scraping
-	db2.selectAll
+	db2.selectExcel
 	)
 
 //-----------------------------------------------------------------

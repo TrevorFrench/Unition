@@ -318,5 +318,6 @@ module.exports = {
   selectInprocess,
   selectMyProjects,
   plusComment,
-  selectCharts
+  selectCharts,
+  selectExcel
 }
