@@ -37,7 +37,7 @@ const getUserById = (request, response) => {
 const createUser = (request, response) => {
   const { name, email } = request.body
 
-  pool.query("ALTER TABLE projects ADD COLUMN customer TEXT;", (error, results) => {
+  pool.query("ALTER TABLE projects ADD COLUMN category TEXT;", (error, results) => {
     if (error) {
       throw error
     }
