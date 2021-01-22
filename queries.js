@@ -113,7 +113,7 @@ const selectExcel = function(req, res) {
 	  }
 	  var tableText = 
 	  "<table class='styled-table'>\
-		<tr><th>TITLE</th><th>PROJECT ID</th><th>STATUS</th><th>RESPONSIBLE</th><th>DUE DATE</th><th>DESCRIPTION</th><th>Created Date</th></tr>";
+		<tr><th>TITLE</th><th>PROJECT ID</th><th>STATUS</th><th>RESPONSIBLE</th><th>DUE DATE</th><th>DESCRIPTION</th><th>Created Date</th><th>Customer></th><th>Category</th></tr>";
 	  results.rows.forEach(element => tableText += 
 										"<tr><td>" + element.title + "</td>\
 											<td>" + element.project_id + "</td>\
