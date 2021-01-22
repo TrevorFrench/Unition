@@ -106,7 +106,7 @@ const selectAll = function(req, res) {
 //-------------------------SELECTS ALL PROJECTS FOR EXCEL-----------------------
 //------------------------------------------------------------------------------
 const selectExcel = function(req, res) {
-  const sql = "SELECT project_id, title, status, responsible, TO_CHAR(duedate, 'MM/DD/YYYY') AS duedate, description, TO_CHAR(created_date, 'MM/DD/YYYY') AS created_date FROM projects ORDER BY project_id DESC";
+  const sql = "SELECT project_id, title, status, responsible, TO_CHAR(duedate, 'MM/DD/YYYY') AS duedate, description, TO_CHAR(created_date, 'MM/DD/YYYY') AS created_date, customer, category FROM projects ORDER BY project_id DESC";
   pool.query(sql, (error, results) => {
 	  if (error) {
 		  throw error;
@@ -122,6 +122,8 @@ const selectExcel = function(req, res) {
 											<td>" + element.duedate + "</td>\
 											<td>" + element.description + "</td>\
 											<td>" + element.created_date + "</td>\
+											<td>" + element.customer + "</td>\
+											<td>" + element.category + "</td>\
 										</tr>");
 	tableText += '</table>';
 	res.render("dashboard.ejs", {statusMessage: tableText})
