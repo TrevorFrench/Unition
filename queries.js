@@ -236,10 +236,11 @@ const postProject = (request, response) => {
 	const responsible = request.body.responsible
 	const duedate = request.body.duedate
 	const user = request.user.displayName;
+	const customer = request.body.customer;
 	console.log("DESCRIPTION STRING: " + descriptionstring)
 	console.log("DESCRIPTION 2: " + description2)
 	console.log("DESCRIPTION: " + description)
-	const sql = "INSERT INTO projects(title, description, status, responsible, duedate, created_by) VALUES ('" + title + "', '" + description + "', '" + statusSQL + "', '" + responsible + "', '" + duedate + "', '" + user + "' )";
+	const sql = "INSERT INTO projects(title, description, status, responsible, duedate, created_by, customer) VALUES ('" + title + "', '" + description + "', '" + statusSQL + "', '" + responsible + "', '" + duedate + "', '" + user + "', '" + customer + "' )";
 	pool.query(sql, (error, results) => {
 	  if (error) {
 		throw error;

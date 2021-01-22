@@ -39,8 +39,22 @@ exports.createProject2 = function(req, res) {
 
     }
 	userSelect += "</select>";
-  
-	var projectFrame = "<p><i>*Please do not use quotation marks or apostrophes in the form.</i></p><form action='/postProject' method='post' id='description'> <label for='title'>Title:</label><br><br><input type='text' name='title' id='title' pattern=[^'\x22]+><br><br><label for='statusSQL'>Status:</label><br><br><select id='statusSQL' name='statusSQL'><option value='Open'>Open</option><option value='In-process'>In-process</option><option value='Closed'>Closed</option></select><br><br><label for='responsible'>Responsible:</label><br><br>" + userSelect + "<br><br><label for='duedate'>Due Date:</label><br><br><input type='date' name='duedate' id='duedate' pattern=[^'\x22]+><br><br><label for='description'>Description:</label><br><br><textarea style='width:300px; height:300px;' name='description' id='description' form='description' Placeholder='Describe your project here...'></textarea><br><br><input type='submit' value='Create Project'></form>";
+	var customerInput = "<label for='customer'>Customer:</label>\
+		<select id='customer' name='customer'>\
+		<option value='FSOP'><b>FSOP</b></option>\
+		<option value='FSOP - Sales'>FSOP - Sales</option>\
+		<option value='FSOP - Service'>FSOP - Service</option>\
+		<option value='FSOP - Customer Care'>FSOP - Customer Care</option>\
+		<option value='PRGM'><b>PRGM</b></option>\
+		<option value='PRGM - FSOP'>PRGM - FSOP</option>\
+		<option value='S&P'><b>S&P</b></option>\
+		<option value='S&P - Pricing'>S&P - Pricing</option>\
+		<option value='S&P - Insights'>S&P - Insights</option>\
+		<option value='S&P - Commercial Marketing'>S&P - Commercial Marketing</option>\
+		<option value='Swire Coca-Cola, USA'><b>Swire Coca-Cola, USA</b></option>\
+		<option value='Consumer'><b>Consumer</b></option>\
+		</select>";
+	var projectFrame = "<p><i>*Please do not use quotation marks or apostrophes in the form.</i></p><form action='/postProject' method='post' id='description'> <label for='title'>Title:</label><br><br><input type='text' name='title' id='title' pattern=[^'\x22]+><br><br><label for='statusSQL'>Status:</label><br><br><select id='statusSQL' name='statusSQL'><option value='Open'>Open</option><option value='In-process'>In-process</option><option value='Closed'>Closed</option></select><br><br>" + customerInput + "<br><br><label for='responsible'>Responsible:</label><br><br>" + userSelect + "<br><br><label for='duedate'>Due Date:</label><br><br><input type='date' name='duedate' id='duedate' pattern=[^'\x22]+><br><br><label for='description'>Description:</label><br><br><textarea style='width:300px; height:300px;' name='description' id='description' form='description' Placeholder='Describe your project here...'></textarea><br><br><input type='submit' value='Create Project'></form>";
 	res.render("dashboard.ejs", {statusMessage: projectFrame})
 	});
 }
