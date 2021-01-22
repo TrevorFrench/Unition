@@ -103,6 +103,31 @@ const selectAll = function(req, res) {
 };
 
 //------------------------------------------------------------------------------
+//-------------------------SELECTS ALL PROJECTS FOR EXCEL-----------------------
+//------------------------------------------------------------------------------
+const selectExcel = function(req, res) {
+  const sql = "SELECT project_id, title, status, responsible, TO_CHAR(duedate, 'MM/DD/YYYY') AS duedate, description FROM projects ORDER BY project_id DESC";
+  pool.query(sql, (error, results) => {
+	  if (error) {
+		  throw error;
+	  }
+	  var tableText = 
+	  "<table class='styled-table'>\
+		<tr><th>TITLE</th><th>PROJECT ID</th><th>STATUS</th><th>RESPONSIBLE</th><th>DUE DATE</th><th>DESCRIPTION</th></tr>";
+	  results.rows.forEach(element => tableText += 
+										"<tr><td>" + element.title + "</td>\
+											<td>" + element.project_id + "</td>\
+											<td>" + element.status + "</td>\
+											<td>" + element.responsible + "</td>\
+											<td>" + element.duedate + "</td>\
+											<td>" + element.description + "</td>\
+										</tr>");
+	tableText += '</table>';
+	res.render("dashboard.ejs", {statusMessage: tableText})
+})
+};
+
+//------------------------------------------------------------------------------
 //-----------------------------SELECTS OPEN PROJECTS----------------------------
 //------------------------------------------------------------------------------
 const selectOpen = function(req, res) {
