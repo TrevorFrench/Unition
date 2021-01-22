@@ -6,7 +6,6 @@
    - Make a new landing page for successful database connections
    - Update the admin query/call
    - Format the project creation screen 
-   - Build out Graphs page with Charts.js
    - Build a "Comments" table
    - Add comment every time an update is made to a project
    - Protect the Admin page
@@ -17,7 +16,6 @@
    - Create a public forms directory
    - Get rid of index.html           
    - Make menus drop onclick for phones
-   - Update testTest nameing conventions
    - Be able to navigate to projects directly with a URL
    - Display limit on description in the table
    - Make admin page with an open box for SQL
@@ -189,6 +187,10 @@ app.get('/profile',													// renders the 'profile' for the current user
   function(req, res){
     res.render('profile', { user: req.user });
   });
+  
+app.get('/Excel', 													// select every project that has been created for Excel scraping
+	db2.selectAll
+	)
 
 //-----------------------------------------------------------------
 //-------------------------GENERIC QUERIES-------------------------
