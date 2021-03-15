@@ -1,0 +1,8 @@
+43652.90
+32645
+
+40115
+=IF(channelname="Distr-Deliv",E38, update column 
+
+pricing grid
+

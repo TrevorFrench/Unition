@@ -2,6 +2,7 @@
 //---------------------------INITIALIZE DB CONNECTION---------------------------
 //------------------------------------------------------------------------------
 const Pool = require('pg').Pool
+pg.defaults.ssl = true;
 const pool = new Pool({
   user: 'xdlepbswgkuwsn',
   host: 'ec2-54-236-146-234.compute-1.amazonaws.com',
