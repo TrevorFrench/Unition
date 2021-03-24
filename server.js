@@ -36,7 +36,7 @@ const db2 = require('./queries')                                    // reference
 var passport = require('passport');									// login framework
 var Strategy = require('passport-local').Strategy;					// method which is used within the login framework
 var db = require('./db');											// folder which contains database files
-const pattern = require('pattern');                                 // pattern is a design package
+const pattern = require('patternomaly');                                 // pattern is a design package
 
 //-----------------------------------------------------------------
 //------------------------ENVIRONMENT SETUP------------------------
