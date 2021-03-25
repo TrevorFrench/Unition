@@ -160,7 +160,11 @@ input[type="submit"].redButton {
 	background-color: #41535e;
 	position: fixed;
 	top: 0;
-	width: 98%;
+	width: 100%;
+}
+
+.profileButton {
+	padding:20px;
 }
 
 html, body {
