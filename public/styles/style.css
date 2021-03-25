@@ -23,10 +23,13 @@ a {
 /*--------------------------------------------*/
 
 .card{
-  width: 300px;
+  width: 25%;
   height: 100%;
   background-color: #1E2B32;
   border-radius: 10;
+  margin-left: 15%;
+  overflow: auto;
+  position: fixed;
 }
 
 .header{
@@ -97,11 +100,12 @@ li:hover{
 /*--------------------------------------------*/
 
 .main {
-	display:inline;
+	/*display:inline;*/
 	float:right;
 	padding: 20px 20px;
 	background-color: white;
-	width: 100%;
+	/*width: 100%;*/
+	margin-left: 15%;
 	}
 	
 /*--------------------------------------------*/
