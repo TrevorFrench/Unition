@@ -156,7 +156,7 @@ input[type="submit"].redButton {
 
 .topbar {
 	padding:10px;
-	/*height: 50px;*/
+	height: 70px;
 	background-color: #41535e;
 	position: fixed;
 	top: 0;
