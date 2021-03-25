@@ -32,7 +32,7 @@ exports.findByUsername = function(username, cb) {
 //------------------------------------------------------------------------------
 exports.createProject2 = function(req, res) {
 	process.nextTick(function() {
-    var userSelect= "<div class='col-75'><select id='responsible' name='responsible' style='float:right; width:80%; padding:2px; border:2px;'>";
+    var userSelect= "<div class='col-75'><select id='responsible' name='responsible' style='width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;'>";
 	for (var i = 0, len = records.length; i < len; i++) {
       var record = records[i];
       userSelect += "<option value='" + record.displayName + "'>" + record.displayName + "</option>";
@@ -40,7 +40,7 @@ exports.createProject2 = function(req, res) {
     }
 	userSelect += "</select></div></div>";
 	var customerInput = "<div class='row'><div class='col-25'><label for='customer'>Customer:</label></div>\
-		<div class='col-75'><select id='customer' name='customer' style='float:right; width:80%; padding:2px; border:2px;'>\
+		<div class='col-75'><select id='customer' name='customer' style='width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;'>\
 		<option value='FSOP'><b>FSOP</b></option>\
 		<option value='FSOP - Sales'>FSOP - Sales</option>\
 		<option value='FSOP - Service'>FSOP - Service</option>\
@@ -58,24 +58,24 @@ exports.createProject2 = function(req, res) {
 						<p><i>*Please do not use quotation marks or apostrophes in the title.</i></p>\
 						<form action='/postProject' method='post' id='description'>\
 						  <div class='row'><div class='col-25'><label for='title'>Title:</label></div>\
-						<div class='col-75'><input type='text' name='title' id='title' style='float:right; width:80%; padding:2px; border:2px;' pattern=[^'\x22]+></div></div>\
+						<div class='col-75'><input type='text' name='title' id='title' style='width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;' pattern=[^'\x22]+></div></div>\
 						<br><br>\
 						<div class='row'><div class='col-25'><label for='statusSQL'>Status:</label></div>\
-						<div class='col-75'><select id='statusSQL' name='statusSQL' style='float:right; width:80%; padding:2px; border:2px;'>\
+						<div class='col-75'><select id='statusSQL' name='statusSQL' style='width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;'>\
 						   <option value='Open'>Open</option>\
 						   <option value='In-process'>In-process</option>\
 						   <option value='Closed'>Closed</option>\
 						</select></div></div>\
 						<br><br>" + customerInput + "<br><br>\
 						<div class='row'><div class='col-25'><label for='category'>Category:</label></div>\
-						<div class='col-75'><input type='text' name='category' id='category' style='float:right; width:80%; padding:2px; border:2px;' pattern=[^'\x22]+></div></div>\
+						<div class='col-75'><input type='text' name='category' id='category' style='width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;' pattern=[^'\x22]+></div></div>\
 						<br><br>\
 						<div class='row'><div class='col-25'><label for='responsible'>Responsible:</label></div>" + userSelect + "<br><br>\
 						<div class='row'><div class='col-25'><label for='duedate'>Due Date:</label></div>\
-						<div class='col-75'><input type='date' name='duedate' id='duedate' style='float:right; width:80%; padding:2px; border:2px;' pattern=[^'\x22]+></div></div>\
+						<div class='col-75'><input type='date' name='duedate' id='duedate' style='width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;' pattern=[^'\x22]+></div></div>\
 						<br><br>\
 						<div class='row'><div class='col-25'><label for='description'>Description:</label></div>\
-						<div class='col-75'><textarea style='width:100%; height:300px; padding:2px; border:2px;' name='description' id='description' form='description' Placeholder='Describe your project here...'></textarea></div></div>\
+						<div class='col-75'><textarea style='width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;' name='description' id='description' form='description' Placeholder='Describe your project here...'></textarea></div></div>\
 						<br><br>\
 						<input type='submit' value='Create Project'>\
 						</form>\
