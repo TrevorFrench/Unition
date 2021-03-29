@@ -61,16 +61,15 @@ exports.createProject2 = function(req, res) {
                                filter = input.value.toUpperCase();\
                                ul = document.getElementById('responsible');\
                                li = ul.getElementsByTagName('option');\
+							   ul.style.display = 'block';\
                                for (i = 0; i < li.length; i++) {\
                                    a = li[i].getElementsByTagName('a')[0];\
                                    if (li[i].innerHTML.toUpperCase().indexOf(filter) > -1) {\
                                      li[i].style.display = '';\
 									 li[i].selected = true;\
-									 ul.style.display = 'block';\
                                    } else {\
                                      li[i].style.display = 'none';\
 									 li[i].selected = false;\
-									 ul.style.display = 'none';\
                                    }\
                                }\
                             }\
