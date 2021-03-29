@@ -233,3 +233,28 @@ html, body {
 * {
   box-sizing: border-box;
 }
+
+/************search bar creation********/
+#responsible {
+                       width: 100%;
+                       font-size: 18px;
+                       padding: 11px;
+                       border: 1px solid #ddd;
+                    }
+                    #responsible {
+                      list-style-type: none;
+                      padding: 0;
+                      margin: 0;
+                      display: none;
+                    }
+                    #responsible li a {
+                      padding: 12px;
+                      text-decoration: none;
+                      color: black;
+                    }
+                    #responsible li i {
+                      display: none;
+                    }\
+                    #responsible li a:hover {
+                      background-color: #eee;
+                    }
