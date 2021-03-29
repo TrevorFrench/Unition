@@ -54,7 +54,49 @@ exports.createProject2 = function(req, res) {
 		<option value='Swire Coca-Cola, USA'><b>Swire Coca-Cola, USA</b></option>\
 		<option value='Consumer'><b>Consumer</b></option>\
 		</select></div></div>";
-	var projectFrame = "<div style='width:80%; margin-left:10%; background-color:#f7f7f7; padding:10px;'\
+	var javascriptvar = "<script>\
+                      function myFunction() {\
+                               var input, filter, ul, li, a, i;\
+                               input = document.getElementById('mySearch');\
+                               filter = input.value.toUpperCase();\
+                               ul = document.getElementById('responsible');\
+                               li = ul.getElementsByTagName('li');\
+                               ul.style.display = 'block';\
+                               for (i = 0; i < li.length; i++) {\
+                                   a = li[i].getElementsByTagName('a')[0];\
+                                   if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {\
+                                     li[i].style.display = '';\
+                                   } else {\
+                                     li[i].style.display = 'none';\
+                                   }\
+                               }\
+                            }\
+                     </script>"
+	var stylevar = " #responsible {\
+                       width: 100%;\
+                       font-size: 18px;\
+                       padding: 11px;\
+                       border: 1px solid #ddd;\
+                    }\
+                    #responsible {\
+                      list-style-type: none;\
+                      padding: 0;\
+                      margin: 0;\
+                      display: none;\
+                    }\
+                    #responsible li a {\
+                      padding: 12px;\
+                      text-decoration: none;\
+                      color: black;\
+                    }\
+                    #responsible li i {\
+                      display: none;\
+                    }\
+                    #responsible li a:hover {\
+                      background-color: #eee;\
+                    }"
+	var searchBar = "<input type='text' id='mySearch' onkeyup='myFunction()' placeholder='Search..' title='Type in a category'>"
+	var projectFrame = stylevar + javascriptvar + "<div style='width:80%; margin-left:10%; background-color:#f7f7f7; padding:10px;'\
 						<p><h2>Project Creation Form</h2><i>*Please do not use quotation marks or apostrophes in the title.</i></p>\
 						<form action='/postProject' method='post' id='description'>\
 						  <div class='row'><div class='col-25'><label for='title'>Title:</label></div>\
@@ -70,7 +112,7 @@ exports.createProject2 = function(req, res) {
 						<div class='row'><div class='col-25'><label for='category'>Category:</label></div>\
 						<div class='col-75'><input type='text' name='category' id='category' style='width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;' pattern=[^'\x22]+></div></div>\
 						<br><br>\
-						<div class='row'><div class='col-25'><label for='responsible'>Responsible:</label></div>" + userSelect + "<br><br>\
+						<div class='row'><div class='col-25'><label for='responsible'>Responsible:</label></div>" + searchBar + userSelect + "<br><br>\
 						<div class='row'><div class='col-25'><label for='duedate'>Due Date:</label></div>\
 						<div class='col-75'><input type='date' name='duedate' id='duedate' style='width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;' pattern=[^'\x22]+></div></div>\
 						<br><br>\
