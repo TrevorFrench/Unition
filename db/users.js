@@ -96,7 +96,7 @@ exports.createProject2 = function(req, res) {
                       background-color: #eee;\
                     }"
 	var searchBar = "<input type='text' id='mySearch' onkeyup='myFunction()' placeholder='Search..' title='Type in a category'>"
-	var projectFrame = stylevar + javascriptvar + "<div style='width:80%; margin-left:10%; background-color:#f7f7f7; padding:10px;'\
+	var projectFrame =  javascriptvar + "<div style='width:80%; margin-left:10%; background-color:#f7f7f7; padding:10px;'\
 						<p><h2>Project Creation Form</h2><i>*Please do not use quotation marks or apostrophes in the title.</i></p>\
 						<form action='/postProject' method='post' id='description'>\
 						  <div class='row'><div class='col-25'><label for='title'>Title:</label></div>\
