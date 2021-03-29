@@ -246,14 +246,14 @@ html, body {
 	  margin: 0;
 	  display: none;
 	}
-	#responsible option {
+	#responsible option a {
 	  padding: 12px;
 	  text-decoration: none;
 	  color: black;
 	}
-	#responsible option {
+	#responsible option a {
 	  display: none;
-	}\
-	#responsible option:hover {
+	}
+	#responsible option a:hover {
 	  background-color: #eee;
 	}

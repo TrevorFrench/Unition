@@ -35,7 +35,7 @@ exports.createProject2 = function(req, res) {
     var userSelect= "<div class='col-75'><select id='responsible' name='responsible' style='width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;'>";
 	for (var i = 0, len = records.length; i < len; i++) {
       var record = records[i];
-      userSelect += "<option value='" + record.displayName + "'>" + record.displayName + "</option>";
+      userSelect += "<option value='" + record.displayName + "'>" + "<a href='#'>" + record.displayName + "</a></option>";
 
     }
 	userSelect += "</select></div></div>";
