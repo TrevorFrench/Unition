@@ -173,9 +173,9 @@ app.get('/login',													// Delivers the login screen
   });
   
 app.post('/login', 													// Posts the login credentials
-  passport.authenticate('local', { successReturnToOrRedirect: '/', failureRedirect: '/login' }),	// Tests credentials, if credentials fail the login screen is rendered again
+  passport.authenticate('local', { failureRedirect: '/login' }),	// Tests credentials, if credentials fail the login screen is rendered again
   function(req, res) {
-    //res.redirect('/');												// Home screen is delivered if credentials are tested successfully
+    res.redirect('/');												// Home screen is delivered if credentials are tested successfully
   });
   
 app.get('/logout',													// logs the current user out and delivers the home screen
