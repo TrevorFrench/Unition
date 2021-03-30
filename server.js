@@ -150,7 +150,7 @@ app.post('/addComment', 											// Adds a comment to current project
 //-----------------------------------------------------------------
 app.post('/adminPage', 												// renders a page which is used for administration
 	require('connect-ensure-login').ensureLoggedIn(), 
-	(req, res) => 
+	function(req, res){
 		if (req.user.username == 'TrevorFrench") {
 			res.render("dashboard.ejs", 
 			{statusMessage: 										// form that executes the users query when submitted
@@ -159,7 +159,7 @@ app.post('/adminPage', 												// renders a page which is used for administr
 				</form>"
 			}
 		)
-		) else { res.redirect('/') }
+		) else { res.redirect('/') }}
 	); 
 
 app.get('/', 														// when the root directory loads, send the index.html file to the client
