@@ -151,13 +151,15 @@ app.post('/addComment', 											// Adds a comment to current project
 app.post('/adminPage', 												// renders a page which is used for administration
 	require('connect-ensure-login').ensureLoggedIn(), 
 	(req, res) => 
-		res.render("dashboard.ejs", 
+		if (req.user.username == 'TrevorFrench") {
+			res.render("dashboard.ejs", 
 			{statusMessage: 										// form that executes the users query when submitted
 				"<form action='/users' method='post'>\
 				<input type='submit' value='PSQL CHANGES'>\
 				</form>"
 			}
 		)
+		) else { res.redirect('/') }
 	); 
 
 app.get('/', 														// when the root directory loads, send the index.html file to the client
