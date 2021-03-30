@@ -190,14 +190,14 @@ app.get('/profile',													// renders the 'profile' for the current user
     res.render('profile', { user: req.user });
   });
   
-app.get('/projects',													// renders the 'profile' for the current user
+app.get('/projects',												// renders the 'profile' for the current user
   require('connect-ensure-login').ensureLoggedIn(),
   function(req, res){
     res.render("dashboard.ejs", {statusMessage:
-	"<a href='./openProjects'>Open Projects</a>\
-	<a href='./inprocessProjects'>In-Process Projects</a>\
-	<a href='./allProjects'>All Projects</a>\
-	<a href='./myProjects'>My Projects</a>"
+	"<form action='/openProjects' method='post'><button type='submit' name='openprojects' value='openprojects' class='btn-link'>Open Projects</button></form>\
+	<form action='/inprocessProjects' method='post'><button type='submit' name='inprocessprojects' value='inprocessprojects' class='btn-link'>In-Process Projects</button></form>\
+	<form action='/allProjects' method='post'><button type='submit' name='allprojects' value='allprojects' class='btn-link'>All Projects</button></form>\
+	<form action='/myProjects' method='post'><button type='submit' name='myprojects' value='myprojects' class='btn-link'>My Projects</button></form>"
 	})
   });
   
