@@ -6,21 +6,6 @@
 		<link rel="shortcut icon" type="image/png" href="./public/favicon.ico">
 		<link href="public/styles/style.css" rel="stylesheet" type="text/css">
 		<script type="text/javascript">
-			function submitform()
-			{
-			document.forms["myform"].submit();
-			}
-			
-			function submitopen()
-			{
-			document.forms["openform"].submit();
-			}
-			
-			function submitinprocess()
-			{
-			document.forms["inprocessform"].submit();
-			}
-			
 			function submitproject()
 			{
 			document.forms["projectform"].submit();
@@ -59,22 +44,11 @@
 			<div class="body">
 			  <ul>
 				<li><i class="fas fa-home icon"></i> <a href="./index.html">Home</a></li>
-				<li><i class="fas fa-underline icon"></i> Projects
-					<ul>
-						<li><i class="fas fa-pencil-alt icon"></i> <form id="openform" action="/openProjects" method="post"><a href="javascript: submitopen()">Open Projects</a></form></li>
-						<li><i class="fas fa-pencil-alt icon"></i> <form id="inprocessform" action="/inprocessProjects" method="post"><a href="javascript: submitinprocess()">In-Process Projects</a></form></li>
-						<li><i class="fas fa-paper-plane icon"></i> <form id="myform" action="/allProjects" method="post"><a href="javascript: submitform()">All Projects</a></form></li>
-				  </ul>
-				</li>
+				<li><i class="fas fa-underline icon"></i> <a href='./projects'>Projects</a></li>
 				
 				<li><i class="fas fa-boxes icon"></i><form id="loadAdmin" action="/adminPage" method="post"><a href="javascript: loadAdmin()">Admin</a></form></li>
 				<li><i class="fas fa-table icon"></i> Tables</li>
-				<li><i class="fab fa-wpforms icon"></i> Forms
-				  <ul>
-					<li><i class="fas fa-pencil-alt icon"></i> First form</li>
-					<li><i class="fas fa-paper-plane icon"></i> Second form</li>
-				  </ul>
-				</li>
+				<li><i class="fab fa-wpforms icon"></i> Forms</li>
 				<li><i class="fas fa-chart-pie icon"></i> <form id="opencharts" action="/openCharts" method="post"><a href="javascript: submitcharts()">Charts</a></form></li>
 			  </ul>
 			</div>
