@@ -190,7 +190,7 @@ app.get('/profile',													// renders the 'profile' for the current user
     res.render('profile', { user: req.user });
   });
   
-app.get('/projects',												// renders the 'profile' for the current user
+app.get('/projects',												// renders the 'projects' view
   require('connect-ensure-login').ensureLoggedIn(),
   function(req, res){
     res.render("dashboard.ejs", {statusMessage:
@@ -200,6 +200,17 @@ app.get('/projects',												// renders the 'profile' for the current user
 	<tr><td><form action='/inprocessProjects' method='post'><input type='submit' name='inprocessprojects' value='In-Process Projects' class='projectTitle'></form></td><td>Returns a list of all in-process projects.</td></tr>\
 	<tr><td><form action='/allProjects' method='post'><input type='submit' name='allprojects' value='All Projects' class='projectTitle'></form></td><td>Returns a complete list of all projects.</td></tr>\
 	<tr><td><form action='/myProjects' method='post'><input type='submit' name='myprojects' value='My Projects' class='projectTitle'></form></td><td>Returns all 'open' and 'in-process' projects for which the current user is responsible.</td></tr>\
+	</tbody></table>"
+	})
+  });
+  
+app.get('/forms',												    // renders the 'forms' view
+  require('connect-ensure-login').ensureLoggedIn(),
+  function(req, res){
+    res.render("dashboard.ejs", {statusMessage:
+	"<table class='styled-table'><tbody>\
+	<tr><th>FORM LIST</th><th>Description</th>\
+	<tr><td><form action='/createProject' method='post'><input type='submit' name='createProject' value='Project Creation Form' class='projectTitle'></form></td><td>Delivers the default project creation form.</td></tr>\
 	</tbody></table>"
 	})
   });
