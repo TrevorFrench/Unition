@@ -190,6 +190,12 @@ app.get('/profile',													// renders the 'profile' for the current user
     res.render('profile', { user: req.user });
   });
   
+app.get('/projects',													// renders the 'profile' for the current user
+  require('connect-ensure-login').ensureLoggedIn(),
+  function(req, res){
+    res.render("dashboard.ejs", {statusMessage: "<a href=#></a>"})
+  });
+  
 app.get('/Excel', 													// select every project that has been created for Excel scraping
 	db2.selectExcel
 	)
