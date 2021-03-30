@@ -159,7 +159,7 @@ app.post('/adminPage', 												// renders a page which is used for administr
 				</form>"
 			}
 		)
-		) else { res.redirect('/') }}
+		} else { res.redirect('/') }}
 	); 
 
 app.get('/', 														// when the root directory loads, send the index.html file to the client
