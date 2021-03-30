@@ -215,6 +215,20 @@ app.get('/forms',												    // renders the 'forms' view
 	})
   });
   
+app.get('/tables',												// renders the 'tables' view
+  require('connect-ensure-login').ensureLoggedIn(),
+  function(req, res){
+    res.render("dashboard.ejs", {statusMessage:
+	"<table class='styled-table'><tbody>\
+	<tr><th>TABLE LIST</th><th>Description</th>\
+	<tr><td><form action='/openProjects' method='post'><input type='submit' name='openprojects' value='Open Projects' class='projectTitle'></form></td><td>Returns a table containing all open projects.</td></tr>\
+	<tr><td><form action='/inprocessProjects' method='post'><input type='submit' name='inprocessprojects' value='In-Process Projects' class='projectTitle'></form></td><td>Returns a table containing all in-process projects.</td></tr>\
+	<tr><td><form action='/allProjects' method='post'><input type='submit' name='allprojects' value='All Projects' class='projectTitle'></form></td><td>Returns a complete table of all projects.</td></tr>\
+	<tr><td><form action='/myProjects' method='post'><input type='submit' name='myprojects' value='My Projects' class='projectTitle'></form></td><td>Returns all 'open' and 'in-process' projects for which the current user is responsible.</td></tr>\
+	</tbody></table>"
+	})
+  });
+  
 app.get('/Excel', 													// select every project that has been created for Excel scraping
 	db2.selectExcel
 	)
