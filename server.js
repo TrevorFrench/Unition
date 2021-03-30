@@ -24,6 +24,12 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - Search box for Ticket ID on home page (all pages?)                       
    - Default Responsible box to current user/ create search box
    - Comment and close option on projects
+   - Create a hidden option on projects so that sensitive projects don't show up in lists
+   - Form creation wizard
+   - Admin option to change image
+   - Create Documentation page
+   - Style user profile page
+   - Add teams and roles
 */
 
 //-----------------------------------------------------------------
@@ -212,8 +218,8 @@ app.get('/forms',												    // renders the 'forms' view
   function(req, res){
     res.render("dashboard.ejs", {statusMessage:
 	"<table class='styled-table'><tbody>\
-	<tr><th>FORM LIST</th><th>Description</th>\
-	<tr><td><form action='/createProject' method='post'><input type='submit' name='createProject' value='Project Creation Form' class='projectTitle'></form></td><td>Delivers the default project creation form.</td></tr>\
+	<tr><th>FORM LIST</th><th>Description</th><th>INTERNAL/EXTERNAL</th>\
+	<tr><td><form action='/createProject' method='post'><input type='submit' name='createProject' value='Project Creation Form' class='projectTitle'></form></td><td>Delivers the default project creation form.</td><td>Internal</td></tr>\
 	</tbody></table>"
 	})
   });
