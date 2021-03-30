@@ -194,9 +194,10 @@ app.get('/projects',													// renders the 'profile' for the current user
   require('connect-ensure-login').ensureLoggedIn(),
   function(req, res){
     res.render("dashboard.ejs", {statusMessage:
-	"<a href='./openform>Open Projects</a>\
-	<a href='./inprocessform'>In-Process Projects</a>\
-	<a href='./myform'>All Projects</a>"
+	"<a href='./openProjects'>Open Projects</a>\
+	<a href='./inprocessProjects'>In-Process Projects</a>\
+	<a href='./allProjects'>All Projects</a>\
+	<a href='./myProjects'>My Projects</a>"
 	})
   });
   
