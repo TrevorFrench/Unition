@@ -23,6 +23,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - Make admin page with an open box for SQL
    - Search box for Ticket ID on home page (all pages?)                       
    - Default Responsible box to current user/ create search box
+   - Comment and close option on projects
 */
 
 //-----------------------------------------------------------------
