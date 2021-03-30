@@ -151,7 +151,7 @@ app.post('/addComment', 											// Adds a comment to current project
 app.post('/adminPage', 												// renders a page which is used for administration
 	require('connect-ensure-login').ensureLoggedIn(), 
 	function(req, res){
-		if (req.user.username == 'TrevorFrench") {
+		if (req.user.username == "TrevorFrench") {
 			res.render("dashboard.ejs", 
 			{statusMessage: 										// form that executes the users query when submitted
 				"<form action='/users' method='post'>\
