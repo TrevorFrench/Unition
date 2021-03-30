@@ -194,10 +194,13 @@ app.get('/projects',												// renders the 'profile' for the current user
   require('connect-ensure-login').ensureLoggedIn(),
   function(req, res){
     res.render("dashboard.ejs", {statusMessage:
-	"<form action='/openProjects' method='post'><button type='submit' name='openprojects' value='openprojects' class='btn-link'>Open Projects</button></form>\
-	<form action='/inprocessProjects' method='post'><button type='submit' name='inprocessprojects' value='inprocessprojects' class='btn-link'>In-Process Projects</button></form>\
-	<form action='/allProjects' method='post'><button type='submit' name='allprojects' value='allprojects' class='btn-link'>All Projects</button></form>\
-	<form action='/myProjects' method='post'><button type='submit' name='myprojects' value='myprojects' class='btn-link'>My Projects</button></form>"
+	"<table class='styled-table'><tbody>\
+	<tr><th>PROJECT LIST</th><th>Description</th>\
+	<tr><td><form action='/openProjects' method='post'><input type='submit' name='openprojects' value='openprojects' class='projectTitle'>Open Projects</button></form></td><td>Returns a list of all open projects.</td></tr>\
+	<tr><td><form action='/inprocessProjects' method='post'><input type='submit' name='inprocessprojects' value='inprocessprojects' class='projectTitle'>In-Process Projects</button></form></td><td>Returns a list of all in-process projects.</td></tr>\
+	<tr><td><form action='/allProjects' method='post'><input type='submit' name='allprojects' value='allprojects' class='projectTitle'>All Projects</button></form></td><td>Returns a complete list of all projects.</td></tr>\
+	<tr><td><form action='/myProjects' method='post'><input type='submit' name='myprojects' value='myprojects' class='projectTitle'>My Projects</button></form></td><td>Returns all 'open' and 'in-process' projects for which the current user is responsible.</td></tr>\
+	</tbody></table>"
 	})
   });
   
