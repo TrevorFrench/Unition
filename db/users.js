@@ -54,7 +54,7 @@ exports.createProject2 = function(req, res) {
     }
     console.log(results.rows)
 	
-	let categoryVar = "<input type='select' name='category' id='category' style='width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;' pattern=[^'\x22]+>"
+	let categoryVar = "<select name='category' id='category' style='width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;' pattern=[^'\x22]+>"
 	
 	results.rows.forEach(element => categoryVar += "<option>" + element.category + "</option>");
 	categoryVar += '</select>';
