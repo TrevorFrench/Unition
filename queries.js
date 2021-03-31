@@ -94,7 +94,7 @@ const addCategory = (request, response) => {
     if (error) {
       throw error
     }
-    response.status(200).send(`Category Inserted')
+    response.status(200).send('Category Inserted')
   })
 }
 
