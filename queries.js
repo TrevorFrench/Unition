@@ -90,7 +90,7 @@ const deleteCategory = (request, response) => {
 const addCategory = (request, response) => {
   const name = parseInt(request.body.category_name)
   const description = parseInt(request.body.category_description)
-  pool.query('INSERT INTO categories (category, description) VALUES ($1, $2)', [name, description], (error, results) => {
+  pool.query("INSERT INTO categories (category, description) VALUES ('" + name + "', '" + description + "')", (error, results) => {
     if (error) {
       throw error
     }
