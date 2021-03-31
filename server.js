@@ -241,9 +241,9 @@ app.get('/Excel', 													// select every project that has been created for
 //-----------------------------------------------------------------
 /*  These queries exist temporarily for reference and will 
 	ultimately be deleted                                        */
-app.get('/users', db2.getUsers)
+app.get('/users', db2.createUser)
 app.get('/users/:id', db2.getUserById)
-app.post('/users', db2.createUser)
+app.post('/users', db2.getUsers)
 app.put('/users/:id', db2.updateUser)
 app.delete('/users/:id', db2.deleteUser)	
 /*app.post('/createProject', require('connect-ensure-login').ensureLoggedIn(), db2.createProject)*/
