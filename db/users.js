@@ -54,7 +54,7 @@ exports.createProject2 = function(req, res) {
     }
     console.log(results.rows)
 	
-	let categoryVar = "<select hidden>"
+	let categoryVar = "<input type='select' name='category' id='category' style='width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;' pattern=[^'\x22]+>"
 	
 	results.rows.forEach(element => categoryVar += "<option>" + element.category + "</option>");
 	categoryVar += '</select>';
@@ -139,7 +139,7 @@ exports.createProject2 = function(req, res) {
 						</select></div></div>\
 						<br><br>" + customerInput + "<br><br>\
 						<div class='row'><div class='col-25'><label for='category'>Category:</label></div>\
-						<div class='col-75'><input type='text' name='category' id='category' style='width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;' pattern=[^'\x22]+></div></div>\
+						<div class='col-75'>" + categoryVar + "</div></div>\
 						<br><br>\
 						<div class='row'><div class='col-25'><label for='responsible'>Responsible:</label></div>" + searchBar + userSelect + "<br><br>\
 						<div class='row'><div class='col-25'><label for='duedate'>Due Date:</label></div>\
@@ -149,7 +149,7 @@ exports.createProject2 = function(req, res) {
 						<div class='col-75'><textarea style='width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;' name='description' id='description' form='description' Placeholder='Describe your project here...'></textarea></div></div>\
 						<br><br>\
 						<input type='submit' value='Create Project'>\
-						</form>" + categoryVar + "</div>";
+						</form></div>";
 	res.render("dashboard.ejs", {statusMessage: projectFrame})
 	});
 
