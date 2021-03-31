@@ -99,7 +99,7 @@ const addCategory = (request, response) => {
     if (error) {
       throw error
     }
-    response.status(200).send('Category Inserted')
+    deliverTables(request, response)
   })
 }
 
