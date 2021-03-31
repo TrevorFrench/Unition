@@ -81,7 +81,7 @@ const deleteCategory = (request, response) => {
     if (error) {
       throw error
     }
-    deliverTables()
+    deliverTables(request, response)
   })
 }
 
