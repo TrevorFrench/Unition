@@ -81,7 +81,7 @@ const deleteCategory = (request, response) => {
     if (error) {
       throw error
     }
-    response.render('/tables')
+    response.status(200).send(`Category deleted with ID: ${category_id}`)
   })
 }
 
@@ -89,8 +89,8 @@ const deleteCategory = (request, response) => {
 //----------------------------ADDS SPECIFIED CATEGORY---------------------------
 //------------------------------------------------------------------------------
 const addCategory = (request, response) => {
-  const name = parseInt(request.body.category_name)
-  const description = parseInt(request.body.category_description)
+  const name = request.body.category_name
+  const description = request.body.category_description
   pool.query("INSERT INTO categories (category, description) VALUES ('" + name + "', '" + description + "')", (error, results) => {
     if (error) {
       throw error
