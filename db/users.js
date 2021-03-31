@@ -48,7 +48,7 @@ exports.createProject2 = function(req, res) {
     if (error) {
       throw error
     }
-    response.status(200).json(results.rows)
+    console.log(results.rows)
 	
 	process.nextTick(function() {
     var userSelect= "<div class='col-75'><select id='responsible' name='responsible' style='width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;'>";
