@@ -59,7 +59,7 @@ exports.createProject2 = function(req, res) {
 	results.rows.forEach(element => categoryVar += "<option>" + element.category + "</option>");
 	categoryVar += '</select>';
 	
-    var userSelect= "<div class='col-75'><select id='responsible' name='responsible' style='width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;'>";
+    var userSelect= "<select id='responsible' name='responsible' style='padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;'>";
 	for (var i = 0, len = records.length; i < len; i++) {
       var record = records[i];
       userSelect += "<option value='" + record.displayName + "'>" + "<a href='#'>" + record.displayName + "</a></option>";
@@ -124,7 +124,7 @@ exports.createProject2 = function(req, res) {
                     #responsible li a:hover {\
                       background-color: #eee;\
                     }"
-	var searchBar = "<input type='text' id='mySearch' onkeyup='myFunction()' placeholder='Search..' title='Type in a category'>"
+	var searchBar = "<input type='text' id='mySearch' style=' width:50%; padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;' onkeyup='myFunction()' placeholder='Search..' title='Type in a category'>"
 	var projectFrame =  javascriptvar + "<div style='width:80%; margin-left:10%; background-color:#f7f7f7; padding:10px;'\
 						<p><h2>Project Creation Form</h2><i>*Please do not use quotation marks or apostrophes in the title.</i></p>\
 						<form action='/postProject' method='post' id='description'>\
@@ -141,7 +141,7 @@ exports.createProject2 = function(req, res) {
 						<div class='row'><div class='col-25'><label for='category'>Category:</label></div>\
 						<div class='col-75'>" + categoryVar + "</div></div>\
 						<br><br>\
-						<div class='row'><div class='col-25'><label for='responsible'>Responsible:</label></div>" + searchBar + userSelect + "<br><br>\
+						<div class='row'><div class='col-25'><label for='responsible'>Responsible:</label></div><div class='col-75'>" + searchBar + userSelect + "<br><br>\
 						<div class='row'><div class='col-25'><label for='duedate'>Due Date:</label></div>\
 						<div class='col-75'><input type='date' name='duedate' id='duedate' style='width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;' pattern=[^'\x22]+></div></div>\
 						<br><br>\
