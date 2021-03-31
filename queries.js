@@ -16,7 +16,7 @@ const pool = new Pool({
 //------------------------------------------------------------------------------
 //-These queries exist temporarily for reference and will ultimately be deleted-
 const getUsers = (request, response) => {
-  pool.query('SELECT * FROM users ORDER BY id ASC', (error, results) => {
+  pool.query('CREATE TABLE CATEGORIES (category_id SERIAL, CATEGORY TEXT);', (error, results) => {
     if (error) {
       throw error
     }
@@ -182,6 +182,31 @@ const selectMyProjects = function(req, res) {
 };
 
 //------------------------------------------------------------------------------
+//---------------------------DELIVERS THE TABLES VIEW---------------------------
+//------------------------------------------------------------------------------
+const deliverTables = function(req, res) {
+  const sql = "SELECT * FROM categories";
+  pool.query(sql, (error, results) => {
+	  if (error) {
+		  throw error;
+	  }
+	  var tableText = "<table class='styled-table'><tbody>\
+	<tr><th>TABLE LIST</th><th>Description</th>\
+	<tr><td><form action='/openProjects' method='post'><input type='submit' name='openprojects' value='Open Projects' class='projectTitle'></form></td><td>Returns a table containing all open projects.</td></tr>\
+	<tr><td><form action='/inprocessProjects' method='post'><input type='submit' name='inprocessprojects' value='In-Process Projects' class='projectTitle'></form></td><td>Returns a table containing all in-process projects.</td></tr>\
+	<tr><td><form action='/allProjects' method='post'><input type='submit' name='allprojects' value='All Projects' class='projectTitle'></form></td><td>Returns a complete table of all projects.</td></tr>\
+	<tr><td><form action='/myProjects' method='post'><input type='submit' name='myprojects' value='My Projects' class='projectTitle'></form></td><td>Returns all 'open' and 'in-process' projects for which the current user is responsible.</td></tr>\
+	</tbody></table>\
+	<table class='styled-table'><tbody>\
+	<tr><th>Category</th><th>Description</th></tr>\
+	";
+	  results.rows.forEach(element => tableText += "<tr><td>" + element.category + "</td><td>DELETE (NOT WORKING YET)</td></tr>");
+	tableText += '</tbody></table>';
+	res.render("dashboard.ejs", {statusMessage: tableText})
+})
+};
+
+//------------------------------------------------------------------------------
 //-------------------------------GETS PROJECT BY ID-----------------------------
 //------------------------------------------------------------------------------
 const getProject = (request, response) => {
@@ -325,5 +350,6 @@ module.exports = {
   selectMyProjects,
   plusComment,
   selectCharts,
-  selectExcel
+  selectExcel,
+  deliverTables
 }
