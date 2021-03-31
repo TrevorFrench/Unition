@@ -231,7 +231,17 @@ app.get('/tables',												    // renders the 'tables' view
   require('connect-ensure-login').ensureLoggedIn(),
   db2.deliverTables
 );
-  
+
+app.post('/deleteCategory',											// deletes the selected category
+  require('connect-ensure-login').ensureLoggedIn(),
+  db2.deleteCategory
+);
+
+app.post('/addCategory',											// adds the specified category
+  require('connect-ensure-login').ensureLoggedIn(),
+  db2.addCategory
+);
+
 app.get('/Excel', 													// select every project that has been created for Excel scraping
 	db2.selectExcel
 	)

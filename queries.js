@@ -70,15 +70,31 @@ const updateUser = (request, response) => {
     }
   )
 }
+//------------------------------------------------------------------------------
+//---------------------------DELETES SELECTED CATEGORY--------------------------
+//------------------------------------------------------------------------------
+const deleteCategory = (request, response) => {
+  const category_id = parseInt(request.body.category_id)
 
-const deleteUser = (request, response) => {
-  const id = parseInt(request.params.id)
-
-  pool.query('DELETE FROM users WHERE id = $1', [id], (error, results) => {
+  pool.query('DELETE FROM categories WHERE category_id = $1', [category_id], (error, results) => {
     if (error) {
       throw error
     }
-    response.status(200).send(`User deleted with ID: ${id}`)
+    response.status(200).send(`User deleted with ID: ${category_id}`)
+  })
+}
+
+//------------------------------------------------------------------------------
+//----------------------------ADDS SPECIFIED CATEGORY---------------------------
+//------------------------------------------------------------------------------
+const addCategory = (request, response) => {
+  const name = parseInt(request.body.category_name)
+  const description = parseInt(request.body.category_description)
+  pool.query('INSERT INTO categories (category, description) VALUES ($1, $2)', [name, description], (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(200).send(`User deleted with ID: ${category_id}`)
   })
 }
 
@@ -210,7 +226,7 @@ const deliverTables = function(req, res) {
 	<table class='styled-table'><tbody>\
 	<tr><th>Category</th><th>Description</th><th>Action</th></tr>\
 	";
-	  results.rows.forEach(element => tableText += "<tr><td>" + element.category + "</td><td>This is a test category.</td></td><td>DELETE (NOT WORKING YET)</td></tr><tr><td><form><input type='text'></td><td><input type='text'></td><td><input type='submit'></td></tr>");
+	  results.rows.forEach(element => tableText += "<tr><td>" + element.category + "</td><td>" + element.description + "</td></td><td><form action='/deleteCategory' method='post'><input type='text' id='category_id' value='" + element.category_id + "' hidden><input type='submit' name='deletecategory' value='DELETE' class='projectTitle'></form></td></tr><tr><td><form action='/addCategory' method='POST'><input type='text' name='category_name' id='category_name'></td><td><input type='text' name='category_description' id='category_description'></td><td><input type='submit'></td></tr>");
 	tableText += '</tbody></table>';
 	res.render("dashboard.ejs", {statusMessage: tableText})
 })
