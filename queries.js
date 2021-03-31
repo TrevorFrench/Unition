@@ -226,8 +226,8 @@ const deliverTables = function(req, res) {
 	<table class='styled-table'><tbody>\
 	<tr><th>Category</th><th>Description</th><th>Action</th></tr>\
 	";
-	  results.rows.forEach(element => tableText += "<tr><td>" + element.category + "</td><td>" + element.description + "</td></td><td><form action='/deleteCategory' method='post'><input type='text' id='category_id' value='" + element.category_id + "' hidden><input type='submit' name='deletecategory' value='DELETE' class='projectTitle'></form></td></tr><tr><td><form action='/addCategory' method='POST'><input type='text' name='category_name' id='category_name'></td><td><input type='text' name='category_description' id='category_description'></td><td><input type='submit'></td></tr>");
-	tableText += '</tbody></table>';
+	  results.rows.forEach(element => tableText += "<tr><td>" + element.category + "</td><td>" + element.description + "</td></td><td><form action='/deleteCategory' method='post'><input type='text' id='category_id' value='" + element.category_id + "' hidden><input type='submit' name='deletecategory' value='DELETE' class='projectTitle'></form></td></tr>");
+	tableText += "<tr><td><form action='/addCategory' method='POST'><input type='text' name='category_name' id='category_name'></td><td><input type='text' name='category_description' id='category_description'></td><td><input type='submit'></td></tr></tbody></table>";
 	res.render("dashboard.ejs", {statusMessage: tableText})
 })
 };
