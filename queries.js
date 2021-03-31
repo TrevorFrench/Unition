@@ -75,7 +75,7 @@ const updateUser = (request, response) => {
 //------------------------------------------------------------------------------
 const deleteCategory = (request, response) => {
   const category_id = parseInt(request.body.category_id)
-
+  console.log(category_id)
   pool.query('DELETE FROM categories WHERE category_id = $1', [category_id], (error, results) => {
     if (error) {
       throw error
