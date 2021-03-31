@@ -94,7 +94,7 @@ const addCategory = (request, response) => {
     if (error) {
       throw error
     }
-    response.status(200).send(`User deleted with ID: ${category_id}`)
+    response.status(200).send(`Category Inserted')
   })
 }
 
