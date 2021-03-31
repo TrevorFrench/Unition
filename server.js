@@ -227,7 +227,7 @@ app.get('/forms',												    // renders the 'forms' view
 	})
   });
   
-app.get('/tables',												// renders the 'tables' view
+app.get('/tables',												    // renders the 'tables' view
   require('connect-ensure-login').ensureLoggedIn(),
   db2.deliverTables
 );

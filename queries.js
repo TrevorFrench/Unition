@@ -24,10 +24,19 @@ const getUsers = (request, response) => {
   })
 }
 
+const selectCategories = (request, response) => {
+  pool.query("SELECT * FROM CATEGORIES", (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
 const getUserById = (request, response) => {
   const id = parseInt(request.params.id)
 
-  pool.query('SELECT * FROM users WHERE id = $1', [id], (error, results) => {
+  pool.query('SELECT * FROM c', [id], (error, results) => {
     if (error) {
       throw error
     }
@@ -197,6 +206,7 @@ const deliverTables = function(req, res) {
 	<tr><td><form action='/allProjects' method='post'><input type='submit' name='allprojects' value='All Projects' class='projectTitle'></form></td><td>Returns a complete table of all projects.</td></tr>\
 	<tr><td><form action='/myProjects' method='post'><input type='submit' name='myprojects' value='My Projects' class='projectTitle'></form></td><td>Returns all 'open' and 'in-process' projects for which the current user is responsible.</td></tr>\
 	</tbody></table>\
+	<br>\
 	<table class='styled-table'><tbody>\
 	<tr><th>Category</th><th>Description</th></tr>\
 	";
@@ -351,5 +361,6 @@ module.exports = {
   plusComment,
   selectCharts,
   selectExcel,
-  deliverTables
+  deliverTables,
+  selectCategories
 }

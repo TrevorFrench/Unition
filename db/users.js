@@ -1,3 +1,16 @@
+//------------------------------------------------------------------------------
+//---------------------------INITIALIZE DB CONNECTION---------------------------
+//------------------------------------------------------------------------------
+const Pool = require('pg').Pool
+const pool = new Pool({
+  user: 'xdlepbswgkuwsn',
+  host: 'ec2-54-236-146-234.compute-1.amazonaws.com',
+  database: 'd216rqdgnn6371',
+  password: '43fc7fd35e724f6a212661eb4fd3ae514003079f9d3a56a56b2d96eb959dbaeb',
+  port: 5432,
+  ssl: true,
+})
+
 var records = [
     { id: 1, username: 'jack', password: 'secret', displayName: 'Jack', emails: [ { value: 'jack@example.com' } ] }
   , { id: 2, username: 'jill', password: 'birthday', displayName: 'Jill', emails: [ { value: 'jill@example.com' } ] }
@@ -31,6 +44,12 @@ exports.findByUsername = function(username, cb) {
 //----------------------DELIVERS THE PROJECT CREATION FORM ---------------------
 //------------------------------------------------------------------------------
 exports.createProject2 = function(req, res) {
+	pool.query("SELECT * FROM CATEGORIES", (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(200).json(results.rows)
+	
 	process.nextTick(function() {
     var userSelect= "<div class='col-75'><select id='responsible' name='responsible' style='width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;'>";
 	for (var i = 0, len = records.length; i < len; i++) {
@@ -126,4 +145,8 @@ exports.createProject2 = function(req, res) {
 						</div>";
 	res.render("dashboard.ejs", {statusMessage: projectFrame})
 	});
+
+
+})
+
 }
