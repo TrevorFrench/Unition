@@ -89,8 +89,12 @@ const deleteCategory = (request, response) => {
 //----------------------------ADDS SPECIFIED CATEGORY---------------------------
 //------------------------------------------------------------------------------
 const addCategory = (request, response) => {
-  const name = request.body.category_name
-  const description = request.body.category_description
+  const namestring = request.body.category_name
+  var name2 = namestring.replace(/'/gi,"''");
+  var name = name2.replace(/\"/gi,"''");
+  const descriptionstring = request.body.category_description
+  var description2 = descriptionstring.replace(/'/gi,"''");
+  var description = description2.replace(/\"/gi,"''");
   pool.query("INSERT INTO categories (category, description) VALUES ('" + name + "', '" + description + "')", (error, results) => {
     if (error) {
       throw error
