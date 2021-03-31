@@ -365,7 +365,6 @@ module.exports = {
   getUserById,
   createUser,
   updateUser,
-  deleteUser,
   selectAll,
   selectOpen,
   getProject,
@@ -378,5 +377,7 @@ module.exports = {
   selectCharts,
   selectExcel,
   deliverTables,
-  selectCategories
+  selectCategories,
+  addCategory,
+  deleteCategory
 }
