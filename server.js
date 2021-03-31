@@ -33,7 +33,6 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - Style projects
    - Style login
    - Style comments
-   - Form control on the category input
 */
 
 //-----------------------------------------------------------------

@@ -81,7 +81,7 @@ const deleteCategory = (request, response) => {
     if (error) {
       throw error
     }
-    response.status(200).send(`Category deleted with ID: ${category_id}`)
+    deliverTables
   })
 }
 
