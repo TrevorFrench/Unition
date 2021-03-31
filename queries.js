@@ -210,7 +210,7 @@ const deliverTables = function(req, res) {
 	<table class='styled-table'><tbody>\
 	<tr><th>Category</th><th>Description</th><th>Action</th></tr>\
 	";
-	  results.rows.forEach(element => tableText += "<tr><td>" + element.category + "</td><td>This is a test category.</td></tr></td><td>DELETE (NOT WORKING YET)</td></tr><tr><td><form><input type='text'></td><td><input type='text'></td><td><input type='submit'></td></tr>");
+	  results.rows.forEach(element => tableText += "<tr><td>" + element.category + "</td><td>This is a test category.</td></td><td>DELETE (NOT WORKING YET)</td></tr><tr><td><form><input type='text'></td><td><input type='text'></td><td><input type='submit'></td></tr>");
 	tableText += '</tbody></table>';
 	res.render("dashboard.ejs", {statusMessage: tableText})
 })
