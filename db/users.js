@@ -44,13 +44,21 @@ exports.findByUsername = function(username, cb) {
 //----------------------DELIVERS THE PROJECT CREATION FORM ---------------------
 //------------------------------------------------------------------------------
 exports.createProject2 = function(req, res) {
+
+	
+	process.nextTick(function() {
+		
 	pool.query("SELECT * FROM CATEGORIES", (error, results) => {
     if (error) {
       throw error
     }
     console.log(results.rows)
 	
-	process.nextTick(function() {
+	let categoryVar = "<select hidden>"
+	
+	results.rows.forEach(element => categoryVar += "<option>" + element.category + "</option>");
+	categoryVar += '</select>';
+	
     var userSelect= "<div class='col-75'><select id='responsible' name='responsible' style='width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;'>";
 	for (var i = 0, len = records.length; i < len; i++) {
       var record = records[i];
@@ -141,8 +149,7 @@ exports.createProject2 = function(req, res) {
 						<div class='col-75'><textarea style='width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;' name='description' id='description' form='description' Placeholder='Describe your project here...'></textarea></div></div>\
 						<br><br>\
 						<input type='submit' value='Create Project'>\
-						</form>\
-						</div>";
+						</form>" + categoryVar + "</div>";
 	res.render("dashboard.ejs", {statusMessage: projectFrame})
 	});
 
