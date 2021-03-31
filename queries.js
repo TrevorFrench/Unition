@@ -283,10 +283,12 @@ const createProject = (request, response) => {
 //-----------------------------CREATES NEW PROJECT------------------------------
 //------------------------------------------------------------------------------
 const postProject = (request, response) => {
-	const title = request.body.title
+	const titlestring = request.body.title
 	const descriptionstring = request.body.description
 	var description2 = descriptionstring.replace(/'/gi,"''");
 	var description = description2.replace(/\"/gi,"''");
+	var title2 = titlestring.replace(/'/gi,"''");
+	var title = title2.replace(/\"/gi,"''");
 	const statusSQL = request.body.statusSQL
 	const responsible = request.body.responsible
 	const duedate = request.body.duedate
