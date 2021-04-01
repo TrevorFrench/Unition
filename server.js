@@ -222,7 +222,10 @@ app.get('/forms',												    // renders the 'forms' view
     res.render("dashboard.ejs", {statusMessage:
 	"<table class='styled-table'><tbody>\
 	<tr><th>FORM LIST</th><th>Description</th><th>INTERNAL/EXTERNAL</th>\
-	<tr><td><form action='/createProject' method='post'><input type='submit' name='createProject' value='Project Creation Form' class='projectTitle'></form></td><td>Delivers the default project creation form.</td><td>Internal</td></tr>\
+	<tr><td><form action='/createProject' method='post'>\
+	<input type='submit' name='createProject' value='Project Creation Form' class='projectTitle'>\
+	</form></td><td>Delivers the default project creation form.</td>\
+	<td>Internal</td></tr>\
 	</tbody></table>"
 	})
   });
