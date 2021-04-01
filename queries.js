@@ -16,7 +16,7 @@ const pool = new Pool({
 //------------------------------------------------------------------------------
 //-These queries exist temporarily for reference and will ultimately be deleted-
 const getUsers = (request, response) => {
-  pool.query("", (error, results) => {
+  pool.query("ALTER TABLE categories ADD COLUMN team_id INT", (error, results) => {
     if (error) {
       throw error
     }
