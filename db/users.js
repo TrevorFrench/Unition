@@ -11,26 +11,39 @@ const pool = new Pool({
   ssl: true,
 })
 
-var records = [
-    { id: 1, username: 'jack', password: 'secret', displayName: 'Jack', team: 2, emails: [ { value: 'jack@example.com' } ] }
-  , { id: 2, username: 'jill', password: 'birthday', displayName: 'Jill', team: 2, emails: [ { value: 'jill@example.com' } ] }
-  , { id: 3, username: 'TrevorFrench', password: 'swirecc', displayName: 'Trevor French', team: 1, emails: [ { value: 'tfrench@swirecc.com' } ] }
+var records2 = [
+    { id: 1, username: 'jack', password: 'secret', displayname: 'Jack', team: 2, emails: [ { value: 'jack@example.com' } ] }
+  , { id: 2, username: 'jill', password: 'birthday', displayname: 'Jill', team: 2, emails: [ { value: 'jill@example.com' } ] }
+  , { id: 3, username: 'TrevorFrench', password: 'swirecc', displayname: 'Trevor French', team: 1, emails: [ { value: 'tfrench@swirecc.com' } ] }
 ];
 
 exports.findById = function(id, cb) {
+  pool.query("SELECT * FROM users;", (error, results) => {
+    if (error) {
+      throw error
+    }
+	console.log(results.rows)
+	var records = results.rows
   process.nextTick(function() {
-    var idx = id - 1;
+	var idx = id - 1;
     if (records[idx]) {
       cb(null, records[idx]);
     } else {
       cb(new Error('User ' + id + ' does not exist'));
     }
   });
+  })/*delete these two*/
 }
 
 exports.findByUsername = function(username, cb) {
+        pool.query("SELECT * FROM users;", (error, results) => {
+    if (error) {
+      throw error
+    }
+	console.log(results.rows)
+	var records = results.rows
   process.nextTick(function() {
-    for (var i = 0, len = records.length; i < len; i++) {
+	for (var i = 0, len = records.length; i < len; i++) {
       var record = records[i];
       if (record.username === username) {
         return cb(null, record);
@@ -38,13 +51,19 @@ exports.findByUsername = function(username, cb) {
     }
     return cb(null, null);
   });
+    })/*delete these two*/
 }
 
 //------------------------------------------------------------------------------
 //----------------------DELIVERS THE PROJECT CREATION FORM ---------------------
 //------------------------------------------------------------------------------
 exports.createProject2 = function(req, res) {
-
+       pool.query("SELECT * FROM users;", (error, results) => {
+    if (error) {
+      throw error
+    }
+	console.log(results.rows)
+	var records = results.rows
 	
 	process.nextTick(function() {
 	const team_id = req.user.team
@@ -53,7 +72,6 @@ exports.createProject2 = function(req, res) {
     if (error) {
       throw error
     }
-    console.log(results.rows)
 	
 	let categoryVar = "<select name='category' id='category' style='width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;' pattern=[^'\x22]+>"
 	
@@ -63,7 +81,7 @@ exports.createProject2 = function(req, res) {
     var userSelect= "<select id='responsible' name='responsible' style='padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;'>";
 	for (var i = 0, len = records.length; i < len; i++) {
       var record = records[i];
-      userSelect += "<option value='" + record.displayName + "'>" + "<a href='#'>" + record.displayName + "</a></option>";
+      userSelect += "<option value='" + record.displayname + "'>" + "<a href='#'>" + record.displayname + "</a></option>";
 
     }
 	userSelect += "</select></div></div>";
@@ -156,7 +174,7 @@ exports.createProject2 = function(req, res) {
 
 
 })
-
+    })/*delete these two*/
 }
 
 //------------------------------------------------------------------------------
@@ -172,7 +190,7 @@ exports.postProject = (request, response) => {
 	const statusSQL = request.body.statusSQL
 	const responsible = request.body.responsible
 	const duedate = request.body.duedate
-	const user = request.user.displayName;
+	const user = request.user.displayname;
 	const customer = request.body.customer;
 	const category = request.body.category;
 	console.log("DESCRIPTION STRING: " + descriptionstring)

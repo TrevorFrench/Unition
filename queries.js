@@ -16,7 +16,7 @@ const pool = new Pool({
 //------------------------------------------------------------------------------
 //-These queries exist temporarily for reference and will ultimately be deleted-
 const getUsers = (request, response) => {
-  pool.query("ALTER TABLE categories ADD COLUMN team_id INT", (error, results) => {
+  pool.query("INSERT INTO users (displayname, emails, password, team, username) VALUES ('jack', 'jack@example.com', 'secret', 2, 'Jack')", (error, results) => {
     if (error) {
       throw error
     }
@@ -198,7 +198,7 @@ const selectInprocess = function(req, res) {
 //---------------SELECTS IN-PROCESS & OPEN PROJECTS (MY PROJECTS)---------------
 //------------------------------------------------------------------------------
 const selectMyProjects = function(req, res) {
-	const user = req.user.displayName;
+	const user = req.user.displayname;
 	console.log("USER: " + user);
   const sql = "SELECT project_id, title, status, responsible, TO_CHAR(duedate, 'MM/DD/YYYY') AS duedate, description FROM projects WHERE (status = 'In-process' AND responsible = '" + user + "') OR (status = 'Open' AND responsible = '" + user + "') ORDER BY project_id ASC";
   pool.query(sql, (error, results) => {
@@ -294,7 +294,7 @@ const plusComment = (request, response) => {
 	const descriptionstring = request.body.commentDescription
 	var description2 = descriptionstring.replace(/'/gi,"''");
 	var description = description2.replace(/\"/gi,"''");
-	const user = request.user.displayName;
+	const user = request.user.displayname;
 	const project_id = request.body.project_id
 	console.log("DESCRIPTION STRING: " + descriptionstring)
 	console.log("DESCRIPTION 2: " + description2)
