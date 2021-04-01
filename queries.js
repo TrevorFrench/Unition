@@ -95,7 +95,8 @@ const addCategory = (request, response) => {
   const descriptionstring = request.body.category_description
   var description2 = descriptionstring.replace(/'/gi,"''");
   var description = description2.replace(/\"/gi,"''");
-  pool.query("INSERT INTO categories (category, description) VALUES ('" + name + "', '" + description + "')", (error, results) => {
+  const team = request.body.team_id
+  pool.query("INSERT INTO categories (category, description, team_id) VALUES ('" + name + "', '" + description + "', '" + team + "')", (error, results) => {
     if (error) {
       throw error
     }
@@ -227,6 +228,7 @@ const deliverTables = function(req, res) {
 //------------------------------------------------------------------------------
 const deliverCategories = function(req, res) {
   const sql = "SELECT * FROM categories";
+  const team_id = req.user.team;
   pool.query(sql, (error, results) => {
 	  if (error) {
 		  throw error;
@@ -234,7 +236,7 @@ const deliverCategories = function(req, res) {
 	  var tableText = "	<table class='styled-table'><tbody>\
 	<tr><th>Category</th><th>Description</th><th>Action</th></tr>";
 	  results.rows.forEach(element => tableText += "<tr><td>" + element.category + "</td><td>" + element.description + "</td></td><td><form action='/deleteCategory' method='post'><input type='text' id='category_id' name='category_id' value='" + element.category_id + "' hidden><input type='submit' name='deletecategory' value='DELETE' class='projectTitle'></form></td></tr>");
-	tableText += "<tr><td><form action='/addCategory' method='POST'><input type='text' name='category_name' id='category_name'></td><td><input type='text' name='category_description' id='category_description'></td><td><input type='submit'></td></tr></tbody></table>";
+	tableText += "<tr><td><form action='/addCategory' method='POST'><input type='text' name='category_name' id='category_name'></td><td><input type='text' name='category_description' id='category_description'><input type='text' name='team_id' id='team_id' value='" + team_id + "' hidden></td><td><input type='submit'></td></tr></tbody></table>";
 	res.render("dashboard.ejs", {statusMessage: tableText})
 })
 };
