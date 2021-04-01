@@ -33,6 +33,10 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - Style projects
    - Style login
    - Style comments
+   - Create a status table
+   - Clean up code
+   - Put all queries into users.js or vice versa?
+   - Bug where apostrophes are not escaped in values of inputs
 */
 
 //-----------------------------------------------------------------
