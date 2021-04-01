@@ -129,7 +129,7 @@ exports.createProject2 = function(req, res) {
 						<p><h2>Project Creation Form</h2><i>*Please do not use quotation marks or apostrophes in the title.</i></p>\
 						<form action='/postProject' method='post' id='description'>\
 						  <div class='row'><div class='col-25'><label for='title'>Title:</label></div>\
-						<div class='col-75'><input type='text' name='title' id='title' style='width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;'></div></div>\
+						<div class='col-75'><input type='text' name='title' id='title' style='width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;' required></div></div>\
 						<br><br>\
 						<div class='row'><div class='col-25'><label for='statusSQL'>Status:</label></div>\
 						<div class='col-75'><select id='statusSQL' name='statusSQL' style='width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;'>\
@@ -143,10 +143,10 @@ exports.createProject2 = function(req, res) {
 						<br><br>\
 						<div class='row'><div class='col-25'><label for='responsible'>Responsible:</label></div><div class='col-75'>" + searchBar + userSelect + "<br><br>\
 						<div class='row'><div class='col-25'><label for='duedate'>Due Date:</label></div>\
-						<div class='col-75'><input type='date' name='duedate' id='duedate' style='width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;' pattern=[^'\x22]+></div></div>\
+						<div class='col-75'><input type='date' name='duedate' id='duedate' style='width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;' pattern=[^'\x22]+ required></div></div>\
 						<br><br>\
 						<div class='row'><div class='col-25'><label for='description'>Description:</label></div>\
-						<div class='col-75'><textarea style='width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;' name='description' id='description' form='description' Placeholder='Describe your project here...'></textarea></div></div>\
+						<div class='col-75'><textarea style='width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;' name='description' id='description' form='description' Placeholder='Describe your project here...' required></textarea></div></div>\
 						<br><br>\
 						<input type='submit' value='Create Project'>\
 						</form></div>";
