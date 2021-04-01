@@ -1,0 +1,79 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>PRGM Projects</title>
+		<link rel="shortcut icon" type="image/png" href="./public/favicon.ico">
+		<link href="./public/styles/style.css" rel="stylesheet">
+		<script type="text/javascript">
+			function submitproject()
+			{
+			document.forms["projectform"].submit();
+			}
+			
+			function loadAdmin()
+			{
+			document.forms["loadAdmin"].submit();
+			}
+			
+			function submitcharts()
+			{
+			document.forms["opencharts"].submit();
+			}
+		</script>
+		<script defer src="./node_modules/@fortawesome/fontawesome-free/js/brands.js"></script>
+		<script defer src="./node_modules/@fortawesome/fontawesome-free/js/solid.js"></script>
+		<script defer src="./node_modules/@fortawesome/fontawesome-free/js/fontawesome.js"></script>
+
+	</head>
+	
+	<body>
+	
+	<div class="topbar">
+	<img src="./public/SwireLogo.png" alt="Swire Coca-Cola, USA Logo" width="210" height="45">
+	<a href="/profile" class="profileButton" style="display:flex; float:right;"><i class="fas fa-user" height=45></i></a>
+	</div>
+	
+	 <div class="container">
+
+		<div class="card">
+
+			<div class="header">
+			  <h3>PRGM Projects </h3>
+			</div>
+			<div class="body">
+			  <ul>
+				<li><i class="fas fa-home icon"></i> <a href="./index.html">Home</a></li>
+				<li><i class="fas fa-stream icon"></i><a href='./projects'> Projects</a></li>				
+				<li><i class="fas fa-wrench icon"></i><form id="loadAdmin" action="/adminPage" method="post"><a href="javascript: loadAdmin()">Admin</a></form></li>
+				<li><i class="fas fa-table icon"></i><a href="./tables"> Tables</a></li>
+				<li><i class="fab fa-wpforms icon"></i><a href="./forms"> Forms</a></li>
+				<li><i class="fas fa-chart-pie icon"></i> <form id="opencharts" action="/openCharts" method="post"><a href="javascript: submitcharts()">Charts</a></form></li>
+				<li><i class="fas fa-book icon"></i><a href="./documentation">Documentation</a></li>
+			  </ul>
+			</div>
+		</div>
+  
+  	<div class="main">
+	<form action="/createProject" method="post">
+				<input class="redButton" type="submit" value="Create Project">
+			</form>
+			<form action="/myProjects" method="post">
+				<input class="redButton" type="submit" value="My Projects">
+			</form>
+			<br>
+			<br>
+          <%- statusMessage %>
+		  <h3>Neaten Project Management Documentation</h3>
+		  <ul>
+			<li>Basic Usage</li>
+			<li>Administration</li>
+			<li>Excel Integration</li>
+		  </ul>
+	</div>
+
+
+</div>
+		
+	</body>
+</html

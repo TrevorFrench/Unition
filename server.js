@@ -37,6 +37,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - Clean up code
    - Put all queries into users.js or vice versa?
    - Bug where apostrophes are not escaped in values of inputs
+   - Foreign Key for Categories (does foreign key make sense if I allow users to delete categories?
 */
 
 //-----------------------------------------------------------------
@@ -219,6 +220,13 @@ app.get('/projects',												// renders the 'projects' view
 	</tbody></table>"
 	})
   });
+  
+app.get('/documentation',											// renders the 'documentation' view
+  require('connect-ensure-login').ensureLoggedIn(),
+  function(req, res){
+    res.render("documentation.ejs", {statusMessage: ""})
+  });
+  
   
 app.get('/forms',												    // renders the 'forms' view
   require('connect-ensure-login').ensureLoggedIn(),
