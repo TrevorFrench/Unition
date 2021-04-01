@@ -227,8 +227,8 @@ const deliverTables = function(req, res) {
 //-------------------------DELIVERS THE CATEGORIES VIEW-------------------------
 //------------------------------------------------------------------------------
 const deliverCategories = function(req, res) {
-  const sql = "SELECT * FROM categories";
   const team_id = req.user.team;
+  const sql = "SELECT * FROM CATEGORIES WHERE team_id =" + team_id;
   pool.query(sql, (error, results) => {
 	  if (error) {
 		  throw error;
