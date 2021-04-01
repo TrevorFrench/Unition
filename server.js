@@ -137,7 +137,7 @@ app.post('/createProject', 											// renders a form for project creation
 	
 app.post('/postProject', 											// posts project from previous form to the database
 	require('connect-ensure-login').ensureLoggedIn(), 
-	db2.postProject
+	db.users.postProject
 	)
 	
 app.post('/updateProject', 											// allows users to change attributes of a project (currently only allows status to be changed
