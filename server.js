@@ -239,6 +239,11 @@ app.get('/tables',												    // renders the 'tables' view
   db2.deliverTables
 );
 
+app.post('/categories',												// renders the 'categories' view
+  require('connect-ensure-login').ensureLoggedIn(),
+  db2.deliverCategories
+);
+
 app.post('/deleteCategory',											// deletes the selected category
   require('connect-ensure-login').ensureLoggedIn(),
   db2.deleteCategory

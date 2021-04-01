@@ -81,7 +81,7 @@ const deleteCategory = (request, response) => {
     if (error) {
       throw error
     }
-    deliverTables(request, response)
+    deliverCategories(request, response)
   })
 }
 
@@ -99,7 +99,7 @@ const addCategory = (request, response) => {
     if (error) {
       throw error
     }
-    deliverTables(request, response)
+    deliverCategories(request, response)
   })
 }
 
@@ -215,22 +215,24 @@ const selectMyProjects = function(req, res) {
 //---------------------------DELIVERS THE TABLES VIEW---------------------------
 //------------------------------------------------------------------------------
 const deliverTables = function(req, res) {
+	  var tableText = "<table class='styled-table'><tbody>\
+	<tr><th>TABLE LIST</th><th>Description</th>\
+	<tr><td><form action='/categories' method='post'><input type='submit' name='delivercategories' value='Categories' class='projectTitle'></form></td><td>Returns a table containing all categories.</td></tr>\
+	</tbody></table>";
+	res.render("dashboard.ejs", {statusMessage: tableText})
+};
+
+//------------------------------------------------------------------------------
+//-------------------------DELIVERS THE CATEGORIES VIEW-------------------------
+//------------------------------------------------------------------------------
+const deliverCategories = function(req, res) {
   const sql = "SELECT * FROM categories";
   pool.query(sql, (error, results) => {
 	  if (error) {
 		  throw error;
 	  }
-	  var tableText = "<table class='styled-table'><tbody>\
-	<tr><th>TABLE LIST</th><th>Description</th>\
-	<tr><td><form action='/openProjects' method='post'><input type='submit' name='openprojects' value='Open Projects' class='projectTitle'></form></td><td>Returns a table containing all open projects.</td></tr>\
-	<tr><td><form action='/inprocessProjects' method='post'><input type='submit' name='inprocessprojects' value='In-Process Projects' class='projectTitle'></form></td><td>Returns a table containing all in-process projects.</td></tr>\
-	<tr><td><form action='/allProjects' method='post'><input type='submit' name='allprojects' value='All Projects' class='projectTitle'></form></td><td>Returns a complete table of all projects.</td></tr>\
-	<tr><td><form action='/myProjects' method='post'><input type='submit' name='myprojects' value='My Projects' class='projectTitle'></form></td><td>Returns all 'open' and 'in-process' projects for which the current user is responsible.</td></tr>\
-	</tbody></table>\
-	<br>\
-	<table class='styled-table'><tbody>\
-	<tr><th>Category</th><th>Description</th><th>Action</th></tr>\
-	";
+	  var tableText = "	<table class='styled-table'><tbody>\
+	<tr><th>Category</th><th>Description</th><th>Action</th></tr>";
 	  results.rows.forEach(element => tableText += "<tr><td>" + element.category + "</td><td>" + element.description + "</td></td><td><form action='/deleteCategory' method='post'><input type='text' id='category_id' name='category_id' value='" + element.category_id + "' hidden><input type='submit' name='deletecategory' value='DELETE' class='projectTitle'></form></td></tr>");
 	tableText += "<tr><td><form action='/addCategory' method='POST'><input type='text' name='category_name' id='category_name'></td><td><input type='text' name='category_description' id='category_description'></td><td><input type='submit'></td></tr></tbody></table>";
 	res.render("dashboard.ejs", {statusMessage: tableText})
@@ -357,5 +359,6 @@ module.exports = {
   deliverTables,
   selectCategories,
   addCategory,
-  deleteCategory
+  deleteCategory,
+  deliverCategories
 }
