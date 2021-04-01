@@ -47,8 +47,8 @@ exports.createProject2 = function(req, res) {
 
 	
 	process.nextTick(function() {
-		
-	pool.query("SELECT * FROM CATEGORIES", (error, results) => {
+	const team_id = req.body.team_id	
+	pool.query("SELECT * FROM CATEGORIES WHERE team_id =" + team_id, (error, results) => {
     if (error) {
       throw error
     }
