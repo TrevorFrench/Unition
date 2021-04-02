@@ -6,7 +6,7 @@
 }
 
 body {
-	background: #f6f5f7;
+	background: #282832;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -19,6 +19,7 @@ body {
 h1 {
 	font-weight: bold;
 	margin: 0;
+	color: white;
 }
 
 h2 {

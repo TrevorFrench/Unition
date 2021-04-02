@@ -44,7 +44,7 @@ const getUserById = (request, response) => {
   })
 }
 
-const createUser = (request, response) => {
+const createUser2 = (request, response) => {
   const { name, email } = request.body
 
   pool.query("ALTER TABLE projects ADD COLUMN category TEXT;", (error, results) => {
@@ -340,6 +340,50 @@ const selectCharts = (request, response) => {
 })
 }
 
+const deliverLogin = (request, response) => {
+	const sql = "SELECT MAX(team) from users;"
+	pool.query(sql, (error, results) => {
+	  if (error) {
+		  throw error;
+	  }
+	  var maxNumber = parseInt(results.rows[0].max) + 1
+	  console.log(maxNumber)
+	  response.render("login.ejs", {statusMessage: maxNumber})
+})
+}
+
+//------------------------------------------------------------------------------
+//----------------------------------CREATE USER---------------------------------
+//------------------------------------------------------------------------------
+const createUser = (request, response) => {
+	const usernamestring = request.body.username
+	var username2 = usernamestring.replace(/'/gi,"''");
+	var username = username2.replace(/\"/gi,"''");
+	
+	const passwordstring = request.body.password
+	var password2 = passwordstring.replace(/'/gi,"''");
+	var password = password2.replace(/\"/gi,"''");
+	
+	const displaynamestring = request.body.displayname
+	var displayname2 = displaynamestring.replace(/'/gi,"''");
+	var displayname = displayname2.replace(/\"/gi,"''");
+	
+	const emailstring = request.body.emails
+	var email2 = emailstring.replace(/'/gi,"''");
+	var email = email2.replace(/\"/gi,"''");
+	
+	var team = request.body.team_id;
+	
+	console.log("DESCRIPTION STRING: " + team)
+  pool.query("INSERT INTO users (displayname, emails, password, team, username) VALUES ('" + displayname + "', '" + email + "', '" + password + "'," + team + ", '" + username +"')", (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
+
 //------------------------------------------------------------------------------
 //--------------------------------EXPORT MODULES--------------------------------
 //------------------------------------------------------------------------------
@@ -362,5 +406,7 @@ module.exports = {
   selectCategories,
   addCategory,
   deleteCategory,
-  deliverCategories
+  deliverCategories,
+  deliverLogin,
+  createUser
 }

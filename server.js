@@ -38,6 +38,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - Put all queries into users.js or vice versa?
    - Bug where apostrophes are not escaped in values of inputs
    - Foreign Key for Categories (does foreign key make sense if I allow users to delete categories?
+   - Change posts to gets wherever it is possible
 */
 
 //-----------------------------------------------------------------
@@ -160,6 +161,10 @@ app.post('/addComment', 											// Adds a comment to current project
 	db2.plusComment
 	)
 
+app.post('/addUser', 											    // Adds a comment to current project
+	db2.createUser
+	)
+
 //-----------------------------------------------------------------
 //-----------------------------ROUTES------------------------------
 //-----------------------------------------------------------------
@@ -185,9 +190,9 @@ app.get('/', 														// when the root directory loads, send the index.html
 	);
 
 app.get('/login',													// Delivers the login screen
-  function(req, res){
-    res.render('login');
-  });
+  /*function(req, res){*/
+    /*res.render('login');*/ db2.deliverLogin
+  /*});*/)
   
 app.post('/login', 													// Posts the login credentials
   passport.authenticate('local', { failureRedirect: '/login' }),	// Tests credentials, if credentials fail the login screen is rendered again
@@ -265,13 +270,6 @@ app.post('/addCategory',											// adds the specified category
 app.get('/Excel', 													// select every project that has been created for Excel scraping
 	db2.selectExcel
 	)
-	
-app.get('/login2', 													// select every project that has been created for Excel scraping
-	(req, res) =>
-		res.sendFile(
-			path.join(__dirname, '/public/views/login.html')
-		)
-	);
 
 //-----------------------------------------------------------------
 //-------------------------GENERIC QUERIES-------------------------

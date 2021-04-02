@@ -11,11 +11,64 @@ a {
   cursor: pointer;
 }
 
+body {
+	background-color:   #282832;
+}
+
 .container{
   padding: 0;
   display: flex;
-  height: 100%;
-  margin-top: 70px;
+  height: 97%;
+  /*margin-top: 70px;*/
+  margin: 10px;
+}
+
+.topRow{
+	/*display:inline;*/
+	float:right;
+	padding: 20px 20px;
+	background-color: #32323e;
+	/*width: 86%;*/
+	/*margin-left: 14%;*/
+	border-radius: 5px;
+	box-shadow: 0 14px 28px rgb(0 0 0 / 25%);
+	width: 100%;
+}
+
+.nextRow{
+	/*display:inline;*/
+	float:right;
+	padding: 20px 20px;
+	background-color: #32323e;
+	/*width: 86%;*/
+	/*margin-left: 14%;*/
+	border-radius: 5px;
+	box-shadow: 0 14px 28px rgb(0 0 0 / 25%);
+	width: 100%;
+	color: lightslategray;
+	margin-top: 10px;
+}
+
+.dataRow{
+	/*display:inline;*/
+	float:right;
+	/*padding: 20px 20px;*/
+	background-color: #282832;
+	width: 86%;
+	/*margin-left: 14%;*/
+	/*border-radius: 5px;*/
+	/*box-shadow: 0 14px 28px rgb(0 0 0 / 25%);*/
+	width: 100%;
+}
+
+.projectCreate{
+	width:80%;
+	margin-left:10%;
+	background-color:#32323e;
+	padding:10px;
+	border-radius: 5px;
+	box-shadow: 0 14px 28px rgb(0 0 0 / 25%);
+	color: lightslategray;
 }
 
 /*--------------------------------------------*/
@@ -25,15 +78,19 @@ a {
 .card{
   width: 14%;
   height: 100%;
-  background-color: #1E2B32;
+  background-color:   #282832;
   border-radius: 10;
   overflow: auto;
-  position: fixed;
+  /*position: fixed;*/
+
 }
 
 .header{
   padding: 5px;
-  background-color: #2A3942;
+}
+
+.header h3 {
+	color: white;
 }
 
 h3{
@@ -59,7 +116,7 @@ h3{
   padding: 15px;
   margin-left: -40px;
   margin-top: 0px;
-  color: #fff;
+  color: white;
   list-style: none;
   display: block;
   border-top-right-radius: 10px 10px;
@@ -102,9 +159,11 @@ li:hover{
 	/*display:inline;*/
 	float:right;
 	padding: 20px 20px;
-	background-color: white;
-	width: 100%;
-	margin-left: 14%;
+	background-color: #282832;
+	width: 86%;
+	/*margin-left: 14%;*/
+	border-radius: 5px;
+	/*box-shadow: 0 14px 28px rgb(0 0 0 / 25%);*/
 	}
 	
 /*--------------------------------------------*/
@@ -122,6 +181,9 @@ input[type="submit"].redButton {
 	font-size: large;
 	-webkit-appearance: none;
 	-webkit-border-radius: none;
+	border-radius: 10px;
+	background: linear-gradient(to right, #ff4b2b, #ff416c);
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
 /*--------------------------------------------*/
@@ -134,11 +196,12 @@ input[type="submit"].redButton {
     font-family: sans-serif;
     min-width: 400px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+	color: lightslategray;
 }
 
 .styled-table thead tr {
-    background-color: #009879;
-    color: #ffffff;
+    background-color: #32323e;
+    color: white;
     text-align: left;
 }
 
@@ -148,15 +211,16 @@ input[type="submit"].redButton {
 }
 
 .styled-table tbody tr {
-    border-bottom: 1px solid #dddddd;
+    border-bottom: 3px solid #282832;
+	background-color: #32323e;
 }
 
 .styled-table tbody tr:nth-of-type(even) {
-    background-color: #f3f3f3;
+    background-color: #32323e;
 }
 
 .styled-table tbody tr:last-of-type {
-    border-bottom: 2px solid #e7222c;
+    border-bottom: 3px solid #282832;
 }
 
 .topbar {
@@ -170,6 +234,10 @@ input[type="submit"].redButton {
 
 .profileButton {
 	padding:20px;
+	border-radius: 50px;
+	color: #fff;
+	background: linear-gradient(to right, #ff4b2b, #ff416c);
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
 html, body {
@@ -180,14 +248,20 @@ html, body {
 
 .projectDiv {
 	width:95%;
-	background-color:#f3f3f3;
+	background-color: #32323e;
 	padding: 20px;
+	border-radius: 5px;
+	color: lightslategray;
+	box-shadow: 0 14px 28px rgb(0 0 0 / 25%);
 }
 
 .commentDiv {
-	background-color:#f3f3f3;
+	background-color: #32323e;
 	padding: 20px;
 	width: 50%;
+	border-radius: 5px;
+	color: lightslategray;
+	box-shadow: 0 14px 28px rgb(0 0 0 / 25%);
 }
 
 .chart-container {
@@ -202,7 +276,7 @@ html, body {
 	padding: 0!important;
 	text-decoration: underline;
 	cursor: pointer; 
-	/*color: #e7222c;*/
+	color: lightslategray;
 }
 /******************FORM STYLING*********************/
 .col-25 {

@@ -144,7 +144,7 @@ exports.createProject2 = function(req, res) {
                       background-color: #eee;\
                     }"
 	var searchBar = "<input type='text' id='mySearch' style=' width:50%; padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;' onkeyup='myFunction()' placeholder='Search..' title='Type in a category'>"
-	var projectFrame =  javascriptvar + "<div style='width:80%; margin-left:10%; background-color:#f7f7f7; padding:10px;'\
+	var projectFrame =  javascriptvar + "<div class='projectCreate'>\
 						<p><h2 style='text-align:center;'>Project Creation Form</h2></p>\
 						<form action='/postProject' method='post' id='description'>\
 						  <div class='row'><div class='col-25'><label for='title'>Title:</label></div>\
