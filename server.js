@@ -265,6 +265,13 @@ app.post('/addCategory',											// adds the specified category
 app.get('/Excel', 													// select every project that has been created for Excel scraping
 	db2.selectExcel
 	)
+	
+app.get('/login2', 													// select every project that has been created for Excel scraping
+	(req, res) =>
+		res.sendFile(
+			path.join(__dirname, '/public/views/login.html')
+		)
+	);
 
 //-----------------------------------------------------------------
 //-------------------------GENERIC QUERIES-------------------------

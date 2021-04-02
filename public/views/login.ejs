@@ -1,76 +1,44 @@
-<!DOCTYPE HTML>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<title>PRGM Projects</title>
-		<link rel="shortcut icon" type="image/png" href="./public/favicon.ico">
-		<link href="public/styles/style.css" rel="stylesheet" type="text/css">
-		<script type="text/javascript">
-			function submitproject()
-			{
-			document.forms["projectform"].submit();
-			}
-			
-			function loadAdmin()
-			{
-			document.forms["loadAdmin"].submit();
-			}
-			
-			function submitcharts()
-			{
-			document.forms["opencharts"].submit();
-			}
-		</script>
-		<script defer src="./node_modules/@fortawesome/fontawesome-free/js/brands.js"></script>
-		<script defer src="./node_modules/@fortawesome/fontawesome-free/js/solid.js"></script>
-		<script defer src="./node_modules/@fortawesome/fontawesome-free/js/fontawesome.js"></script>
+<head>
+<link href="public/styles/loginStyle.css" rel="stylesheet" type="text/css">
+<script defer src="public/scripts/login.js"></script>
+</head>
+<body>
+<div class="container" id="container">
+	<div class="form-container sign-up-container">
+		<form action="#">
+			<h1>Create Account</h1>
 
-	</head>
-	
-	<body>
-	
-	<div class="topbar">
-	<img src="./public/SwireLogo.png" alt="Swire Coca-Cola, USA Logo" width="210" height="45">
-	<a href="/profile" class="profileButton" style="display:flex; float:right;"><i class="fas fa-user" height=45></i></a>
+			<input type="text" placeholder="Name" />
+			<input type="email" placeholder="Email" />
+			<input type="password" placeholder="Password" />
+			<button>Sign Up</button>
+		</form>
 	</div>
-	
-	 <div class="container">
-
-		<div class="card">
-
-			<div class="header">
-			  <h3>PRGM Projects</h3>
+	<div class="form-container sign-in-container">
+		<form action="/login" method="post">
+			<h1>Sign in</h1>
+			<input type="text" name="username" placeholder="Username" />
+			<input type="password" name="password" placeholder="Password" />
+			<a href="#">Forgot your password?</a>
+			<button>Sign In</button>
+		</form>
+	</div>
+	<div class="overlay-container">
+		<div class="overlay">
+			<div class="overlay-panel overlay-left">
+				<h1>Welcome Back!</h1>
+				<p>To keep connected with us please login with your personal info</p>
+				<button class="ghost" id="signIn">Sign In</button>
 			</div>
-			<div class="body">
-			  <ul>
-				<li><i class="fas fa-home icon"></i> <a href="./index.html">Home</a></li>
-				<li><i class="fas fa-stream icon"></i><a href='./projects'> Projects</a></li>				
-				<li><i class="fas fa-wrench icon"></i><form id="loadAdmin" action="/adminPage" method="post"><a href="javascript: loadAdmin()">Admin</a></form></li>
-				<li><i class="fas fa-table icon"></i><a href="./tables"> Tables</a></li>
-				<li><i class="fab fa-wpforms icon"></i><a href="./forms"> Forms</a></li>
-				<li><i class="fas fa-chart-pie icon"></i> <form id="opencharts" action="/openCharts" method="post"><a href="javascript: submitcharts()">Charts</a></form></li>
-				<li><i class="fas fa-book icon"></i><a href="./documentation">Documentation</a></li>
-			  </ul>
+			<div class="overlay-panel overlay-right">
+				<h1>Hello, Friend!</h1>
+				<p>Enter your personal details and start journey with us</p>
+				<button class="ghost" id="signUp">Sign Up</button>
 			</div>
 		</div>
-	
-		<div class="main">
-			<form action="/login" method="post">
-	<div>
-	<label>Username:</label>
-	<input type="text" name="username"/><br/>
 	</div>
-	<div>
-	<label>Password:</label>
-	<input type="password" name="password"/>
-	</div>
-	<div>
-	<input type="submit" value="Submit"/>
-	</div>
-</form>
-		</div>
+</div>
 
-	</div>
-		
-	</body>
-</html
+</body>
+</html>
