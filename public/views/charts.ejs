@@ -3,7 +3,7 @@
 	<head>
 	<link rel="shortcut icon" type="image/png" href="./public/favicon.ico">
 		<meta charset="UTF-8">
-		<title>PRGM Projects</title>
+		<title>Unition</title>
 		<link href="./public/styles/style.css" rel="stylesheet">
 		<script type="text/javascript">			
 			function submitproject()
@@ -36,19 +36,20 @@
 	 <div class="container">
 
 		<div class="card">
-
 			<div class="header">
-			  <img type="image/png" src="./public/unition4.PNG" style="margin-top:40px;">
+			  <img type="image/png" src="./public/unition4.PNG" style="margin-top:20px;" class="unition">
+			  <img type="image/png" src="./public/unitionBig.PNG" style="margin-top:20px;" class="unitionBig">
+			  <img type="image/png" src="./public/unitionSmall.PNG" style="margin-top:20px;" class="unitionSmall">
 			</div>
 			<div class="body">
 			  <ul>
-				<li><i class="fas fa-home icon"></i> <a href="./index.html">Home</a></li>
-				<li><i class="fas fa-stream icon"></i><a href='./projects'> Projects</a></li>				
-				<li><i class="fas fa-wrench icon"></i><form id="loadAdmin" action="/adminPage" method="post"><a href="javascript: loadAdmin()">Admin</a></form></li>
-				<li><i class="fas fa-table icon"></i><a href="./tables"> Tables</a></li>
-				<li><i class="fab fa-wpforms icon"></i><a href="./forms"> Forms</a></li>
-				<li><i class="fas fa-chart-pie icon"></i> <form id="opencharts" action="/openCharts" method="post"><a href="javascript: submitcharts()">Charts</a></form></li>
-				<li><i class="fas fa-book icon"></i><a href="./documentation">Documentation</a></li>
+				<li><i class="fas fa-home icon"></i> <a href="./index.html"><div class="navText">Home</div></a></li>
+				<li><i class="fas fa-stream icon"></i><a href='./projects'><div class="navText"> Projects</div></a></li>				
+				<li><i class="fas fa-wrench icon"></i><form id="loadAdmin" action="/adminPage" method="post"><a href="javascript: loadAdmin()"><div class="navText">Admin</div></a></form></li>
+				<li><i class="fas fa-table icon"></i><a href="./tables"><div class="navText"> Tables</div></a></li>
+				<li><i class="fab fa-wpforms icon"></i><a href="./forms"><div class="navText"> Forms</div></a></li>
+				<li><i class="fas fa-chart-pie icon"></i> <form id="opencharts" action="/openCharts" method="post"><a href="javascript: submitcharts()"><div class="navText">Charts</div></a></form></li>
+				<li><i class="fas fa-book icon"></i><a href="./documentation"><div class="navText">Documentation</div></a></li>
 			  </ul>
 			</div>
 		</div>
@@ -64,7 +65,7 @@
 			<br>
 			<br>
 			<div class="chart-container">
-			<canvas id="myChart" width="800" height="450"></canvas>
+			<canvas id="myChart" style="padding:10px;"></canvas>
 			</div>
           
 	</div>
@@ -74,7 +75,9 @@
 				<script>
 var ctx = document.getElementById('myChart').getContext('2d');
 var myChart = new Chart(ctx, {
-    type: 'bar',
+    responsive:true,
+    maintainAspectRatio: false,
+	type: 'bar',
     data: {
 			<%- statusMessage %>,
             backgroundColor: [

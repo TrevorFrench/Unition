@@ -26,12 +26,12 @@ body {
 .topRow{
 	/*display:inline;*/
 	float:right;
-	padding: 20px 20px;
-	background-color: #32323e;
+	/*padding: 20px 20px;*/
+	/*background-color: #32323e;*/
 	/*width: 86%;*/
 	/*margin-left: 14%;*/
 	border-radius: 5px;
-	box-shadow: 0 14px 28px rgb(0 0 0 / 25%);
+	/*box-shadow: 0 14px 28px rgb(0 0 0 / 25%);*/
 	width: 100%;
 }
 
@@ -69,6 +69,11 @@ body {
 	border-radius: 5px;
 	box-shadow: 0 14px 28px rgb(0 0 0 / 25%);
 	color: lightslategray;
+}
+
+.title{
+	text-align: center;
+    color: cadetblue;
 }
 
 /*--------------------------------------------*/
@@ -186,6 +191,24 @@ input[type="submit"].redButton {
 	box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
+input[type="submit"].blueButton {
+	width: 150px;
+	height: 50px;
+	background-color: #e7222c;
+	color: #fff;
+	font-family: 'Roboto', sans-serif;
+	cursor: pointer;
+	border: none;
+	font-size: large;
+	-webkit-appearance: none;
+	-webkit-border-radius: none;
+	border-radius: 10px;
+	background: linear-gradient(to right, #ff4b2b, #ff416c);
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+	width: 30%;
+	margin-left: 35%;
+}
+
 /*--------------------------------------------*/
 /*----------------TABLE DESIGN----------------*/
 /*--------------------------------------------*/
@@ -268,6 +291,24 @@ html, body {
 	height: 450px;
 	width: 70%;
 	margin-left: 15%;
+		/*display:inline;*/
+	/*float:right;*/
+	/*padding: 20px 20px;*/
+	/*background-color: #32323e;
+	border-radius: 5px;
+	box-shadow: 0 14px 28px rgb(0 0 0 / 25%);
+	padding: 10px;
+	height: 40%;*/
+}
+
+canvas {
+  /*width: 100% !important;
+  height: 100% !important;*/
+  background-color: #32323e;
+	border-radius: 5px;
+	box-shadow: 0 14px 28px rgb(0 0 0 / 25%);
+	padding: 10px;
+	height: 40%;
 }
 
 .projectTitle {
@@ -278,6 +319,7 @@ html, body {
 	cursor: pointer; 
 	color: lightslategray;
 }
+
 /******************FORM STYLING*********************/
 .col-25 {
   float: left;
@@ -304,6 +346,67 @@ html, body {
     width: 100%;
     margin-top: 0;
   }
+  
+  .navText {
+	  visibility: hidden;
+  }
+  
+  .unitionBig {
+	  visibility: visible;
+  }
+  
+  .unition {
+	  display: none;
+  }
+}
+
+@media screen and (min-width: 1257px) {
+
+.unitionBig {
+	display: none;
+}
+
+.unitionSmall {
+	display: none;
+}
+
+.unition {
+	visibility: visible;
+}
+}
+
+@media screen and (min-width: 910px) and (max-width: 1257px) {
+
+.unitionBig {
+	visibility: visible;
+}
+
+.unitionSmall {
+	display: none;
+}
+
+.unition {
+	display: none;
+}
+}
+
+@media screen and (max-width: 910px) {
+
+.unitionBig {
+	display: none;
+}
+
+.unitionSmall {
+	visibility: visible;
+}
+
+.unition {
+	display: none;
+}
+}
+
+.navText {
+	display: inline;
 }
 
 * {

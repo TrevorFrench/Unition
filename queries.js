@@ -206,7 +206,12 @@ const selectMyProjects = function(req, res) {
 		  throw error;
 	  }
 	  var tableText = "<table class='styled-table'><tr><th>TITLE</th><th>PROJECT ID</th><th>STATUS</th><th>RESPONSIBLE</th><th>DUE DATE</th><th>DESCRIPTION</th></tr>";
-	  results.rows.forEach(element => tableText += "<tr><td><form id='projectform' action='/openProject' method='post'><input type='text' name='ticketID' value='" + element.project_id + "' id='" + element.project_id + "' hidden>" + "<input type='submit'  class='projectTitle' value='" + element.title + "'></form></td><td>" + element.project_id + "</td><td>" + element.status + "</td><td>" + element.responsible + "</td><td>" + element.duedate + "</td><td>" + element.description + "</td></tr>");
+	  var titlestring
+	  results.rows.forEach(element =>
+
+
+
+	  tableText += "<tr><td><form id='projectform' action='/openProject' method='post'><input type='text' name='ticketID' value='" + element.project_id + "' id='" + element.project_id + "' hidden>" + "<input type='submit'  class='projectTitle' value='" + element.title.replace(/'/gi,"''") + "'></form></td><td>" + element.project_id + "</td><td>" + element.status + "</td><td>" + element.responsible + "</td><td>" + element.duedate + "</td><td>" + element.description + "</td></tr>");
 	tableText += '</table>';
 	res.render("dashboard.ejs", {statusMessage: tableText})
 })
@@ -252,7 +257,14 @@ const getProject = (request, response) => {
       throw error
     }
 	var projectText = '';
-	projectText += "<div class='projectDiv'><form action='/updateProject' method='post' style='white-space:pre-line;'> <b>TITLE:</b> <input type='text' name='title' id='title' value='" + results.rows[0].title + "' hidden>" + results.rows[0].title + "<br><br><b>STATUS:</b> <select id='statusSQL' name='statusSQL'><option value='Open'>Open</option><option value='In-process'>In-process</option><option value='Closed'>Closed</option></select><br><br><b>DUE DATE:</b> <input type='text' name='duedate' id='duedate' value='" + results.rows[0].duedate + "'hidden>" + results.rows[0].duedate + "<br><br><b>RESPONSIBLE:</b> <input type='text' name='responsible' id='responsible' value='" + results.rows[0].responsible + "' hidden>" + results.rows[0].responsible + "<br><br><b>PROJECT ID:</b> <input type='text' name='project_id' id='project_id' value='" + results.rows[0].project_id + "' hidden>" + results.rows[0].project_id + "<br><br><b>DESCRIPTION:</b> <input type='text' name='description' id=description value='" + results.rows[0].description + "' hidden>" + results.rows[0].description + "<br><br><input type='submit' value='Update Project'></form></div><hr><form action='/addComment' method='post' id='commentDescription' style='white-space:pre-line;'><label for='commentDescription'>Comments:</label><br><br><textarea style='width:450px; height:100px;' name='commentDescription' id='commentDescription' form='commentDescription' Placeholder='Describe your comment here...'></textarea><input type='text' name='project_id' id='project_id' value='" + results.rows[0].project_id + "' hidden><br><br><input type='submit' value='ADD COMMENT'></input></form>";
+	projectText += "<div class='projectDiv'><form action='/updateProject' method='post' style='white-space:pre-line;'><input type='text' name='title' id='title' value='" + results.rows[0].title + "' hidden><h2 class='title'>" + results.rows[0].title + "</h2><div class='row'><div class='col-25'><label for='statusSQL'><b>STATUS:</b></label></div> <div class='col-75'><select id='statusSQL' name='statusSQL' style='width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;'><option value='Open'>Open</option><option value='In-process'>In-process</option><option value='Closed'>Closed</option></select></div></div><br><b>DUE DATE:</b> <input type='text' name='duedate' id='duedate' value='" + results.rows[0].duedate + "'hidden>" + results.rows[0].duedate + "<br><br><b>RESPONSIBLE:</b> <input type='text' name='responsible' id='responsible' value='" + results.rows[0].responsible + "' hidden>" + results.rows[0].responsible + "<br><br><b>PROJECT ID:</b> <input type='text' name='project_id' id='project_id' value='" + results.rows[0].project_id + "' hidden>" + results.rows[0].project_id + "<br><br><b>DESCRIPTION:</b> <input type='text' name='description' id=description value='" + results.rows[0].description + "' hidden>" + results.rows[0].description + "<br><br><input type='submit' value='Update Project' class='blueButton'></form></div>\
+	<br><br>\
+	<div class='projectDiv'>\
+	<form action='/addComment' method='post' id='commentDescription' style='white-space:pre-line;'>\
+	<label for='commentDescription'>Comments:</label>\
+	<br><br>\
+	<textarea style='width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;' name='commentDescription' id='commentDescription' form='commentDescription' Placeholder='Describe your comment here...'></textarea>\
+	<input type='text' name='project_id' id='project_id' value='" + results.rows[0].project_id + "' hidden><br><br><input type='submit' value='Add Comment' class='redButton'></input></form></div>";
     if(results.rows[0].commentdescription != null) {results.rows.forEach(element => projectText += "<br><br><div class='commentDiv'><b>" + element.commentcreatedby + "</b> (" + element.commentcreateddate + ")<br>" + element.commentdescription + "</div>");}
   
 	response.render("dashboard.ejs", {statusMessage: projectText})

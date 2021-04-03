@@ -58,7 +58,8 @@ exports.findByUsername = function(username, cb) {
 //----------------------DELIVERS THE PROJECT CREATION FORM ---------------------
 //------------------------------------------------------------------------------
 exports.createProject2 = function(req, res) {
-       pool.query("SELECT * FROM users;", (error, results) => {
+	var team = req.user.team
+       pool.query("SELECT * FROM users WHERE team =" + team + ";", (error, results) => {
     if (error) {
       throw error
     }
@@ -74,10 +75,13 @@ exports.createProject2 = function(req, res) {
     }
 	
 	let categoryVar = "<select name='category' id='category' style='width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;' pattern=[^'\x22]+>"
-	
+	let testNull = [];
 	results.rows.forEach(element => categoryVar += "<option>" + element.category + "</option>");
+	results.rows.forEach(element => testNull.push(element.category))
 	categoryVar += '</select>';
-	
+	/*If this is a new user which hasn't created any categorie yet, direct them to the documentation explaining what categories are and how to create them*/
+	if (testNull.length == 0) { categoryVar = "<a href='./documentation#createCategories'>It looks like you haven't created any categories yet. Learn more here!</a>"};
+	/*----------------------------------------------------------------------------------------------------------------------------------------------------*/
     var userSelect= "<select id='responsible' name='responsible' style='padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;'>";
 	for (var i = 0, len = records.length; i < len; i++) {
       var record = records[i];
@@ -145,7 +149,7 @@ exports.createProject2 = function(req, res) {
                     }"
 	var searchBar = "<input type='text' id='mySearch' style=' width:50%; padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;' onkeyup='myFunction()' placeholder='Search..' title='Type in a category'>"
 	var projectFrame =  javascriptvar + "<div class='projectCreate'>\
-						<p><h2 style='text-align:center;'>Project Creation Form</h2></p>\
+						<p><h2 class='title'>Project Creation Form</h2></p>\
 						<form action='/postProject' method='post' id='description'>\
 						  <div class='row'><div class='col-25'><label for='title'>Title:</label></div>\
 						<div class='col-75'><input type='text' name='title' id='title' style='width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;' required></div></div>\
@@ -167,7 +171,7 @@ exports.createProject2 = function(req, res) {
 						<div class='row'><div class='col-25'><label for='description'>Description:</label></div>\
 						<div class='col-75'><textarea style='width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;' name='description' id='description' form='description' Placeholder='Describe your project here...' required></textarea></div></div>\
 						<br><br>\
-						<input type='submit' value='Create Project'>\
+						<input type='submit' value='Create Project' class='blueButton'>\
 						</form></div>";
 	res.render("dashboard.ejs", {statusMessage: projectFrame})
 	});
