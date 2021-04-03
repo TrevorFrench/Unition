@@ -16,7 +16,7 @@ const pool = new Pool({
 //------------------------------------------------------------------------------
 //-These queries exist temporarily for reference and will ultimately be deleted-
 const getUsers = (request, response) => {
-  pool.query("INSERT INTO users (displayname, emails, password, team, username) VALUES ('jack', 'jack@example.com', 'secret', 2, 'Jack')", (error, results) => {
+  pool.query("DELETE from comments where comment_id = 131;", (error, results) => {
     if (error) {
       throw error
     }

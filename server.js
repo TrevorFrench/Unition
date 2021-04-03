@@ -39,6 +39,8 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - Bug where apostrophes are not escaped in values of inputs
    - Foreign Key for Categories (does foreign key make sense if I allow users to delete categories?
    - Change posts to gets wherever it is possible
+   - if error render error page for sql queries
+   - hide team, auto incrmenet, allow user to change team on profile page, lookup to make sure team exists for team change
 */
 
 //-----------------------------------------------------------------
