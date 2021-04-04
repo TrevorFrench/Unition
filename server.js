@@ -41,7 +41,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - create an API
    - get an SSL
    - get pre-loading
-   -launch to unition.app
+   - launch to unition.app
    - line break and format long string in the code
    - can I delete inline functions?
    - delete unused login files
@@ -50,6 +50,8 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - make sure there are valid redirects (no response.anything)
    - PERSONAL vs Organizational Projects
    - Memory Store Leak
+   - filtering by displayname which isn't unique
+   - excel page is a vulnerability
 */
 
 //-----------------------------------------------------------------
@@ -253,9 +255,9 @@ app.get('/projects',												// renders the 'projects' view
     res.render("dashboard.ejs", {statusMessage:
 	"<table class='styled-table'><tbody>\
 	<tr><th>PROJECT LIST</th><th>Description</th>\
-	<tr><td><form action='/openProjects' method='post'><input type='submit' name='openprojects' value='Open Projects' class='projectTitle'></form></td><td>Returns a list of all open projects.</td></tr>\
-	<tr><td><form action='/inprocessProjects' method='post'><input type='submit' name='inprocessprojects' value='In-Process Projects' class='projectTitle'></form></td><td>Returns a list of all in-process projects.</td></tr>\
-	<tr><td><form action='/allProjects' method='post'><input type='submit' name='allprojects' value='All Projects' class='projectTitle'></form></td><td>Returns a complete list of all projects.</td></tr>\
+	<tr><td><form action='/openProjects' method='post'><input type='submit' name='openprojects' value='Open Projects' class='projectTitle'></form></td><td>Returns a list of all open projects for which the current user is responsible.</td></tr>\
+	<tr><td><form action='/inprocessProjects' method='post'><input type='submit' name='inprocessprojects' value='In-Process Projects' class='projectTitle'></form></td><td>Returns a list of all in-process projects for which the current user is responsible.</td></tr>\
+	<tr><td><form action='/allProjects' method='post'><input type='submit' name='allprojects' value='All Projects' class='projectTitle'></form></td><td>Returns a complete list of projects for which the current user is responsible.</td></tr>\
 	<tr><td><form action='/myProjects' method='post'><input type='submit' name='myprojects' value='My Projects' class='projectTitle'></form></td><td>Returns all 'open' and 'in-process' projects for which the current user is responsible.</td></tr>\
 	</tbody></table>"
 	})

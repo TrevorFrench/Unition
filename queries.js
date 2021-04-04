@@ -96,7 +96,8 @@ const addCategory = (request, response) => {
 //------------------------------SELECTS ALL PROJECTS----------------------------
 //------------------------------------------------------------------------------
 const selectAll = function(req, res) {
-  const sql = "SELECT project_id, title, status, responsible, TO_CHAR(duedate, 'MM/DD/YYYY') AS duedate, description FROM projects ORDER BY project_id DESC";
+  const user = req.user.displayname;
+  const sql = "SELECT project_id, title, status, responsible, TO_CHAR(duedate, 'MM/DD/YYYY') AS duedate, description FROM projects WHERE (responsible = '" + user + "') ORDER BY project_id DESC";
   pool.query(sql, (error, results) => {
 	  if (error) {
 		  throw error;
@@ -154,7 +155,8 @@ const selectExcel = function(req, res) {
 //-----------------------------SELECTS OPEN PROJECTS----------------------------
 //------------------------------------------------------------------------------
 const selectOpen = function(req, res) {
-  const sql = "SELECT project_id, title, status, responsible, TO_CHAR(duedate, 'MM/DD/YYYY') AS duedate, description FROM projects WHERE status = 'Open' ORDER BY project_id ASC";
+  const user = req.user.displayname;
+  const sql = "SELECT project_id, title, status, responsible, TO_CHAR(duedate, 'MM/DD/YYYY') AS duedate, description FROM projects WHERE (status = 'Open' AND responsible = '" + user + "') ORDER BY project_id ASC";
   pool.query(sql, (error, results) => {
 	  if (error) {
 		  throw error;
@@ -170,7 +172,8 @@ const selectOpen = function(req, res) {
 //--------------------------SELECTS IN-PROCESS PROJECTS-------------------------
 //------------------------------------------------------------------------------
 const selectInprocess = function(req, res) {
-  const sql = "SELECT project_id, title, status, responsible, TO_CHAR(duedate, 'MM/DD/YYYY') AS duedate, description FROM projects WHERE status = 'In-process' ORDER BY project_id ASC";
+  const user = req.user.displayname;
+  const sql = "SELECT project_id, title, status, responsible, TO_CHAR(duedate, 'MM/DD/YYYY') AS duedate, description FROM projects WHERE (status = 'In-process' AND responsible = '" + user + "') ORDER BY project_id ASC";
   pool.query(sql, (error, results) => {
 	  if (error) {
 		  throw error;
@@ -312,11 +315,12 @@ const plusComment = (request, response) => {
 //---------------------------------RENDER CHARTS--------------------------------
 //------------------------------------------------------------------------------
 const selectCharts = (request, response) => {
+	const user = request.user.displayname;
 	const sql = "SELECT DISTINCT\
 				CONCAT(date_part('year', created_date), '-', date_part('month', created_date)) AS PROJECT_MONTH,\
 				COUNT(DISTINCT project_id) AS PROJECT_COUNT\
 				FROM\
-				   projects\
+				   projects WHERE (responsible = '" + user + "')\
 				GROUP BY\
 				   date_part('year', created_date),\
 				   date_part('month', created_date)\
