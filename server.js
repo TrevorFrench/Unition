@@ -21,7 +21,6 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - Display limit on description in the table
    - Make admin page with an open box for SQL
    - Search box for Ticket ID on home page (all pages?)                       
-   - Default Responsible box to current user/ create search box
    - Comment and close option on projects
    - Create a hidden option on projects so that sensitive projects don't show up in lists
    - Form creation wizard
@@ -47,6 +46,10 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - can I delete inline functions?
    - delete unused login files
    - create campaign functionality
+   - ERROR HANDLING (model after create user error and expand on that no throw errors)
+   - make sure there are valid redirects (no response.anything)
+   - PERSONAL vs Organizational Projects
+   - Memory Store Leak
 */
 
 //-----------------------------------------------------------------
@@ -168,10 +171,34 @@ app.post('/addComment', 											// Adds a comment to current project
 	require('connect-ensure-login').ensureLoggedIn(), 
 	db2.plusComment
 	)
+	
+app.get('/tables',												    // renders the 'tables' view
+  require('connect-ensure-login').ensureLoggedIn(),
+  db2.deliverTables
+);
+
+app.post('/categories',												// renders the 'categories' view
+  require('connect-ensure-login').ensureLoggedIn(),
+  db2.deliverCategories
+);
+
+app.post('/deleteCategory',											// deletes the selected category
+  require('connect-ensure-login').ensureLoggedIn(),
+  db2.deleteCategory
+);
+
+app.post('/addCategory',											// adds the specified category
+  require('connect-ensure-login').ensureLoggedIn(),
+  db2.addCategory
+);
 
 app.post('/addUser', 											    // Adds a comment to current project
 	db2.createUser
-	)
+);
+
+app.get('/Excel', 													// select every project that has been created for Excel scraping
+	db2.selectExcel
+);
 
 //-----------------------------------------------------------------
 //-----------------------------ROUTES------------------------------
@@ -182,7 +209,7 @@ app.post('/adminPage', 												// renders a page which is used for administr
 		if (req.user.username == "TrevorFrench") {
 			res.render("dashboard.ejs", 
 			{statusMessage: 										// form that executes the users query when submitted
-				"<form action='/users' method='post'>\
+				"<form action='/admin' method='post'>\
 				<input type='submit' value='PSQL CHANGES'>\
 				</form>"
 			}
@@ -254,30 +281,6 @@ app.get('/forms',												    // renders the 'forms' view
 	</tbody></table>"
 	})
   });
-  
-app.get('/tables',												    // renders the 'tables' view
-  require('connect-ensure-login').ensureLoggedIn(),
-  db2.deliverTables
-);
-
-app.post('/categories',												// renders the 'categories' view
-  require('connect-ensure-login').ensureLoggedIn(),
-  db2.deliverCategories
-);
-
-app.post('/deleteCategory',											// deletes the selected category
-  require('connect-ensure-login').ensureLoggedIn(),
-  db2.deleteCategory
-);
-
-app.post('/addCategory',											// adds the specified category
-  require('connect-ensure-login').ensureLoggedIn(),
-  db2.addCategory
-);
-
-app.get('/Excel', 													// select every project that has been created for Excel scraping
-	db2.selectExcel
-	)
 
 //-----------------------------------------------------------------
 //-------------------------GENERIC QUERIES-------------------------
@@ -286,6 +289,5 @@ app.get('/Excel', 													// select every project that has been created for
 	ultimately be deleted                                        */
 app.get('/users', db2.createUser)
 app.get('/users/:id', db2.getUserById)
-app.post('/users', db2.getUsers)
-app.put('/users/:id', db2.updateUser)	
+app.post('/admin', db2.admin)
 /*app.post('/createProject', require('connect-ensure-login').ensureLoggedIn(), db2.createProject)*/

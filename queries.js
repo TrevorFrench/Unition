@@ -12,10 +12,9 @@ const pool = new Pool({
 })
 
 //------------------------------------------------------------------------------
-//--------------------------------GENERIC QUERIES-------------------------------
+//--------------------------------ADMINISTRATION--------------------------------
 //------------------------------------------------------------------------------
-//-These queries exist temporarily for reference and will ultimately be deleted-
-const getUsers = (request, response) => {
+const admin = (request, response) => {
   pool.query("DELETE from comments where comment_id = 131;", (error, results) => {
     if (error) {
       throw error
@@ -24,6 +23,10 @@ const getUsers = (request, response) => {
   })
 }
 
+//------------------------------------------------------------------------------
+//--------------------------------GENERIC QUERIES-------------------------------
+//------------------------------------------------------------------------------
+//-These queries exist temporarily for reference and will ultimately be deleted-
 const selectCategories = (request, response) => {
   pool.query("SELECT * FROM CATEGORIES", (error, results) => {
     if (error) {
@@ -55,21 +58,6 @@ const createUser2 = (request, response) => {
   })
 }
 
-const updateUser = (request, response) => {
-  const id = parseInt(request.params.id)
-  const { name, email } = request.body
-
-  pool.query(
-    'UPDATE users SET name = $1, email = $2 WHERE id = $3',
-    [name, email, id],
-    (error, results) => {
-      if (error) {
-        throw error
-      }
-      response.status(200).send(`User modified with ID: ${id}`)
-    }
-  )
-}
 //------------------------------------------------------------------------------
 //---------------------------DELETES SELECTED CATEGORY--------------------------
 //------------------------------------------------------------------------------
@@ -241,7 +229,7 @@ const deliverCategories = function(req, res) {
 	  var tableText = "	<table class='styled-table'><tbody>\
 	<tr><th>Category</th><th>Description</th><th>Action</th></tr>";
 	  results.rows.forEach(element => tableText += "<tr><td>" + element.category + "</td><td>" + element.description + "</td></td><td><form action='/deleteCategory' method='post'><input type='text' id='category_id' name='category_id' value='" + element.category_id + "' hidden><input type='submit' name='deletecategory' value='DELETE' class='projectTitle'></form></td></tr>");
-	tableText += "<tr><td><form action='/addCategory' method='POST'><input type='text' name='category_name' id='category_name'></td><td><input type='text' name='category_description' id='category_description'><input type='text' name='team_id' id='team_id' value='" + team_id + "' hidden></td><td><input type='submit'></td></tr></tbody></table>";
+	tableText += "<tr><td><form action='/addCategory' method='POST'><input type='text' name='category_name' id='category_name' style='width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;'></td><td><input type='text' name='category_description' id='category_description' style='width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;'><input type='text' name='team_id' id='team_id' value='" + team_id + "' hidden></td><td><input type='submit' class='redButton'></td></tr></tbody></table>";
 	res.render("dashboard.ejs", {statusMessage: tableText})
 })
 };
@@ -352,6 +340,9 @@ const selectCharts = (request, response) => {
 })
 }
 
+//------------------------------------------------------------------------------
+//-----------------------------DELIVER LOGIN SCREEN-----------------------------
+//------------------------------------------------------------------------------
 const deliverLogin = (request, response) => {
 	const sql = "SELECT MAX(team) from users;"
 	pool.query(sql, (error, results) => {
@@ -361,6 +352,21 @@ const deliverLogin = (request, response) => {
 	  var maxNumber = parseInt(results.rows[0].max) + 1
 	  console.log(maxNumber)
 	  response.render("login.ejs", {statusMessage: maxNumber})
+})
+}
+
+//------------------------------------------------------------------------------
+//-------------------------DELIVER LOGIN SUCCESS SCREEN-------------------------
+//------------------------------------------------------------------------------
+const deliverLoginSuccess = (request, response) => {
+	const sql = "SELECT MAX(team) from users;"
+	pool.query(sql, (error, results) => {
+	  if (error) {
+		  throw error;
+	  }
+	  var maxNumber = parseInt(results.rows[0].max) + 1
+	  console.log(maxNumber)
+	  response.render("loginSuccess.ejs", {statusMessage: maxNumber, successMessage: "SUCCESS"})
 })
 }
 
@@ -389,9 +395,9 @@ const createUser = (request, response) => {
 	console.log("DESCRIPTION STRING: " + team)
   pool.query("INSERT INTO users (displayname, emails, password, team, username) VALUES ('" + displayname + "', '" + email + "', '" + password + "'," + team + ", '" + username +"')", (error, results) => {
     if (error) {
-      throw error
+	  response.status(201).send('There was an error. Username may already exist.' + error)
     }
-    response.status(200).json(results.rows)
+    deliverLoginSuccess(request, response)
   })
 }
 
@@ -400,10 +406,9 @@ const createUser = (request, response) => {
 //--------------------------------EXPORT MODULES--------------------------------
 //------------------------------------------------------------------------------
 module.exports = {
-  getUsers,
+  admin,
   getUserById,
   createUser,
-  updateUser,
   selectAll,
   selectOpen,
   getProject,
@@ -420,5 +425,6 @@ module.exports = {
   deleteCategory,
   deliverCategories,
   deliverLogin,
-  createUser
+  createUser,
+  deliverLoginSuccess
 }

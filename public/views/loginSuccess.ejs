@@ -1,0 +1,48 @@
+<html>
+<head>
+<link href="public/styles/loginStyle.css" rel="stylesheet" type="text/css">
+<script defer src="public/scripts/login.js"></script>
+</head>
+<body>
+<%- successMessage %>
+<div class="container" id="container">
+	<div class="form-container sign-up-container">
+		<form action="/addUser" method="POST">
+			<h1>Create Account</h1>
+
+			<input type="text" placeholder="Username" name="username" id="username" />
+			<input type="email" placeholder="Email" name="emails" id="emails" />
+			<input type="text" placeholder="First and Last Name" name="displayname" id="displayname" />
+			<input type="password" placeholder="Password" name="password" id="password" />
+			<input type="number" placeholder="Team PIN" name="team_id" id="team_id" value="<%- statusMessage %>" hidden readonly/>
+			<button>Sign Up</button>
+		</form>
+	</div>
+	<div class="form-container sign-in-container">
+		<form action="/login" method="post">
+			<h1>Sign in</h1>
+			<input type="text" name="username" placeholder="Username" />
+			<input type="password" name="password" placeholder="Password" />
+			<a href="#">Forgot your password?</a>
+			<button>Sign In</button>
+		</form>
+	</div>
+	<div class="overlay-container">
+		<div class="overlay">
+			<div class="overlay-panel overlay-left">
+				<h1>Welcome Back!</h1>
+				<p>To keep connected with us please login with your personal info</p>
+				<button class="ghost" id="signIn">Sign In</button>
+			</div>
+			<div class="overlay-panel overlay-right">
+				<h1>Hello, Friend!</h1>
+				<p>Enter your personal details and start journey with us</p>
+				<button class="ghost" id="signUp">Sign Up</button>
+			</div>
+		</div>
+	</div>
+	
+</div>
+
+</body>
+</html>
