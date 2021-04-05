@@ -85,7 +85,7 @@ body {
   height: 100%;
   background-color:   #282832;
   border-radius: 10;
-  overflow: auto;
+  /*overflow: auto;*/
   /*position: fixed;*/
 
 }

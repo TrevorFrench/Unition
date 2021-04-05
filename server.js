@@ -270,6 +270,12 @@ app.get('/documentation',											// renders the 'documentation' view
     res.render("documentation.ejs", {statusMessage: ""})
   });
   
+app.get('/teams',											        // renders the 'teams' view
+  require('connect-ensure-login').ensureLoggedIn(),
+  function(req, res){
+    res.render("dashboard.ejs", {statusMessage: "<div class='commentDiv'>COMING SOON<p>Teams functionality allows teams to efficiently define outcomes, track progress, and measure productivity.</p><div>"})
+  });
+  
   
 app.get('/forms',												    // renders the 'forms' view
   require('connect-ensure-login').ensureLoggedIn(),
