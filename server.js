@@ -50,7 +50,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - make sure there are valid redirects (no response.anything)
    - PERSONAL vs Organizational Projects
    - Memory Store Leak
-   - filtering by displayname which isn't unique (FIXED but still need to change responsible to INT4)
+   - filtering by displayname which isn't unique (FIXED but still need to change responsible to INT4 and get rid of to-number function in joins)
    - excel page is a vulnerability
    - log user creation and last login
 */
@@ -270,10 +270,16 @@ app.get('/documentation',											// renders the 'documentation' view
     res.render("documentation.ejs", {statusMessage: ""})
   });
   
-app.get('/teams',											        // renders the 'teams' view
+app.get('/teams',											        // renders the temporary 'teams' view
   require('connect-ensure-login').ensureLoggedIn(),
   function(req, res){
     res.render("dashboard.ejs", {statusMessage: "<div class='commentDiv'>COMING SOON<p>Teams functionality allows teams to efficiently define outcomes, track progress, and measure productivity.</p><div>"})
+  });
+  
+app.get('/teams2',											        // renders the 'teams' view
+  require('connect-ensure-login').ensureLoggedIn(),
+  function(req, res){
+    res.render("teams.ejs", {statusMessage: "<div class='commentDiv'>COMING SOON<p>Teams functionality allows teams to efficiently define outcomes, track progress, and measure productivity.</p><div>"})
   });
   
   

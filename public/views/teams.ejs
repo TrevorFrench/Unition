@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Unition</title>
+		<link rel="shortcut icon" type="image/png" href="./public/favicon.ico">
+		<link href="./public/styles/style.css" rel="stylesheet">
+		<script type="text/javascript">
+			function submitproject()
+			{
+			document.forms["projectform"].submit();
+			}
+			
+			function loadAdmin()
+			{
+			document.forms["loadAdmin"].submit();
+			}
+			
+			function submitcharts()
+			{
+			document.forms["opencharts"].submit();
+			}
+		</script>
+		<script defer src="./node_modules/@fortawesome/fontawesome-free/js/brands.js"></script>
+		<script defer src="./node_modules/@fortawesome/fontawesome-free/js/solid.js"></script>
+		<script defer src="./node_modules/@fortawesome/fontawesome-free/js/fontawesome.js"></script>
+
+	</head>
+	
+	<body>
+	
+	 <div class="container">
+
+		<div class="card">
+			<div class="header">
+			  <img type="image/png" src="./public/unition4.png" style="margin-top:20px;" class="unition">
+			  <img type="image/png" src="./public/unitionBig.png" style="margin-top:20px;" class="unitionBig">
+			  <img type="image/png" src="./public/unitionSmall.png" style="margin-top:20px;" class="unitionSmall">
+			</div>
+			<div class="body">
+			  <ul>
+				<li><i class="fas fa-home icon"></i> <a href="./index.html"><div class="navText">Home</div></a></li>
+				<li><i class="fas fa-stream icon"></i><a href='./projects'><div class="navText"> Projects</div></a></li>				
+				<li><i class="fas fa-wrench icon"></i><form id="loadAdmin" action="/adminPage" method="post"><a href="javascript: loadAdmin()"><div class="navText">Admin</div></a></form></li>
+				<li><i class="fas fa-table icon"></i><a href="./tables"><div class="navText"> Tables</div></a></li>
+				<li><i class="fab fa-wpforms icon"></i><a href="./forms"><div class="navText"> Forms</div></a></li>
+				<li><i class="fas fa-chart-pie icon"></i> <form id="opencharts" action="/openCharts" method="post"><a href="javascript: submitcharts()"><div class="navText">Charts</div></a></form></li>
+				<li><i class="fas fa-users icon"></i><a href="./teams"><div class="navText">Teams</div></a></li>
+				<li><i class="fas fa-book icon"></i><a href="./documentation"><div class="navText">Documentation</div></a></li>
+			  </ul>
+			</div>
+		</div>
+  
+  	<div class="main">
+	<div class="topRow">
+	<form action="/" method="get">
+				<input class="redButton" type="submit" value="Join Team">
+			</form>
+			<form action="/" method="get">
+				<input class="redButton" type="submit" value="Create Team">
+			</form>
+			<a href="/profile" class="profileButton" style="display:flex; float:right;"><i class="fas fa-user" height=45></i></a>
+	</div>
+	<div class="dataRow">
+			<br>
+			<br>
+          <%- statusMessage %>
+	</div>
+	</div>
+
+
+</div>
+		
+	</body>
+</html>
