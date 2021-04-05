@@ -50,8 +50,9 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - make sure there are valid redirects (no response.anything)
    - PERSONAL vs Organizational Projects
    - Memory Store Leak
-   - filtering by displayname which isn't unique
+   - filtering by displayname which isn't unique (FIXED but still need to change responsible to INT4)
    - excel page is a vulnerability
+   - log user creation and last login
 */
 
 //-----------------------------------------------------------------

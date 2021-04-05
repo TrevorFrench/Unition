@@ -15,7 +15,7 @@ const pool = new Pool({
 //--------------------------------ADMINISTRATION--------------------------------
 //------------------------------------------------------------------------------
 const admin = (request, response) => {
-  pool.query("DELETE from comments where comment_id = 131;", (error, results) => {
+  pool.query("UPDATE projects SET responsible = 4 WHERE responsible = 'Jack';", (error, results) => {
     if (error) {
       throw error
     }
@@ -96,8 +96,8 @@ const addCategory = (request, response) => {
 //------------------------------SELECTS ALL PROJECTS----------------------------
 //------------------------------------------------------------------------------
 const selectAll = function(req, res) {
-  const user = req.user.displayname;
-  const sql = "SELECT project_id, title, status, responsible, TO_CHAR(duedate, 'MM/DD/YYYY') AS duedate, description FROM projects WHERE (responsible = '" + user + "') ORDER BY project_id DESC";
+  const user = req.user.id;
+  const sql = "SELECT project_id, title, status, responsible, TO_CHAR(duedate, 'MM/DD/YYYY') AS duedate, description, id, displayname FROM projects INNER JOIN users ON id = TO_NUMBER(responsible, '99G999D9S') WHERE (responsible = '" + user + "') ORDER BY project_id DESC";
   pool.query(sql, (error, results) => {
 	  if (error) {
 		  throw error;
@@ -114,7 +114,7 @@ const selectAll = function(req, res) {
 											</td>\
 											<td>" + element.project_id + "</td>\
 											<td>" + element.status + "</td>\
-											<td>" + element.responsible + "</td>\
+											<td>" + element.displayname + "</td>\
 											<td>" + element.duedate + "</td>\
 											<td>" + element.description + "</td>\
 										</tr>");
@@ -155,14 +155,14 @@ const selectExcel = function(req, res) {
 //-----------------------------SELECTS OPEN PROJECTS----------------------------
 //------------------------------------------------------------------------------
 const selectOpen = function(req, res) {
-  const user = req.user.displayname;
-  const sql = "SELECT project_id, title, status, responsible, TO_CHAR(duedate, 'MM/DD/YYYY') AS duedate, description FROM projects WHERE (status = 'Open' AND responsible = '" + user + "') ORDER BY project_id ASC";
+  const user = req.user.id;
+  const sql = "SELECT project_id, title, status, responsible, TO_CHAR(duedate, 'MM/DD/YYYY') AS duedate, description, id, displayname FROM projects INNER JOIN users ON id = TO_NUMBER(responsible, '99G999D9S') WHERE (status = 'Open' AND responsible = '" + user + "') ORDER BY project_id ASC";
   pool.query(sql, (error, results) => {
 	  if (error) {
 		  throw error;
 	  }
 	  var tableText = "<table class='styled-table'><tr><th>TITLE</th><th>PROJECT ID</th><th>STATUS</th><th>RESPONSIBLE</th><th>DUE DATE</th><th>DESCRIPTION</th></tr>";
-	  results.rows.forEach(element => tableText += "<tr><td><form id='projectform' action='/openProject' method='post'><input type='text' name='ticketID' value='" + element.project_id + "' id='" + element.project_id + "' hidden>" + "<input type='submit' class='projectTitle' value='" + element.title + "'></form></td><td>" + element.project_id + "</td><td>" + element.status + "</td><td>" + element.responsible + "</td><td>" + element.duedate + "</td><td>" + element.description + "</td></tr>");
+	  results.rows.forEach(element => tableText += "<tr><td><form id='projectform' action='/openProject' method='post'><input type='text' name='ticketID' value='" + element.project_id + "' id='" + element.project_id + "' hidden>" + "<input type='submit' class='projectTitle' value='" + element.title + "'></form></td><td>" + element.project_id + "</td><td>" + element.status + "</td><td>" + element.displayname + "</td><td>" + element.duedate + "</td><td>" + element.description + "</td></tr>");
 	tableText += '</table>';
 	res.render("dashboard.ejs", {statusMessage: tableText})
 })
@@ -172,14 +172,14 @@ const selectOpen = function(req, res) {
 //--------------------------SELECTS IN-PROCESS PROJECTS-------------------------
 //------------------------------------------------------------------------------
 const selectInprocess = function(req, res) {
-  const user = req.user.displayname;
-  const sql = "SELECT project_id, title, status, responsible, TO_CHAR(duedate, 'MM/DD/YYYY') AS duedate, description FROM projects WHERE (status = 'In-process' AND responsible = '" + user + "') ORDER BY project_id ASC";
+  const user = req.user.id;
+  const sql = "SELECT project_id, title, status, responsible, TO_CHAR(duedate, 'MM/DD/YYYY') AS duedate, description, id, displayname FROM projects INNER JOIN users ON id = TO_NUMBER(responsible, '99G999D9S') WHERE (status = 'In-process' AND responsible = '" + user + "') ORDER BY project_id ASC";
   pool.query(sql, (error, results) => {
 	  if (error) {
 		  throw error;
 	  }
 	  var tableText = "<table class='styled-table'><tr><th>TITLE</th><th>PROJECT ID</th><th>STATUS</th><th>RESPONSIBLE</th><th>DUE DATE</th><th>DESCRIPTION</th></tr>";
-	  results.rows.forEach(element => tableText += "<tr><td><form id='projectform' action='/openProject' method='post'><input type='text' name='ticketID' value='" + element.project_id + "' id='" + element.project_id + "' hidden>" + "<input type='submit' class='projectTitle' value='" + element.title + "'></form></td><td>" + element.project_id + "</td><td>" + element.status + "</td><td>" + element.responsible + "</td><td>" + element.duedate + "</td><td>" + element.description + "</td></tr>");
+	  results.rows.forEach(element => tableText += "<tr><td><form id='projectform' action='/openProject' method='post'><input type='text' name='ticketID' value='" + element.project_id + "' id='" + element.project_id + "' hidden>" + "<input type='submit' class='projectTitle' value='" + element.title + "'></form></td><td>" + element.project_id + "</td><td>" + element.status + "</td><td>" + element.displayname + "</td><td>" + element.duedate + "</td><td>" + element.description + "</td></tr>");
 	tableText += '</table>';
 	res.render("dashboard.ejs", {statusMessage: tableText})
 })
@@ -189,9 +189,9 @@ const selectInprocess = function(req, res) {
 //---------------SELECTS IN-PROCESS & OPEN PROJECTS (MY PROJECTS)---------------
 //------------------------------------------------------------------------------
 const selectMyProjects = function(req, res) {
-	const user = req.user.displayname;
+	const user = req.user.id;
 	console.log("USER: " + user);
-  const sql = "SELECT project_id, title, status, responsible, TO_CHAR(duedate, 'MM/DD/YYYY') AS duedate, description FROM projects WHERE (status = 'In-process' AND responsible = '" + user + "') OR (status = 'Open' AND responsible = '" + user + "') ORDER BY project_id ASC";
+  const sql = "SELECT project_id, title, status, responsible, TO_CHAR(duedate, 'MM/DD/YYYY') AS duedate, description, id, displayname FROM projects INNER JOIN users ON id = TO_NUMBER(responsible, '99G999D9S') WHERE (status = 'In-process' AND responsible = '" + user + "') OR (status = 'Open' AND responsible = '" + user + "') ORDER BY project_id ASC";
   pool.query(sql, (error, results) => {
 	  if (error) {
 		  throw error;
@@ -199,10 +199,7 @@ const selectMyProjects = function(req, res) {
 	  var tableText = "<table class='styled-table'><tr><th>TITLE</th><th>PROJECT ID</th><th>STATUS</th><th>RESPONSIBLE</th><th>DUE DATE</th><th>DESCRIPTION</th></tr>";
 	  var titlestring
 	  results.rows.forEach(element =>
-
-
-
-	  tableText += "<tr><td><form id='projectform' action='/openProject' method='post'><input type='text' name='ticketID' value='" + element.project_id + "' id='" + element.project_id + "' hidden>" + "<input type='submit'  class='projectTitle' value='" + element.title.replace(/'/gi,"''") + "'></form></td><td>" + element.project_id + "</td><td>" + element.status + "</td><td>" + element.responsible + "</td><td>" + element.duedate + "</td><td>" + element.description + "</td></tr>");
+	  tableText += "<tr><td><form id='projectform' action='/openProject' method='post'><input type='text' name='ticketID' value='" + element.project_id + "' id='" + element.project_id + "' hidden>" + "<input type='submit'  class='projectTitle' value='" + element.title.replace(/'/gi,"''") + "'></form></td><td>" + element.project_id + "</td><td>" + element.status + "</td><td>" + element.displayname + "</td><td>" + element.duedate + "</td><td>" + element.description + "</td></tr>");
 	tableText += '</table>';
 	res.render("dashboard.ejs", {statusMessage: tableText})
 })
@@ -243,12 +240,12 @@ const deliverCategories = function(req, res) {
 const getProject = (request, response) => {
   const id = parseInt(request.body.ticketID)
 	console.log(request.body)
-  pool.query("SELECT projects.project_id, title, status, responsible, TO_CHAR(duedate, 'MM/DD/YYYY') AS duedate, projects.description AS description, comments.description AS commentdescription, TO_CHAR(comments.created_date, 'MM/DD/YYYY') AS commentcreateddate, comments.created_by AS commentcreatedby FROM projects LEFT JOIN comments ON projects.project_id = comments.project_id WHERE projects.project_id =" + id, (error, results) => {
+  pool.query("SELECT projects.project_id, title, status, responsible, TO_CHAR(duedate, 'MM/DD/YYYY') AS duedate, projects.description AS description, comments.description AS commentdescription, TO_CHAR(comments.created_date, 'MM/DD/YYYY') AS commentcreateddate, comments.created_by AS commentcreatedby, users.id, displayname FROM projects INNER JOIN users ON id = TO_NUMBER(responsible, '99G999D9S') LEFT JOIN comments ON projects.project_id = comments.project_id WHERE projects.project_id =" + id, (error, results) => {
     if (error) {
       throw error
     }
 	var projectText = '';
-	projectText += "<div class='projectDiv'><form action='/updateProject' method='post' style='white-space:pre-line;'><input type='text' name='title' id='title' value='" + results.rows[0].title + "' hidden><h2 class='title'>" + results.rows[0].title + "</h2><div class='row'><div class='col-25'><label for='statusSQL'><b>STATUS:</b></label></div> <div class='col-75'><select id='statusSQL' name='statusSQL' style='width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;'><option value='Open'>Open</option><option value='In-process'>In-process</option><option value='Closed'>Closed</option></select></div></div><br><b>DUE DATE:</b> <input type='text' name='duedate' id='duedate' value='" + results.rows[0].duedate + "'hidden>" + results.rows[0].duedate + "<br><br><b>RESPONSIBLE:</b> <input type='text' name='responsible' id='responsible' value='" + results.rows[0].responsible + "' hidden>" + results.rows[0].responsible + "<br><br><b>PROJECT ID:</b> <input type='text' name='project_id' id='project_id' value='" + results.rows[0].project_id + "' hidden>" + results.rows[0].project_id + "<br><br><b>DESCRIPTION:</b> <input type='text' name='description' id=description value='" + results.rows[0].description + "' hidden>" + results.rows[0].description + "<br><br><input type='submit' value='Update Project' class='blueButton'></form></div>\
+	projectText += "<div class='projectDiv'><form action='/updateProject' method='post' style='white-space:pre-line;'><input type='text' name='title' id='title' value='" + results.rows[0].title + "' hidden><h2 class='title'>" + results.rows[0].title + "</h2><div class='row'><div class='col-25'><label for='statusSQL'><b>STATUS:</b></label></div> <div class='col-75'><select id='statusSQL' name='statusSQL' style='width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;'><option value='Open'>Open</option><option value='In-process'>In-process</option><option value='Closed'>Closed</option></select></div></div><br><b>DUE DATE:</b> <input type='text' name='duedate' id='duedate' value='" + results.rows[0].duedate + "'hidden>" + results.rows[0].duedate + "<br><br><b>RESPONSIBLE:</b> <input type='text' name='responsible' id='responsible' value='" + results.rows[0].responsible + "' hidden>" + results.rows[0].displayname + "<br><br><b>PROJECT ID:</b> <input type='text' name='project_id' id='project_id' value='" + results.rows[0].project_id + "' hidden>" + results.rows[0].project_id + "<br><br><b>DESCRIPTION:</b> <input type='text' name='description' id=description value='" + results.rows[0].description + "' hidden>" + results.rows[0].description + "<br><br><input type='submit' value='Update Project' class='blueButton'></form></div>\
 	<br><br>\
 	<div class='projectDiv'>\
 	<form action='/addComment' method='post' id='commentDescription' style='white-space:pre-line;'>\
@@ -315,7 +312,7 @@ const plusComment = (request, response) => {
 //---------------------------------RENDER CHARTS--------------------------------
 //------------------------------------------------------------------------------
 const selectCharts = (request, response) => {
-	const user = request.user.displayname;
+	const user = request.user.id;
 	const sql = "SELECT DISTINCT\
 				CONCAT(date_part('year', created_date), '-', date_part('month', created_date)) AS PROJECT_MONTH,\
 				COUNT(DISTINCT project_id) AS PROJECT_COUNT\
