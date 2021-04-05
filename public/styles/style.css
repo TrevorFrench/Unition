@@ -124,16 +124,12 @@ h3{
   color: white;
   list-style: none;
   display: block;
-  border-top-right-radius: 10px 10px;
-  border-bottom-right-radius: 10px 10px;
 }
 
 li:hover{
   transition: 1s all;
   color: #2f89fc;
   background-color: rgba(42, 56, 65, 0.82);
-  border-top-right-radius: 10px 10px;
-  border-bottom-right-radius: 10px 10px;
   cursor: pointer;
 }
 
