@@ -15,7 +15,7 @@ const pool = new Pool({
 //--------------------------------ADMINISTRATION--------------------------------
 //------------------------------------------------------------------------------
 const admin = (request, response) => {
-  pool.query("UPDATE projects SET responsible = 4 WHERE responsible = 'Jack';", (error, results) => {
+  pool.query("insert into join_table (pt_id, pt_role_id, user_id) VALUES (1, 1, 2);", (error, results) => {
     if (error) {
       throw error
     }
@@ -372,6 +372,30 @@ const deliverLoginSuccess = (request, response) => {
 }
 
 //------------------------------------------------------------------------------
+//-----------------------------DELIVER TEAMS 2 VIEW-----------------------------
+//------------------------------------------------------------------------------
+const teams2 = (request, response) => {
+	const user = request.user.id;
+	const sql = "SELECT pt_id, user_id, join_table.pt_role_id, users.displayname AS displayname, pro_team_name, pt_role_name from join_table INNER JOIN users ON users.id = join_table.user_id INNER JOIN pro_team ON pro_team_id = pt_id INNER JOIN pro_team_roles ON pro_team_roles.pt_role_id = join_table.pt_role_id WHERE user_id =" + user + ";"
+	pool.query(sql, (error, results) => {
+	  if (error) {
+		  throw error;
+	  }
+	  console.log(results.rows)
+	  console.log(sql)
+	  var tableText = "	<table class='styled-table'><tbody>\
+	  <tr><th>TEAM</th><th>USER</th><th>ROLE</th></tr>";
+	  var teamsVar = "";
+	  results.rows.forEach(element =>
+	  tableText += "<tr><td>" + element.pro_team_name + "</td><td>" + element.displayname + "</td><td>" + element.pt_role_iname + "</td></tr>");
+	  tableText += '</table>';
+	  results.rows.forEach(element =>
+	  teamsVar += "<li>" + element.pro_team_name + "</li>");
+	  response.render("teams.ejs", {statusMessage: tableText, teamsList: teamsVar})
+})
+}
+
+//------------------------------------------------------------------------------
 //----------------------------------CREATE USER---------------------------------
 //------------------------------------------------------------------------------
 const createUser = (request, response) => {
@@ -427,5 +451,6 @@ module.exports = {
   deliverCategories,
   deliverLogin,
   createUser,
-  deliverLoginSuccess
+  deliverLoginSuccess,
+  teams2
 }

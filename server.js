@@ -53,6 +53,9 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - filtering by displayname which isn't unique (FIXED but still need to change responsible to INT4 and get rid of to-number function in joins)
    - excel page is a vulnerability
    - log user creation and last login
+   - Calendar view
+   - Bar at top of teams page to filter by category/team mate/calendar view/project management view
+   - Switch category relationship to user to user_id from team_id
 */
 
 //-----------------------------------------------------------------
@@ -278,9 +281,8 @@ app.get('/teams',											        // renders the temporary 'teams' view
   
 app.get('/teams2',											        // renders the 'teams' view
   require('connect-ensure-login').ensureLoggedIn(),
-  function(req, res){
-    res.render("teams.ejs", {statusMessage: "<div class='commentDiv'>COMING SOON<p>Teams functionality allows teams to efficiently define outcomes, track progress, and measure productivity.</p><div>"})
-  });
+    db2.teams2
+  );
   
   
 app.get('/forms',												    // renders the 'forms' view
