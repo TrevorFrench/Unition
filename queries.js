@@ -468,7 +468,6 @@ module.exports = {
   selectCharts,
   selectExcel,
   deliverTables,
-  selectCategories,
   addCategory,
   deleteCategory,
   deliverCategories,
