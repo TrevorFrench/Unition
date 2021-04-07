@@ -104,7 +104,7 @@ const selectAll = function(req, res) {
 	  }
 	  var tableText = 
 	  "<table class='styled-table'>\
-		<tr><th>TITLE</th><th>PROJECT ID</th><th>STATUS</th><th>RESPONSIBLE</th><th>DUE DATE</th><th>DESCRIPTION</th></tr>";
+		<tr><th>TITLE</th><th>ID</th><th>STATUS</th><th>RESPONSIBLE</th><th>DUE DATE</th><th>DESCRIPTION</th></tr>";
 	  results.rows.forEach(element => tableText += 
 										"<tr><td>\
 												<form id='projectform' action='/openProject' method='post'>\
@@ -134,7 +134,7 @@ const selectExcel = function(req, res) {
 	  }
 	  var tableText = 
 	  "<table class='styled-table'>\
-		<tr><th>TITLE</th><th>PROJECT ID</th><th>STATUS</th><th>RESPONSIBLE</th><th>DUE DATE</th><th>DESCRIPTION</th><th>Created Date</th><th>Customer</th><th>Category</th></tr>";
+		<tr><th>TITLE</th><th>ID</th><th>STATUS</th><th>RESPONSIBLE</th><th>DUE DATE</th><th>DESCRIPTION</th><th>Created Date</th><th>Customer</th><th>Category</th></tr>";
 	  results.rows.forEach(element => tableText += 
 										"<tr><td>" + element.title + "</td>\
 											<td>" + element.project_id + "</td>\
@@ -161,7 +161,7 @@ const selectOpen = function(req, res) {
 	  if (error) {
 		  throw error;
 	  }
-	  var tableText = "<table class='styled-table'><tr><th>TITLE</th><th>PROJECT ID</th><th>STATUS</th><th>RESPONSIBLE</th><th>DUE DATE</th><th>DESCRIPTION</th></tr>";
+	  var tableText = "<table class='styled-table'><tr><th>TITLE</th><th>ID</th><th>STATUS</th><th>RESPONSIBLE</th><th>DUE DATE</th><th>DESCRIPTION</th></tr>";
 	  results.rows.forEach(element => tableText += "<tr><td><form id='projectform' action='/openProject' method='post'><input type='text' name='ticketID' value='" + element.project_id + "' id='" + element.project_id + "' hidden>" + "<input type='submit' class='projectTitle' value='" + element.title + "'></form></td><td>" + element.project_id + "</td><td>" + element.status + "</td><td>" + element.displayname + "</td><td>" + element.duedate + "</td><td>" + element.description + "</td></tr>");
 	tableText += '</table>';
 	res.render("dashboard.ejs", {statusMessage: tableText})
@@ -178,7 +178,7 @@ const selectInprocess = function(req, res) {
 	  if (error) {
 		  throw error;
 	  }
-	  var tableText = "<table class='styled-table'><tr><th>TITLE</th><th>PROJECT ID</th><th>STATUS</th><th>RESPONSIBLE</th><th>DUE DATE</th><th>DESCRIPTION</th></tr>";
+	  var tableText = "<table class='styled-table'><tr><th>TITLE</th><th>ID</th><th>STATUS</th><th>RESPONSIBLE</th><th>DUE DATE</th><th>DESCRIPTION</th></tr>";
 	  results.rows.forEach(element => tableText += "<tr><td><form id='projectform' action='/openProject' method='post'><input type='text' name='ticketID' value='" + element.project_id + "' id='" + element.project_id + "' hidden>" + "<input type='submit' class='projectTitle' value='" + element.title + "'></form></td><td>" + element.project_id + "</td><td>" + element.status + "</td><td>" + element.displayname + "</td><td>" + element.duedate + "</td><td>" + element.description + "</td></tr>");
 	tableText += '</table>';
 	res.render("dashboard.ejs", {statusMessage: tableText})
@@ -196,10 +196,13 @@ const selectMyProjects = function(req, res) {
 	  if (error) {
 		  throw error;
 	  }
-	  var tableText = "<table class='styled-table'><tr><th>TITLE</th><th>PROJECT ID</th><th>STATUS</th><th>RESPONSIBLE</th><th>DUE DATE</th><th>DESCRIPTION</th></tr>";
+	  var tableText = "<table class='styled-table'><tr><th>TITLE</th><th>ID</th><th>STATUS</th><th>RESPONSIBLE</th><th>DUE DATE</th><th>DESCRIPTION</th></tr>";
 	  var titlestring
 	  results.rows.forEach(element =>
-	  tableText += "<tr><td><form id='projectform' action='/openProject' method='post'><input type='text' name='ticketID' value='" + element.project_id + "' id='" + element.project_id + "' hidden>" + "<input type='submit'  class='projectTitle' value='" + element.title.replace(/'/gi,"''") + "'></form></td><td>" + element.project_id + "</td><td>" + element.status + "</td><td>" + element.displayname + "</td><td>" + element.duedate + "</td><td>" + element.description + "</td></tr>");
+	  tableText += "<tr>\
+					<td><form id='projectform' action='/openProject' method='post'>\
+					<input type='text' name='ticketID' value='" + element.project_id + "' id='" + element.project_id + "' hidden>" + "<input type='submit'  class='projectTitle' value='" + element.title.replace(/'/gi,"''") + "'></form></td>\
+					<td>" + element.project_id + "</td><td>" + element.status + "</td><td>" + element.displayname + "</td><td>" + element.duedate + "</td><td>" + element.description + "</td></tr>");
 	tableText += '</table>';
 	res.render("dashboard.ejs", {statusMessage: tableText})
 })
