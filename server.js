@@ -62,6 +62,9 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - form table which allows users to add column/drop column for inputs
    - premium is a form creator/public forms
    - admin page will have individual options and team options (only able to see admin options for a team if you are the owner/administrator)
+   - dashboard view (titles under status headings) calendar view overdue view
+   - language switching
+   - light view vs dark view
 */
 
 //-----------------------------------------------------------------
