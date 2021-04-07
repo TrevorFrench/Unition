@@ -15,7 +15,7 @@ const pool = new Pool({
 //--------------------------------ADMINISTRATION--------------------------------
 //------------------------------------------------------------------------------
 const admin = (request, response) => {
-  pool.query("insert into join_table (pt_id, pt_role_id, user_id) VALUES (1, 1, 2);", (error, results) => {
+  pool.query("ALTER TABLE categories ADD COLUMN pt_id int4;", (error, results) => {
     if (error) {
       throw error
     }
@@ -296,9 +296,6 @@ const plusComment = (request, response) => {
 	var description = description2.replace(/\"/gi,"''");
 	const user = request.user.displayname;
 	const project_id = request.body.project_id
-	console.log("DESCRIPTION STRING: " + descriptionstring)
-	console.log("DESCRIPTION 2: " + description2)
-	console.log("DESCRIPTION: " + description)
 	const sql = "INSERT INTO comments(created_by, description, project_id) VALUES ('" + user + "', '" + description + "', '" + project_id + "' )";
 	pool.query(sql, (error, results) => {
 	  if (error) {
@@ -381,17 +378,60 @@ const teams2 = (request, response) => {
 	  if (error) {
 		  throw error;
 	  }
-	  console.log(results.rows)
-	  console.log(sql)
 	  var tableText = "	<table class='styled-table'><tbody>\
-	  <tr><th>TEAM</th><th>USER</th><th>ROLE</th></tr>";
+	  <tr><th>TEAM</th><th>USER</th><th>ROLE</th><th>ACTION</th></tr>";
 	  var teamsVar = "";
 	  results.rows.forEach(element =>
-	  tableText += "<tr><td>" + element.pro_team_name + "</td><td>" + element.displayname + "</td><td>" + element.pt_role_iname + "</td></tr>");
+	  tableText += "<tr><td>" + element.pro_team_name + "</td><td>" + element.displayname + "</td><td>" + element.pt_role_name + "</td>\
+	  <td><form action='deliverTeam' method='POST'><input type='text' id='teamdid' name='teamid' value='" + element.pt_id + "' hidden><input type='submit' name='deliverTeam' value='View Team' class='projectTitle'></form></td></tr>");
 	  tableText += '</table>';
 	  results.rows.forEach(element =>
 	  teamsVar += "<li>" + element.pro_team_name + "</li>");
+	  if (results.rows[0] == null) {tableText = "NO TEAMS YET =("; teamsVar = "CREATE A TEAM"};
 	  response.render("teams.ejs", {statusMessage: tableText, teamsList: teamsVar})
+})
+}
+
+//------------------------------------------------------------------------------
+//-----------------------------DELIVER TEAMS BY ID------------------------------
+//------------------------------------------------------------------------------
+const deliverTeams = (request, response) => {
+	const sql = "SELECT pro_team_name, displayname from pro_team INNER JOIN join_table ON pro_team_id = pt_id INNER JOIN users ON users.id = join_table.user_id WHERE pro_team_id =" + request.body.teamid;
+	pool.query(sql, (error, results) => {
+	  if (error) {
+		  throw error;
+	  }
+
+	var usersText = "<h3>" + results.rows[0].pro_team_name + "<form action='/createTeamProject' method='post'>\
+				<input type='text' name='pt_id' id='pt_id' value=" + request.body.teamid + " hidden>\
+				<input class='redButton' type='submit' value='Create Team Project'>\
+				</form>\
+			</h3><br><p>PROJECTS<br>GRAPHS<br>USERS";
+	var teamsVar = results.rows[0].pro_team_name;
+	
+	results.rows.forEach(element => usersText += element.displayname + "<br>");
+	
+	usersText += "</p>";
+	
+	pool.query("SELECT * FROM projects where pt_id =" + request.body.teamid + ";", (error, results) => {
+	  if (error) {
+		  throw error;
+	  }
+	  
+	  console.log(results.rows)
+	  
+	  var projectsText = "<table class='styled-table'><tbody>\
+						<tr><th>Project Name</th></tr>";
+	
+	 results.rows.forEach(element => projectsText += "<tr><td>" + element.title + "</td></tr>");
+	 
+	 projectsText += "</table>";
+	 
+	 var tableText = usersText + projectsText;
+
+	  response.render("teams.ejs", {statusMessage: tableText, teamsList: teamsVar})
+	  
+	})
 })
 }
 
@@ -452,5 +492,6 @@ module.exports = {
   deliverLogin,
   createUser,
   deliverLoginSuccess,
-  teams2
+  teams2,
+  deliverTeams
 }

@@ -14,7 +14,6 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - Create an external script for functions
    - Order tables by due date
    - If column has NOT NULL, make form element required
-   - Error handling
    - Create a public forms directory
    - Get rid of index.html           
    - Be able to navigate to projects directly with a URL
@@ -56,6 +55,13 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - Calendar view
    - Bar at top of teams page to filter by category/team mate/calendar view/project management view
    - Switch category relationship to user to user_id from team_id
+   - Comments redirect to get project by id
+   - get rid of unnecessary console.logs
+   - maybe turn index into customizable dashboard and make actual index the landing page
+   - Default responsible to user on individual projects
+   - form table which allows users to add column/drop column for inputs
+   - premium is a form creator/public forms
+   - admin page will have individual options and team options (only able to see admin options for a team if you are the owner/administrator)
 */
 
 //-----------------------------------------------------------------
@@ -157,10 +163,20 @@ app.post('/createProject', 											// renders a form for project creation
 	require('connect-ensure-login').ensureLoggedIn(), 
 	db.users.createProject2
 	)
+
+app.post('/createTeamProject', 										// renders a form for team project creation
+	require('connect-ensure-login').ensureLoggedIn(), 
+	db.users.createTeamProject
+	)
 	
 app.post('/postProject', 											// posts project from previous form to the database
 	require('connect-ensure-login').ensureLoggedIn(), 
 	db.users.postProject
+	)
+	
+app.post('/postTeamProject', 										// posts team project from previous form to the database
+	require('connect-ensure-login').ensureLoggedIn(), 
+	db.users.postTeamProject
 	)
 	
 app.post('/updateProject', 											// allows users to change attributes of a project (currently only allows status to be changed
@@ -282,6 +298,11 @@ app.get('/teams',											        // renders the temporary 'teams' view
 app.get('/teams2',											        // renders the 'teams' view
   require('connect-ensure-login').ensureLoggedIn(),
     db2.teams2
+  );
+  
+app.post('/deliverTeam',											// delivers team view by id
+  require('connect-ensure-login').ensureLoggedIn(),
+    db2.deliverTeams
   );
   
   
