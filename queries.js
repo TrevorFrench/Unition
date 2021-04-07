@@ -15,62 +15,42 @@ const pool = new Pool({
 //--------------------------------ADMINISTRATION--------------------------------
 //------------------------------------------------------------------------------
 const admin = (request, response) => {
-  pool.query("ALTER TABLE categories ADD COLUMN pt_id int4;", (error, results) => {
-    if (error) {
-      throw error
-    }
-    response.status(200).json(results.rows)
-  })
+	const sql = "ALTER TABLE categories ADD COLUMN pt_id int4;";
+	pool.query(sql, (error, results) => {
+		if (error) {
+		  throw error
+		}
+		response.status(200).json(results.rows)
+	})
 }
 
 //------------------------------------------------------------------------------
 //--------------------------------GENERIC QUERIES-------------------------------
 //------------------------------------------------------------------------------
 //-These queries exist temporarily for reference and will ultimately be deleted-
-const selectCategories = (request, response) => {
-  pool.query("SELECT * FROM CATEGORIES", (error, results) => {
-    if (error) {
-      throw error
-    }
-    response.status(200).json(results.rows)
-  })
-}
-
 const getUserById = (request, response) => {
-  const id = parseInt(request.params.id)
-
-  pool.query('SELECT * FROM c', [id], (error, results) => {
-    if (error) {
-      throw error
-    }
-    response.status(200).json(results.rows)
-  })
-}
-
-const createUser2 = (request, response) => {
-  const { name, email } = request.body
-
-  pool.query("ALTER TABLE projects ADD COLUMN category TEXT;", (error, results) => {
-    if (error) {
-      throw error
-    }
-    response.status(201).send(`User added with ID`)
-  })
+	const id = parseInt(request.params.id);
+	const sql = "SELECT * FROM c";
+	pool.query(sql, [id], (error, results) => {
+		if (error) {
+		  throw error
+		}
+		response.status(200).json(results.rows)
+	})
 }
 
 //------------------------------------------------------------------------------
 //---------------------------DELETES SELECTED CATEGORY--------------------------
 //------------------------------------------------------------------------------
 const deleteCategory = (request, response) => {
-  const category_id = parseInt(request.body.category_id)
-  console.log(category_id)
-  console.log(request.body.category_id)
-  pool.query('DELETE FROM categories WHERE category_id = $1', [category_id], (error, results) => {
-    if (error) {
-      throw error
-    }
-    deliverCategories(request, response)
-  })
+	const category_id = parseInt(request.body.category_id);
+	const sql = "DELETE FROM categories WHERE category_id = $1";
+	pool.query(sql, [category_id], (error, results) => {
+		if (error) {
+		  throw error
+		}
+		deliverCategories(request, response)
+	})
 }
 
 //------------------------------------------------------------------------------
