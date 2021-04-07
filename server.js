@@ -38,10 +38,6 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - handle apostrophes in table list rendering (replace with a non-impactful chracter maybe)
    - allow links to specific projects
    - create an API
-   - get an SSL
-   - get pre-loading
-   - launch to unition.app
-   - line break and format long string in the code
    - can I delete inline functions?
    - delete unused login files
    - create campaign functionality
@@ -65,6 +61,8 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - dashboard view (titles under status headings) calendar view overdue view
    - language switching
    - light view vs dark view
+   - delete inline styles
+   - Announcements table for team page header
 */
 
 //-----------------------------------------------------------------
@@ -107,7 +105,6 @@ app.listen(app.get("port"), function () {                           // listens o
 //-----------------------------------------------------------------
 //--------------------------LOGIN MODULES--------------------------
 //-----------------------------------------------------------------
-
 passport.use(new Strategy(											// Configure the local strategy for use by Passport.
 	function(username, password, cb) {								
 	  db.users.findByUsername(username, function(err, user) {		// The local strategy require a `verify` function which receives the credentials
@@ -136,7 +133,6 @@ app.use(passport.session());
 //-----------------------------------------------------------------
 //-----------------------FUNCTIONAL QUERIES------------------------
 //-----------------------------------------------------------------
-
 app.post('/openProjects', 											// select only projects where status = 'Open'
 	require('connect-ensure-login').ensureLoggedIn(), 
 	db2.selectOpen
@@ -198,32 +194,32 @@ app.post('/addComment', 											// Adds a comment to current project
 	)
 	
 app.get('/tables',												    // renders the 'tables' view
-  require('connect-ensure-login').ensureLoggedIn(),
-  db2.deliverTables
-);
+	require('connect-ensure-login').ensureLoggedIn(),
+	db2.deliverTables
+	)
 
 app.post('/categories',												// renders the 'categories' view
-  require('connect-ensure-login').ensureLoggedIn(),
-  db2.deliverCategories
-);
+	require('connect-ensure-login').ensureLoggedIn(),
+	db2.deliverCategories
+	)
 
 app.post('/deleteCategory',											// deletes the selected category
-  require('connect-ensure-login').ensureLoggedIn(),
-  db2.deleteCategory
-);
+	require('connect-ensure-login').ensureLoggedIn(),
+	db2.deleteCategory
+	)
 
 app.post('/addCategory',											// adds the specified category
-  require('connect-ensure-login').ensureLoggedIn(),
-  db2.addCategory
-);
+	require('connect-ensure-login').ensureLoggedIn(),
+	db2.addCategory
+	)
 
 app.post('/addUser', 											    // Adds a comment to current project
 	db2.createUser
-);
+	)
 
 app.get('/Excel', 													// select every project that has been created for Excel scraping
 	db2.selectExcel
-);
+	)
 
 //-----------------------------------------------------------------
 //-----------------------------ROUTES------------------------------
@@ -250,9 +246,8 @@ app.get('/', 														// when the root directory loads, send the index.html
 	);
 
 app.get('/login',													// Delivers the login screen
-  /*function(req, res){*/
-    /*res.render('login');*/ db2.deliverLogin
-  /*});*/)
+	db2.deliverLogin
+	)
   
 app.post('/login', 													// Posts the login credentials
   passport.authenticate('local', { failureRedirect: '/login' }),	// Tests credentials, if credentials fail the login screen is rendered again
