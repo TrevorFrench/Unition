@@ -60,11 +60,13 @@
 			<form action="/" method="get">
 				<input class="redButton" type="submit" value="Create Team">
 			</form>
+			<form action='/createTeamProject' method='post'>
+					<input type='text' name='pt_id' id='pt_id'value=" + request.body.teamid + " hidden>
+					<input class='redButton' type='submit' style="width:250px;" value='Create Team Project'>
+			</form>
 			<a href="/profile" class="profileButton" style="display:flex; float:right;"><i class="fas fa-user" height=45></i></a>
 	</div>
 	<div class="dataRow">
-			<br>
-			<br>
           <%- statusMessage %>
 	</div>
 	</div>

@@ -63,6 +63,9 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - light view vs dark view
    - delete inline styles
    - Announcements table for team page header
+   - Insert light mode/dark mode into user field
+   - Add a campaigns tab
+   - Add a filter on the charts page (timeframe)
 */
 
 //-----------------------------------------------------------------

@@ -631,8 +631,38 @@ const selectCharts = (request, response) => {
 		results.rows.forEach(element => 
 			dataArray.push(element.project_count)
 		);
+		
+		let googleArray = [];
+		results.rows.forEach(element =>
+			googleArray.push("['" + element.project_month + "' ," + parseInt(element.project_count) + "]")
+		);
 		texts+= "[" + dataArray + "]";
-		response.render("charts.ejs", {statusMessage: texts});
+		console.log(googleArray);
+		const sql2 = "SELECT category, COUNT(category) AS CATEGORY_COUNT FROM projects WHERE (responsible = '" + user + "') GROUP BY category ORDER BY category_COUNT DESC;";
+		pool.query(sql2, (error, results) => {
+			if (error) {
+				throw error;
+			}
+			
+			let categoryArray = [];
+			results.rows.forEach(element =>
+					categoryArray.push("['" + element.category + "', " + parseInt(element.category_count) + "]")
+				);
+			console.log(categoryArray)
+			const sql3 = "SELECT customer, COUNT(customer) AS CUSTOMER_COUNT FROM projects WHERE (responsible = '" + user + "') GROUP BY customer ORDER BY CUSTOMER_COUNT DESC;";
+			pool.query(sql3, (error, results) => {
+				if (error) {
+					throw error;
+				}
+				let customerArray = [];
+				results.rows.forEach(element =>
+						customerArray.push("['" + element.customer + "', " + parseInt(element.customer_count) + "]")
+					);
+				console.log(customerArray)
+				
+				response.render("charts.ejs", {statusMessage: googleArray, categoryData: categoryArray, customerData: customerArray});
+			});
+		});
 	});
 }
 
@@ -742,17 +772,8 @@ const deliverTeams = (request, response) => {
 		if (error) {
 			throw error;
 		}
-		var usersText = "<h3>" + results.rows[0].pro_team_name + "\
-				<form action='/createTeamProject' method='post'>\
-					<input type='text' name='pt_id' id='pt_id' \
-						value=" + request.body.teamid + " hidden>\
-					<input class='redButton' type='submit' \
-						value='Create Team Project'>\
-				</form>\
-			</h3>\
-			<br>\
-			<p>PROJECTS\
-			<br>GRAPHS\
+		var title = "<div class='nextRow'> <h3>" + results.rows[0].pro_team_name + "</h3>Announcements:</div>"
+		var usersText = title + "<br><br>\
 			<br>USERS";
 		var teamsVar = results.rows[0].pro_team_name;
 		results.rows.forEach(element => 
@@ -766,11 +787,18 @@ const deliverTeams = (request, response) => {
 				throw error;
 			}
 			var projectsText = "<table class='styled-table'><tbody>\
-				<tr><th>Project Name</th></tr>";
+				<tr><th>Projects</th></tr>";
 			results.rows.forEach(element => 
-				projectsText += "<tr><td>" + element.title + "</td></tr>"
+				projectsText += "<tr><td><form id='projectform' action='/openProject' method='post'>\
+						<input type='text' name='ticketID' \
+							value='" + element.project_id + "' \
+							id='" + element.project_id + "' hidden>\
+						<input type='submit'  class='projectTitle' \
+							value='" + element.title.replace(/'/gi,"''") + "'>\
+					</form></td></tr>"
 			);
-			projectsText += "</table>";
+			projectsText += "</table><p>PROJECTS\
+			<br>GRAPHS";
 			var tableText = usersText + projectsText;
 			response.render("teams.ejs", {
 				statusMessage: tableText, teamsList: teamsVar
