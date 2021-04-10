@@ -773,13 +773,12 @@ const deliverTeams = (request, response) => {
 			throw error;
 		}
 		var title = "<div class='nextRow'> <h3>" + results.rows[0].pro_team_name + "</h3>Announcements:</div>"
-		var usersText = title + "<br><br>\
-			<br>USERS";
+		var usersText = title + "<table class='styled-table'><tbody><tr><th>Users</th></tr>";
 		var teamsVar = results.rows[0].pro_team_name;
 		results.rows.forEach(element => 
-			usersText += element.displayname + "<br>"
+			usersText += "<tr><td>" + element.displayname + "</td></tr>"
 		);
-		usersText += "</p>";
+		usersText += "</tbody></table></p>";
 		const sql2 = "SELECT * FROM projects \
 						WHERE pt_id =" + request.body.teamid + ";";
 		pool.query(sql2, (error, results) => {
@@ -797,9 +796,13 @@ const deliverTeams = (request, response) => {
 							value='" + element.title.replace(/'/gi,"''") + "'>\
 					</form></td></tr>"
 			);
-			projectsText += "</table><p>PROJECTS\
+			projectsText += "</table><p>\
 			<br>GRAPHS";
-			var tableText = usersText + projectsText;
+			var buttons = "<form action='/createTeamProject' method='post'>\
+					<input type='text' name='pt_id' id='pt_id'value=" + request.body.teamid + " hidden>\
+					<input class='redButton' type='submit' style='width:250px;' value='Create Team Project'>\
+			</form>"
+			var tableText = buttons + usersText + projectsText;
 			response.render("teams.ejs", {
 				statusMessage: tableText, teamsList: teamsVar
 				}
@@ -861,6 +864,79 @@ const createUser = (request, response) => {
 	});
 }
 
+//------------------------------------------------------------------------------
+//------------------------------USER JOINS A TEAM-------------------------------
+//------------------------------------------------------------------------------
+const joinTeam = function(req, res) {
+	const sql = "SELECT * from pro_team WHERE pro_team_id = " + req.body.team_id + ";";
+	pool.query(sql, (error, results) => {
+		if (error) {
+			throw error;
+		}
+		let sqlID = [];
+		results.rows.forEach(element => sqlID.push(element.pro_team_id));
+		let sqlName = [];
+		results.rows.forEach(element => sqlName.push(element.pro_team_name));
+		//MAKE SURE TEAM ID EXISTS	 	
+		if (sqlID[0] != null) {
+			console.log("ID EXISTS")
+			//IF IT DOES EXIST, CHECK TO MAKE SURE TEAM NAME MATCHES
+			if (req.body.team_name == results.rows[0].pro_team_name) {
+				console.log("TEAM NAME MATCHES")									
+					//MAKE SURE USER ISN'T ALREADY PART OF THE TEAM
+					const sql2 = "SELECT * FROM join_table WHERE user_id =" + req.user.id + " AND pt_id=" + req.body.team_id + ";";
+					pool.query(sql2, (error, results) => {
+						if (error) {
+							throw error;
+						}
+						if (results.rows[0] != null) {
+							//DO NOT JOIN TEAM
+							res.render("dashboard.ejs", {statusMessage: "FAILURE (0): You are already part of this team! Navigate to the 'Teams' tab to interact with your teammates."});
+							console.log("USER ALREADY EXISTS")
+						} else {
+						console.log("USER IS NOT ALREADY PART OF THE TEAM")
+						
+						//JOIN TEAM
+						const sql3 = "INSERT INTO join_table(pt_id, user_id, pt_role_id) VALUES (" + req.body.team_id + ", " + req.user.id + ", " + 1 + ");";
+						pool.query(sql3, (error, results) => {
+							if (error) {
+								throw error;
+							}
+							console.log("SUCCESSFULLY ADDED USER TO TEAM")
+							res.render("dashboard.ejs", {statusMessage: "You have been added to the team successfully. Navigate to the 'Teams' tab to start collaborating!"});
+							});
+						}
+					});
+										
+			} else {
+				var tableText = "";
+				//DO NOT JOIN TEAM
+				console.log("FAILURE1: NAME DOES NOT EXIST")
+				res.render("dashboard.ejs", {statusMessage: "FAILURE (1): TEAM NAME DOES NOT MATCH ID. Please double-check your spelling and try again."});
+			}
+
+		} else {
+			//DO NOT JOIN TEAM
+			console.log("FAILURE2: TEAM ID DOES NOT EXIST")
+			res.render("dashboard.ejs", {statusMessage: "FAILURE (2): TEAM ID DOES NOT EXIST"});
+			}							 
+	});
+};
+
+//------------------------------------------------------------------------------
+//-------------------------DELIVERS THE JOIN TEAM VIEW--------------------------
+//------------------------------------------------------------------------------
+const deliverJoinTeam = function(req, res) {
+	var tableText = "<form action='/joinTeam' method='POST'>\
+			<input type='text' name='user_id' id='user_id' value=" + req.user.id + " hidden>\
+			<label for='team_name'>Team Name:</label><br><br>\
+			<input type='text' name='team_name' id='team_name'>\
+			<label for='team_id'>Team ID:</label><br><br>\
+			<input type='number' name='team_id' id='team_id'>\
+			<input class='redButton' type='submit' style='width:250px;' value='Join Team'>\
+		</form>";
+	res.render("dashboard.ejs", {statusMessage: tableText});
+};
 
 //------------------------------------------------------------------------------
 //--------------------------------EXPORT MODULES--------------------------------
@@ -887,5 +963,7 @@ module.exports = {
   createUser,
   deliverLoginSuccess,
   teams2,
-  deliverTeams
+  deliverTeams,
+  deliverJoinTeam,
+  joinTeam
 }

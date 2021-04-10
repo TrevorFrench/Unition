@@ -306,6 +306,15 @@ app.post('/deliverTeam',											// delivers team view by id
     db2.deliverTeams
   );
   
+app.post('/deliverJoinTeam',										// delivers the join team view
+  require('connect-ensure-login').ensureLoggedIn(),
+    db2.deliverJoinTeam
+  );
+  
+app.post('/joinTeam',												// user joins a team
+  require('connect-ensure-login').ensureLoggedIn(),
+    db2.joinTeam
+  );
   
 app.get('/forms',												    // renders the 'forms' view
   require('connect-ensure-login').ensureLoggedIn(),
