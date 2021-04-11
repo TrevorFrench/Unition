@@ -7,8 +7,6 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - Develop "Status" table and feed into a drop-down on projects
    - Make a new landing page for successful database connections
    - Update the admin query/call
-   - Format the project creation screen 
-   - Build a "Comments" table
    - Add comment every time an update is made to a project
    - Protect the Admin page
    - Create an external script for functions
@@ -66,6 +64,8 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - Insert light mode/dark mode into user field
    - Add a campaigns tab
    - Add a filter on the charts page (timeframe)
+   - Exclude closed projects on teams view
+   - Filter on teams view would be the same function except add "where category/etc. = " into sql queries
 */
 
 //-----------------------------------------------------------------
@@ -311,9 +311,19 @@ app.post('/deliverJoinTeam',										// delivers the join team view
     db2.deliverJoinTeam
   );
   
+app.post('/deliverCreateTeam',										// delivers the create team view
+  require('connect-ensure-login').ensureLoggedIn(),
+    db2.deliverCreateTeam
+  );
+  
 app.post('/joinTeam',												// user joins a team
   require('connect-ensure-login').ensureLoggedIn(),
     db2.joinTeam
+  );
+  
+app.post('/createTeam',												// user creates a team
+  require('connect-ensure-login').ensureLoggedIn(),
+    db2.createTeam
   );
   
 app.get('/forms',												    // renders the 'forms' view
