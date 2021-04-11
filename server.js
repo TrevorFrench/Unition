@@ -90,8 +90,29 @@ app.set('view engine', 'ejs');                                      // sets the 
 app.use(require('morgan')('combined'));                             // Use application-level middleware for common functionality, including
 app.use(bodyParser.urlencoded({ extended: true }));                 // logging, parsing, and session handling.
 
-app.use(require('express-session')
-	({  secret: 'keyboard cat', 
+
+//------------------------------------------------------------------------------
+//---------------------------INITIALIZE DB CONNECTION---------------------------
+//------------------------------------------------------------------------------
+const Pool = require('pg').Pool
+const pool = new Pool({
+  user: 'xdlepbswgkuwsn',
+  host: 'ec2-54-236-146-234.compute-1.amazonaws.com',
+  database: 'd216rqdgnn6371',
+  password: '43fc7fd35e724f6a212661eb4fd3ae514003079f9d3a56a56b2d96eb959dbaeb',
+  port: 5432,
+  ssl: true,
+})
+
+var pg = require('pg')
+  , session = require('express-session')
+  , pgSession = require('connect-pg-simple')(session);
+
+app.use(session({
+		  store: new pgSession({
+			pool : pool,                // Connection pool
+		  }),
+		secret: 'keyboard cat', 
 		resave: false, 
 		saveUninitialized: true, 
 		cookie: { maxAge: 60 * 60 * 1000 }							// 1 hour cookie

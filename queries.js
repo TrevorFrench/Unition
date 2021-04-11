@@ -15,7 +15,13 @@ const pool = new Pool({
 //--------------------------------ADMINISTRATION--------------------------------
 //------------------------------------------------------------------------------
 const admin = (request, response) => {
-	const sql = "CREATE TABLE customers (customer TEXT, customer_id SERIAL, description TEXT, pt_id INT4, team_id INT4);";
+	const sql = 'CREATE TABLE session (\
+				  sid varchar NOT NULL COLLATE "default",\
+				  sess json NOT NULL,\
+				  expire timestamp(6) NOT NULL,\
+				  CONSTRAINT "session_pkey" PRIMARY KEY ("sid")\
+				);\
+				CREATE INDEX "IDX_session_expire" ON session ("expire");';
 	pool.query(sql, (error, results) => {
 		if (error) {
 			throw error
