@@ -205,6 +205,11 @@ app.post('/categories',												// renders the 'categories' view
 	require('connect-ensure-login').ensureLoggedIn(),
 	db2.deliverCategories
 	)
+	
+app.post('/customers',												// renders the 'customers' view
+	require('connect-ensure-login').ensureLoggedIn(),
+	db2.deliverCustomers
+	)
 
 app.post('/deleteCategory',											// deletes the selected category
 	require('connect-ensure-login').ensureLoggedIn(),
@@ -214,6 +219,16 @@ app.post('/deleteCategory',											// deletes the selected category
 app.post('/addCategory',											// adds the specified category
 	require('connect-ensure-login').ensureLoggedIn(),
 	db2.addCategory
+	)
+
+app.post('/deleteCustomer',											// deletes the selected customer
+	require('connect-ensure-login').ensureLoggedIn(),
+	db2.deleteCustomer
+	)
+
+app.post('/addCustomer',											// adds the specified customer
+	require('connect-ensure-login').ensureLoggedIn(),
+	db2.addCustomer
 	)
 
 app.post('/addUser', 											    // Adds a comment to current project

@@ -15,7 +15,7 @@ const pool = new Pool({
 //--------------------------------ADMINISTRATION--------------------------------
 //------------------------------------------------------------------------------
 const admin = (request, response) => {
-	const sql = "ALTER TABLE categories ADD COLUMN pt_id int4;";
+	const sql = "CREATE TABLE customers (customer TEXT, customer_id SERIAL, description TEXT, pt_id INT4, team_id INT4);";
 	pool.query(sql, (error, results) => {
 		if (error) {
 			throw error
@@ -84,6 +84,54 @@ const addCategory = (request, response) => {
 			throw error
 		}
 		deliverCategories(request, response);
+	});
+}
+
+//------------------------------------------------------------------------------
+//---------------------------DELETES SELECTED CUSTOMER--------------------------
+//------------------------------------------------------------------------------
+const deleteCustomer = (request, response) => {
+	const customer_id = parseInt(request.body.customer_id);
+	const sql = "DELETE FROM customers WHERE customer_id = $1";
+	pool.query(sql, [customer_id], (error, results) => {
+		if (error) {
+		  throw error
+		}
+		deliverCustomers(request, response);
+	});
+}
+
+//------------------------------------------------------------------------------
+//----------------------------ADDS SPECIFIED CUSTOMER---------------------------
+//------------------------------------------------------------------------------
+const addCustomer = (request, response) => {
+	
+	//--------This sequence processes apostrophes/quotes--------
+	const namestring = request.body.customer_name;
+	var name2 = namestring.replace(/'/gi,"''");
+	var name = name2.replace(/\"/gi,"''");
+	const descriptionstring = request.body.customer_description;
+	var description2 = descriptionstring.replace(/'/gi,"''");
+	var description = description2.replace(/\"/gi,"''");
+	//----------------------------------------------------------
+	
+	const team = request.body.team_id;
+	const sql = "INSERT INTO customers\
+					(customer\
+						, description\
+						, team_id\
+					)\
+				VALUES\
+					('" + name + "'\
+						,'" + description + "'\
+						,'" + team + "'\
+					);";
+	
+	pool.query(sql, (error, results) => {
+		if (error) {
+			throw error
+		}
+		deliverCustomers(request, response);
 	});
 }
 
@@ -359,6 +407,14 @@ const deliverTables = function(req, res) {
 				</td>\
 				<td>Returns a table containing all categories.</td>\
 			</tr>\
+			<tr><td>\
+					<form action='/customers' method='post'>\
+						<input type='submit' name='delivercategories' \
+							value='Customers' class='projectTitle'>\
+					</form>\
+				</td>\
+				<td>Returns a table containing all customers.</td>\
+			</tr>\
 		</tbody></table>";
 	res.render("dashboard.ejs", {statusMessage: tableText});
 };
@@ -400,6 +456,54 @@ const deliverCategories = function(req, res) {
 			</td>\
 			<td><input type='text' name='category_description' \
 			id='category_description' \
+					style='width: 100%;padding: 12px;border: 1px solid #ccc;\
+					border-radius: 4px; resize: vertical;'>\
+				<input type='text' name='team_id' id='team_id' \
+				value='" + team_id + "' hidden>\
+			</td>\
+			<td><input type='submit' class='redButton'></td>\
+		</tr></tbody></table>";
+		res.render("dashboard.ejs", {statusMessage: tableText});
+	});
+};
+
+//------------------------------------------------------------------------------
+//-------------------------DELIVERS THE CUSTOMERS VIEW--------------------------
+//------------------------------------------------------------------------------
+const deliverCustomers = function(req, res) {
+	const team_id = req.user.team;
+	const sql = "SELECT * FROM customers WHERE team_id =" + team_id;
+	pool.query(sql, (error, results) => {
+		if (error) {
+			throw error;
+		}
+		var tableText = "<table class='styled-table'><tbody>\
+			<tr><th>Customers</th>\
+				<th>Description</th>\
+				<th>Action</th>\
+			</tr>";
+		results.rows.forEach(element => 
+			tableText += "<tr>\
+				<td>" + element.customer + "</td>\
+				<td>" + element.description + "</td>\
+				<td><form action='/deleteCustomer' method='post'>\
+						<input type='text' id='customer_id' name='customer_id' \
+							value='" + element.customer_id + "' hidden>\
+						<input type='submit' name='deletecustomer' \
+							value='DELETE' \
+							class='projectTitle'>\
+					</form>\
+				</td>\
+			</tr>"
+		);
+		tableText += "<tr>\
+			<td><form action='/addCustomer' method='POST'>\
+				<input type='text' name='customer_name' id='customer_name' \
+					style='width: 100%;padding: 12px;border: 1px solid #ccc;\
+					border-radius: 4px; resize: vertical;'>\
+			</td>\
+			<td><input type='text' name='customer_description' \
+			id='customer_description' \
 					style='width: 100%;padding: 12px;border: 1px solid #ccc;\
 					border-radius: 4px; resize: vertical;'>\
 				<input type='text' name='team_id' id='team_id' \
@@ -1038,5 +1142,8 @@ module.exports = {
   deliverJoinTeam,
   joinTeam,
   createTeam,
-  deliverCreateTeam
+  deliverCreateTeam,
+  deliverCustomers,
+  deleteCustomer,
+  addCustomer
 }
