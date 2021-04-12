@@ -231,25 +231,55 @@ app.post('/customers',												// renders the 'customers' view
 	require('connect-ensure-login').ensureLoggedIn(),
 	db2.deliverCustomers
 	)
+	
+app.post('/teamCategories',											// renders the 'team categories' view
+	require('connect-ensure-login').ensureLoggedIn(),
+	db2.deliverTeamCategories
+	)
+	
+app.post('/teamCustomers',											// renders the 'team customers' view
+	require('connect-ensure-login').ensureLoggedIn(),
+	db2.deliverTeamCustomers
+	)
 
 app.post('/deleteCategory',											// deletes the selected category
 	require('connect-ensure-login').ensureLoggedIn(),
 	db2.deleteCategory
 	)
 
+app.post('/deleteTeamCategory',										// deletes the selected team category
+	require('connect-ensure-login').ensureLoggedIn(),
+	db2.deleteTeamCategory
+	)
+
 app.post('/addCategory',											// adds the specified category
 	require('connect-ensure-login').ensureLoggedIn(),
 	db2.addCategory
+	)
+	
+app.post('/addTeamCategory',										// adds the specified team category
+	require('connect-ensure-login').ensureLoggedIn(),
+	db2.addTeamCategory
 	)
 
 app.post('/deleteCustomer',											// deletes the selected customer
 	require('connect-ensure-login').ensureLoggedIn(),
 	db2.deleteCustomer
 	)
+	
+app.post('/deleteTeamCustomer',										// deletes the selected team customer
+	require('connect-ensure-login').ensureLoggedIn(),
+	db2.deleteTeamCustomer
+	)
 
 app.post('/addCustomer',											// adds the specified customer
 	require('connect-ensure-login').ensureLoggedIn(),
 	db2.addCustomer
+	)
+	
+app.post('/addTeamCustomer',										// adds the specified customer
+	require('connect-ensure-login').ensureLoggedIn(),
+	db2.addTeamCustomer
 	)
 
 app.post('/addUser', 											    // Adds a comment to current project

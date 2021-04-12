@@ -223,21 +223,26 @@ exports.createTeamProject = function(req, res) {
 
     }
 	userSelect += "</select></div></div>";
-	var customerInput = "<div class='row'><div class='col-25'><label for='customer'>Customer:</label></div>\
-		<div class='col-75'><select id='customer' name='customer' style='width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;'>\
-		<option value='FSOP'><b>FSOP</b></option>\
-		<option value='FSOP - Sales'>FSOP - Sales</option>\
-		<option value='FSOP - Service'>FSOP - Service</option>\
-		<option value='FSOP - Customer Care'>FSOP - Customer Care</option>\
-		<option value='PRGM'><b>PRGM</b></option>\
-		<option value='PRGM - FSOP'>PRGM - FSOP</option>\
-		<option value='S&P'><b>S&P</b></option>\
-		<option value='S&P - Pricing'>S&P - Pricing</option>\
-		<option value='S&P - Insights'>S&P - Insights</option>\
-		<option value='S&P - Commercial Marketing'>S&P - Commercial Marketing</option>\
-		<option value='Swire Coca-Cola, USA'><b>Swire Coca-Cola, USA</b></option>\
-		<option value='Consumer'><b>Consumer</b></option>\
-		</select></div></div>";
+	
+		pool.query("SELECT * FROM customers WHERE pt_id =" + team_id, (error, results) => {
+		if (error) {
+		  throw error
+		}
+	
+	/*----------------------------------------------*/
+	let customerVar = "<select name='customer' id='customer' style='width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;' pattern=[^'\x22]+>"
+	let testNull2 = [];
+	results.rows.forEach(element => customerVar += "<option>" + element.customer + "</option>");
+	results.rows.forEach(element => testNull2.push(element.customer))
+	customerVar += '</select>';
+	/*If this is a new user which hasn't created any categories yet, direct them to the documentation explaining what categories are and how to create them*/
+	if (testNull2.length == 0) { customerVar = "<a href='./documentation#createCategories'>It looks like you haven't created any customers yet. Learn more here!</a>"};
+	/*----------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+	/*----------------------------------------------*/
+	
+		var customerInput = "<div class='row'><div class='col-25'><label for='customer'>Customer:</label></div>\
+		<div class='col-75'>" + customerVar + "</select></div></div>";
 	var javascriptvar = "<script>\
                       function myFunction() {\
                                var input, filter, ul, li, a, i;\
@@ -309,6 +314,7 @@ exports.createTeamProject = function(req, res) {
 						<input type='submit' value='Create Project' class='blueButton'>\
 						</form></div>";
 	res.render("dashboard.ejs", {statusMessage: projectFrame})
+	});
 	});
 
 

@@ -60,6 +60,54 @@ const deleteCategory = (request, response) => {
 }
 
 //------------------------------------------------------------------------------
+//------------------------DELETES SELECTED TEAM CATEGORY------------------------
+//------------------------------------------------------------------------------
+const deleteTeamCategory = (request, response) => {
+	const category_id = parseInt(request.body.category_id);
+	const sql = "DELETE FROM categories WHERE category_id = $1";
+	pool.query(sql, [category_id], (error, results) => {
+		if (error) {
+		  throw error
+		}
+		deliverTeamCategories(request, response);
+	});
+}
+
+//------------------------------------------------------------------------------
+//-------------------------ADDS SPECIFIED TEAM CATEGORY-------------------------
+//------------------------------------------------------------------------------
+const addTeamCategory = (request, response) => {
+	
+	//--------This sequence processes apostrophes/quotes--------
+	const namestring = request.body.category_name;
+	var name2 = namestring.replace(/'/gi,"''");
+	var name = name2.replace(/\"/gi,"''");
+	const descriptionstring = request.body.category_description;
+	var description2 = descriptionstring.replace(/'/gi,"''");
+	var description = description2.replace(/\"/gi,"''");
+	//----------------------------------------------------------
+	
+	const team = request.body.teamID;
+	const sql = "INSERT INTO categories\
+					(category\
+						, description\
+						, pt_id\
+					)\
+				VALUES\
+					('" + name + "'\
+						,'" + description + "'\
+						,'" + team + "'\
+					);";
+	
+	pool.query(sql, (error, results) => {
+		if (error) {
+			throw error
+		}
+		deliverTeamCategories(request, response);
+	});
+}
+
+//------------------------------------------------------------------------------
 //----------------------------ADDS SPECIFIED CATEGORY---------------------------
 //------------------------------------------------------------------------------
 const addCategory = (request, response) => {
@@ -94,6 +142,20 @@ const addCategory = (request, response) => {
 }
 
 //------------------------------------------------------------------------------
+//------------------------DELETES SELECTED TEAM CUSTOMER------------------------
+//------------------------------------------------------------------------------
+const deleteTeamCustomer = (request, response) => {
+	const customer_id = parseInt(request.body.customer_id);
+	const sql = "DELETE FROM customers WHERE customer_id = $1";
+	pool.query(sql, [customer_id], (error, results) => {
+		if (error) {
+		  throw error
+		}
+		deliverTeamCustomers(request, response);
+	});
+}
+
+//------------------------------------------------------------------------------
 //---------------------------DELETES SELECTED CUSTOMER--------------------------
 //------------------------------------------------------------------------------
 const deleteCustomer = (request, response) => {
@@ -104,6 +166,40 @@ const deleteCustomer = (request, response) => {
 		  throw error
 		}
 		deliverCustomers(request, response);
+	});
+}
+
+//------------------------------------------------------------------------------
+//-------------------------ADDS SPECIFIED TEAM CUSTOMER-------------------------
+//------------------------------------------------------------------------------
+const addTeamCustomer = (request, response) => {
+	
+	//--------This sequence processes apostrophes/quotes--------
+	const namestring = request.body.customer_name;
+	var name2 = namestring.replace(/'/gi,"''");
+	var name = name2.replace(/\"/gi,"''");
+	const descriptionstring = request.body.customer_description;
+	var description2 = descriptionstring.replace(/'/gi,"''");
+	var description = description2.replace(/\"/gi,"''");
+	//----------------------------------------------------------
+	
+	const team = request.body.teamID;
+	const sql = "INSERT INTO customers\
+					(customer\
+						, description\
+						, pt_id\
+					)\
+				VALUES\
+					('" + name + "'\
+						,'" + description + "'\
+						,'" + team + "'\
+					);";
+	
+	pool.query(sql, (error, results) => {
+		if (error) {
+			throw error
+		}
+		deliverTeamCustomers(request, response);
 	});
 }
 
@@ -403,26 +499,106 @@ const selectMyProjects = function(req, res) {
 //---------------------------DELIVERS THE TABLES VIEW---------------------------
 //------------------------------------------------------------------------------
 const deliverTables = function(req, res) {
-	var tableText = "<table class='styled-table'><tbody>\
-			<tr><th>TABLE LIST</th><th>Description</th></tr>\
-			<tr><td>\
-					<form action='/categories' method='post'>\
-						<input type='submit' name='delivercategories' \
-							value='Categories' class='projectTitle'>\
+	const sql = "SELECT * FROM join_table INNER JOIN pro_team ON pro_team_id = pt_id WHERE user_id =" + req.user.id + " AND pt_role_id = 1;";
+	pool.query(sql, (error, results) => {
+		if (error) {
+			throw error;
+		}
+		var tableText = "<table class='styled-table'><tbody>\
+				<tr><th>Personal Administration</th><th>Description</th></tr>\
+				<tr><td>\
+						<form action='/categories' method='post'>\
+							<input type='submit' name='delivercategories' \
+								value='Categories' class='projectTitle'>\
+						</form>\
+					</td>\
+					<td>Returns a table containing all categories.</td>\
+				</tr>\
+				<tr><td>\
+						<form action='/customers' method='post'>\
+							<input type='submit' name='delivercustomers' \
+								value='Customers' class='projectTitle'>\
+						</form>\
+					</td>\
+					<td>Returns a table containing all customers.</td>\
+				</tr>\
+			</tbody></table>";
+		
+		var teamsText = ""
+		
+		results.rows.forEach(element => teamsText += "<br><table class='styled-table'><tbody><tr><th>" + element.pro_team_name + " Administration</th><th>Description</th></tr>\
+				<tr><td>\
+						<form action='/teamCategories' method='post'>\
+							<input type='text' name='teamID' id='teamID' value=" + element.pro_team_id + " hidden>\
+							<input type='submit' name='deliverTeamCategories' \
+								value='Categories' class='projectTitle'>\
+						</form>\
+					</td>\
+					<td>Returns a table containing all categories.</td>\
+				</tr>\
+				<tr><td>\
+						<form action='/teamCustomers' method='post'>\
+						<input type='text' name='teamID' id='teamID' value=" + element.pro_team_id + " hidden>\
+							<input type='submit' name='deliverTeamCustomers' \
+								value='Customers' class='projectTitle'>\
+						</form>\
+					</td>\
+					<td>Returns a table containing all customers.</td>\
+				</tr>\
+			</tbody></table>")
+		
+		res.render("dashboard.ejs", {statusMessage: tableText + teamsText});
+	});
+};
+
+//------------------------------------------------------------------------------
+//----------------------DELIVERS THE TEAMS CATEGORIES VIEW----------------------
+//------------------------------------------------------------------------------
+const deliverTeamCategories = function(req, res) {
+	const team_id = req.body.teamID;
+	const sql = "SELECT * FROM CATEGORIES WHERE pt_id =" + team_id + ";";
+	pool.query(sql, (error, results) => {
+		if (error) {
+			throw error;
+		}
+		var tableText = "<table class='styled-table'><tbody>\
+			<tr><th>Category</th>\
+				<th>Description</th>\
+				<th>Action</th>\
+			</tr>";
+		results.rows.forEach(element => 
+			tableText += "<tr>\
+				<td>" + element.category + "</td>\
+				<td>" + element.description + "</td>\
+				<td><form action='/deleteTeamCategory' method='post'>\
+						<input type='text' id='category_id' name='category_id' \
+							value='" + element.category_id + "' hidden>\
+						<input type='text' name='teamID' id='teamID' \
+							value='" + team_id + "' hidden>\
+						<input type='submit' name='deletecategory' \
+							value='DELETE' \
+							class='projectTitle'>\
 					</form>\
 				</td>\
-				<td>Returns a table containing all categories.</td>\
-			</tr>\
-			<tr><td>\
-					<form action='/customers' method='post'>\
-						<input type='submit' name='delivercategories' \
-							value='Customers' class='projectTitle'>\
-					</form>\
-				</td>\
-				<td>Returns a table containing all customers.</td>\
-			</tr>\
-		</tbody></table>";
-	res.render("dashboard.ejs", {statusMessage: tableText});
+			</tr>"
+		);
+		tableText += "<tr>\
+			<td><form action='/addTeamCategory' method='POST'>\
+				<input type='text' name='category_name' id='category_name' \
+					style='width: 100%;padding: 12px;border: 1px solid #ccc;\
+					border-radius: 4px; resize: vertical;'>\
+			</td>\
+			<td><input type='text' name='category_description' \
+			id='category_description' \
+					style='width: 100%;padding: 12px;border: 1px solid #ccc;\
+					border-radius: 4px; resize: vertical;'>\
+				<input type='text' name='teamID' id='teamID' \
+				value='" + team_id + "' hidden>\
+			</td>\
+			<td><input type='submit' class='redButton'></td>\
+		</tr></tbody></table>";
+		res.render("dashboard.ejs", {statusMessage: tableText});
+	});
 };
 
 //------------------------------------------------------------------------------
@@ -465,6 +641,56 @@ const deliverCategories = function(req, res) {
 					style='width: 100%;padding: 12px;border: 1px solid #ccc;\
 					border-radius: 4px; resize: vertical;'>\
 				<input type='text' name='team_id' id='team_id' \
+				value='" + team_id + "' hidden>\
+			</td>\
+			<td><input type='submit' class='redButton'></td>\
+		</tr></tbody></table>";
+		res.render("dashboard.ejs", {statusMessage: tableText});
+	});
+};
+
+//------------------------------------------------------------------------------
+//----------------------DELIVERS THE TEAMS CUSTOMERS VIEW-----------------------
+//------------------------------------------------------------------------------
+const deliverTeamCustomers = function(req, res) {
+	const team_id = req.body.teamID;
+	const sql = "SELECT * FROM customers WHERE pt_id =" + team_id;
+	pool.query(sql, (error, results) => {
+		if (error) {
+			throw error;
+		}
+		var tableText = "<table class='styled-table'><tbody>\
+			<tr><th>Customers</th>\
+				<th>Description</th>\
+				<th>Action</th>\
+			</tr>";
+		results.rows.forEach(element => 
+			tableText += "<tr>\
+				<td>" + element.customer + "</td>\
+				<td>" + element.description + "</td>\
+				<td><form action='/deleteTeamCustomer' method='post'>\
+						<input type='text' id='customer_id' name='customer_id' \
+							value='" + element.customer_id + "' hidden>\
+						<input type='text' name='teamID' id='teamID' \
+							value='" + team_id + "' hidden>\
+						<input type='submit' name='deletecustomer' \
+							value='DELETE' \
+							class='projectTitle'>\
+					</form>\
+				</td>\
+			</tr>"
+		);
+		tableText += "<tr>\
+			<td><form action='/addTeamCustomer' method='POST'>\
+				<input type='text' name='customer_name' id='customer_name' \
+					style='width: 100%;padding: 12px;border: 1px solid #ccc;\
+					border-radius: 4px; resize: vertical;'>\
+			</td>\
+			<td><input type='text' name='customer_description' \
+			id='customer_description' \
+					style='width: 100%;padding: 12px;border: 1px solid #ccc;\
+					border-radius: 4px; resize: vertical;'>\
+				<input type='text' name='teamID' id='teamID' \
 				value='" + team_id + "' hidden>\
 			</td>\
 			<td><input type='submit' class='redButton'></td>\
@@ -1151,5 +1377,11 @@ module.exports = {
   deliverCreateTeam,
   deliverCustomers,
   deleteCustomer,
-  addCustomer
+  addCustomer,
+  addTeamCustomer,
+  addTeamCategory,
+  deliverTeamCustomers,
+  deliverTeamCategories,
+  deleteTeamCategory,
+  deleteTeamCustomer
 }
