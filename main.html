@@ -25,6 +25,7 @@
 		<script defer src="./node_modules/@fortawesome/fontawesome-free/js/solid.js"></script>
 		<script defer src="./node_modules/@fortawesome/fontawesome-free/js/fontawesome.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.js"></script>
 	</head>
 	
 	<body>
@@ -46,7 +47,13 @@
 
 	</div>
 	<div class="container" style="height:500px;">
-	<div class="nextRow" style="height:350px; width: 48%; float: left; display: block; margin: 10px;"><h1 style="color: white;">Welcome to your new work-life.</h1><h4 style="color: white;">We've been working hard to provide you with a <span style="color:#ff4b2b;">free</span> solution to help manage your busy workload.</h4></div>
+	<div class="nextRow" style="height:350px; width: 48%; float: left; display: block; margin: 10px;"><h1 style="color: white;">Welcome to your new work-life.</h1><h4 style="color: white;">We've been working hard to provide you with a <span style="color:#ff4b2b;">free</span> solution to help manage your busy workload.</h4>
+	&nbsp;-Create and track projects
+	<br>
+	&nbsp;-Work within teams
+	<br>
+	&nbsp;-Track progress with your own performance dashboard
+	</div>
 	<div class="chartContainer" style="height:350px; width: 48%; float: right; display: block; margin: 10px; ">
 	
 	<svg xmlns="http://www.w3.org/2000/svg" id="master-artboard" viewBox="0 0 431.6309814453125 288.14398193359375" version="1.1" x="0px" y="0px" width="431.6309814453125px" height="288.14398193359375px" style="enable-background:new 0 0 1400 980; width: 80%; margin-left: 10%; height: 80%; margin-top: 5%;"><rect id="ee-background" x="0" y="0" width="431.6309814453125" height="288.14398193359375" style="fill: white; fill-opacity: 0; pointer-events: none;"/><defs><radialGradient id="gradient-0" gradientUnits="objectBoundingBox" cx="0.5" cy="0.5" r="0.5">
@@ -135,37 +142,6 @@
                 <stop offset="1" style="stop-color: #dbcd06"/>
               </linearGradient></defs>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <g transform="matrix(1, 0, 0, 1, -131.94600792394738, -119.32508504125805)">
 	<path class="st29" d="M450.8,336.3c-92.2-34.4-96.8-41.6-163.1-82c-5.3-3.2-9.3-4.5-14.7-7.9c-11.6-7.4-49.6-29.7-54.2-35.2&#10;&#9;&#9;c5.9-2.4,7.7-15.9,18.3-28.4c4.6-5.5,4.6-2.7,6-9.9c7.6-0.9,2.2,1,8.2-5.6c2.9-3.2,4.3-4.7,9.1-7.2l-1.8-3&#10;&#9;&#9;c8.9-0.9,21.4-14,43.2-21.4c34.5-11.8,74.8-10.5,107.9,5.4c11.2,5.4,32.8,21.5,37.6,28.3c3.6,2.4,0.3-0.7,3.8,3.6&#10;&#9;&#9;c1.6,2,1.5,2.3,2.9,4.2C508.2,253.9,446.6,326.4,450.8,336.3z" style="fill-rule: evenodd; clip-rule: evenodd; fill: url('#gradient-0');"/>
 	<path class="st30" d="M459.2,315.6c-8.2,16.7-11.6,13.1-8.4,20.6c-57.7-21.5-81.1-32.4-106.7-47.4V127.9&#10;&#9;&#9;c22.6-0.8,45.4,3.5,65.6,13.2c11.2,5.4,32.8,21.5,37.6,28.3c3.6,2.4,0.3-0.7,3.8,3.6c1.6,2,1.5,2.3,2.9,4.2&#10;&#9;&#9;C484.4,220.2,479.9,273.4,459.2,315.6z" style="fill-rule: evenodd; clip-rule: evenodd; fill: url('#gradient-1');"/>
@@ -180,9 +156,12 @@
 
 
 </svg>
-	
-</div>
+</div>	
 	</div>
-		
+	
+				<form action="/myProjects" method="post">
+				<input class="redButton"  style="width: 35%; margin-left:32.5%;"type="submit" value="Try it now!">
+			</form>
+
 	</body>
 </html>
