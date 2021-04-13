@@ -108,7 +108,7 @@ var pg = require('pg')
 
 app.use(session({
 		  store: new pgSession({
-			pool : pool,                // Connection pool
+			pool : pool,                							// Connection pool
 		  }),
 		secret: 'keyboard cat', 
 		resave: false, 
