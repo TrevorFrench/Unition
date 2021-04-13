@@ -16,14 +16,11 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - Get rid of index.html           
    - Be able to navigate to projects directly with a URL
    - Display limit on description in the table
-   - Make admin page with an open box for SQL
    - Search box for Ticket ID on home page (all pages?)                       
    - Comment and close option on projects
    - Create a hidden option on projects so that sensitive projects don't show up in lists
    - Form creation wizard
    - Admin option to change image
-   - Style user profile page
-   - Add teams and roles
    - Create a status table
    - Clean up code
    - Put all queries into users.js or vice versa?
@@ -34,7 +31,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - hide team, auto incrmenet, allow user to change team on profile page, lookup to make sure team exists for team change
    - first time user creates a project no category is available (link to documentation?)
    - handle apostrophes in table list rendering (replace with a non-impactful chracter maybe)
-   - allow links to specific projects
+   - allow browser links to specific projects?
    - create an API
    - can I delete inline functions?
    - delete unused login files
@@ -66,6 +63,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - Add a filter on the charts page (timeframe)
    - Exclude closed projects on teams view
    - Filter on teams view would be the same function except add "where category/etc. = " into sql queries
+   - Create team as role id 1, join team as role id 2. Give admin role functionality.
 */
 
 //-----------------------------------------------------------------
