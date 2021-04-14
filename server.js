@@ -65,6 +65,9 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - Filter on teams view would be the same function except add "where category/etc. = " into sql queries
    - Create team as role id 1, join team as role id 2. Give admin role functionality.
    - Build a teams app
+   - Build out documentation for adding customers/categories at least
+   - Build out a support/feedback table
+   - foreign key constraints/make sure workflow accomodates foreign keys (updating in the correct order)
 */
 
 //-----------------------------------------------------------------
