@@ -64,6 +64,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - Exclude closed projects on teams view
    - Filter on teams view would be the same function except add "where category/etc. = " into sql queries
    - Create team as role id 1, join team as role id 2. Give admin role functionality.
+   - Build a teams app
 */
 
 //-----------------------------------------------------------------
