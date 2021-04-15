@@ -66,6 +66,8 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - Build out a support/feedback table
    - foreign key constraints/make sure workflow accomodates foreign keys (updating in the correct order)
    - two hidden routes
+   - Forms tab should include all teams forms as well
+   - function that pulls forms out of browser, checks if user is part of requested team if it is an internal user, otherwise renders
 */
 
 //-----------------------------------------------------------------
@@ -334,7 +336,7 @@ app.post('/login', 													// Posts the login credentials
 app.get('/logout',													// logs the current user out and delivers the home screen
   function(req, res){
     req.logout();
-    res.redirect('/home');
+    res.redirect('/login');
   });
 
 app.get('/profile',													// renders the 'profile' for the current user
