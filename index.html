@@ -24,44 +24,144 @@
 		<script defer src="./node_modules/@fortawesome/fontawesome-free/js/brands.js"></script>
 		<script defer src="./node_modules/@fortawesome/fontawesome-free/js/solid.js"></script>
 		<script defer src="./node_modules/@fortawesome/fontawesome-free/js/fontawesome.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.js"></script>
 	</head>
 	
 	<body>
 
-	 <div class="container">
+	 <div class="container" style="height:100px;">
 	
-		<div class="card">
+		<div class="card" style="height:100px;">
 			<div class="header">
 			  <img type="image/png" src="./public/unition4.png" style="margin-top:20px;" class="unition">
 			  <img type="image/png" src="./public/unitionBig.png" style="margin-top:20px;" class="unitionBig">
 			  <img type="image/png" src="./public/unitionSmall.png" style="margin-top:20px;" class="unitionSmall">
 			</div>
-			<div class="body">
-			  <ul>
-				<li><i class="fas fa-home icon"></i> <a href="./index.html"><div class="navText">Home</div></a></li>
-				<li><i class="fas fa-stream icon"></i><a href='./projects'><div class="navText"> Projects</div></a></li>				
-				<li><i class="fas fa-wrench icon"></i><form id="loadAdmin" action="/adminPage" method="post"><a href="javascript: loadAdmin()"><div class="navText">Admin</div></a></form></li>
-				<li><i class="fas fa-table icon"></i><a href="./tables"><div class="navText"> Tables</div></a></li>
-				<li><i class="fab fa-wpforms icon"></i><a href="./forms"><div class="navText"> Forms</div></a></li>
-				<li><i class="fas fa-chart-pie icon"></i> <form id="opencharts" action="/openCharts" method="post"><a href="javascript: submitcharts()"><div class="navText">Charts</div></a></form></li>
-				<li><i class="fas fa-users icon"></i><a href="./teams"><div class="navText">Teams</div></a></li>
-				<li><i class="fas fa-book icon"></i><a href="./documentation"><div class="navText">Documentation</div></a></li>
-			  </ul>
-			</div>
 		</div>
 	
-		<div class="main">
-			<form action="/createProject" method="post">
-				<input class="redButton" type="submit" value="Create Project">
-			</form>
-			<form action="/myProjects" method="post">
-				<input class="redButton" type="submit" value="My Projects">
-			</form>
+		<div class="main" style="height:100px;">
+
 			<a class="profileButton" href="/profile" style="display:flex; float:right;"><i class="fas fa-user" height=45></i></a>
 		</div>
 
 	</div>
-		
+	<div class="container" style="height:500px;">
+	<div class="nextRow" style="height:350px; width: 48%; float: left; display: block; margin: 10px;"><h1 style="color: white;">Welcome to your new work-life.</h1><h4 style="color: white;">We've been working hard to provide you with a <span style="color:#ff4b2b;">free</span> solution to help manage your busy workload.</h4>
+	&nbsp;-Create and track projects
+	<br>
+	&nbsp;-Work within teams
+	<br>
+	&nbsp;-Track progress with your own performance dashboard
+	</div>
+	<div class="chartContainer" style="height:350px; width: 48%; float: right; display: block; margin: 10px; ">
+	
+	<svg xmlns="http://www.w3.org/2000/svg" id="master-artboard" viewBox="0 0 431.6309814453125 288.14398193359375" version="1.1" x="0px" y="0px" width="431.6309814453125px" height="288.14398193359375px" style="enable-background:new 0 0 1400 980; width: 80%; margin-left: 10%; height: 80%; margin-top: 5%;"><rect id="ee-background" x="0" y="0" width="431.6309814453125" height="288.14398193359375" style="fill: white; fill-opacity: 0; pointer-events: none;"/><defs><radialGradient id="gradient-0" gradientUnits="objectBoundingBox" cx="0.5" cy="0.5" r="0.5">
+                <stop offset="0" style="stop-color: #ff4b2b"/>
+                <stop offset="1" style="stop-color: #c41d00"/>
+              </radialGradient><radialGradient id="gradient-1" gradientUnits="objectBoundingBox" cx="0.5" cy="0.5" r="0.5">
+                <stop offset="0" style="stop-color: #ff4b2b"/>
+                <stop offset="1" style="stop-color: #c41d00"/>
+              </radialGradient><radialGradient id="gradient-2" gradientUnits="objectBoundingBox" cx="0.5" cy="0.5" r="0.5">
+                <stop offset="0" style="stop-color: #ff4b2b"/>
+                <stop offset="1" style="stop-color: #c41d00"/>
+              </radialGradient><radialGradient id="gradient-3" gradientUnits="objectBoundingBox" cx="0.5" cy="0.5" r="0.5">
+                <stop offset="0" style="stop-color: #ff4b2b"/>
+                <stop offset="1" style="stop-color: #c41d00"/>
+              </radialGradient><radialGradient id="gradient-4" gradientUnits="objectBoundingBox" cx="0.5" cy="0.5" r="0.5">
+                <stop offset="0" style="stop-color: #ff4b2b"/>
+                <stop offset="1" style="stop-color: #c41d00"/>
+              </radialGradient><radialGradient id="gradient-5" gradientUnits="objectBoundingBox" cx="0.5" cy="0.5" r="0.5">
+                <stop offset="0" style="stop-color: #ff4b2b"/>
+                <stop offset="1" style="stop-color: #c41d00"/>
+              </radialGradient><radialGradient id="gradient-6" gradientUnits="objectBoundingBox" cx="0.5" cy="0.5" r="0.5">
+                <stop offset="0" style="stop-color: #ff4b2b"/>
+                <stop offset="1" style="stop-color: #c41d00"/>
+              </radialGradient><linearGradient id="gradient-7" gradientUnits="userSpaceOnUse" x1="163.14945220947266" y1="510.9535217285156" x2="163.14945220947266" y2="687">
+                <stop offset="0" style="stop-color: #ff416d"/>
+                <stop offset="1" style="stop-color: #da0033"/>
+              </linearGradient><linearGradient id="gradient-8" gradientUnits="userSpaceOnUse" x1="188.3107452392578" y1="510.7387390136719" x2="188.3107452392578" y2="686.0999755859375">
+                <stop offset="0" style="stop-color: #ff416d"/>
+                <stop offset="1" style="stop-color: #da0033"/>
+              </linearGradient><linearGradient id="gradient-9" gradientUnits="userSpaceOnUse" x1="163.29957580566406" y1="531.6814575195312" x2="163.29957580566406" y2="592.721435546875">
+                <stop offset="0" style="stop-color: #ff416d"/>
+                <stop offset="1" style="stop-color: #da0033"/>
+              </linearGradient><linearGradient id="gradient-10" gradientUnits="userSpaceOnUse" x1="164.79999923706055" y1="465.5" x2="164.79999923706055" y2="517">
+                <stop offset="0" style="stop-color: #ff416d"/>
+                <stop offset="1" style="stop-color: #da0033"/>
+              </linearGradient><linearGradient id="gradient-11" gradientUnits="userSpaceOnUse" x1="184.5500030517578" y1="465.5" x2="184.5500030517578" y2="517">
+                <stop offset="0" style="stop-color: #ff416d"/>
+                <stop offset="1" style="stop-color: #da0033"/>
+              </linearGradient><linearGradient id="gradient-12" gradientUnits="userSpaceOnUse" x1="163.29998779296875" y1="629.5" x2="163.29998779296875" y2="729.7999877929688">
+                <stop offset="0" style="stop-color: #ff416d"/>
+                <stop offset="1" style="stop-color: #da0033"/>
+              </linearGradient><linearGradient id="gradient-13" gradientUnits="userSpaceOnUse" x1="176.64999389648438" y1="630.0000610351562" x2="176.64999389648438" y2="729.2000122070312">
+                <stop offset="0" style="stop-color: #ff416d"/>
+                <stop offset="1" style="stop-color: #da0033"/>
+              </linearGradient><linearGradient id="gradient-14" gradientUnits="userSpaceOnUse" x1="219.14112854003906" y1="628.7000122070312" x2="219.14112854003906" y2="712.1000366210938">
+                <stop offset="0" style="stop-color: #ff416d"/>
+                <stop offset="1" style="stop-color: #da0033"/>
+              </linearGradient><linearGradient id="gradient-15" gradientUnits="userSpaceOnUse" x1="108.20230865478516" y1="624.199951171875" x2="108.20230865478516" y2="712.0999145507812">
+                <stop offset="0" style="stop-color: #ff416d"/>
+                <stop offset="1" style="stop-color: #da0033"/>
+              </linearGradient><linearGradient id="gradient-16" gradientUnits="userSpaceOnUse" x1="163.08665466308594" y1="540.7136840820312" x2="163.08665466308594" y2="583.675048828125">
+                <stop offset="0" style="stop-color: #ff416d"/>
+                <stop offset="1" style="stop-color: #da0033"/>
+              </linearGradient><linearGradient id="gradient-17" gradientUnits="userSpaceOnUse" x1="163.14945220947266" y1="510.9535217285156" x2="163.14945220947266" y2="687">
+                <stop offset="0" style="stop-color: #ff416d"/>
+                <stop offset="1" style="stop-color: #da0033"/>
+              </linearGradient><linearGradient id="gradient-18" gradientUnits="userSpaceOnUse" x1="188.3107452392578" y1="510.7387390136719" x2="188.3107452392578" y2="686.0999755859375">
+                <stop offset="0" style="stop-color: #ff416d"/>
+                <stop offset="1" style="stop-color: #da0033"/>
+              </linearGradient><linearGradient id="gradient-19" gradientUnits="userSpaceOnUse" x1="163.29957580566406" y1="531.6814575195312" x2="163.29957580566406" y2="592.721435546875">
+                <stop offset="0" style="stop-color: #ff416d"/>
+                <stop offset="1" style="stop-color: #da0033"/>
+              </linearGradient><linearGradient id="gradient-20" gradientUnits="userSpaceOnUse" x1="164.79999923706055" y1="465.5" x2="164.79999923706055" y2="517">
+                <stop offset="0" style="stop-color: #ff416d"/>
+                <stop offset="1" style="stop-color: #da0033"/>
+              </linearGradient><linearGradient id="gradient-21" gradientUnits="userSpaceOnUse" x1="184.5500030517578" y1="465.5" x2="184.5500030517578" y2="517">
+                <stop offset="0" style="stop-color: #ff416d"/>
+                <stop offset="1" style="stop-color: #da0033"/>
+              </linearGradient><linearGradient id="gradient-22" gradientUnits="userSpaceOnUse" x1="163.29998779296875" y1="629.5" x2="163.29998779296875" y2="729.7999877929688">
+                <stop offset="0" style="stop-color: #ff416d"/>
+                <stop offset="1" style="stop-color: #da0033"/>
+              </linearGradient><linearGradient id="gradient-23" gradientUnits="userSpaceOnUse" x1="176.64999389648438" y1="630.0000610351562" x2="176.64999389648438" y2="729.2000122070312">
+                <stop offset="0" style="stop-color: #ff416d"/>
+                <stop offset="1" style="stop-color: #da0033"/>
+              </linearGradient><linearGradient id="gradient-24" gradientUnits="userSpaceOnUse" x1="219.14112854003906" y1="628.7000122070312" x2="219.14112854003906" y2="712.1000366210938">
+                <stop offset="0" style="stop-color: #ff416d"/>
+                <stop offset="1" style="stop-color: #da0033"/>
+              </linearGradient><linearGradient id="gradient-25" gradientUnits="userSpaceOnUse" x1="108.20230865478516" y1="624.199951171875" x2="108.20230865478516" y2="712.0999145507812">
+                <stop offset="0" style="stop-color: #ff416d"/>
+                <stop offset="1" style="stop-color: #da0033"/>
+              </linearGradient><linearGradient id="gradient-26" gradientUnits="userSpaceOnUse" x1="163.08665466308594" y1="540.7136840820312" x2="163.08665466308594" y2="583.675048828125">
+                <stop offset="0" style="stop-color: #ff416d"/>
+                <stop offset="1" style="stop-color: #da0033"/>
+              </linearGradient><linearGradient id="gradient-27" gradientUnits="userSpaceOnUse" x1="678.1109313964844" y1="142.24468994140625" x2="678.1109313964844" y2="206.3999786376953">
+                <stop offset="0" style="stop-color: #faee4d"/>
+                <stop offset="1" style="stop-color: #dbcd06"/>
+              </linearGradient></defs>
+
+<g transform="matrix(1, 0, 0, 1, -131.94600792394738, -119.32508504125805)">
+	<path class="st29" d="M450.8,336.3c-92.2-34.4-96.8-41.6-163.1-82c-5.3-3.2-9.3-4.5-14.7-7.9c-11.6-7.4-49.6-29.7-54.2-35.2&#10;&#9;&#9;c5.9-2.4,7.7-15.9,18.3-28.4c4.6-5.5,4.6-2.7,6-9.9c7.6-0.9,2.2,1,8.2-5.6c2.9-3.2,4.3-4.7,9.1-7.2l-1.8-3&#10;&#9;&#9;c8.9-0.9,21.4-14,43.2-21.4c34.5-11.8,74.8-10.5,107.9,5.4c11.2,5.4,32.8,21.5,37.6,28.3c3.6,2.4,0.3-0.7,3.8,3.6&#10;&#9;&#9;c1.6,2,1.5,2.3,2.9,4.2C508.2,253.9,446.6,326.4,450.8,336.3z" style="fill-rule: evenodd; clip-rule: evenodd; fill: url('#gradient-0');"/>
+	<path class="st30" d="M459.2,315.6c-8.2,16.7-11.6,13.1-8.4,20.6c-57.7-21.5-81.1-32.4-106.7-47.4V127.9&#10;&#9;&#9;c22.6-0.8,45.4,3.5,65.6,13.2c11.2,5.4,32.8,21.5,37.6,28.3c3.6,2.4,0.3-0.7,3.8,3.6c1.6,2,1.5,2.3,2.9,4.2&#10;&#9;&#9;C484.4,220.2,479.9,273.4,459.2,315.6z" style="fill-rule: evenodd; clip-rule: evenodd; fill: url('#gradient-1');"/>
+	<path class="st27" d="M258.6,157.1l1.8,3c-4.9,2.5-6.2,4-9.1,7.2c-6,6.6-0.6,4.8-8.2,5.6c-21.3-3.9-35.2-15.2-60.1-3.9&#10;&#9;&#9;c-1,12.9,7.9,20.4,14.1,25.5c6.5,5.4,13.1,10.8,21.7,16.7c4.6,5.5,42.7,27.8,54.2,35.2c5.4,3.5,9.4,4.7,14.7,7.9&#10;&#9;&#9;c66.4,40.4,70.9,47.7,163.1,82c14.4,0.2,33.3,7.9,45.5-5.8c2.3-11.5-3.8-17.1-9.3-21.8c-4.4-3.8-13.9-10.8-19.4-13.5&#10;&#9;&#9;c-2.6-3.5,1.4-16.6,5-18.2c7.1,2.2,75.2,47.2,61.1,78.4c-6.6,14.5-33.3,17.9-54.5,15.3c-20.9-2.5-37.3-9.2-56.5-15.1l-88.6-42.8&#10;&#9;&#9;c-4.9-3.2-2-1.6-6.9-3.6c-17.6-7.3-59.5-34.9-76.1-46.4l-34.2-23.6c-2.9-2.1,0.5-0.2-3.8-2.5c-12.3-4.4-34.4-24.1-43.7-32&#10;&#9;&#9;c-9.9-8.3-30.3-28-27-50.4C148,115.8,236.3,148,258.6,157.1z" style="fill-rule: evenodd; clip-rule: evenodd; fill: url('#gradient-2');"/>
+	<path class="st29" d="M422.8,355.6c-7.2,13.2-48,25.2-67.9,26.8c-29.3,2.4-56.2-3.8-78.3-17.3c-21.7-13.3-34.1-26.3-46.4-48.1&#10;&#9;&#9;c-16.4-29-15.7-43.7-17.1-80.4c4.3,2.3,0.8,0.4,3.8,2.5l34.2,23.6c16.6,11.5,58.6,39.1,76.1,46.4c4.9,2,1.9,0.3,6.9,3.6&#10;&#9;&#9;L422.8,355.6z" style="fill-rule: evenodd; clip-rule: evenodd; fill: url('#gradient-3');"/>
+	<path class="st30" d="M422.8,355.6c-7.2,13.2-48,25.2-67.9,26.8c-4,0.3-7.9,0.5-11.7,0.5v-65.8L422.8,355.6z" style="fill-rule: evenodd; clip-rule: evenodd; fill: url('#gradient-4');"/>
+	
+	
+</g>
+
+
+
+
+</svg>
+</div>	
+	</div>
+	
+				<form action="/myProjects" method="post">
+				<input class="redButton"  style="width: 35%; margin-left:32.5%;"type="submit" value="Try it now!">
+			</form>
+
 	</body>
 </html>

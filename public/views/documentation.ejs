@@ -41,10 +41,9 @@
 			</div>
 			<div class="body">
 			  <ul>
-				<li><i class="fas fa-home icon"></i> <a href="./index.html"><div class="navText">Home</div></a></li>
+				<li><i class="fas fa-home icon"></i> <a href="./main.html"><div class="navText">Home</div></a></li>
 				<li><i class="fas fa-stream icon"></i><a href='./projects'><div class="navText"> Projects</div></a></li>				
-				<li><i class="fas fa-wrench icon"></i><form id="loadAdmin" action="/adminPage" method="post"><a href="javascript: loadAdmin()"><div class="navText">Admin</div></a></form></li>
-				<li><i class="fas fa-table icon"></i><a href="./tables"><div class="navText"> Tables</div></a></li>
+				<li><i class="fas fa-wrench icon"></i><a href='./adminPage'><div class="navText">Admin</div></a></li>
 				<li><i class="fab fa-wpforms icon"></i><a href="./forms"><div class="navText"> Forms</div></a></li>
 				<li><i class="fas fa-chart-pie icon"></i> <form id="opencharts" action="/openCharts" method="post"><a href="javascript: submitcharts()"><div class="navText">Charts</div></a></form></li>
 				<li><i class="fas fa-users icon"></i><a href="./teams"><div class="navText">Teams</div></a></li>
@@ -65,16 +64,17 @@
 			<br>
           <%- statusMessage %>
 		  <h3>Unition Project Management Documentation</h3>
-		  <ul>
+		  <ul style="color: white;">
 			<li>Basic Usage</li>
 			<li>Administration</li>
 			<li>Excel Integration</li>
-			<li><a id="createCategories">Creating Categrories</a></li>
+			<li><a href="./documentation#createCategories">Creating Categrories</a></li>
 		  </ul>
-		  
-	</div>
-
-
+		  <h4 style="color: white;"><a id="createCategories">Create Categories and Customers</a></h4>
+		  <p style="color:white;">Adding categories and customers to your projects is a great way to keep track of what kind of work you're doing and who you're doing it for (plus, it's easy).<br>First, go to your admin portal and choose either 'customers' or 'categories':</p>
+		  <img type="image/png" src="./public/createCategory.png" style="margin-top:20px;" >
+		  <p style="color:white;">Next, type in the name of the category/customer (this will show up in a drop-down on your project creation form) and add a quick description if you want.</p>
+		  <img type="image/png" src="./public/createCategory2.png" style="margin-top:20px;" >
 </div>
 		
 	</body>

@@ -31,15 +31,12 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - hide team, auto incrmenet, allow user to change team on profile page, lookup to make sure team exists for team change
    - first time user creates a project no category is available (link to documentation?)
    - handle apostrophes in table list rendering (replace with a non-impactful chracter maybe)
-   - allow browser links to specific projects?
    - create an API
    - can I delete inline functions?
    - delete unused login files
    - create campaign functionality
    - ERROR HANDLING (model after create user error and expand on that no throw errors)
    - make sure there are valid redirects (no response.anything)
-   - PERSONAL vs Organizational Projects
-   - Memory Store Leak
    - filtering by displayname which isn't unique (FIXED but still need to change responsible to INT4 and get rid of to-number function in joins)
    - excel page is a vulnerability
    - log user creation and last login
@@ -68,6 +65,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - Build out documentation for adding customers/categories at least
    - Build out a support/feedback table
    - foreign key constraints/make sure workflow accomodates foreign keys (updating in the correct order)
+   - two hidden routes
 */
 
 //-----------------------------------------------------------------
@@ -219,7 +217,7 @@ app.post('/addComment', 											// Adds a comment to current project
 	db2.plusComment
 	)
 	
-app.get('/tables',												    // renders the 'tables' view
+app.get('/adminPage',												// renders the 'tables' view
 	require('connect-ensure-login').ensureLoggedIn(),
 	db2.deliverTables
 	)
@@ -295,7 +293,7 @@ app.get('/Excel', 													// select every project that has been created for
 //-----------------------------------------------------------------
 //-----------------------------ROUTES------------------------------
 //-----------------------------------------------------------------
-app.post('/adminPage', 												// renders a page which is used for administration
+app.get('/admin', 													// renders a page which is used for administration
 	require('connect-ensure-login').ensureLoggedIn(), 
 	function(req, res){
 		if (req.user.username == "TrevorFrench") {
@@ -306,13 +304,20 @@ app.post('/adminPage', 												// renders a page which is used for administr
 				</form>"
 			}
 		)
-		} else { res.redirect('/') }}
+		} else { res.redirect('/home') }}
 	); 
 
-app.get('/', 														// when the root directory loads, send the index.html file to the client
+app.get('/', 														// when the root directory loads, send the main.html file to the client
 	(req, res) =>
 		res.sendFile(
 			path.join(__dirname, 'index.html')
+		)
+	);
+
+app.get('/home', 													// when the root directory loads, send the main.html file to the client
+	(req, res) =>
+		res.sendFile(
+			path.join(__dirname, 'main.html')
 		)
 	);
 
@@ -323,13 +328,13 @@ app.get('/login',													// Delivers the login screen
 app.post('/login', 													// Posts the login credentials
   passport.authenticate('local', { failureRedirect: '/login' }),	// Tests credentials, if credentials fail the login screen is rendered again
   function(req, res) {
-    res.redirect('/');												// Home screen is delivered if credentials are tested successfully
+    res.redirect('/home');											// Home screen is delivered if credentials are tested successfully
   });
   
 app.get('/logout',													// logs the current user out and delivers the home screen
   function(req, res){
     req.logout();
-    res.redirect('/');
+    res.redirect('/home');
   });
 
 app.get('/profile',													// renders the 'profile' for the current user
