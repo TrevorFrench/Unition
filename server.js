@@ -68,6 +68,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - two hidden routes
    - Forms tab should include all teams forms as well
    - function that pulls forms out of browser, checks if user is part of requested team if it is an internal user, otherwise renders
+   - set recurring projects in the admin table
 */
 
 //-----------------------------------------------------------------
@@ -273,6 +274,11 @@ app.post('/deleteTeamCustomer',										// deletes the selected team customer
 	require('connect-ensure-login').ensureLoggedIn(),
 	db2.deleteTeamCustomer
 	)
+	
+app.post('/deleteCampaign',											// deletes the selected campaign
+	require('connect-ensure-login').ensureLoggedIn(),
+	db2.deleteCampaign
+	)
 
 app.post('/addCustomer',											// adds the specified customer
 	require('connect-ensure-login').ensureLoggedIn(),
@@ -284,7 +290,12 @@ app.post('/addTeamCustomer',										// adds the specified customer
 	db2.addTeamCustomer
 	)
 
-app.post('/addUser', 											    // Adds a comment to current project
+app.post('/addCampaign',											// adds the specified customer
+	require('connect-ensure-login').ensureLoggedIn(),
+	db2.addCampaign
+	)
+
+app.post('/addUser', 											    // creates a new user
 	db2.createUser
 	)
 
@@ -365,6 +376,11 @@ app.get('/documentation',											// renders the 'documentation' view
     res.render("documentation.ejs", {statusMessage: ""})
   });
   
+app.get('/campaigns',											        // renders the 'campaigns' view
+  require('connect-ensure-login').ensureLoggedIn(),
+    db2.deliverCampaigns
+  );
+  
 app.get('/teams',											        // renders the temporary 'teams' view
   require('connect-ensure-login').ensureLoggedIn(),
   function(req, res){
@@ -399,6 +415,11 @@ app.post('/joinTeam',												// user joins a team
 app.post('/createTeam',												// user creates a team
   require('connect-ensure-login').ensureLoggedIn(),
     db2.createTeam
+  );
+  
+app.post('/updateCampaign',											// updates a campaign
+  require('connect-ensure-login').ensureLoggedIn(),
+    db2.updateCampaign
   );
   
 app.get('/forms',												    // renders the 'forms' view

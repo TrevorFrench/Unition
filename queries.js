@@ -15,13 +15,7 @@ const pool = new Pool({
 //--------------------------------ADMINISTRATION--------------------------------
 //------------------------------------------------------------------------------
 const admin = (request, response) => {
-	const sql = 'CREATE TABLE session (\
-				  sid varchar NOT NULL COLLATE "default",\
-				  sess json NOT NULL,\
-				  expire timestamp(6) NOT NULL,\
-				  CONSTRAINT "session_pkey" PRIMARY KEY ("sid")\
-				);\
-				CREATE INDEX "IDX_session_expire" ON session ("expire");';
+	const sql = 'ALTER TABLE campaigns ADD COLUMN pt_id INT4';
 	pool.query(sql, (error, results) => {
 		if (error) {
 			throw error
@@ -42,6 +36,60 @@ const getUserById = (request, response) => {
 			throw error
 		}
 		response.status(200).json(results.rows);
+	});
+}
+
+//------------------------------------------------------------------------------
+//----------------------------ADDS SPECIFIED CAMPAIGN---------------------------
+//------------------------------------------------------------------------------
+const addCampaign = (request, response) => {
+	
+	//--------This sequence processes apostrophes/quotes--------
+	const namestring = request.body.name;
+	var name2 = namestring.replace(/'/gi,"''");
+	var name = name2.replace(/\"/gi,"''");
+	const resourcestring = request.body.resource;
+	var resource2 = resourcestring.replace(/'/gi,"''");
+	var resource = resource2.replace(/\"/gi,"''");
+	//----------------------------------------------------------
+	
+	const user = request.user.id;
+	const sql = "INSERT INTO campaigns\
+					(name\
+						, start_date\
+						, end_date\
+						, resource\
+						, pcomplete\
+						, user_id\
+					)\
+				VALUES\
+					('" + name + "'\
+						,'" + request.body.start + "'\
+						,'" + request.body.end + "'\
+						,'" + request.body.resource + "'\
+						,'" + request.body.pcomplete + "'\
+						,'" + user + "'\
+					);";
+	
+	pool.query(sql, (error, results) => {
+		if (error) {
+			throw error
+		}
+		deliverCampaigns(request, response);
+	});
+}
+
+//------------------------------------------------------------------------------
+//---------------------------DELETES SELECTED CAMPAIGN--------------------------
+//------------------------------------------------------------------------------
+const deleteCampaign = (request, response) => {
+	const campaign_id = parseInt(request.body.campaign_id);
+	const sql = "DELETE FROM campaigns WHERE campaign_id = $1";
+	pool.query(sql, [campaign_id], (error, results) => {
+		if (error) {
+		  throw error
+		}
+		deliverCampaigns(request, response);
 	});
 }
 
@@ -748,6 +796,73 @@ const deliverCustomers = function(req, res) {
 };
 
 //------------------------------------------------------------------------------
+//-------------------------DELIVERS THE CAMPAIGNS VIEW--------------------------
+//------------------------------------------------------------------------------
+const deliverCampaigns = function(req, res) {
+	const user = req.user.id;
+	const sql = "SELECT campaign_id,\
+						name,\
+						pcomplete,\
+						resource,\
+						user_id,\
+						TO_CHAR(start_date, 'MM/DD/YYYY') AS start_date,\
+						TO_CHAR(end_date, 'MM/DD/YYYY') AS end_date,\
+						EXTRACT(YEAR FROM start_date) AS start_year,\
+						EXTRACT(MONTH FROM start_date) AS start_month,\
+						EXTRACT(DAY FROM start_date) AS start_day,\
+						EXTRACT(YEAR FROM end_date) AS end_year,\
+						EXTRACT(MONTH FROM end_date) AS end_month,\
+						EXTRACT(DAY FROM end_date) AS end_day\
+					FROM campaigns WHERE user_id =" + user;
+	pool.query(sql, (error, results) => {
+		if (error) {
+			throw error;
+		}
+		var tableText = ""
+		results.rows.forEach(element => 
+			tableText += "<tr>\
+				<td>" + element.name + "</td>\
+				<td>" + element.start_date + "</td>\
+				<td>" + element.end_date + "</td>\
+				<td>" + element.resource + "</td>\
+				<td><form action='updateCampaign' method='post'><input type='number' name='pcomplete' id='pcomplete' value='" + element.pcomplete + "'><input type='text' id='campaign_id' name='campaign_id' \
+							value='" + element.campaign_id + "' hidden>\</td>\
+				<td><input type='submit' name='updateCampaign' value='UPDATE' class='projectTitle'></form> / <form action='/deleteCampaign' method='post'>\
+						<input type='text' id='campaign_id' name='campaign_id' \
+							value='" + element.campaign_id + "' hidden>\
+						<input type='submit' name='deletecampaign' \
+							value='DELETE' \
+							class='projectTitle'>\
+					</form>\
+				</td>\
+			</tr>"
+		);
+		var dataText = ""
+		if (results.rows[0] != null) {
+		results.rows.forEach(element => dataText += "['" + element.campaign_id + "', '" + element.name + "',\
+										'" + element.resource + "', new Date(" + element.start_year + ", " + element.start_month + ", " + element.start_day + "),\
+										new Date(" + element.end_year + ", " + element.end_month + ", " + element.end_day + "), null, " + element.pcomplete + ", null],");
+		} else { dataText += "['2014Spring', 'No Campaigns', 'None', new Date(2014, 2, 22), new Date(2014, 5, 20), null, 100, null]" }
+		res.render("campaigns.ejs", {statusMessage: tableText, data: dataText});
+	});
+};
+
+//------------------------------------------------------------------------------
+//------------------------------UPDATES A CAMPAIGN------------------------------
+//------------------------------------------------------------------------------
+const updateCampaign = function(req, res) {
+	const sql = "UPDATE campaigns\
+					SET pcomplete = " + req.body.pcomplete + "WHERE campaign_id =" + req.body.campaign_id + ";";
+	pool.query(sql, (error, results) => {
+		if (error) {
+			throw error;
+		}
+	
+		deliverCampaigns(req, res)
+	});
+};
+
+//------------------------------------------------------------------------------
 //-------------------------------GETS PROJECT BY ID-----------------------------
 //------------------------------------------------------------------------------
 const getProject = (request, response) => {
@@ -996,7 +1111,34 @@ const selectCharts = (request, response) => {
 					);
 				console.log(customerArray)
 				
-				response.render("charts.ejs", {statusMessage: googleArray, categoryData: categoryArray, customerData: customerArray});
+				const sql2 = "SELECT campaign_id,\
+						name,\
+						pcomplete,\
+						resource,\
+						user_id,\
+						TO_CHAR(start_date, 'MM/DD/YYYY') AS start_date,\
+						TO_CHAR(end_date, 'MM/DD/YYYY') AS end_date,\
+						EXTRACT(YEAR FROM start_date) AS start_year,\
+						EXTRACT(MONTH FROM start_date) AS start_month,\
+						EXTRACT(DAY FROM start_date) AS start_day,\
+						EXTRACT(YEAR FROM end_date) AS end_year,\
+						EXTRACT(MONTH FROM end_date) AS end_month,\
+						EXTRACT(DAY FROM end_date) AS end_day\
+					FROM campaigns WHERE user_id =" + user;
+					
+				pool.query(sql2, (error, results) => {
+					if (error) {
+						throw error
+					}
+					
+				var dataText = ""
+				if (results.rows[0] != null) {
+				results.rows.forEach(element => dataText += "['" + element.campaign_id + "', '" + element.name + "',\
+										'" + element.resource + "', new Date(" + element.start_year + ", " + element.start_month + ", " + element.start_day + "),\
+										new Date(" + element.end_year + ", " + element.end_month + ", " + element.end_day + "), null, " + element.pcomplete + ", null],");
+				} else { dataText += "['2014Spring', 'No Campaigns', 'None', new Date(2014, 2, 22), new Date(2014, 5, 20), null, 100, null]" }
+				response.render("charts.ejs", {statusMessage: googleArray, categoryData: categoryArray, customerData: customerArray, ganttData: dataText});
+				});
 			});
 		});
 	});
@@ -1383,5 +1525,9 @@ module.exports = {
   deliverTeamCustomers,
   deliverTeamCategories,
   deleteTeamCategory,
-  deleteTeamCustomer
+  deleteTeamCustomer,
+  addCampaign,
+  deliverCampaigns,
+  deleteCampaign,
+  updateCampaign
 }

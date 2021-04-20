@@ -24,10 +24,47 @@
 		<script defer src="./node_modules/@fortawesome/fontawesome-free/js/brands.js"></script>
 		<script defer src="./node_modules/@fortawesome/fontawesome-free/js/solid.js"></script>
 		<script defer src="./node_modules/@fortawesome/fontawesome-free/js/fontawesome.js"></script>
+	
+		<!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>	
+	<script type="text/javascript">
+    google.charts.load('current', {'packages':['gantt']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+
+      var data = new google.visualization.DataTable();
+      data.addColumn('string', 'Task ID');
+      data.addColumn('string', 'Task Name');
+      data.addColumn('string', 'Resource');
+      data.addColumn('date', 'Start Date');
+      data.addColumn('date', 'End Date');
+      data.addColumn('number', 'Duration');
+      data.addColumn('number', 'Percent Complete');
+      data.addColumn('string', 'Dependencies');
+
+      data.addRows([
+	  <%- data %>
+      ]);
+
+      var options = {
+        height: 400,
+        gantt: {
+          trackHeight: 30
+        }
+      };
+
+      var chart = new google.visualization.Gantt(document.getElementById('gantt_chart'));
+
+      chart.draw(data, options);
+    }
+  </script>
 
 	</head>
 	
 	<body>
+	
+
 	
 	 <div class="container">
 
@@ -46,29 +83,37 @@
 				<li><i class="fas fa-chart-pie icon"></i> <form id="opencharts" action="/openCharts" method="post"><a href="javascript: submitcharts()"><div class="navText">Charts</div></a></form></li>
 				<li><i class="fas fa-flag icon"></i><a href="./campaigns"><div class="navText">Campaigns</div></a></li>
 				<li><i class="fas fa-users icon"></i><a href="./teams"><div class="navText">Teams</div></a></li>
-				<%- teamsList %>
 				<li><i class="fas fa-book icon"></i><a href="./documentation"><div class="navText">Documentation</div></a></li>
 			  </ul>
 			</div>
 		</div>
   
   	<div class="main">
-	<div class="topRow">
-			<form action="/deliverJoinTeam" method="post">
-				<input class="redButton" type="submit" value="Join Team">
+	<form action="/createProject" method="post">
+				<input class="redButton" type="submit" value="Create Project">
 			</form>
-			<form action="/deliverCreateTeam" method="POST">
-				<input class="redButton" type="submit" value="Create Team">
+			<form action="/myProjects" method="post">
+				<input class="redButton" type="submit" value="My Projects">
 			</form>
-			<a href="/profile" class="profileButton" style="display:flex; float:right;"><i class="fas fa-user" height=45></i></a>
-	</div>
-	<div class="dataRow">
-          <%- statusMessage %>
-	</div>
-	</div>
+				<a href="/profile" class="profileButton" style="display:flex; float:right;"><i class="fas fa-user" height=45></i></a>
+			<br>
+			<br>
 
+	<table class="styled-table">
+	<tbody>
+	<tr><th>Name</th><th>Start Date</th><th>End Date</th><th>Resource</th><th>Percent Complete</th><th>Action</th></tr>
+	<%- statusMessage %>
+	<tr><form action="addCampaign" method="post">
+		<td><input type="text" name="name" id="name"></td>
+		<td><input type="date" name="start" id="start"></td>
+		<td><input type="date" name="end" id="end"></td>
+		<td><input type="text" name="resource" id="resource"></td>
+		<td><input type="number" name="pcomplete" id="pcomplete"></td>
+		<td><input type="submit" class="redButton" value="Launch Campaign"></td>
+	</tr>
+	</tbody>
+	</table>
 
-</div>
-		
+		<div id="gantt_chart" style="width: 1208px; height: 400px;"></div>
 	</body>
-</html>
+</html
