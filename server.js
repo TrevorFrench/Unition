@@ -69,6 +69,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - Forms tab should include all teams forms as well
    - function that pulls forms out of browser, checks if user is part of requested team if it is an internal user, otherwise renders
    - set recurring projects in the admin table
+   - on ticket update, make value of status drop-down defauilted to true value rather than open
 */
 
 //-----------------------------------------------------------------
@@ -376,7 +377,7 @@ app.get('/documentation',											// renders the 'documentation' view
     res.render("documentation.ejs", {statusMessage: ""})
   });
   
-app.get('/campaigns',											        // renders the 'campaigns' view
+app.get('/campaigns',											    // renders the 'campaigns' view
   require('connect-ensure-login').ensureLoggedIn(),
     db2.deliverCampaigns
   );

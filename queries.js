@@ -15,7 +15,7 @@ const pool = new Pool({
 //--------------------------------ADMINISTRATION--------------------------------
 //------------------------------------------------------------------------------
 const admin = (request, response) => {
-	const sql = 'ALTER TABLE campaigns ADD COLUMN pt_id INT4';
+	const sql = 'DELETE from users where id = 5';
 	pool.query(sql, (error, results) => {
 		if (error) {
 			throw error
@@ -920,7 +920,7 @@ const getProject = (request, response) => {
 						value='" + results.rows[0].responsible + "' hidden>\
 						" + results.rows[0].displayname + "\
 				<br><br><b>PROJECT ID:</b>\
-					<input type='text' name='project_id' id='project_id' \
+					<input type='text' name='ticketID' id='ticketID' \
 						value='" + results.rows[0].project_id + "' hidden>\
 						" + results.rows[0].project_id + "\
 				<br><br><b>DESCRIPTION:</b>\
@@ -944,7 +944,7 @@ const getProject = (request, response) => {
 						form='commentDescription' \
 						Placeholder='Describe your comment here...'>\
 					</textarea>\
-					<input type='text' name='project_id' id='project_id' \
+					<input type='text' name='ticketID' id='ticketID' \
 						value='" + results.rows[0].project_id + "' hidden>\
 					<br><br>\
 					<input type='submit' value='Add Comment' class='redButton'>\
@@ -974,7 +974,7 @@ const updateProject = (request, response) => {
 	const statusSQL = request.body.statusSQL
 	const responsible = request.body.responsible
 	const duedate = request.body.duedate
-	const id = parseInt(request.body.project_id)
+	const id = parseInt(request.body.ticketID)
 	const sql = "UPDATE projects \
 					SET status = '" + statusSQL + "' \
 					WHERE project_id = " + id;
@@ -982,8 +982,7 @@ const updateProject = (request, response) => {
 		if (error) {
 			throw error;
 		}
-		var successMessage = "Successfully updated project: ";
-		response.render("dashboard.ejs", {statusMessage: successMessage});
+		getProject(request, response)
 	});
 }
 
@@ -1031,7 +1030,7 @@ const plusComment = (request, response) => {
 	var description2 = descriptionstring.replace(/'/gi,"''");
 	var description = description2.replace(/\"/gi,"''");
 	const user = request.user.displayname;
-	const project_id = request.body.project_id
+	const project_id = request.body.ticketID
 	const sql = "INSERT INTO comments(\
 					created_by\
 					, description\
@@ -1045,8 +1044,7 @@ const plusComment = (request, response) => {
 		if (error) {
 			throw error;
 		}
-		var successMessage = "Successfully added comment: ";
-		response.render("dashboard.ejs", {statusMessage: successMessage});
+		getProject(request, response)
 	});
 }
 
