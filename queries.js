@@ -808,10 +808,10 @@ const deliverCampaigns = function(req, res) {
 						TO_CHAR(start_date, 'MM/DD/YYYY') AS start_date,\
 						TO_CHAR(end_date, 'MM/DD/YYYY') AS end_date,\
 						EXTRACT(YEAR FROM start_date) AS start_year,\
-						EXTRACT(MONTH FROM start_date) AS start_month,\
+						EXTRACT(MONTH FROM start_date) - 1 AS start_month,\
 						EXTRACT(DAY FROM start_date) AS start_day,\
 						EXTRACT(YEAR FROM end_date) AS end_year,\
-						EXTRACT(MONTH FROM end_date) AS end_month,\
+						EXTRACT(MONTH FROM end_date) - 1 AS end_month,\
 						EXTRACT(DAY FROM end_date) AS end_day\
 					FROM campaigns WHERE user_id =" + user;
 	pool.query(sql, (error, results) => {
@@ -1086,7 +1086,6 @@ const selectCharts = (request, response) => {
 			googleArray.push("['" + element.project_month + "' ," + parseInt(element.project_count) + "]")
 		);
 		texts+= "[" + dataArray + "]";
-		console.log(googleArray);
 		const sql2 = "SELECT category, COUNT(category) AS CATEGORY_COUNT FROM projects WHERE (responsible = '" + user + "') GROUP BY category ORDER BY category_COUNT DESC;";
 		pool.query(sql2, (error, results) => {
 			if (error) {
@@ -1097,7 +1096,6 @@ const selectCharts = (request, response) => {
 			results.rows.forEach(element =>
 					categoryArray.push("['" + element.category + "', " + parseInt(element.category_count) + "]")
 				);
-			console.log(categoryArray)
 			const sql3 = "SELECT customer, COUNT(customer) AS CUSTOMER_COUNT FROM projects WHERE (responsible = '" + user + "') GROUP BY customer ORDER BY CUSTOMER_COUNT DESC;";
 			pool.query(sql3, (error, results) => {
 				if (error) {
@@ -1107,7 +1105,6 @@ const selectCharts = (request, response) => {
 				results.rows.forEach(element =>
 						customerArray.push("['" + element.customer + "', " + parseInt(element.customer_count) + "]")
 					);
-				console.log(customerArray)
 				
 				const sql2 = "SELECT campaign_id,\
 						name,\
@@ -1117,10 +1114,10 @@ const selectCharts = (request, response) => {
 						TO_CHAR(start_date, 'MM/DD/YYYY') AS start_date,\
 						TO_CHAR(end_date, 'MM/DD/YYYY') AS end_date,\
 						EXTRACT(YEAR FROM start_date) AS start_year,\
-						EXTRACT(MONTH FROM start_date) AS start_month,\
+						EXTRACT(MONTH FROM start_date) - 1 AS start_month,\
 						EXTRACT(DAY FROM start_date) AS start_day,\
 						EXTRACT(YEAR FROM end_date) AS end_year,\
-						EXTRACT(MONTH FROM end_date) AS end_month,\
+						EXTRACT(MONTH FROM end_date) - 1 AS end_month,\
 						EXTRACT(DAY FROM end_date) AS end_day\
 					FROM campaigns WHERE user_id =" + user;
 					
@@ -1282,11 +1279,9 @@ const deliverTeams = (request, response) => {
 					mineProjects.push(sqlResults[i]);
 				}
 			}
-			console.log(mineProjects);
 			
 			mineProjects.forEach(element => myProjects += "<tr><td>" + element.title + "</td></tr>");
 			myProjects += "</table>"
-			console.log(myProjects)
 			projectsText += "</table>";
 			var buttons = "<form action='/createTeamProject' method='post'>\
 					<input type='text' name='pt_id' id='pt_id'value=" + request.body.teamid + " hidden>\

@@ -11,9 +11,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - Protect the Admin page
    - Create an external script for functions
    - Order tables by due date
-   - If column has NOT NULL, make form element required
-   - Create a public forms directory
-   - Get rid of index.html           
+   - If column has NOT NULL, make form element required         
    - Be able to navigate to projects directly with a URL
    - Display limit on description in the table
    - Search box for Ticket ID on home page (all pages?)                       
@@ -22,7 +20,6 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - Form creation wizard
    - Admin option to change image
    - Create a status table
-   - Clean up code
    - Put all queries into users.js or vice versa?
    - Bug where apostrophes are not escaped in values of inputs
    - Foreign Key for Categories (does foreign key make sense if I allow users to delete categories?
@@ -44,7 +41,6 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - Bar at top of teams page to filter by category/team mate/calendar view/project management view
    - Switch category relationship to user to user_id from team_id
    - Comments redirect to get project by id
-   - get rid of unnecessary console.logs
    - maybe turn index into customizable dashboard and make actual index the landing page
    - Default responsible to user on individual projects
    - form table which allows users to add column/drop column for inputs
@@ -56,13 +52,11 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - delete inline styles
    - Announcements table for team page header
    - Insert light mode/dark mode into user field
-   - Add a campaigns tab
    - Add a filter on the charts page (timeframe)
    - Exclude closed projects on teams view
    - Filter on teams view would be the same function except add "where category/etc. = " into sql queries
    - Create team as role id 1, join team as role id 2. Give admin role functionality.
    - Build a teams app
-   - Build out documentation for adding customers/categories at least
    - Build out a support/feedback table
    - foreign key constraints/make sure workflow accomodates foreign keys (updating in the correct order)
    - two hidden routes
@@ -286,12 +280,12 @@ app.post('/addCustomer',											// adds the specified customer
 	db2.addCustomer
 	)
 	
-app.post('/addTeamCustomer',										// adds the specified customer
+app.post('/addTeamCustomer',										// adds the specified team customer
 	require('connect-ensure-login').ensureLoggedIn(),
 	db2.addTeamCustomer
 	)
 
-app.post('/addCampaign',											// adds the specified customer
+app.post('/addCampaign',											// adds the specified campaign
 	require('connect-ensure-login').ensureLoggedIn(),
 	db2.addCampaign
 	)

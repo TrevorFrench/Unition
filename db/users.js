@@ -22,7 +22,6 @@ exports.findById = function(id, cb) {
     if (error) {
       throw error
     }
-	console.log(results.rows)
 	var records = results.rows
   process.nextTick(function() {
 	var idx = id - 1;
@@ -40,7 +39,6 @@ exports.findByUsername = function(username, cb) {
     if (error) {
       throw error
     }
-	console.log(results.rows)
 	var records = results.rows
   process.nextTick(function() {
 	for (var i = 0, len = records.length; i < len; i++) {
@@ -63,12 +61,11 @@ exports.createProject2 = function(req, res) {
     if (error) {
       throw error
     }
-	console.log(results.rows)
+
 	var records = results.rows
 	
 	process.nextTick(function() {
 	const team_id = req.user.team
-		console.log("REQ: " + req.user.team)
 	
 	pool.query("SELECT * FROM CATEGORIES WHERE team_id =" + team_id, (error, results) => {
     if (error) {
@@ -338,9 +335,6 @@ exports.postProject = (request, response) => {
 	const user = request.user.displayname;
 	const customer = request.body.customer;
 	const category = request.body.category;
-	console.log("DESCRIPTION STRING: " + descriptionstring)
-	console.log("DESCRIPTION 2: " + description2)
-	console.log("DESCRIPTION: " + description)
 	const sql = "INSERT INTO projects(title, description, status, responsible, duedate, created_by, customer, category) VALUES ('" + title + "', '" + description + "', '" + statusSQL + "', '" + responsible + "', '" + duedate + "', '" + user + "', '" + customer + "', '" + category + "' )";
 	pool.query(sql, (error, results) => {
 	  if (error) {
@@ -367,9 +361,6 @@ exports.postTeamProject = (request, response) => {
 	const customer = request.body.customer;
 	const category = request.body.category;
 	const pt_id = request.body.pro_team_id;
-	console.log("DESCRIPTION STRING: " + descriptionstring)
-	console.log("DESCRIPTION 2: " + description2)
-	console.log("DESCRIPTION: " + description)
 	const sql = "INSERT INTO projects(title, description, status, responsible, duedate, created_by, customer, category, pt_id) VALUES ('" + title + "', '" + description + "', '" + statusSQL + "', '" + responsible + "', '" + duedate + "', '" + user + "', '" + customer + "', '" + category + "'," + pt_id + " )";
 	pool.query(sql, (error, results) => {
 	  if (error) {
