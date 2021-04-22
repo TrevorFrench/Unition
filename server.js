@@ -66,6 +66,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - on ticket update, make value of status drop-down defauilted to true value rather than open
    - passport serializes ids based on position not id number we can return values in order but will break if an ID is ever removed
    - get rid of open team input on sign up form
+   - make documentation text color variable
 */
 
 //-----------------------------------------------------------------
@@ -337,8 +338,8 @@ app.get('/', 														// when the root directory loads, send the main.html 
 
 app.get('/home', 													// when the root directory loads, send the main.html file to the client
 	(req, res) =>
-		res.sendFile(
-			path.join(__dirname, 'main.html')
+		res.render(
+			'main.ejs', {user: req.user}
 		)
 	);
 
