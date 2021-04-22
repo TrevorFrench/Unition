@@ -307,6 +307,11 @@ app.post('/lightTheme', 											// light theme change
 	require('connect-ensure-login').ensureLoggedIn(),
 	theme.lightTheme
 	)
+	
+app.post('/dashboardTheme', 										// dashboard theme change
+	require('connect-ensure-login').ensureLoggedIn(),
+	theme.dashboardTheme
+	)
 
 app.get('/Excel', 													// select every project that has been created for Excel scraping
 	db2.selectExcel

@@ -38,9 +38,23 @@ const lightTheme = (request, response) => {
 }
 
 //------------------------------------------------------------------------------
+//-------------------------------DASHBOARD THEME--------------------------------
+//------------------------------------------------------------------------------
+const dashboardTheme = (request, response) => {
+	const sql = "UPDATE users SET style = 'dashboard' where id = " + request.user.id + ";";
+	pool.query(sql, (error, results) => {
+		if (error) {
+			throw error;
+		}
+		response.redirect('./adminPage')
+	});
+}
+
+//------------------------------------------------------------------------------
 //--------------------------------EXPORT MODULES--------------------------------
 //------------------------------------------------------------------------------
 module.exports = {
 	defaultDark,
-	lightTheme
+	lightTheme,
+	dashboardTheme
 }
