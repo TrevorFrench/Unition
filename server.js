@@ -298,10 +298,12 @@ app.post('/addUser', 											    // creates a new user
 	)
 
 app.post('/defaultDark', 											// defaultDark theme change
+	require('connect-ensure-login').ensureLoggedIn(),
 	theme.defaultDark
 	)
 	
 app.post('/lightTheme', 											// light theme change
+	require('connect-ensure-login').ensureLoggedIn(),
 	theme.lightTheme
 	)
 
