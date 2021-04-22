@@ -1,0 +1,436 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+
+form {
+	display: inline;
+}
+
+a {
+  color: inherit; /* blue colors for links too */
+  text-decoration: inherit; /* no underline */
+  cursor: pointer;
+}
+
+body {
+	background-color:   #fff;
+}
+
+.container{
+  padding: 0;
+  display: flex;
+  height: 97%;
+  /*margin-top: 70px;*/
+  margin: 10px;
+}
+
+.topRow{
+	/*display:inline;*/
+	float:right;
+	/*padding: 20px 20px;*/
+	/*background-color: #32323e;*/
+	/*width: 86%;*/
+	/*margin-left: 14%;*/
+	border-radius: 5px;
+	/*box-shadow: 0 14px 28px rgb(0 0 0 / 25%);*/
+	width: 100%;
+}
+
+.nextRow{
+	/*display:inline;*/
+	float:right;
+	padding: 20px 20px;
+	background-color: #32323e;
+	/*width: 86%;*/
+	/*margin-left: 14%;*/
+	border-radius: 5px;
+	box-shadow: 0 14px 28px rgb(0 0 0 / 25%);
+	width: 100%;
+	color: lightslategray;
+	margin-top: 10px;
+	margin-bottom: 15px;
+}
+
+.dataRow{
+	/*display:inline;*/
+	float:right;
+	/*padding: 20px 20px;*/
+	background-color: #fff;
+	width: 86%;
+	/*margin-left: 14%;*/
+	/*border-radius: 5px;*/
+	/*box-shadow: 0 14px 28px rgb(0 0 0 / 25%);*/
+	width: 100%;
+}
+
+.projectCreate{
+	width:80%;
+	margin-left:10%;
+	background-color:#32323e;
+	padding:10px;
+	border-radius: 5px;
+	box-shadow: 0 14px 28px rgb(0 0 0 / 25%);
+	color: lightslategray;
+}
+
+.title{
+	text-align: center;
+    color: cadetblue;
+}
+
+/*--------------------------------------------*/
+/*-------------------NAVBAR-------------------*/
+/*--------------------------------------------*/
+
+.card{
+  width: 14%;
+  height: 100%;
+  background-color:   #fff;
+  border-radius: 10;
+  /*overflow: auto;*/
+  /*position: fixed;*/
+
+}
+
+.header{
+  padding: 5px;
+}
+
+.header h3 {
+	color: white;
+}
+
+h3{
+  color: #FFFFFF;
+  font-family: 'Roboto', sans-serif;
+  margin-left: 1rem;
+}
+
+.iconM{
+  font-size: 18px;
+  margin-left: 170px;
+  color: #2f89fc;
+}
+
+.icon{
+  margin-right: 8px;
+}
+
+.body li{
+  transition: 1s all;
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+  padding: 15px;
+  margin-left: -40px;
+  margin-top: 0px;
+  color: black;
+  list-style: none;
+  display: block;
+}
+
+li:hover{
+  transition: 1s all;
+  color: #2f89fc;
+  background-color: rgba(42, 56, 65, 0.82);
+  cursor: pointer;
+}
+
+.body > li{
+  float: left;
+}
+
+.body li ul{
+  background: #1E2B32;
+  margin-left: 10%;
+  margin-top: -38px;
+  display: none;
+  position: absolute;
+  border-top-right-radius: 15px 15px;
+  border-bottom-right-radius: 15px 15px;
+}
+
+.body li:hover > ul{
+  display: block;
+  cursor: pointer;
+}
+
+/*--------------------------------------------*/
+/*----------AREA TO THE RIGHT OF NAV----------*/
+/*--------------------------------------------*/
+
+.main {
+	/*display:inline;*/
+	float:right;
+	padding: 20px 20px;
+	background-color: #fff;
+	width: 86%;
+	/*margin-left: 14%;*/
+	border-radius: 5px;
+	/*box-shadow: 0 14px 28px rgb(0 0 0 / 25%);*/
+	}
+	
+/*--------------------------------------------*/
+/*--------------HOME PAGE BUTTON--------------*/
+/*--------------------------------------------*/
+	
+input[type="submit"].redButton {
+	width: 150px;
+	height: 50px;
+	background-color: #e7222c;
+	color: #fff;
+	font-family: 'Roboto', sans-serif;
+	cursor: pointer;
+	border: none;
+	font-size: large;
+	-webkit-appearance: none;
+	-webkit-border-radius: none;
+	border-radius: 10px;
+	background: linear-gradient(to right, #ff4b2b, #ff416c);
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+input[type="submit"].blueButton {
+	width: 150px;
+	height: 50px;
+	background-color: #e7222c;
+	color: #fff;
+	font-family: 'Roboto', sans-serif;
+	cursor: pointer;
+	border: none;
+	font-size: large;
+	-webkit-appearance: none;
+	-webkit-border-radius: none;
+	border-radius: 10px;
+	background: linear-gradient(to right, #ff4b2b, #ff416c);
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+	width: 30%;
+	margin-left: 35%;
+}
+
+/*--------------------------------------------*/
+/*----------------TABLE DESIGN----------------*/
+/*--------------------------------------------*/
+.styled-table {
+    border-collapse: collapse;
+    /*margin: 25px 0;*/
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+	color: lightslategray;
+}
+
+.styled-table thead tr {
+    background-color: #32323e;
+    color: white;
+    text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+
+
+.styled-table tbody tr {
+    border-bottom: 3px solid #282832;
+	background-color: lightgray;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #fff;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 3px solid #282832;
+}
+
+.topbar {
+	padding:10px;
+	height: 70px;
+	background-color: #41535e;
+	position: fixed;
+	top: 0;
+	width: 100%;
+}
+
+.profileButton {
+	padding:20px;
+	border-radius: 50px;
+	color: #fff;
+	background: linear-gradient(to right, #ff4b2b, #ff416c);
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+html, body {
+	margin: 0px;
+	height: 100%;
+	font-family: 'Roboto', sans-serif;
+}
+
+.projectDiv {
+	width:95%;
+	background-color: #32323e;
+	padding: 20px;
+	border-radius: 5px;
+	color: lightslategray;
+	box-shadow: 0 14px 28px rgb(0 0 0 / 25%);
+}
+
+.commentDiv {
+	background-color: #32323e;
+	padding: 20px;
+	width: 50%;
+	border-radius: 5px;
+	color: lightslategray;
+	box-shadow: 0 14px 28px rgb(0 0 0 / 25%);
+}
+
+.chart-container {
+	height: 450px;
+	width: 70%;
+	margin-left: 15%;
+		/*display:inline;*/
+	/*float:right;*/
+	/*padding: 20px 20px;*/
+	/*background-color: #32323e;
+	border-radius: 5px;
+	box-shadow: 0 14px 28px rgb(0 0 0 / 25%);
+	padding: 10px;
+	height: 40%;*/
+}
+
+canvas {
+  /*width: 100% !important;
+  height: 100% !important;*/
+  background-color: #32323e;
+	border-radius: 5px;
+	box-shadow: 0 14px 28px rgb(0 0 0 / 25%);
+	padding: 10px;
+	height: 40%;
+}
+
+.projectTitle {
+	background: none!important;
+	border: none;
+	padding: 0!important;
+	text-decoration: underline;
+	cursor: pointer; 
+	color: lightslategray;
+}
+
+/******************FORM STYLING*********************/
+.col-25 {
+  float: left;
+  width: 25%;
+  margin-top: 6px;
+}
+
+.col-75 {
+  float: left;
+  width: 75%;
+  margin-top: 6px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .col-25, .col-75, input[type=submit] {
+    width: 100%;
+    margin-top: 0;
+  }
+  
+  .navText {
+	  visibility: hidden;
+  }
+  
+  .unitionBig {
+	  visibility: visible;
+  }
+  
+  .unition {
+	  display: none;
+  }
+}
+
+@media screen and (min-width: 1257px) {
+
+.unitionBig {
+	display: none;
+}
+
+.unitionSmall {
+	display: none;
+}
+
+.unition {
+	visibility: visible;
+}
+}
+
+@media screen and (min-width: 910px) and (max-width: 1257px) {
+
+.unitionBig {
+	visibility: visible;
+}
+
+.unitionSmall {
+	display: none;
+}
+
+.unition {
+	display: none;
+}
+}
+
+@media screen and (max-width: 910px) {
+
+.unitionBig {
+	display: none;
+}
+
+.unitionSmall {
+	visibility: visible;
+}
+
+.unition {
+	display: none;
+}
+}
+
+.navText {
+	display: inline;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/************search bar creation********/
+#responsible {
+   width: 50%;
+	   font-size: 18px;
+	   padding: 11px;
+	   border: 1px solid #ddd;
+	}
+	#responsible {
+	  padding: 0;
+	  margin: 0;
+	  display: none;
+	}
+	#responsible option a {
+	  padding: 12px;
+	  text-decoration: none;
+	  color: black;
+	}
+	#responsible option a {
+	  display: none;
+	}
+	#responsible option a:hover {
+	  background-color: #eee;
+	}

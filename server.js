@@ -64,6 +64,8 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - function that pulls forms out of browser, checks if user is part of requested team if it is an internal user, otherwise renders
    - set recurring projects in the admin table
    - on ticket update, make value of status drop-down defauilted to true value rather than open
+   - passport serializes ids based on position not id number we can return values in order but will break if an ID is ever removed
+   - get rid of open team input on sign up form
 */
 
 //-----------------------------------------------------------------
@@ -77,6 +79,7 @@ const db2 = require('./queries')                                    // reference
 var passport = require('passport');									// login framework
 var Strategy = require('passport-local').Strategy;					// method which is used within the login framework
 var db = require('./db');											// folder which contains database files
+var theme = require('./theme')										//reference the theme.js file which contains theme change references
 
 //-----------------------------------------------------------------
 //------------------------ENVIRONMENT SETUP------------------------
@@ -294,6 +297,14 @@ app.post('/addUser', 											    // creates a new user
 	db2.createUser
 	)
 
+app.post('/defaultDark', 											// defaultDark theme change
+	theme.defaultDark
+	)
+	
+app.post('/lightTheme', 											// light theme change
+	theme.lightTheme
+	)
+
 app.get('/Excel', 													// select every project that has been created for Excel scraping
 	db2.selectExcel
 	)
@@ -309,7 +320,7 @@ app.get('/admin', 													// renders a page which is used for administratio
 			{statusMessage: 										// form that executes the users query when submitted
 				"<form action='/admin' method='post'>\
 				<input type='submit' value='PSQL CHANGES'>\
-				</form>"
+				</form>", user: req.user
 			}
 		)
 		} else { res.redirect('/home') }}
@@ -361,14 +372,14 @@ app.get('/projects',												// renders the 'projects' view
 	<tr><td><form action='/inprocessProjects' method='post'><input type='submit' name='inprocessprojects' value='In-Process Projects' class='projectTitle'></form></td><td>Returns a list of all in-process projects for which the current user is responsible.</td></tr>\
 	<tr><td><form action='/allProjects' method='post'><input type='submit' name='allprojects' value='All Projects' class='projectTitle'></form></td><td>Returns a complete list of projects for which the current user is responsible.</td></tr>\
 	<tr><td><form action='/myProjects' method='post'><input type='submit' name='myprojects' value='My Projects' class='projectTitle'></form></td><td>Returns all 'open' and 'in-process' projects for which the current user is responsible.</td></tr>\
-	</tbody></table>"
+	</tbody></table>", user: req.user
 	})
   });
   
 app.get('/documentation',											// renders the 'documentation' view
   require('connect-ensure-login').ensureLoggedIn(),
   function(req, res){
-    res.render("documentation.ejs", {statusMessage: ""})
+    res.render("documentation.ejs", {statusMessage: "", user: req.user})
   });
   
 app.get('/campaigns',											    // renders the 'campaigns' view
@@ -379,7 +390,7 @@ app.get('/campaigns',											    // renders the 'campaigns' view
 app.get('/teams',											        // renders the temporary 'teams' view
   require('connect-ensure-login').ensureLoggedIn(),
   function(req, res){
-    res.render("dashboard.ejs", {statusMessage: "<div class='commentDiv'>COMING SOON<p>Teams functionality allows teams to efficiently define outcomes, track progress, and measure productivity.</p><div>"})
+    res.render("dashboard.ejs", {statusMessage: "<div class='commentDiv'>COMING SOON<p>Teams functionality allows teams to efficiently define outcomes, track progress, and measure productivity.</p><div>", user: req.user})
   });
   
 app.get('/teams2',											        // renders the 'teams' view
@@ -427,7 +438,7 @@ app.get('/forms',												    // renders the 'forms' view
 	<input type='submit' name='createProject' value='Project Creation Form' class='projectTitle'>\
 	</form></td><td>Delivers the default project creation form.</td>\
 	<td>Internal</td></tr>\
-	</tbody></table>"
+	</tbody></table>", user: req.user
 	})
   });
 

@@ -15,7 +15,7 @@ const pool = new Pool({
 //--------------------------------ADMINISTRATION--------------------------------
 //------------------------------------------------------------------------------
 const admin = (request, response) => {
-	const sql = 'DELETE from users where id = 5';
+	const sql = "DELETE FROM users where id = 17;";
 	pool.query(sql, (error, results) => {
 		if (error) {
 			throw error
@@ -332,7 +332,7 @@ const selectAll = function(req, res) {
 			</tr>"
 		);
 		tableText += '</table>';
-		res.render("dashboard.ejs", {statusMessage: tableText});
+		res.render("dashboard.ejs", {statusMessage: tableText, user: req.user});
 	});
 };
 
@@ -379,7 +379,7 @@ const selectExcel = function(req, res) {
 			</tr>"
 		);
 		tableText += '</table>';
-		res.render("dashboard.ejs", {statusMessage: tableText});
+		res.render("dashboard.ejs", {statusMessage: tableText, user: req.user});
 	});
 };
 
@@ -432,7 +432,7 @@ const selectOpen = function(req, res) {
 			</tr>"
 		);
 		tableText += '</table>';
-		res.render("dashboard.ejs", {statusMessage: tableText});
+		res.render("dashboard.ejs", {statusMessage: tableText, user: req.user});
 	});
 };
 
@@ -485,7 +485,7 @@ const selectInprocess = function(req, res) {
 			</tr>"
 		);
 		tableText += '</table>';
-		res.render("dashboard.ejs", {statusMessage: tableText});
+		res.render("dashboard.ejs", {statusMessage: tableText, user: req.user});
 	});
 };
 
@@ -539,7 +539,7 @@ const selectMyProjects = function(req, res) {
 				<td>" + element.description + "</td>\
 			</tr>");
 		tableText += '</table>';
-		res.render("dashboard.ejs", {statusMessage: tableText});
+		res.render("dashboard.ejs", {statusMessage: tableText, user: req.user});
 	});
 };
 
@@ -552,6 +552,32 @@ const deliverTables = function(req, res) {
 		if (error) {
 			throw error;
 		}
+			var themeText = "<table class='styled-table'><tbody>\
+			<tr><th>Theme</th><th>Description</th><th>Action</th></tr>\
+			<tr><td>\
+					Default\
+				</td>\
+				<td>Default dark theme</td>\
+				<td>\
+					<form action='/defaultDark' method='post'>\
+							<input type='submit' name='defaultdark' \
+								value='Change' class='projectTitle'>\
+					</form>\
+					</td>\
+			</tr>\
+			<tr><td>\
+					Light Theme\
+				</td>\
+				<td>Bright white theme.</td>\
+				<td>\
+				<form action='/lightTheme' method='post'>\
+							<input type='submit' name='lightTheme' \
+								value='Change' class='projectTitle'>\
+					</form>\
+				</td>\
+			</tr>\
+		</tbody></table><br>";
+			
 		var tableText = "<table class='styled-table'><tbody>\
 				<tr><th>Personal Administration</th><th>Description</th></tr>\
 				<tr><td>\
@@ -595,7 +621,7 @@ const deliverTables = function(req, res) {
 				</tr>\
 			</tbody></table>")
 		
-		res.render("dashboard.ejs", {statusMessage: tableText + teamsText});
+		res.render("dashboard.ejs", {statusMessage: themeText + tableText + teamsText, user: req.user});
 	});
 };
 
@@ -645,7 +671,7 @@ const deliverTeamCategories = function(req, res) {
 			</td>\
 			<td><input type='submit' class='redButton'></td>\
 		</tr></tbody></table>";
-		res.render("dashboard.ejs", {statusMessage: tableText});
+		res.render("dashboard.ejs", {statusMessage: tableText, user: req.user});
 	});
 };
 
@@ -693,7 +719,7 @@ const deliverCategories = function(req, res) {
 			</td>\
 			<td><input type='submit' class='redButton'></td>\
 		</tr></tbody></table>";
-		res.render("dashboard.ejs", {statusMessage: tableText});
+		res.render("dashboard.ejs", {statusMessage: tableText, user: req.user});
 	});
 };
 
@@ -743,7 +769,7 @@ const deliverTeamCustomers = function(req, res) {
 			</td>\
 			<td><input type='submit' class='redButton'></td>\
 		</tr></tbody></table>";
-		res.render("dashboard.ejs", {statusMessage: tableText});
+		res.render("dashboard.ejs", {statusMessage: tableText, user: req.user});
 	});
 };
 
@@ -791,7 +817,7 @@ const deliverCustomers = function(req, res) {
 			</td>\
 			<td><input type='submit' class='redButton'></td>\
 		</tr></tbody></table>";
-		res.render("dashboard.ejs", {statusMessage: tableText});
+		res.render("dashboard.ejs", {statusMessage: tableText, user: req.user});
 	});
 };
 
@@ -843,7 +869,7 @@ const deliverCampaigns = function(req, res) {
 										'" + element.resource + "', new Date(" + element.start_year + ", " + element.start_month + ", " + element.start_day + "),\
 										new Date(" + element.end_year + ", " + element.end_month + ", " + element.end_day + "), null, " + element.pcomplete + ", null],");
 		} else { dataText += "['2014Spring', 'No Campaigns', 'None', new Date(2014, 2, 22), new Date(2014, 5, 20), null, 100, null]" }
-		res.render("campaigns.ejs", {statusMessage: tableText, data: dataText});
+		res.render("campaigns.ejs", {statusMessage: tableText, data: dataText, user: req.user});
 	});
 };
 
@@ -961,7 +987,7 @@ const getProject = (request, response) => {
 					</div>"
 			);
 		}
-		response.render("dashboard.ejs", {statusMessage: projectText});
+		response.render("dashboard.ejs", {statusMessage: projectText, user: request.user});
 	});
 }
 
@@ -1019,7 +1045,7 @@ const createProject = (request, response) => {
 			<br><br>\
 			<input type='submit' value='Create Project'>\
 		</form>";
-	response.render("dashboard.ejs", {statusMessage: projectFrame});
+	response.render("dashboard.ejs", {statusMessage: projectFrame, user: request.user});
 }
 
 //------------------------------------------------------------------------------
@@ -1132,7 +1158,7 @@ const selectCharts = (request, response) => {
 										'" + element.resource + "', new Date(" + element.start_year + ", " + element.start_month + ", " + element.start_day + "),\
 										new Date(" + element.end_year + ", " + element.end_month + ", " + element.end_day + "), null, " + element.pcomplete + ", null],");
 				} else { dataText += "['2014Spring', 'No Campaigns', 'None', new Date(2014, 2, 22), new Date(2014, 5, 20), null, 100, null]" }
-				response.render("charts.ejs", {statusMessage: googleArray, categoryData: categoryArray, customerData: customerArray, ganttData: dataText});
+				response.render("charts.ejs", {statusMessage: googleArray, categoryData: categoryArray, customerData: customerArray, ganttData: dataText, user: request.user});
 				});
 			});
 		});
@@ -1164,7 +1190,7 @@ const deliverLoginSuccess = (request, response) => {
 		}
 		var maxNumber = parseInt(results.rows[0].max) + 1;
 		response.render("loginSuccess.ejs", {
-			statusMessage: maxNumber, successMessage: "SUCCESS"
+			statusMessage: maxNumber, successMessage: "Profile succesfully created. You may now log in below."
 			}
 		);
 	});
@@ -1223,7 +1249,7 @@ const teams2 = (request, response) => {
 			teamsVar = "CREATE A TEAM";
 			};
 		response.render("teams.ejs", {
-			statusMessage: tableText, teamsList: teamsVar
+			statusMessage: tableText, teamsList: teamsVar, user: request.user
 			}
 		);
 	});
@@ -1289,7 +1315,7 @@ const deliverTeams = (request, response) => {
 			</form>"
 			var tableText = buttons + title + "<table><tr><td style='vertical-align: baseline;'>" + projectsText + "</td><td style='vertical-align: baseline;'>" + myProjects + "</td></tr></table><br>" + usersText;
 			response.render("teams.ejs", {
-				statusMessage: tableText, teamsList: teamsVar
+				statusMessage: tableText, teamsList: teamsVar, user: request.user
 				}
 			);
 		});
@@ -1332,12 +1358,14 @@ const createUser = (request, response) => {
 					, password\
 					, team\
 					, username\
+					, style\
 					) VALUES ('\
 						" + displayname + "'\
 						, '" + email + "'\
 						, '" + password + "'\
 						," + team + "\
 						, '" + username +"'\
+						, 'style'\
 					);";
 	pool.query(sql, (error, results) => {
 		if (error) {
@@ -1376,7 +1404,7 @@ const joinTeam = function(req, res) {
 						}
 						if (results.rows[0] != null) {
 							//DO NOT JOIN TEAM
-							res.render("dashboard.ejs", {statusMessage: "FAILURE (0): You are already part of this team! Navigate to the 'Teams' tab to interact with your teammates."});
+							res.render("dashboard.ejs", {statusMessage: "FAILURE (0): You are already part of this team! Navigate to the 'Teams' tab to interact with your teammates.", user: req.user});
 							console.log("USER ALREADY EXISTS")
 						} else {
 						console.log("USER IS NOT ALREADY PART OF THE TEAM")
@@ -1388,7 +1416,7 @@ const joinTeam = function(req, res) {
 								throw error;
 							}
 							console.log("SUCCESSFULLY ADDED USER TO TEAM")
-							res.render("dashboard.ejs", {statusMessage: "You have been added to the team successfully. Navigate to the 'Teams' tab to start collaborating!"});
+							res.render("dashboard.ejs", {statusMessage: "You have been added to the team successfully. Navigate to the 'Teams' tab to start collaborating!", user: req.user});
 							});
 						}
 					});
@@ -1397,13 +1425,13 @@ const joinTeam = function(req, res) {
 				var tableText = "";
 				//DO NOT JOIN TEAM
 				console.log("FAILURE1: NAME DOES NOT EXIST")
-				res.render("dashboard.ejs", {statusMessage: "FAILURE (1): TEAM NAME DOES NOT MATCH ID. Please double-check your spelling and try again."});
+				res.render("dashboard.ejs", {statusMessage: "FAILURE (1): TEAM NAME DOES NOT MATCH ID. Please double-check your spelling and try again.", user: req.user});
 			}
 
 		} else {
 			//DO NOT JOIN TEAM
 			console.log("FAILURE2: TEAM ID DOES NOT EXIST")
-			res.render("dashboard.ejs", {statusMessage: "FAILURE (2): TEAM ID DOES NOT EXIST"});
+			res.render("dashboard.ejs", {statusMessage: "FAILURE (2): TEAM ID DOES NOT EXIST", user: req.user});
 			}							 
 	});
 };
@@ -1437,7 +1465,7 @@ const createTeam = function(req, res) {
 									throw error;
 								}
 							console.log("SUCCESSFULLY ADDED USER TO TEAM")
-							res.render("dashboard.ejs", {statusMessage: "You have created the team successfully. Navigate to the 'Teams' tab to start collaborating!"});
+							res.render("dashboard.ejs", {statusMessage: "You have created the team successfully. Navigate to the 'Teams' tab to start collaborating!", user: req.user});
 							});
 						
 					});
@@ -1447,7 +1475,7 @@ const createTeam = function(req, res) {
 		} else {
 			//DO NOT JOIN TEAM
 			console.log("FAILURE2: TEAM NAME ALREADY EXISTS")
-			res.render("dashboard.ejs", {statusMessage: "FAILURE (2): TEAM NAME ALREADY EXISTS"});
+			res.render("dashboard.ejs", {statusMessage: "FAILURE (2): TEAM NAME ALREADY EXISTS", user: req.user});
 			}							 
 	});
 };
@@ -1462,7 +1490,7 @@ const deliverCreateTeam = function(req, res) {
 			<input type='text' name='team_name' id='team_name'>\
 			<input class='redButton' type='submit' style='width:250px;' value='Create Team'>\
 		</form>";
-	res.render("dashboard.ejs", {statusMessage: tableText});
+	res.render("dashboard.ejs", {statusMessage: tableText, user: req.user});
 };
 
 //------------------------------------------------------------------------------
@@ -1477,7 +1505,7 @@ const deliverJoinTeam = function(req, res) {
 			<input type='number' name='team_id' id='team_id'>\
 			<input class='redButton' type='submit' style='width:250px;' value='Join Team'>\
 		</form>";
-	res.render("dashboard.ejs", {statusMessage: tableText});
+	res.render("dashboard.ejs", {statusMessage: tableText, user: req.user});
 };
 
 //------------------------------------------------------------------------------

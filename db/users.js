@@ -18,7 +18,7 @@ var records2 = [
 ];
 
 exports.findById = function(id, cb) {
-  pool.query("SELECT * FROM users;", (error, results) => {
+  pool.query("SELECT * FROM users ORDER by ID asc;", (error, results) => {
     if (error) {
       throw error
     }
@@ -35,7 +35,7 @@ exports.findById = function(id, cb) {
 }
 
 exports.findByUsername = function(username, cb) {
-        pool.query("SELECT * FROM users;", (error, results) => {
+        pool.query("SELECT * FROM users ORDER by ID asc;", (error, results) => {
     if (error) {
       throw error
     }
@@ -176,7 +176,7 @@ exports.createProject2 = function(req, res) {
 						<br><br>\
 						<input type='submit' value='Create Project' class='blueButton'>\
 						</form></div>";
-	res.render("dashboard.ejs", {statusMessage: projectFrame})
+	res.render("dashboard.ejs", {statusMessage: projectFrame, user: req.user})
 	});
 	});
 
@@ -310,7 +310,7 @@ exports.createTeamProject = function(req, res) {
 						<input type='text' name='pro_team_id' id='pro_team_id' value=" + team_id + " hidden >\
 						<input type='submit' value='Create Project' class='blueButton'>\
 						</form></div>";
-	res.render("dashboard.ejs", {statusMessage: projectFrame})
+	res.render("dashboard.ejs", {statusMessage: projectFrame, user: req.user})
 	});
 	});
 
