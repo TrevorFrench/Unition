@@ -72,7 +72,7 @@ exports.createProject2 = function(req, res) {
       throw error
     }
 	
-	let categoryVar = "<select name='category' id='category' style='width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;' pattern=[^'\x22]+>"
+	let categoryVar = "<select name='category' id='category' style='width: 75%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;' pattern=[^'\x22]+>"
 	let testNull = [];
 	results.rows.forEach(element => categoryVar += "<option>" + element.category + "</option>");
 	results.rows.forEach(element => testNull.push(element.category))
@@ -80,13 +80,13 @@ exports.createProject2 = function(req, res) {
 	/*If this is a new user which hasn't created any categories yet, direct them to the documentation explaining what categories are and how to create them*/
 	if (testNull.length == 0) { categoryVar = "<a href='./documentation#createCategories'>It looks like you haven't created any categories yet. Learn more here!</a>"};
 	/*----------------------------------------------------------------------------------------------------------------------------------------------------*/
-    var userSelect= "<select id='responsible' name='responsible' style='padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;'>";
-	for (var i = 0, len = records.length; i < len; i++) {
+    var userSelect= "<select id='responsible' name='responsible' style='padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;' hidden><option value='" + req.user.id + "'></option>";
+	/*for (var i = 0, len = records.length; i < len; i++) {
       var record = records[i];
       userSelect += "<option value='" + record.id + "'>" + "<a href='#'>" + record.displayname + "</a></option>";
 
-    }
-	userSelect += "</select></div></div>";
+    }*/
+	userSelect += "</select>";
 	
 	pool.query("SELECT * FROM customers WHERE team_id =" + team_id, (error, results) => {
 		if (error) {
@@ -94,7 +94,7 @@ exports.createProject2 = function(req, res) {
 		}
 	
 	/*----------------------------------------------*/
-	let customerVar = "<select name='customer' id='customer' style='width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;' pattern=[^'\x22]+>"
+	let customerVar = "<select name='customer' id='customer' style='width: 75%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;' pattern=[^'\x22]+>"
 	let testNull2 = [];
 	results.rows.forEach(element => customerVar += "<option>" + element.customer + "</option>");
 	results.rows.forEach(element => testNull2.push(element.customer))
@@ -150,15 +150,16 @@ exports.createProject2 = function(req, res) {
                     #responsible li a:hover {\
                       background-color: #eee;\
                     }"
-	var searchBar = "<input type='text' id='mySearch' style=' width:50%; padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;' onkeyup='myFunction()' placeholder='Search..' title='Type in a category'>"
+	/*var searchBar = "<input type='text' id='mySearch' style=' width:50%; padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;' onkeyup='myFunction()' placeholder='Search..' title='Type in a category'>"*/
+
 	var projectFrame =  javascriptvar + "<div class='projectCreate'>\
 						<p><h2 class='title'>Project Creation Form</h2></p>\
 						<form action='/postProject' method='post' id='description'>\
 						  <div class='row'><div class='col-25'><label for='title'>Title:</label></div>\
-						<div class='col-75'><input type='text' name='title' id='title' style='width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;' required></div></div>\
+						<div class='col-75'><input type='text' name='title' id='title' style='width: 75%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;' required></div></div>\
 						<br><br>\
 						<div class='row'><div class='col-25'><label for='statusSQL'>Status:</label></div>\
-						<div class='col-75'><select id='statusSQL' name='statusSQL' style='width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;'>\
+						<div class='col-75'><select id='statusSQL' name='statusSQL' style='width: 75%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;'>\
 						   <option value='Open'>Open</option>\
 						   <option value='In-process'>In-process</option>\
 						   <option value='Closed'>Closed</option>\
@@ -167,12 +168,12 @@ exports.createProject2 = function(req, res) {
 						<div class='row'><div class='col-25'><label for='category'>Category:</label></div>\
 						<div class='col-75'>" + categoryVar + "</div></div>\
 						<br><br>\
-						<div class='row'><div class='col-25'><label for='responsible'>Responsible:</label></div><div class='col-75'>" + searchBar + userSelect + "<br><br>\
+						" + userSelect + "\
 						<div class='row'><div class='col-25'><label for='duedate'>Due Date:</label></div>\
-						<div class='col-75'><input type='date' name='duedate' id='duedate' style='width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;' pattern=[^'\x22]+ required></div></div>\
+						<div class='col-75'><input type='date' name='duedate' id='duedate' style='width: 75%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;' pattern=[^'\x22]+ required></div></div>\
 						<br><br>\
 						<div class='row'><div class='col-25'><label for='description'>Description:</label></div>\
-						<div class='col-75'><textarea style='width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;' name='description' id='description' form='description' Placeholder='Describe your project here...' required></textarea></div></div>\
+						<div class='col-75'><textarea style='width: 75%;padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;height:150px;' name='description' id='description' form='description' Placeholder='Describe your project here...' required></textarea></div></div>\
 						<br><br>\
 						<input type='submit' value='Create Project' class='blueButton'>\
 						</form></div>";

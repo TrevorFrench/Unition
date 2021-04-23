@@ -67,6 +67,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - passport serializes ids based on position not id number we can return values in order but will break if an ID is ever removed
    - get rid of open team input on sign up form
    - make documentation text color variable
+   - get rid of responsible on project creation form (individual)
 */
 
 //-----------------------------------------------------------------
@@ -80,7 +81,7 @@ const db2 = require('./queries')                                    // reference
 var passport = require('passport');									// login framework
 var Strategy = require('passport-local').Strategy;					// method which is used within the login framework
 var db = require('./db');											// folder which contains database files
-var theme = require('./theme')										//reference the theme.js file which contains theme change references
+var theme = require('./theme')										// reference the theme.js file which contains theme change references
 
 //-----------------------------------------------------------------
 //------------------------ENVIRONMENT SETUP------------------------

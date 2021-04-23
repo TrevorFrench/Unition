@@ -927,7 +927,7 @@ const getProject = (request, response) => {
 			throw error
 		}
 		var projectText = '';
-		projectText += "<div class='projectDiv'>\
+		projectText += "<div class='projectDiv' style='width:75%; margin-left:12%;'>\
 			<form action='/updateProject' method='post' \
 				style='white-space:pre-line;'>\
 				<input type='text' name='title' id='title' \
@@ -939,7 +939,7 @@ const getProject = (request, response) => {
 					</div>\
 					<div class='col-75'>\
 						<select id='statusSQL' name='statusSQL' \
-							style='width: 100%;padding: 12px;\
+							style='width: 75%;padding: 12px;\
 							border: 1px solid #ccc;border-radius: 4px; \
 							resize: vertical;'>\
 							<option value='Open'>Open</option>\
@@ -969,7 +969,7 @@ const getProject = (request, response) => {
 			</form>\
 			</div>\
 			<br><br>\
-			<div class='projectDiv'>\
+			<div class='projectDiv' style='width:75%; margin-left:12%;'>\
 				<form action='/addComment' method='post' id='commentDescription' \
 					style='white-space:pre-line;'>\
 					<label for='commentDescription'>Comments:</label>\
@@ -991,7 +991,7 @@ const getProject = (request, response) => {
 		if(results.rows[0].commentdescription != null) {
 			results.rows.forEach(element => 
 				projectText += "<br><br>\
-					<div class='commentDiv'>\
+					<div class='commentDiv' style='width:75%; margin-left:12%;'>\
 						<b>" + element.commentcreatedby + "</b> \
 						(" + element.commentcreateddate + ")\
 						<br>" + element.commentdescription + "\

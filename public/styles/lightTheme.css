@@ -20,7 +20,7 @@ body {
   display: flex;
   height: 97%;
   /*margin-top: 70px;*/
-  margin: 10px;
+  /*margin: 10px;*/
 }
 
 .topRow{
@@ -65,16 +65,16 @@ body {
 .projectCreate{
 	width:80%;
 	margin-left:10%;
-	background-color:#32323e;
+	background-color:lightgray;
 	padding:10px;
 	border-radius: 5px;
 	box-shadow: 0 14px 28px rgb(0 0 0 / 25%);
-	color: lightslategray;
+	color: black;
 }
 
 .title{
 	text-align: center;
-    color: cadetblue;
+    color: black;
 }
 
 /*--------------------------------------------*/
@@ -129,8 +129,8 @@ h3{
 
 li:hover{
   transition: 1s all;
-  color: #2f89fc;
-  background-color: rgba(42, 56, 65, 0.82);
+  color: wgray;
+  background-color: lightgray;
   cursor: pointer;
 }
 
@@ -216,7 +216,7 @@ input[type="submit"].blueButton {
     font-family: sans-serif;
     min-width: 400px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-	color: lightslategray;
+	color: black;
 }
 
 .styled-table thead tr {
@@ -232,7 +232,7 @@ input[type="submit"].blueButton {
 
 
 .styled-table tbody tr {
-    border-bottom: 3px solid #282832;
+    /*border-bottom: 3px solid #282832;*/
 	background-color: lightgray;
 }
 
@@ -241,7 +241,7 @@ input[type="submit"].blueButton {
 }
 
 .styled-table tbody tr:last-of-type {
-    border-bottom: 3px solid #282832;
+    /*border-bottom: 3px solid #282832;*/
 }
 
 .topbar {
@@ -315,7 +315,7 @@ canvas {
 	padding: 0!important;
 	text-decoration: underline;
 	cursor: pointer; 
-	color: lightslategray;
+	color: black;
 }
 
 /******************FORM STYLING*********************/
