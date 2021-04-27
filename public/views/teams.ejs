@@ -29,37 +29,52 @@
 	
 	<body>
 	
-	 <div class="container">
+	 <div class="container" style='height: 100%;'>
 
-		<div class="card">
+		<div class="card" style="width: 75px;">
 			<div class="header">
-			  <img type="image/png" src="./public/unition4.png" style="margin-top:20px;" class="unition">
-			  <img type="image/png" src="./public/unitionBig.png" style="margin-top:20px;" class="unitionBig">
-			  <img type="image/png" src="./public/unitionSmall.png" style="margin-top:20px;" class="unitionSmall">
+			  <img type="image/png" src="./public/unitionSmall.png" style="margin-top:20px; display: block;" class="unitionSmall">
 			</div>
 			<div class="body">
 			  <ul>
-				<li><i class="fas fa-home icon"></i> <a href="./home"><div class="navText">Home</div></a></li>
-				<li><i class="fas fa-stream icon"></i><a href='./projects'><div class="navText"> Projects</div></a></li>				
-				<li><i class="fas fa-wrench icon"></i><a href='./adminPage'><div class="navText">Admin</div></a></li>
-				<li><i class="fab fa-wpforms icon"></i><a href="./forms"><div class="navText"> Forms</div></a></li>
-				<li><i class="fas fa-chart-pie icon"></i> <form id="opencharts" action="/openCharts" method="post"><a href="javascript: submitcharts()"><div class="navText">Charts</div></a></form></li>
-				<li><i class="fas fa-flag icon"></i><a href="./campaigns"><div class="navText">Campaigns</div></a></li>
-				<li><i class="fas fa-users icon"></i><a href="./teams"><div class="navText">Teams</div></a></li>
-				<%- teamsList %>
-				<li><i class="fas fa-book icon"></i><a href="./documentation"><div class="navText">Documentation</div></a></li>
+				<li><a href="./home"><i class="fas fa-home icon"></i></a></li>
+				<li><a href='./projects'><i class="fas fa-stream icon"></i></a></li>				
+				<li><a href='./adminPage'><i class="fas fa-wrench icon"></i></a></li>
+				<li><a href="./forms"><i class="fab fa-wpforms icon"></i></a></li>
+				<li><form id="opencharts" action="/openCharts" method="post"><a href="javascript: submitcharts()"><i class="fas fa-chart-pie icon"></i></a></form></li>
+				<li><a href="./campaigns"><i class="fas fa-flag icon"></i></a></li>
+				<li><a href="./teams"><i class="fas fa-users icon"></i></a></li>
+
+				<li><a href="./documentation"><i class="fas fa-book icon"></i></a></li>
 			  </ul>
 			</div>
+		</div>
+		
+		<div class="card" style="width: 150px; ">
+			
+			<div class="body" style="height:80%;">
+			  <ul>
+
+				<%- teamsList %>
+
+			  </ul>
+			</div>
+			<div class="ender">
+			<form action="/deliverJoinTeam" method="post">
+				<input class="redButton" type="submit" value="Join Team">
+			</form>
+			<br>
+			<br>
+			<form action="/deliverCreateTeam" method="POST">
+				<input class="redButton" type="submit" value="Create Team">
+			</form>
+			</div>
+			
 		</div>
   
   	<div class="main">
 	<div class="topRow">
-			<form action="/deliverJoinTeam" method="post">
-				<input class="redButton" type="submit" value="Join Team">
-			</form>
-			<form action="/deliverCreateTeam" method="POST">
-				<input class="redButton" type="submit" value="Create Team">
-			</form>
+
 			<a href="/profile" class="profileButton" style="display:flex; float:right;"><i class="fas fa-user" height=45></i></a>
 	</div>
 	<div class="dataRow">

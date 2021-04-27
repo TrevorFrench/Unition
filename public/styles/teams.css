@@ -20,7 +20,7 @@ body {
   display: flex;
   height: 97%;
   /*margin-top: 70px;*/
-  /*margin: 10px;*/
+  margin: 10px;
 }
 
 .topRow{
@@ -338,71 +338,6 @@ canvas {
   clear: both;
 }
 
-/* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
-@media screen and (max-width: 600px) {
-  .col-25, .col-75, input[type=submit] {
-    width: 100%;
-    margin-top: 0;
-  }
-  
-  .navText {
-	  visibility: hidden;
-  }
-  
-  .unitionBig {
-	  visibility: visible;
-  }
-  
-  .unition {
-	  display: none;
-  }
-}
-
-@media screen and (min-width: 1257px) {
-
-.unitionBig {
-	display: none;
-}
-
-.unitionSmall {
-	display: none;
-}
-
-.unition {
-	visibility: visible;
-}
-}
-
-@media screen and (min-width: 910px) and (max-width: 1257px) {
-
-.unitionBig {
-	visibility: visible;
-}
-
-.unitionSmall {
-	display: none;
-}
-
-.unition {
-	display: none;
-}
-}
-
-@media screen and (max-width: 910px) {
-
-.unitionBig {
-	display: none;
-}
-
-.unitionSmall {
-	visibility: visible;
-}
-
-.unition {
-	display: none;
-}
-}
-
 .navText {
 	display: inline;
 }
@@ -434,15 +369,3 @@ canvas {
 	#responsible option a:hover {
 	  background-color: #eee;
 	}
-	
-.doch4 {
-	color: white;
-}
-
-.docp {
-	color: white;
-}
-
-.docul {
-	color: white;
-}

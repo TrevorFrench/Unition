@@ -1284,7 +1284,7 @@ const deliverTeams = (request, response) => {
 		}
 		var title = "<div class='nextRow'> <h3>" + results.rows[0].pro_team_name + "</h3>Announcements:</div>"
 		var usersText = "<table class='styled-table'><tbody><tr><th>Users</th></tr>";
-		var teamsVar = results.rows[0].pro_team_name;
+		/*var teamsVar = results.rows[0].pro_team_name;*/
 		results.rows.forEach(element => 
 			usersText += "<tr><td>" + element.displayname + "</td></tr>"
 		);
@@ -1325,10 +1325,37 @@ const deliverTeams = (request, response) => {
 					<input class='redButton' type='submit' style='width:250px;' value='Create Team Project'>\
 			</form>"
 			var tableText = buttons + title + "<table><tr><td style='vertical-align: baseline;'>" + projectsText + "</td><td style='vertical-align: baseline;'>" + myProjects + "</td></tr></table><br>" + usersText;
+			
+			/**/
+			const sql2 = "SELECT pt_id\
+					, user_id\
+					, join_table.pt_role_id\
+					, users.displayname AS displayname\
+					, pro_team_name\
+					, pt_role_name \
+				FROM join_table \
+				INNER JOIN users \
+					ON users.id = join_table.user_id \
+				INNER JOIN pro_team \
+					ON pro_team_id = pt_id \
+				INNER JOIN pro_team_roles \
+					ON pro_team_roles.pt_role_id = join_table.pt_role_id \
+				WHERE user_id =" + request.user.id + ";";
+			pool.query(sql2, (error, results) => {
+				if (error) {
+					throw error;
+				}
+				var teamsVar = "";
+				results.rows.forEach(element =>
+					teamsVar += "<li>" + element.pro_team_name + "</li>"
+				);
+			/**/
+			
 			response.render("teams.ejs", {
 				statusMessage: tableText, teamsList: teamsVar, user: request.user
 				}
 			);
+			});
 		});
 	});
 }
