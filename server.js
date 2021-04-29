@@ -1,5 +1,5 @@
 /*hacky nonsense because my db connection broke*/
-process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set strict-ssl=false and added ssl=true to queries.js
+process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set strict-ssl=false and added ssl=true to queries.js //should probably be able to fix this now
 //-----------------------------------------------------------------
 //---------------------------ACTION LIST---------------------------
 //-----------------------------------------------------------------
