@@ -68,9 +68,12 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - get rid of open team input on sign up form
    - make documentation text color variable
    - get rid of responsible on project creation form (individual)
-   -internal server error when you hit  home after cookie times out
+   - internal server error when you hit  home after cookie times out
    - add an feature that allows you to "highlight" a project
    - create projects functionality which allows tasks to be assigned to projects
+   - Recurring projects
+   - Bug when cookie expires and user tries to navigate to the home page
+   - Allow the user to make a customized home page
 */
 
 //-----------------------------------------------------------------
