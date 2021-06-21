@@ -348,12 +348,11 @@ app.get('/', 														// when the root directory loads, send the main.html 
 		)
 	);
 
-app.get('/home', 													// when the root directory loads, send the main.html file to the client
-	(req, res) =>
-		res.render(
-			'main.ejs', {user: req.user}
-		)
-	);
+app.get('/home', 
+	require('connect-ensure-login').ensureLoggedIn(),													// when the root directory loads, send the main.html file to the client
+	function(req, res){
+		res.render('main.ejs', {user: req.user})
+	});
 
 app.get('/login',													// Delivers the login screen
 	db2.deliverLogin
