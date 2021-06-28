@@ -15,7 +15,7 @@ const pool = new Pool({
 //--------------------------------ADMINISTRATION--------------------------------
 //------------------------------------------------------------------------------
 const admin = (request, response) => {
-	const sql = "DELETE FROM users where id = 17;";
+	const sql = "ALTER TABLE views DROP COLUMN time;";
 	pool.query(sql, (error, results) => {
 		if (error) {
 			throw error
@@ -548,10 +548,25 @@ const selectMyProjects = function(req, res) {
 //------------------------------------------------------------------------------
 const deliverTables = function(req, res) {
 	const sql = "SELECT * FROM join_table INNER JOIN pro_team ON pro_team_id = pt_id WHERE user_id =" + req.user.id + " AND pt_role_id = 1;";
+	const sqltracking = "INSERT INTO views(\
+					page\
+					, user_id\
+					) VALUES (\
+					'admin'\
+					, '" + req.user.id + "'\
+					);";
+					
+	pool.query(sqltracking, (error, results) => {
+			if (error) {
+				throw error;
+			}
+			
+		
 	pool.query(sql, (error, results) => {
 		if (error) {
 			throw error;
 		}
+			
 			var themeText = "<table class='styled-table'><tbody>\
 			<tr><th>Theme</th><th>Description</th><th>Action</th></tr>\
 			<tr><td>\
@@ -631,8 +646,10 @@ const deliverTables = function(req, res) {
 					<td>Returns a table containing all customers.</td>\
 				</tr>\
 			</tbody></table>")
-		
+
 		res.render("dashboard.ejs", {statusMessage: themeText + tableText + teamsText, user: req.user});
+
+	});
 	});
 };
 
@@ -851,6 +868,19 @@ const deliverCampaigns = function(req, res) {
 						EXTRACT(MONTH FROM end_date) - 1 AS end_month,\
 						EXTRACT(DAY FROM end_date) AS end_day\
 					FROM campaigns WHERE user_id =" + user;
+					
+	const sqltracking = "INSERT INTO views(\
+					page\
+					, user_id\
+					) VALUES (\
+					'campaigns'\
+					, '" + user + "'\
+					);";
+	pool.query(sqltracking, (error, results) => {
+		if (error) {
+			throw error;
+		}
+	
 	pool.query(sql, (error, results) => {
 		if (error) {
 			throw error;
@@ -881,6 +911,7 @@ const deliverCampaigns = function(req, res) {
 										new Date(" + element.end_year + ", " + element.end_month + ", " + element.end_day + "), null, " + element.pcomplete + ", null],");
 		} else { dataText += "['2014Spring', 'No Campaigns', 'None', new Date(2014, 2, 22), new Date(2014, 5, 20), null, 100, null]" }
 		res.render("campaigns.ejs", {statusMessage: tableText, data: dataText, user: req.user});
+	});
 	});
 };
 
@@ -1101,6 +1132,19 @@ const selectCharts = (request, response) => {
 					GROUP BY date_part('year', created_date)\
 					, date_part('month', created_date)\
 				ORDER BY PROJECT_MONTH;";
+				
+	const sqltracking = "INSERT INTO views(\
+					page\
+					, user_id\
+					) VALUES (\
+					'charts'\
+					, '" + user + "'\
+					);";
+	pool.query(sqltracking, (error, results) => {
+		if (error) {
+			throw error;
+		}
+	
 	pool.query(sql, (error, results) => {
 		if (error) {
 			throw error;
@@ -1173,6 +1217,7 @@ const selectCharts = (request, response) => {
 				});
 			});
 		});
+	});
 	});
 }
 
@@ -1547,6 +1592,154 @@ const deliverJoinTeam = function(req, res) {
 };
 
 //------------------------------------------------------------------------------
+//-------------------------DELIVERS THE PROFILE VIEW--------------------------
+//------------------------------------------------------------------------------
+const profileView = (request, response) => {
+	const user = request.user.id
+	const sql = "INSERT INTO views(\
+					page\
+					, user_id\
+					) VALUES (\
+					'profile'\
+					, '" + user + "'\
+					);";
+	pool.query(sql, (error, results) => {
+		if (error) {
+			throw error;
+		}
+
+      response.render('profile', { user: request.user });
+	
+	});
+}
+
+//------------------------------------------------------------------------------
+//--------------------------DELIVERS THE PROJECTS VIEW--------------------------
+//------------------------------------------------------------------------------
+const projectsView = (request, response) => {
+	const user = request.user.id
+	const sql = "INSERT INTO views(\
+					page\
+					, user_id\
+					) VALUES (\
+					'projects'\
+					, '" + user + "'\
+					);";
+	pool.query(sql, (error, results) => {
+		if (error) {
+			throw error;
+		}
+
+    response.render("dashboard.ejs", {statusMessage:
+	"<table class='styled-table'><tbody>\
+	<tr><th>PROJECT LIST</th><th>Description</th>\
+	<tr><td><form action='/openProjects' method='post'><input type='submit' name='openprojects' value='Open Projects' class='projectTitle'></form></td><td>Returns a list of all open projects for which the current user is responsible.</td></tr>\
+	<tr><td><form action='/inprocessProjects' method='post'><input type='submit' name='inprocessprojects' value='In-Process Projects' class='projectTitle'></form></td><td>Returns a list of all in-process projects for which the current user is responsible.</td></tr>\
+	<tr><td><form action='/allProjects' method='post'><input type='submit' name='allprojects' value='All Projects' class='projectTitle'></form></td><td>Returns a complete list of projects for which the current user is responsible.</td></tr>\
+	<tr><td><form action='/myProjects' method='post'><input type='submit' name='myprojects' value='My Projects' class='projectTitle'></form></td><td>Returns all 'open' and 'in-process' projects for which the current user is responsible.</td></tr>\
+	</tbody></table>", user: request.user
+	})
+	
+	});
+}
+
+//------------------------------------------------------------------------------
+//-----------------------DELIVERS THE DOCUMENTATION VIEW------------------------
+//------------------------------------------------------------------------------
+const documentationView = (request, response) => {
+	const user = request.user.id
+	const sql = "INSERT INTO views(\
+					page\
+					, user_id\
+					) VALUES (\
+					'documentation'\
+					, '" + user + "'\
+					);";
+	pool.query(sql, (error, results) => {
+		if (error) {
+			throw error;
+		}
+
+    response.render("documentation.ejs", {statusMessage: "", user: request.user})
+	
+	});
+}
+
+//------------------------------------------------------------------------------
+//---------------------------DELIVERS THE TEAMS VIEW----------------------------
+//------------------------------------------------------------------------------
+const teamsView = (request, response) => {
+	const user = request.user.id
+	const sql = "INSERT INTO views(\
+					page\
+					, user_id\
+					) VALUES (\
+					'teams'\
+					, '" + user + "'\
+					);";
+	pool.query(sql, (error, results) => {
+		if (error) {
+			throw error;
+		}
+
+    response.render("dashboard.ejs", {statusMessage: "<div class='commentDiv'>COMING SOON<p>Teams functionality allows teams to efficiently define outcomes, track progress, and measure productivity.</p><div>", user: request.user})
+	
+	});
+}
+
+//------------------------------------------------------------------------------
+//----------------------------DELIVERS THE HOME VIEW----------------------------
+//------------------------------------------------------------------------------
+const homeView = (request, response) => {
+	const user = request.user.id
+	const sql = "INSERT INTO views(\
+					page\
+					, user_id\
+					) VALUES (\
+					'home'\
+					, '" + user + "'\
+					);";
+	pool.query(sql, (error, results) => {
+		if (error) {
+			throw error;
+		}
+
+      response.render('main.ejs', {user: request.user})
+	
+	});
+}
+
+//------------------------------------------------------------------------------
+//---------------------------DELIVERS THE FORMS VIEW----------------------------
+//------------------------------------------------------------------------------
+const formsView = (request, response) => {
+	const user = request.user.id
+	const sql = "INSERT INTO views(\
+					page\
+					, user_id\
+					) VALUES (\
+					'forms'\
+					, '" + user + "'\
+					);";
+	pool.query(sql, (error, results) => {
+		if (error) {
+			throw error;
+		}
+
+		response.render("dashboard.ejs", {statusMessage:
+		"<table class='styled-table'><tbody>\
+		<tr><th>FORM LIST</th><th>Description</th><th>INTERNAL/EXTERNAL</th>\
+		<tr><td><form action='/createProject' method='post'>\
+		<input type='submit' name='createProject' value='Project Creation Form' class='projectTitle'>\
+		</form></td><td>Delivers the default project creation form.</td>\
+		<td>Internal</td></tr>\
+		</tbody></table>", user: request.user
+		})
+	
+	});
+}
+
+//------------------------------------------------------------------------------
 //--------------------------------EXPORT MODULES--------------------------------
 //------------------------------------------------------------------------------
 module.exports = {
@@ -1588,5 +1781,11 @@ module.exports = {
   addCampaign,
   deliverCampaigns,
   deleteCampaign,
-  updateCampaign
+  updateCampaign,
+  profileView,
+  projectsView,
+  documentationView,
+  teamsView,
+  homeView,
+  formsView
 }

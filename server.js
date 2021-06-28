@@ -162,7 +162,7 @@ passport.deserializeUser(function(id, cb) {							// typical implementation of t
 
 app.use(passport.initialize());										// Initialize Passport and restore authentication state, if any, from the session
 app.use(passport.session());
- 
+
 //-----------------------------------------------------------------
 //-----------------------FUNCTIONAL QUERIES------------------------
 //-----------------------------------------------------------------
@@ -349,10 +349,9 @@ app.get('/', 														// when the root directory loads, send the main.html 
 	);
 
 app.get('/home', 
-	require('connect-ensure-login').ensureLoggedIn(),													// when the root directory loads, send the main.html file to the client
-	function(req, res){
-		res.render('main.ejs', {user: req.user})
-	});
+	require('connect-ensure-login').ensureLoggedIn(),				// when the root directory loads, send the main.html file to the client
+	db2.homeView
+	);
 
 app.get('/login',													// Delivers the login screen
 	db2.deliverLogin
@@ -372,29 +371,18 @@ app.get('/logout',													// logs the current user out and delivers the hom
 
 app.get('/profile',													// renders the 'profile' for the current user
   require('connect-ensure-login').ensureLoggedIn(),
-  function(req, res){
-    res.render('profile', { user: req.user });
-  });
+  db2.profileView
+);
   
 app.get('/projects',												// renders the 'projects' view
   require('connect-ensure-login').ensureLoggedIn(),
-  function(req, res){
-    res.render("dashboard.ejs", {statusMessage:
-	"<table class='styled-table'><tbody>\
-	<tr><th>PROJECT LIST</th><th>Description</th>\
-	<tr><td><form action='/openProjects' method='post'><input type='submit' name='openprojects' value='Open Projects' class='projectTitle'></form></td><td>Returns a list of all open projects for which the current user is responsible.</td></tr>\
-	<tr><td><form action='/inprocessProjects' method='post'><input type='submit' name='inprocessprojects' value='In-Process Projects' class='projectTitle'></form></td><td>Returns a list of all in-process projects for which the current user is responsible.</td></tr>\
-	<tr><td><form action='/allProjects' method='post'><input type='submit' name='allprojects' value='All Projects' class='projectTitle'></form></td><td>Returns a complete list of projects for which the current user is responsible.</td></tr>\
-	<tr><td><form action='/myProjects' method='post'><input type='submit' name='myprojects' value='My Projects' class='projectTitle'></form></td><td>Returns all 'open' and 'in-process' projects for which the current user is responsible.</td></tr>\
-	</tbody></table>", user: req.user
-	})
-  });
+  db2. projectsView
+);
   
 app.get('/documentation',											// renders the 'documentation' view
   require('connect-ensure-login').ensureLoggedIn(),
-  function(req, res){
-    res.render("documentation.ejs", {statusMessage: "", user: req.user})
-  });
+  db2.documentationView
+);
   
 app.get('/campaigns',											    // renders the 'campaigns' view
   require('connect-ensure-login').ensureLoggedIn(),
@@ -403,9 +391,8 @@ app.get('/campaigns',											    // renders the 'campaigns' view
   
 app.get('/teams',											        // renders the temporary 'teams' view
   require('connect-ensure-login').ensureLoggedIn(),
-  function(req, res){
-    res.render("dashboard.ejs", {statusMessage: "<div class='commentDiv'>COMING SOON<p>Teams functionality allows teams to efficiently define outcomes, track progress, and measure productivity.</p><div>", user: req.user})
-  });
+  db2.teamsView
+);
   
 app.get('/teams2',											        // renders the 'teams' view
   require('connect-ensure-login').ensureLoggedIn(),
@@ -444,17 +431,8 @@ app.post('/updateCampaign',											// updates a campaign
   
 app.get('/forms',												    // renders the 'forms' view
   require('connect-ensure-login').ensureLoggedIn(),
-  function(req, res){
-    res.render("dashboard.ejs", {statusMessage:
-	"<table class='styled-table'><tbody>\
-	<tr><th>FORM LIST</th><th>Description</th><th>INTERNAL/EXTERNAL</th>\
-	<tr><td><form action='/createProject' method='post'>\
-	<input type='submit' name='createProject' value='Project Creation Form' class='projectTitle'>\
-	</form></td><td>Delivers the default project creation form.</td>\
-	<td>Internal</td></tr>\
-	</tbody></table>", user: req.user
-	})
-  });
+  db2.formsView
+);
 
 //-----------------------------------------------------------------
 //-------------------------GENERIC QUERIES-------------------------
