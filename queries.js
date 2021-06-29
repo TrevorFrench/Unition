@@ -1489,7 +1489,12 @@ const teams2 = (request, response) => {
 		);
 		tableText += '</table>';
 		results.rows.forEach(element =>
-			teamsVar += "<li>" + element.pro_team_name + "</li>"
+			teamsVar += "<form action='deliverTeam' method='POST'>\
+						<input type='text' id='teamdid' name='teamid' \
+							value='" + element.pt_id + "' hidden>\
+						<input type='submit' name='deliverTeam' \
+							value='" + element.pro_team_name + "' class='teamTitle'>\
+					</form>"
 		);
 		if (results.rows[0] == null) {
 			tableText = "NO TEAMS YET =(";
@@ -1583,7 +1588,12 @@ const deliverTeams = (request, response) => {
 				}
 				var teamsVar = "";
 				results.rows.forEach(element =>
-					teamsVar += "<li>" + element.pro_team_name + "</li>"
+					teamsVar += "<form action='deliverTeam' method='POST'>\
+						<input type='text' id='teamdid' name='teamid' \
+							value='" + element.pt_id + "' hidden>\
+						<input type='submit' name='deliverTeam' \
+							value='" + element.pro_team_name + "' class='teamTitle'>\
+					</form>"
 				);
 			/**/
 			
