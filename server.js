@@ -329,16 +329,16 @@ app.get('/Excel', 													// select every project that has been created for
 //-----------------------------------------------------------------
 app.get('/admin', 													// renders a page which is used for administration
 	require('connect-ensure-login').ensureLoggedIn(), 
-	function(req, res){
-		if (req.user.username == "TrevorFrench") {
-			res.render("dashboard.ejs", 
+	/*function(req, res){
+		if (req.user.username == "TrevorFrench") {*/
+			/*res.render("dashboard.ejs", 
 			{statusMessage: 										// form that executes the users query when submitted
 				"<form action='/admin' method='post'>\
 				<input type='submit' value='PSQL CHANGES'>\
 				</form>", user: req.user
 			}
-		)
-		} else { res.redirect('/home') }}
+		)*/ db2.consoleCharts
+		/*} else { res.redirect('/home') }}*/
 	); 
 
 app.get('/', 														// when the root directory loads, send the main.html file to the client

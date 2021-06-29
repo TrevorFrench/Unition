@@ -1222,6 +1222,90 @@ const selectCharts = (request, response) => {
 }
 
 //------------------------------------------------------------------------------
+//---------------------------RENDER CHARTS FOR CONSOLE--------------------------
+//------------------------------------------------------------------------------
+const consoleCharts = (request, response) => {
+	const user = request.user.id;
+	const sql = "SELECT DISTINCT\
+					CONCAT(date_part('year', date_time)\
+						, '-'\
+						, date_part('month', date_time)) \
+					AS MONTH\
+					, COUNT(DISTINCT user_id) AS USER_COUNT\
+				FROM views \
+				WHERE (user_id > 0)\
+					GROUP BY date_part('year', date_time)\
+					, date_part('month', date_time)\
+				ORDER BY MONTH;";
+				
+	const sqltracking = "INSERT INTO views(\
+					page\
+					, user_id\
+					) VALUES (\
+					'console'\
+					, '" + user + "'\
+					);";
+					
+	if (request.user.username == "TrevorFrench") {
+	
+	pool.query(sqltracking, (error, results) => {
+		if (error) {
+			throw error;
+		}
+	
+	pool.query(sql, (error, results) => {
+		if (error) {
+			throw error;
+		}
+		let dataArray = [];
+		let labelArray = [];
+		results.rows.forEach(element => 
+			labelArray.push("'" + element.month + "'")
+		);
+		var texts= "labels: [" + labelArray + "],\
+					datasets: [{\
+					label: '# of Users',\
+					data: " 
+		results.rows.forEach(element => 
+			dataArray.push(element.user_count)
+		);
+		
+		let googleArray = [];
+		results.rows.forEach(element =>
+			googleArray.push("['" + element.month + "' ," + parseInt(element.user_count) + "]")
+		);
+		texts+= "[" + dataArray + "]";
+		const sql2 = "SELECT page, COUNT(page) AS PAGE_COUNT FROM views WHERE (user_id > 0) GROUP BY page ORDER BY PAGE_COUNT DESC;";
+		pool.query(sql2, (error, results) => {
+			if (error) {
+				throw error;
+			}
+			
+			let categoryArray = [];
+			results.rows.forEach(element =>
+					categoryArray.push("['" + element.page + "', " + parseInt(element.page_count) + "]")
+				);
+			const sql3 = "SELECT customer, COUNT(customer) AS CUSTOMER_COUNT FROM projects WHERE (responsible = '" + user + "') GROUP BY customer ORDER BY CUSTOMER_COUNT DESC;";
+			pool.query(sql3, (error, results) => {
+				if (error) {
+					throw error;
+				}
+				let customerArray = [];
+				results.rows.forEach(element =>
+						customerArray.push("['" + element.customer + "', " + parseInt(element.customer_count) + "]")
+					);
+				
+				response.render("console.ejs", {statusMessage: googleArray, categoryData: categoryArray, customerData: customerArray, user: request.user});
+
+			});
+		});
+	});
+	});
+	
+	} else { response.redirect('/home') }
+}
+
+//------------------------------------------------------------------------------
 //-----------------------------DELIVER LOGIN SCREEN-----------------------------
 //------------------------------------------------------------------------------
 const deliverLogin = (request, response) => {
@@ -1787,5 +1871,6 @@ module.exports = {
   documentationView,
   teamsView,
   homeView,
-  formsView
+  formsView,
+  consoleCharts
 }

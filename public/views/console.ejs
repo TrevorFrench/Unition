@@ -1,0 +1,189 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+	<link rel="shortcut icon" type="image/png" href="./public/favicon.ico">
+		<meta charset="UTF-8">
+		<title>Unition</title>
+		<link href="./public/styles/<%= user.style %>.css" rel="stylesheet">
+		<script type="text/javascript">			
+			function submitproject()
+			{
+			document.forms["projectform"].submit();
+			}
+			
+			function loadAdmin()
+			{
+			document.forms["loadAdmin"].submit();
+			}
+			
+			function submitcharts()
+			{
+			document.forms["opencharts"].submit();
+			}
+		</script>
+		<script defer src="./node_modules/@fortawesome/fontawesome-free/js/brands.js"></script>
+		<script defer src="./node_modules/@fortawesome/fontawesome-free/js/solid.js"></script>
+		<script defer src="./node_modules/@fortawesome/fontawesome-free/js/fontawesome.js"></script>
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.js"></script>
+		
+		<!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    
+	<script type="text/javascript">
+
+      // Load the Visualization API and the corechart package.
+      google.charts.load('current', {'packages':['corechart']});
+
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.charts.setOnLoadCallback(drawChart);
+
+      // Callback that creates and populates a data table,
+      // instantiates the pie chart, passes in the data and
+      // draws it.
+      function drawChart() {
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Month');
+        data.addColumn('number', 'Projects');
+        data.addRows([
+		<%- statusMessage %>
+        ]);
+
+        // Set chart options
+        var options = {'title':'Monthly Active Users (Registered)'};
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+    </script>
+	
+	<script type="text/javascript">
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+			['Page Views', '# of Views'],
+			<%- categoryData %>
+        ]);
+
+        var options = {
+          title: 'Page Views (Registered)',
+          pieHole: 0.4,
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+        chart.draw(data, options);
+      }
+    </script>
+	
+	<script type="text/javascript">
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Customer', '# of Projects'],
+			<%- customerData %>
+        ]);
+
+        var options = {
+          title: 'Customers',
+          pieHole: 0.4,
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('donut2chart'));
+        chart.draw(data, options);
+      }
+	  </script>
+
+	</head>
+	
+	<body>
+	
+
+	
+	 <div class="container">
+
+		<div class="card">
+			<div class="header">
+			  <img type="image/png" src="./public/unition4.png" style="margin-top:20px;" class="unition">
+			  <img type="image/png" src="./public/unitionBig.png" style="margin-top:20px;" class="unitionBig">
+			  <img type="image/png" src="./public/unitionSmall.png" style="margin-top:20px;" class="unitionSmall">
+			</div>
+			<div class="body">
+			  <ul>
+				<li><i class="fas fa-home icon"></i> <a href="./home"><div class="navText">Home</div></a></li>
+				<li><i class="fas fa-stream icon"></i><a href='./projects'><div class="navText"> Projects</div></a></li>				
+				<li><i class="fas fa-wrench icon"></i><a href='./adminPage'><div class="navText">Admin</div></a></li>
+				<li><i class="fab fa-wpforms icon"></i><a href="./forms"><div class="navText"> Forms</div></a></li>
+				<li><i class="fas fa-chart-pie icon"></i> <form id="opencharts" action="/openCharts" method="post"><a href="javascript: submitcharts()"><div class="navText">Charts</div></a></form></li>
+				<li><i class="fas fa-flag icon"></i><a href="./campaigns"><div class="navText">Campaigns</div></a></li>
+				<li><i class="fas fa-users icon"></i><a href="./teams"><div class="navText">Teams</div></a></li>
+				<li><i class="fas fa-book icon"></i><a href="./documentation"><div class="navText">Documentation</div></a></li>
+			  </ul>
+			</div>
+		</div>
+		
+
+  
+  	<div class="main" style="overflow: auto;">
+			<a href="/profile" class="profileButton" style="display:flex; float:right;"><i class="fas fa-user" height=45></i></a>
+			<br>
+			<br>
+          		<form action='/admin' method='post'>\
+				<input type='submit' value='PSQL CHANGES'>\
+				</form>
+			<!--<div class="chart-container">-->
+			<!--<canvas id="myChart" style="padding:10px;"></canvas>-->
+			<!--</div>-->
+			<table>
+			<tr>
+			<td>
+			<!--Div that will hold the pie chart-->
+			<div id="chart_div" style="width: 400px; height: 400px;"></div>
+			</td>
+			<td>
+			<!--Div that will hold the donut chart-->
+			<div id="donutchart" style="width: 400px; height: 400px;"></div>
+			</td>
+			<td>
+			<!--Div that will hold the donut2 chart-->
+			<div id="donut2chart" style="width: 400px; height: 400px;"></div>
+			</td>
+			</tr>
+			</table>
+	</div>
+
+
+</div>
+				<script>
+var ctx = document.getElementById('myChart').getContext('2d');
+var myChart = new Chart(ctx, {
+    responsive:true,
+    maintainAspectRatio: false,
+	type: 'bar',
+    data: {
+			"",
+            backgroundColor: [
+                'rgba(255, 99, 132)',
+				'rgba(255, 99, 132)',
+				'rgba(255, 99, 132)',
+				'rgba(255, 99, 132)',
+				'rgba(255, 99, 132)'
+            ]
+        }]
+    },
+    options: {
+		scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+</script>
+	</body>
+</html
