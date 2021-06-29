@@ -1222,6 +1222,113 @@ const selectCharts = (request, response) => {
 }
 
 //------------------------------------------------------------------------------
+//---------------------------------FILTER CHARTS--------------------------------
+//------------------------------------------------------------------------------
+const filterCharts = (request, response) => {
+	const user = request.user.id;
+	const start = "'" + request.body.startDate + "'::date";
+	const end = "'" + request.body.endDate + "'::date";
+
+	const sql = "SELECT DISTINCT\
+					CONCAT(date_part('year', created_date)\
+						, '-'\
+						, date_part('month', created_date)) \
+					AS PROJECT_MONTH\
+					, COUNT(DISTINCT project_id) AS PROJECT_COUNT\
+				FROM projects \
+				WHERE (responsible = '" + user + "' AND date(created_date) >= " + start + " AND date(created_date) <= " + end + " )\
+					GROUP BY date_part('year', created_date)\
+					, date_part('month', created_date)\
+				ORDER BY PROJECT_MONTH;";		
+	const sqltracking = "INSERT INTO views(\
+					page\
+					, user_id\
+					) VALUES (\
+					'charts'\
+					, '" + user + "'\
+					);";
+	pool.query(sqltracking, (error, results) => {
+		if (error) {
+			throw error;
+		}
+	
+	pool.query(sql, (error, results) => {
+		if (error) {
+			throw error;
+		}
+		let dataArray = [];
+		let labelArray = [];
+		results.rows.forEach(element => 
+			labelArray.push("'" + element.project_month + "'")
+		);
+		var texts= "labels: [" + labelArray + "],\
+					datasets: [{\
+					label: '# of Projects',\
+					data: " 
+		results.rows.forEach(element => 
+			dataArray.push(element.project_count)
+		);
+		
+		let googleArray = [];
+		results.rows.forEach(element =>
+			googleArray.push("['" + element.project_month + "' ," + parseInt(element.project_count) + "]")
+		);
+		texts+= "[" + dataArray + "]";
+		const sql2 = "SELECT category, COUNT(category) AS CATEGORY_COUNT FROM projects WHERE (responsible = '" + user + "' AND date(created_date) >= " + start + " AND date(created_date) <= " + end + " ) GROUP BY category ORDER BY category_COUNT DESC;";
+		pool.query(sql2, (error, results) => {
+			if (error) {
+				throw error;
+			}
+			
+			let categoryArray = [];
+			results.rows.forEach(element =>
+					categoryArray.push("['" + element.category + "', " + parseInt(element.category_count) + "]")
+				);
+			const sql3 = "SELECT customer, COUNT(customer) AS CUSTOMER_COUNT FROM projects WHERE (responsible = '" + user + "' AND date(created_date) >= " + start + " AND date(created_date) <= " + end + " ) GROUP BY customer ORDER BY CUSTOMER_COUNT DESC;";
+			pool.query(sql3, (error, results) => {
+				if (error) {
+					throw error;
+				}
+				let customerArray = [];
+				results.rows.forEach(element =>
+						customerArray.push("['" + element.customer + "', " + parseInt(element.customer_count) + "]")
+					);
+				
+				const sql2 = "SELECT campaign_id,\
+						name,\
+						pcomplete,\
+						resource,\
+						user_id,\
+						TO_CHAR(start_date, 'MM/DD/YYYY') AS start_date,\
+						TO_CHAR(end_date, 'MM/DD/YYYY') AS end_date,\
+						EXTRACT(YEAR FROM start_date) AS start_year,\
+						EXTRACT(MONTH FROM start_date) - 1 AS start_month,\
+						EXTRACT(DAY FROM start_date) AS start_day,\
+						EXTRACT(YEAR FROM end_date) AS end_year,\
+						EXTRACT(MONTH FROM end_date) - 1 AS end_month,\
+						EXTRACT(DAY FROM end_date) AS end_day\
+					FROM campaigns WHERE user_id =" + user + " AND date(start_date) >= " + start + " AND date(start_date) <= " + end + " AND date(end_date) >= " + start + " AND date(end_date) <= " + end;
+					
+				pool.query(sql2, (error, results) => {
+					if (error) {
+						throw error
+					}
+					
+				var dataText = ""
+				if (results.rows[0] != null) {
+				results.rows.forEach(element => dataText += "['" + element.campaign_id + "', '" + element.name + "',\
+										'" + element.resource + "', new Date(" + element.start_year + ", " + element.start_month + ", " + element.start_day + "),\
+										new Date(" + element.end_year + ", " + element.end_month + ", " + element.end_day + "), null, " + element.pcomplete + ", null],");
+				} else { dataText += "['2014Spring', 'No Campaigns', 'None', new Date(2014, 2, 22), new Date(2014, 5, 20), null, 100, null]" }
+				response.render("charts.ejs", {statusMessage: googleArray, categoryData: categoryArray, customerData: customerArray, ganttData: dataText, user: request.user});
+				});
+			});
+		});
+	});
+	});
+}
+
+//------------------------------------------------------------------------------
 //---------------------------RENDER CHARTS FOR CONSOLE--------------------------
 //------------------------------------------------------------------------------
 const consoleCharts = (request, response) => {
@@ -1872,5 +1979,6 @@ module.exports = {
   teamsView,
   homeView,
   formsView,
-  consoleCharts
+  consoleCharts,
+  filterCharts
 }

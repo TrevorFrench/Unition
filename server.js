@@ -175,6 +175,11 @@ app.post('/openCharts', 											// renders the charts view
 	require('connect-ensure-login').ensureLoggedIn(), 
 	db2.selectCharts
 	)
+	
+app.post('/filterCharts', 											// renders the filtered charts view
+	require('connect-ensure-login').ensureLoggedIn(), 
+	db2.filterCharts
+	)
 
 app.post('/inprocessProjects', 										// select only projects where status = 'In-process'
 	require('connect-ensure-login').ensureLoggedIn(), 
@@ -329,16 +334,7 @@ app.get('/Excel', 													// select every project that has been created for
 //-----------------------------------------------------------------
 app.get('/admin', 													// renders a page which is used for administration
 	require('connect-ensure-login').ensureLoggedIn(), 
-	/*function(req, res){
-		if (req.user.username == "TrevorFrench") {*/
-			/*res.render("dashboard.ejs", 
-			{statusMessage: 										// form that executes the users query when submitted
-				"<form action='/admin' method='post'>\
-				<input type='submit' value='PSQL CHANGES'>\
-				</form>", user: req.user
-			}
-		)*/ db2.consoleCharts
-		/*} else { res.redirect('/home') }}*/
+	db2.consoleCharts
 	); 
 
 app.get('/', 														// when the root directory loads, send the main.html file to the client
