@@ -8,7 +8,6 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - Make a new landing page for successful database connections
    - Update the admin query/call
    - Add comment every time an update is made to a project
-   - Protect the Admin page
    - Create an external script for functions
    - Order tables by due date
    - If column has NOT NULL, make form element required         
@@ -48,7 +47,6 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - admin page will have individual options and team options (only able to see admin options for a team if you are the owner/administrator)
    - dashboard view (titles under status headings) calendar view overdue view
    - language switching
-   - light view vs dark view
    - delete inline styles
    - Announcements table for team page header
    - Insert light mode/dark mode into user field
