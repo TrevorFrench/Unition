@@ -75,6 +75,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - Bug when cookie expires and user tries to navigate to the home page
    - Allow the user to make a customized home page
    - either manually escape apostrophes in titles on tables or make the link something different
+   -normalize announcements table and add options such as color and style
 */
 
 //-----------------------------------------------------------------
@@ -255,6 +256,21 @@ app.post('/teamCategories',											// renders the 'team categories' view
 app.post('/teamCustomers',											// renders the 'team customers' view
 	require('connect-ensure-login').ensureLoggedIn(),
 	db2.deliverTeamCustomers
+	)
+	
+app.post('/teamAnnouncements',										// renders the 'team announcements' view
+	require('connect-ensure-login').ensureLoggedIn(),
+	db2.deliverTeamAnnouncements
+	)
+	
+app.post('/deleteAnnouncement',										// deletes a team announcement
+	require('connect-ensure-login').ensureLoggedIn(),
+	db2.deleteAnnouncement
+	)
+
+app.post('/addAnnouncement',										// adds a team announcement
+	require('connect-ensure-login').ensureLoggedIn(),
+	db2.addAnnouncement
 	)
 
 app.post('/deleteCategory',											// deletes the selected category

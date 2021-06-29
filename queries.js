@@ -15,7 +15,7 @@ const pool = new Pool({
 //--------------------------------ADMINISTRATION--------------------------------
 //------------------------------------------------------------------------------
 const admin = (request, response) => {
-	const sql = "ALTER TABLE views DROP COLUMN time;";
+	const sql = "ALTER TABLE pro_team ADD COLUMN announcements text;";
 	pool.query(sql, (error, results) => {
 		if (error) {
 			throw error
@@ -118,6 +118,43 @@ const deleteTeamCategory = (request, response) => {
 		  throw error
 		}
 		deliverTeamCategories(request, response);
+	});
+}
+
+//------------------------------------------------------------------------------
+//------------------------DELETES SELECTED TEAM ANNOUNCEMENT--------------------
+//------------------------------------------------------------------------------
+const deleteAnnouncement = (request, response) => {
+	const teamID = parseInt(request.body.teamID);
+	const sql = "UPDATE pro_team SET announcements = '' WHERE pro_team_id = " + teamID;
+	pool.query(sql, (error, results) => {
+		if (error) {
+		  throw error
+		}
+		deliverTeamAnnouncements(request, response);
+	});
+}
+
+//------------------------------------------------------------------------------
+//-----------------------ADDS SPECIFIED TEAM ANNOUNCEMENT-----------------------
+//------------------------------------------------------------------------------
+const addAnnouncement = (request, response) => {
+	
+	//--------This sequence processes apostrophes/quotes--------
+	const announcementstring = request.body.announcement;
+	var announcement2 = announcementstring.replace(/'/gi,"''");
+	var announcement = announcement2.replace(/\"/gi,"''");
+	//----------------------------------------------------------
+	
+	const team = parseInt(request.body.teamID);
+	const sql = "UPDATE pro_team\
+					SET announcements = '" + announcement + "' WHERE pro_team_id = " + team + ";";
+	
+	pool.query(sql, (error, results) => {
+		if (error) {
+			throw error
+		}
+		deliverTeamAnnouncements(request, response);
 	});
 }
 
@@ -645,11 +682,62 @@ const deliverTables = function(req, res) {
 					</td>\
 					<td>Returns a table containing all customers.</td>\
 				</tr>\
+				<tr><td>\
+						<form action='/teamAnnouncements' method='post'>\
+						<input type='text' name='teamID' id='teamID' value=" + element.pro_team_id + " hidden>\
+							<input type='submit' name='deliverTeamAnnouncements' \
+								value='Announcements' class='projectTitle'>\
+						</form>\
+					</td>\
+					<td>Allows user to update announcements on the team's home page.</td>\
+				</tr>\
 			</tbody></table>")
 
 		res.render("dashboard.ejs", {statusMessage: themeText + tableText + teamsText, user: req.user});
 
 	});
+	});
+};
+
+//------------------------------------------------------------------------------
+//---------------------DELIVERS THE TEAMS ANNOUNCEMENTS VIEW--------------------
+//------------------------------------------------------------------------------
+const deliverTeamAnnouncements = function(req, res) {
+	const team_id = req.body.teamID;
+	const sql = "SELECT * FROM pro_team WHERE pro_team_id =" + team_id + ";";
+	pool.query(sql, (error, results) => {
+		if (error) {
+			throw error;
+		}
+		var tableText = "<table class='styled-table'><tbody>\
+			<tr><th>Announcement</th>\
+				<th>Action</th>\
+			</tr>";
+		results.rows.forEach(element => 
+			tableText += "<tr>\
+				<td>" + element.announcements + "</td>\
+				<td><form action='/deleteAnnouncement' method='post'>\
+						<input type='text' name='teamID' id='teamID' \
+							value='" + team_id + "' hidden>\
+						<input type='submit' name='deleteAnnouncement' \
+							value='DELETE' \
+							class='projectTitle'>\
+					</form>\
+				</td>\
+			</tr>"
+		);
+		tableText += "<tr>\
+			<td><form action='/addAnnouncement' method='POST'>\
+				<input type='text' name='announcement' id='announcement' \
+					style='width: 100%;padding: 12px;border: 1px solid #ccc;\
+					border-radius: 4px; resize: vertical;'>\
+			</td>\
+				<input type='text' name='teamID' id='teamID' \
+				value='" + team_id + "' hidden>\
+			</td>\
+			<td><input type='submit' class='redButton'></td>\
+		</tr></tbody></table>";
+		res.render("dashboard.ejs", {statusMessage: tableText, user: req.user});
 	});
 };
 
@@ -1513,6 +1601,7 @@ const teams2 = (request, response) => {
 const deliverTeams = (request, response) => {
 	const sql = "SELECT pro_team_name\
 					, displayname \
+					, announcements \
 				FROM pro_team \
 				INNER JOIN join_table \
 					ON pro_team_id = pt_id \
@@ -1523,7 +1612,7 @@ const deliverTeams = (request, response) => {
 		if (error) {
 			throw error;
 		}
-		var title = "<div class='nextRow'> <h3>" + results.rows[0].pro_team_name + "</h3>Announcements:</div>"
+		var title = "<div class='nextRow'> <h3>" + results.rows[0].pro_team_name + "</h3>Announcements: " + results.rows[0].announcements + "</div>"
 		var usersText = "<table class='styled-table'><tbody><tr><th>Users</th></tr>";
 		/*var teamsVar = results.rows[0].pro_team_name;*/
 		results.rows.forEach(element => 
@@ -1990,5 +2079,8 @@ module.exports = {
   homeView,
   formsView,
   consoleCharts,
-  filterCharts
+  filterCharts,
+  deliverTeamAnnouncements,
+  deleteAnnouncement,
+  addAnnouncement
 }
