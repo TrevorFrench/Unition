@@ -214,7 +214,7 @@ exports.createTeamProject = function(req, res) {
 	/*If this is a new user which hasn't created any categories yet, direct them to the documentation explaining what categories are and how to create them*/
 	if (testNull.length == 0) { categoryVar = "<a href='./documentation#createCategories'>It looks like you haven't created any categories yet. Learn more here!</a>"};
 	/*----------------------------------------------------------------------------------------------------------------------------------------------------*/
-    var userSelect= "<select id='responsible' name='responsible' style='padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;'>";
+    var userSelect= "<select id='responsible' name='responsible' style='padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;'><option value='1'>" + "<a href='#'>Unassigned</a></option>";
 	for (var i = 0, len = records.length; i < len; i++) {
       var record = records[i];
       userSelect += "<option value='" + record.id + "'>" + "<a href='#'>" + record.displayname + "</a></option>";

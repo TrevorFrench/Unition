@@ -105,11 +105,15 @@ body {
   background-color: slategray;
   border: none;
   color: white;
-  padding: 16px 32px;
+  padding: 16px 16px;
   text-decoration: none;
   margin: 4px 2px;
   cursor: pointer;
   width: 100%;
+  font-family: 'Roboto', sans-serif;
+  font-size: large;
+  text-align: center;
+  color: #fff;
 }
 
 

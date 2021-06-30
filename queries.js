@@ -15,7 +15,7 @@ const pool = new Pool({
 //--------------------------------ADMINISTRATION--------------------------------
 //------------------------------------------------------------------------------
 const admin = (request, response) => {
-	const sql = "ALTER TABLE pro_team ADD COLUMN announcements text;";
+	const sql = "DELETE FROM projects where project_id = 410 OR project_id = 411;";
 	pool.query(sql, (error, results) => {
 		if (error) {
 			throw error
@@ -1612,7 +1612,7 @@ const deliverTeams = (request, response) => {
 		if (error) {
 			throw error;
 		}
-		var title = "<div class='nextRow'> <h3>" + results.rows[0].pro_team_name + "</h3>Announcements: " + results.rows[0].announcements + "</div>"
+		var title = "<div class='nextRow'> <h3>" + results.rows[0].pro_team_name + "</h3>Announcements: " + results.rows[0].announcements
 		var usersText = "<table class='styled-table'><tbody><tr><th>Users</th></tr>";
 		/*var teamsVar = results.rows[0].pro_team_name;*/
 		results.rows.forEach(element => 
@@ -1650,11 +1650,11 @@ const deliverTeams = (request, response) => {
 			mineProjects.forEach(element => myProjects += "<tr><td>" + element.title + "</td></tr>");
 			myProjects += "</table>"
 			projectsText += "</table>";
-			var buttons = "<form action='/createTeamProject' method='post'>\
+			var buttons = "<br><br><form action='/createTeamProject' method='post'>\
 					<input type='text' name='pt_id' id='pt_id'value=" + request.body.teamid + " hidden>\
 					<input class='redButton' type='submit' style='width:250px;' value='Create Team Project'>\
-			</form>"
-			var tableText = buttons + title + "<table><tr><td style='vertical-align: baseline;'>" + projectsText + "</td><td style='vertical-align: baseline;'>" + myProjects + "</td></tr></table><br>" + usersText;
+			</form></div>"
+			var tableText = title + buttons + "<table><tr><td style='vertical-align: baseline;'>" + projectsText + "</td><td style='vertical-align: baseline;'>" + myProjects + "</td></tr></table><br>" + usersText;
 			
 			/**/
 			const sql2 = "SELECT pt_id\
