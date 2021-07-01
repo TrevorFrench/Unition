@@ -343,21 +343,6 @@ exports.createTeamProject = function(req, res) {
 			</tr>";
 		var teamsVar = "";
 		results.rows.forEach(element =>
-			tableText += "<tr>\
-				<td>" + element.pro_team_name + "</td>\
-				<td>" + element.displayname + "</td>\
-				<td>" + element.pt_role_name + "</td>\
-				<td><form action='deliverTeam' method='POST'>\
-						<input type='text' id='teamdid' name='teamid' \
-							value='" + element.pt_id + "' hidden>\
-						<input type='submit' name='deliverTeam' \
-							value='View Team' class='projectTitle'>\
-					</form>\
-				</td>\
-			</tr>"
-		);
-		tableText += '</table>';
-		results.rows.forEach(element =>
 			teamsVar += "<form action='deliverTeam' method='POST'>\
 						<input type='text' id='teamdid' name='teamid' \
 							value='" + element.pt_id + "' hidden>\
@@ -365,12 +350,9 @@ exports.createTeamProject = function(req, res) {
 							value='" + element.pro_team_name + "' class='teamTitle'>\
 					</form>"
 		);
-		if (results.rows[0] == null) {
-			tableText = "NO TEAMS YET =(";
-			teamsVar = "CREATE A TEAM";
-			};
+
 		res.render("teams.ejs", {
-			statusMessage: tableText, teamsList: teamsVar, user: req.user
+			statusMessage: projectFrame, teamsList: teamsVar, user: req.user
 			}
 		);
 	
