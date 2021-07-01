@@ -1612,7 +1612,7 @@ const deliverTeams = (request, response) => {
 		if (error) {
 			throw error;
 		}
-		var title = "<div class='nextRow'> <h3>" + results.rows[0].pro_team_name + "</h3>Announcements: " + results.rows[0].announcements
+		var title = "<div class='nextRow' id='announcements'><div onclick='toggleAnnouncement()' Style='float:right;'><i class='fas fa-window-close' style='float: right; color: white;'></i></div><h3>" + results.rows[0].pro_team_name + "</h3>Announcements: " + results.rows[0].announcements
 		var usersText = "<table class='styled-table'><tbody><tr><th>Users</th></tr>";
 		/*var teamsVar = results.rows[0].pro_team_name;*/
 		results.rows.forEach(element => 
