@@ -1612,8 +1612,8 @@ const deliverTeams = (request, response) => {
 		if (error) {
 			throw error;
 		}
-		var title = "<div class='nextRow' id='announcements'><div onclick='toggleAnnouncement()' Style='float:right;'><i class='fas fa-window-close' style='float: right; color: white;'></i></div><h3>" + results.rows[0].pro_team_name + "</h3>Announcements: " + results.rows[0].announcements
-		var usersText = "<table class='styled-table'><tbody><tr><th>Users</th></tr>";
+		var title = "<div class='nextRow' id='announcements'><div onclick='toggleAnnouncement()' Style='float:right; cursor: pointer;'><i class='fas fa-window-close' style='float: right; color: white;'></i></div><h3>" + results.rows[0].pro_team_name + "</h3>Announcements: " + results.rows[0].announcements
+		var usersText = "<table class='styled-table' id='users'><tbody><tr><th>Users<div onclick='toggleUsers()' Style='float:right; cursor: pointer;'><i class='fas fa-window-close' style='float: right; color: white;'></i></div></th></tr>";
 		/*var teamsVar = results.rows[0].pro_team_name;*/
 		results.rows.forEach(element => 
 			usersText += "<tr><td>" + element.displayname + "</td></tr>"
@@ -1625,10 +1625,10 @@ const deliverTeams = (request, response) => {
 			if (error) {
 				throw error;
 			}
-			var projectsText = "<table class='styled-table'><tbody>\
-				<tr><th>Projects</th></tr>";
-			var myProjects = "<table class='styled-table'><tbody>\
-				<tr><th>Projects Assigned to Me</th></tr>";
+			var projectsText = "<table class='styled-table' id='projectBoard'><tbody>\
+				<tr><th>Projects (All) but should be project board<div onclick='toggleBoard()' Style='float:right; cursor: pointer;'><i class='fas fa-window-close' style='float: right; color: white;'></i></div></th></tr>";
+			var myProjects = "<table class='styled-table' id='myProjects'><tbody>\
+				<tr><th>Projects Assigned to Me<div onclick='toggleMyProjects()' Style='float:right; cursor: pointer;'><i class='fas fa-window-close' style='float: right; color: white;'></i></div></th></tr>";
 			results.rows.forEach(element => 
 				projectsText += "<tr><td><form id='projectform' action='/openProject' method='post'>\
 						<input type='text' name='ticketID' \
@@ -1650,11 +1650,11 @@ const deliverTeams = (request, response) => {
 			mineProjects.forEach(element => myProjects += "<tr><td>" + element.title + "</td></tr>");
 			myProjects += "</table>"
 			projectsText += "</table>";
-			var buttons = "<br><br><form action='/createTeamProject' method='post'>\
+			var buttons = "<br><br><form action='/createTeamProject' method='post' id='createProject'>\
 					<input type='text' name='pt_id' id='pt_id'value=" + request.body.teamid + " hidden>\
 					<input class='redButton' type='submit' style='width:250px;' value='Create Team Project'>\
 			</form></div>"
-			var tableText = title + buttons + "<table><tr><td style='vertical-align: baseline;'>" + projectsText + "</td><td style='vertical-align: baseline;'>" + myProjects + "</td></tr></table><br>" + usersText;
+			var tableText = title + buttons + projectsText + "<br>" + myProjects + "<br>" + usersText;
 			
 			/**/
 			const sql2 = "SELECT pt_id\

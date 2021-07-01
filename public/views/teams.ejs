@@ -21,10 +21,42 @@
 			document.forms["opencharts"].submit();
 			}
 			
+			function createProject()
+			{
+			document.forms["createProject"].submit();
+			}
+			
 			function toggleAnnouncement() {
 				  var x = document.getElementById("announcements");
 				  if (x.style.display === "none") {
 					x.style.display = "inline";
+				  } else {
+					x.style.display = "none";
+				  }
+			}
+			
+			function toggleUsers() {
+				  var x = document.getElementById("users");
+				  if (x.style.display === "none") {
+					x.style.display = "table";
+				  } else {
+					x.style.display = "none";
+				  }
+			}
+			
+			function toggleBoard() {
+				  var x = document.getElementById("projectBoard");
+				  if (x.style.display === "none") {
+					x.style.display = "table";
+				  } else {
+					x.style.display = "none";
+				  }
+			}
+			
+			function toggleMyProjects() {
+				  var x = document.getElementById("myProjects");
+				  if (x.style.display === "none") {
+					x.style.display = "table";
 				  } else {
 					x.style.display = "none";
 				  }
@@ -87,8 +119,16 @@
 	<div class="topRow" style="background-color: #32323e; height: 50px;">
 				<table style="width: 100%; height: 100%;" class="toolTable">
 			<tr>
-			<td><a href="/profile"><i class="fas fa-folder-plus" style="color: white;"></i></a></td>
-			<td><div onclick='toggleAnnouncement()' title='Toggle Announcements' style='cursor: pointer;'><i class="fas fa-bullhorn" style="color: white;"></i></div></td><td><a href="/profile"><i class="fas fa-user" style="color: white;"></i></a></td><td><a href="/profile"><i class="fas fa-user" style="color: white;"></i></a></td><td><a href="/profile"><i class="fas fa-user" style="color: white;"></i></a></td><td><a href="/profile"><i class="fas fa-user" style="color: white;"></i></a></td><td><a href="/profile"><i class="fas fa-user" style="color: white;"></i></a></td><td><a href="/profile"><i class="fas fa-user" style="color: white;"></i></a></td><td><a href="/profile"><i class="fas fa-user" style="color: white;"></i></a></td><td><a href="/profile"><i class="fas fa-user" style="color: white;"></i></a></td>
+			<td><div onclick='createProject()' title='Create Team Project' style='cursor: pointer;'><i class="fas fa-folder-plus" style="color: white;"></i></div></td>
+			<td><div onclick='toggleAnnouncement()' title='Toggle Announcements' style='cursor: pointer;'><i class="fas fa-bullhorn" style="color: white;"></i></div></td>
+			<td><div onclick='toggleUsers()' title='Toggle Users' style='cursor: pointer;'><i class="fas fa-users" style="color: white;"></i></div></td>
+			<td><div onclick='toggleBoard()' title='Toggle Project Board' style='cursor: pointer;'><i class="fas fa-chalkboard-teacher" style="color: white;"></i></div></td>
+			<td><div onclick='toggleMyProjects()' title='Toggle My Projects' style='cursor: pointer;'><i class="fas fa-clipboard-check" style="color: white;"></i></div></td>
+			<td><a href="/profile"><i class="fas fa-user" style="color: white;"></i></a></td>
+			<td><a href="/profile"><i class="fas fa-user" style="color: white;"></i></a></td>
+			<td><a href="/profile"><i class="fas fa-user" style="color: white;"></i></a></td>
+			<td><a href="/profile"><i class="fas fa-user" style="color: white;"></i></a></td>
+			<td><a href="/profile"><i class="fas fa-user" style="color: white;"></i></a></td>
 			</tr>
 			</table>
 			

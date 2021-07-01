@@ -311,7 +311,78 @@ exports.createTeamProject = function(req, res) {
 						<input type='text' name='pro_team_id' id='pro_team_id' value=" + team_id + " hidden >\
 						<input type='submit' value='Create Project' class='blueButton'>\
 						</form></div>";
-	res.render("dashboard.ejs", {statusMessage: projectFrame, user: req.user})
+	
+	/**************************************************************************/
+	
+	
+	
+	const user = req.user.id;
+	const sql = "SELECT pt_id\
+					, user_id\
+					, join_table.pt_role_id\
+					, users.displayname AS displayname\
+					, pro_team_name\
+					, pt_role_name \
+				FROM join_table \
+				INNER JOIN users \
+					ON users.id = join_table.user_id \
+				INNER JOIN pro_team \
+					ON pro_team_id = pt_id \
+				INNER JOIN pro_team_roles \
+					ON pro_team_roles.pt_role_id = join_table.pt_role_id \
+				WHERE user_id =" + user + ";";
+	pool.query(sql, (error, results) => {
+		if (error) {
+			throw error;
+		}
+		var tableText = "<table class='styled-table'><tbody>\
+			<tr><th>TEAM</th>\
+				<th>USER</th>\
+				<th>ROLE</th>\
+				<th>ACTION</th>\
+			</tr>";
+		var teamsVar = "";
+		results.rows.forEach(element =>
+			tableText += "<tr>\
+				<td>" + element.pro_team_name + "</td>\
+				<td>" + element.displayname + "</td>\
+				<td>" + element.pt_role_name + "</td>\
+				<td><form action='deliverTeam' method='POST'>\
+						<input type='text' id='teamdid' name='teamid' \
+							value='" + element.pt_id + "' hidden>\
+						<input type='submit' name='deliverTeam' \
+							value='View Team' class='projectTitle'>\
+					</form>\
+				</td>\
+			</tr>"
+		);
+		tableText += '</table>';
+		results.rows.forEach(element =>
+			teamsVar += "<form action='deliverTeam' method='POST'>\
+						<input type='text' id='teamdid' name='teamid' \
+							value='" + element.pt_id + "' hidden>\
+						<input type='submit' name='deliverTeam' \
+							value='" + element.pro_team_name + "' class='teamTitle'>\
+					</form>"
+		);
+		if (results.rows[0] == null) {
+			tableText = "NO TEAMS YET =(";
+			teamsVar = "CREATE A TEAM";
+			};
+		res.render("teams.ejs", {
+			statusMessage: tableText, teamsList: teamsVar, user: req.user
+			}
+		);
+	
+	
+	
+	
+	/*************************************************************************/
+	
+	/*res.render("dashboard.ejs", {statusMessage: projectFrame, user: req.user})*/
+	
+	});
+	
 	});
 	});
 
