@@ -1314,8 +1314,22 @@ const selectCharts = (request, response) => {
 //------------------------------------------------------------------------------
 const filterCharts = (request, response) => {
 	const user = request.user.id;
-	const start = "'" + request.body.startDate + "'::date";
-	const end = "'" + request.body.endDate + "'::date";
+	
+	var start = ""
+	if (request.body.startDate == ''){
+		start += "'01/01/2000'::date"
+	} else {
+		start += "'" + request.body.startDate + "'::date";
+	}
+	
+	console.log(start)
+	
+	var end = ""
+	if(request.body.endDate == ''){
+		end += "'12/31/2121'::date"
+	} else {
+		end += "'" + request.body.endDate + "'::date";
+	}
 
 	const sql = "SELECT DISTINCT\
 					CONCAT(date_part('year', created_date)\
@@ -1620,15 +1634,19 @@ const deliverTeams = (request, response) => {
 		);
 		usersText += "</tbody></table>";
 		const sql2 = "SELECT * FROM projects \
-						WHERE pt_id =" + request.body.teamid + ";";
+						WHERE pt_id =" + request.body.teamid + " AND status <> 'Closed';";
 		pool.query(sql2, (error, results) => {
 			if (error) {
 				throw error;
 			}
-			var projectsText = "<table class='styled-table' id='projectBoard'><tbody>\
-				<tr><th>Projects (All) but should be project board<div onclick='toggleBoard()' Style='float:right; cursor: pointer;'><i class='fas fa-window-close' style='float: right; color: white;'></i></div></th></tr>";
+			var projectBoard = "<table class='styled-table' id='projectBoard'><tbody>\
+				<tr><th>Project Board<div onclick='toggleBoard()' Style='float:right; cursor: pointer;'><i class='fas fa-window-close' style='float: right; color: white;'></i></div></th></tr>";
+			var projectsText = "<table class='styled-table' id='allProjects'><tbody>\
+				<tr><th>All Active Projects<div onclick='toggleAllProjects()' Style='float:right; cursor: pointer;'><i class='fas fa-window-close' style='float: right; color: white;'></i></div></th></tr>";
 			var myProjects = "<table class='styled-table' id='myProjects'><tbody>\
 				<tr><th>Projects Assigned to Me<div onclick='toggleMyProjects()' Style='float:right; cursor: pointer;'><i class='fas fa-window-close' style='float: right; color: white;'></i></div></th></tr>";
+			var scrumBoard = "<table class='styled-table' id='scrumBoard'><tbody>\
+				<tr><th>Scrum Board<div onclick='toggleScrumBoard()' Style='float:right; cursor: pointer;'><i class='fas fa-window-close' style='float: right; color: white;'></i></div></th></tr>";
 			results.rows.forEach(element => 
 				projectsText += "<tr><td><form id='projectform' action='/openProject' method='post'>\
 						<input type='text' name='ticketID' \
@@ -1639,6 +1657,24 @@ const deliverTeams = (request, response) => {
 					</form></td></tr>"				
 			);
 			
+			let uniqueCategory = new Set();
+			results.rows.forEach(element => uniqueCategory.add(element.category))
+			uniqueCategory.forEach(element => scrumBoard += "<tr><td>" + element + "</td></tr>");
+			
+			
+			
+			results.rows.forEach(element => 
+				scrumBoard += "<tr><td><form id='projectform' action='/openProject' method='post'>\
+						<input type='text' name='ticketID' \
+							value='" + element.project_id + "' \
+							id='" + element.project_id + "' hidden>\
+						<input type='submit'  class='projectTitle' \
+							value='" + element.title.replace(/'/gi,"''") + "'>\
+					</form></td></tr>"				
+			);
+			
+
+			
 			let sqlResults = results.rows;		
 			let mineProjects = [];
 			for (let i = 0; i < sqlResults.length; i++) {
@@ -1647,14 +1683,43 @@ const deliverTeams = (request, response) => {
 				}
 			}
 			
+			let openProjects = [];
+			for (let i = 0; i < sqlResults.length; i++) {
+				if (parseInt(sqlResults[i].responsible) == 1) {
+					openProjects.push(sqlResults[i]);
+				}
+			}
+			
+			
+			
 			mineProjects.forEach(element => myProjects += "<tr><td>" + element.title + "</td></tr>");
-			myProjects += "</table>"
+			openProjects.forEach(element => projectBoard += "<tr><td>" + element.title + "</td></tr>");
+			myProjects += "</table>";
 			projectsText += "</table>";
+			scrumBoard += "</table>";
+			projectBoard += "</table>";
 			var buttons = "<br><br><form action='/createTeamProject' method='post' id='createProject'>\
 					<input type='text' name='pt_id' id='pt_id'value=" + request.body.teamid + " hidden>\
 					<input class='redButton' type='submit' style='width:250px;' value='Create Team Project'>\
 			</form></div>"
-			var tableText = title + buttons + projectsText + "<br>" + myProjects + "<br>" + usersText;
+			var toolbar = "<div class='topRow' style='background-color: #32323e; height: 50px;'>\
+				<table style='width: 100%; height: 100%;' class='toolTable'>\
+			<tr>\
+			<td><div onclick='createProject()' title='Create Team Project' style='cursor: pointer;'><i class='fas fa-folder-plus' style='color: white;'></i></div></td>\
+			<td><div onclick='toggleAnnouncement()' title='Toggle Announcements' style='cursor: pointer;'><i class='fas fa-bullhorn' style='color: white;'></i></div></td>\
+			<td><div onclick='toggleUsers()' title='Toggle Users' style='cursor: pointer;'><i class='fas fa-users' style='color: white;'></i></div></td>\
+			<td><div onclick='toggleBoard()' title='Toggle Project Board' style='cursor: pointer;'><i class='fas fa-chalkboard-teacher' style='color: white;'></i></div></td>\
+			<td><div onclick='toggleMyProjects()' title='Toggle My Projects' style='cursor: pointer;'><i class='fas fa-clipboard-check' style='color: white;'></i></div></td>\
+			<td><div onclick='toggleAllProjects()' title='Toggle All Projects' style='cursor: pointer;'><i class='fas fa-stream' style='color: white;'></i></div></td>\
+			<td><a href='/profile'><i class='fas fa-user' style='color: white;'></i></a></td>\
+			<td><a href='/profile'><i class='fas fa-user' style='color: white;'></i></a></td>\
+			<td><a href='/profile'><i class='fas fa-user' style='color: white;'></i></a></td>\
+			<td><a href='/profile'><i class='fas fa-user' style='color: white;'></i></a></td>\
+			</tr>\
+			</table>\
+	</div>\
+	<div class='dataRow'>"
+			var tableText = toolbar + title + buttons + "<div style='float:left;'>" + scrumBoard + "</div><div style='float:right;'>" + projectBoard + "<br>" + myProjects + "<br>" + usersText + "<br>" + projectsText + "</div>";
 			
 			/**/
 			const sql2 = "SELECT pt_id\
@@ -1683,7 +1748,7 @@ const deliverTeams = (request, response) => {
 						<input type='submit' name='deliverTeam' \
 							value='" + element.pro_team_name + "' class='teamTitle'>\
 					</form>"
-				);
+				);				
 			/**/
 			
 			response.render("teams.ejs", {
