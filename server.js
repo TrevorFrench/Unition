@@ -76,6 +76,8 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - normalize announcements table and add options such as color and style
    - fix start date/end date bug (fixed now fix new pa campaign bug)
    - Recurring Projects
+   - Testimonials and customers on the landing page
+   - Create a feedback/bug page and feed the feedback/bugs to admin page
 */
 
 //-----------------------------------------------------------------
