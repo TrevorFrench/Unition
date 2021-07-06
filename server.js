@@ -75,6 +75,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - either manually escape apostrophes in titles on tables or make the link something different
    - normalize announcements table and add options such as color and style
    - fix start date/end date bug (fixed now fix new pa campaign bug)
+   - Recurring Projects
 */
 
 //-----------------------------------------------------------------
@@ -356,7 +357,7 @@ app.get('/admin', 													// renders a page which is used for administratio
 app.get('/', 														// when the root directory loads, send the main.html file to the client
 	(req, res) =>
 		res.sendFile(
-			path.join(__dirname, 'index.html')
+			path.join(__dirname, 'landing.html')
 		)
 	);
 
