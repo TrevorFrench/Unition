@@ -354,7 +354,7 @@ app.get('/admin', 													// renders a page which is used for administratio
 	db2.consoleCharts
 	); 
 
-app.get('/', 														// when the root directory loads, send the main.html file to the client
+app.get('/', 														// when the root directory loads, send the landing.html file to the client
 	(req, res) =>
 		res.sendFile(
 			path.join(__dirname, 'landing.html')
