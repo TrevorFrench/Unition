@@ -78,7 +78,7 @@ exports.createProject2 = function(req, res) {
 	results.rows.forEach(element => testNull.push(element.category))
 	categoryVar += '</select>';
 	/*If this is a new user which hasn't created any categories yet, direct them to the documentation explaining what categories are and how to create them*/
-	if (testNull.length == 0) { categoryVar = "<a href='./documentation#createCategories'>It looks like you haven't created any categories yet. Learn more here!</a>"};
+	if (testNull.length == 0) { categoryVar = "<a href='./public/views/documentation.pdf'>It looks like you haven't created any categories yet. Learn more here!</a>"};
 	/*----------------------------------------------------------------------------------------------------------------------------------------------------*/
     var userSelect= "<select id='responsible' name='responsible' style='padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;' hidden><option value='" + req.user.id + "'></option>";
 	/*for (var i = 0, len = records.length; i < len; i++) {
@@ -100,7 +100,7 @@ exports.createProject2 = function(req, res) {
 	results.rows.forEach(element => testNull2.push(element.customer))
 	customerVar += '</select>';
 	/*If this is a new user which hasn't created any categories yet, direct them to the documentation explaining what categories are and how to create them*/
-	if (testNull2.length == 0) { customerVar = "<a href='./documentation#createCategories'>It looks like you haven't created any customers yet. Learn more here!</a>"};
+	if (testNull2.length == 0) { customerVar = "<a href='./public/views/documentation.pdf'>It looks like you haven't created any customers yet. Learn more here!</a>"};
 	/*----------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 	/*----------------------------------------------*/
@@ -212,7 +212,7 @@ exports.createTeamProject = function(req, res) {
 	results.rows.forEach(element => testNull.push(element.category))
 	categoryVar += '</select>';
 	/*If this is a new user which hasn't created any categories yet, direct them to the documentation explaining what categories are and how to create them*/
-	if (testNull.length == 0) { categoryVar = "<a href='./documentation#createCategories'>It looks like you haven't created any categories yet. Learn more here!</a>"};
+	if (testNull.length == 0) { categoryVar = "<a href='./public/views/documentation.pdf'>It looks like you haven't created any categories yet. Learn more here!</a>"};
 	/*----------------------------------------------------------------------------------------------------------------------------------------------------*/
     var userSelect= "<select id='responsible' name='responsible' style='padding: 12px;border: 1px solid #ccc;border-radius: 4px; resize: vertical;'><option value='1'>" + "<a href='#'>Unassigned</a></option>";
 	for (var i = 0, len = records.length; i < len; i++) {
@@ -234,7 +234,7 @@ exports.createTeamProject = function(req, res) {
 	results.rows.forEach(element => testNull2.push(element.customer))
 	customerVar += '</select>';
 	/*If this is a new user which hasn't created any categories yet, direct them to the documentation explaining what categories are and how to create them*/
-	if (testNull2.length == 0) { customerVar = "<a href='./documentation#createCategories'>It looks like you haven't created any customers yet. Learn more here!</a>"};
+	if (testNull2.length == 0) { customerVar = "<a href='./public/views/documentation.pdf'>It looks like you haven't created any customers yet. Learn more here!</a>"};
 	/*----------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 	/*----------------------------------------------*/
