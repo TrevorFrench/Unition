@@ -48,9 +48,6 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - dashboard view (titles under status headings) calendar view overdue view
    - language switching
    - delete inline styles
-   - Announcements table for team page header
-   - Insert light mode/dark mode into user field
-   - Add a filter on the charts page (timeframe)
    - Exclude closed projects on teams view
    - Filter on teams view would be the same function except add "where category/etc. = " into sql queries
    - Create team as role id 1, join team as role id 2. Give admin role functionality.
@@ -81,6 +78,11 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - admin page could have a marketing email tool
    - map and track clicks
    - ip address log
+   - Tab titles on login page
+   - Teams filter on charts/projects
+   - Move projects filters to a single page
+   - Priorities and colors for projects
+   - Option to email on comments
 */
 
 //-----------------------------------------------------------------
@@ -95,6 +97,8 @@ var passport = require('passport');									// login framework
 var Strategy = require('passport-local').Strategy;					// method which is used within the login framework
 var db = require('./db');											// folder which contains database files
 var theme = require('./theme')										// reference the theme.js file which contains theme change references
+
+const ip = require("ip")											// ip package for loggin a users ip address
 
 //-----------------------------------------------------------------
 //------------------------ENVIRONMENT SETUP------------------------
@@ -360,7 +364,7 @@ app.get('/admin', 													// renders a page which is used for administratio
 	); 
 
 app.get('/', 														// when the root directory loads, send the landing.html file to the client
-	(req, res) =>
+	(req, res) => 
 		res.sendFile(
 			path.join(__dirname, 'landing.html')
 		)
@@ -373,6 +377,26 @@ app.get('/home',
 
 app.get('/login',													// Delivers the login screen
 	db2.deliverLogin
+	)
+	
+app.get('/landing',													// Delivers the landing page
+	//------------------------------------------------------------------------------
+//-----------------------------DELIVER LANDING PAGE-----------------------------
+//------------------------------------------------------------------------------
+(request, response) => {
+	console.log(ip.address());
+		const sqltracking = "INSERT INTO views(\
+					page\
+					) VALUES (\
+					'landing'\
+					);";
+	pool.query(sqltracking, (error, results) => {
+		if (error) {
+			throw error;
+		}
+		response.sendFile('index3.html' , { root : __dirname});
+	});
+}
 	)
   
 app.post('/login', 													// Posts the login credentials

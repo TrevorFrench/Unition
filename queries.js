@@ -1546,6 +1546,23 @@ const deliverLoginSuccess = (request, response) => {
 }
 
 //------------------------------------------------------------------------------
+//-----------------------------DELIVER LANDING PAGE-----------------------------
+//------------------------------------------------------------------------------
+const deliverLanding = (request, response) => {
+		const sqltracking = "INSERT INTO views(\
+					page\
+					) VALUES (\
+					'landing'\
+					);";
+	pool.query(sqltracking, (error, results) => {
+		if (error) {
+			throw error;
+		}
+		response.sendFile('index3.html' , { root : __dirname});
+	});
+}
+
+//------------------------------------------------------------------------------
 //-----------------------------DELIVER TEAMS 2 VIEW-----------------------------
 //------------------------------------------------------------------------------
 const teams2 = (request, response) => {
@@ -2147,5 +2164,6 @@ module.exports = {
   filterCharts,
   deliverTeamAnnouncements,
   deleteAnnouncement,
-  addAnnouncement
+  addAnnouncement,
+  deliverLanding
 }
