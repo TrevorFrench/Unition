@@ -211,7 +211,7 @@ input[type="submit"].redButton {
 	-webkit-border-radius: none;
 	border-radius: 10px;
 	background: linear-gradient(to right, #ff4b2b, #ff416c);
-	box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+	/*box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);*/
 }
 
 input[type="submit"].blueButton {
@@ -241,10 +241,11 @@ input[type="submit"].blueButton {
     font-size: 0.9em;
     font-family: sans-serif;
     min-width: 400px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    /*box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);*/
 	color: black;
 	margin-bottom: 25px;
 	margin-right: 5%;
+	border: solid 2px black;
 }
 
 .styled-table thead tr {
@@ -286,7 +287,7 @@ input[type="submit"].blueButton {
 	border-radius: 50px;
 	color: #fff;
 	background: linear-gradient(to right, #ff4b2b, #ff416c);
-	box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+	/*box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);*/
 }
 
 html, body {
