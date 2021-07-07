@@ -1,8 +1,8 @@
 /*hacky nonsense because my db connection broke*/
 process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set strict-ssl=false and added ssl=true to queries.js //should probably be able to fix this now
-//-----------------------------------------------------------------
-//---------------------------ACTION LIST---------------------------
-//-----------------------------------------------------------------
+//------------------------------------------------------------------------------
+//---------------------------------ACTION LIST----------------------------------
+//------------------------------------------------------------------------------
 /* - Create a "filter" page
    - Develop "Status" table and feed into a drop-down on projects
    - Make a new landing page for successful database connections
@@ -46,7 +46,6 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - premium is a form creator/public forms
    - admin page will have individual options and team options (only able to see admin options for a team if you are the owner/administrator)
    - dashboard view (titles under status headings) calendar view overdue view
-   - language switching
    - delete inline styles
    - Exclude closed projects on teams view
    - Filter on teams view would be the same function except add "where category/etc. = " into sql queries
@@ -83,32 +82,36 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - Move projects filters to a single page
    - Priorities and colors for projects
    - Option to email on comments
+   - Move Gantt Chart to bottom of graphs
+   - Let user choose the home screen image
+   - Make teams function a premium feature and then give it away for free
+		This will allow user feedback and gain potential evangelists as the
+		teams function might encourage invites
+   - Performance review functionality
 */
 
-//-----------------------------------------------------------------
-//----------------------ENVIRONMENT VARIABLES----------------------
-//-----------------------------------------------------------------
-const express = require('express');                                 // easier to work with than the HTTP module.
-const path = require('path');                                       // works with diretories and file paths
-var bodyParser = require("body-parser");                            // middleware
-const app = express();                                              // instantiate the module into a variable
-const db2 = require('./queries')                                    // reference queries.js to interact with postgreSQL database
-var passport = require('passport');									// login framework
-var Strategy = require('passport-local').Strategy;					// method which is used within the login framework
-var db = require('./db');											// folder which contains database files
-var theme = require('./theme')										// reference the theme.js file which contains theme change references
+//------------------------------------------------------------------------------
+//-----------------------------ENVIRONMENT VARIABLES----------------------------
+//------------------------------------------------------------------------------
+const express = require('express');                                 			// easier to work with than the HTTP module.
+const path = require('path');                                       			// works with diretories and file paths
+var bodyParser = require("body-parser");                            			// middleware
+const app = express();                                              			// instantiate the module into a variable
+const db2 = require('./queries')                                    			// reference queries.js to interact with postgreSQL database
+var passport = require('passport');												// login framework
+var Strategy = require('passport-local').Strategy;								// method which is used within the login framework
+var db = require('./db');														// folder which contains database files
+var theme = require('./theme')													// reference the theme.js file which contains theme change references
+const ip = require("ip")														// ip package for loggin a users ip address
 
-const ip = require("ip")											// ip package for loggin a users ip address
-
-//-----------------------------------------------------------------
-//------------------------ENVIRONMENT SETUP------------------------
-//-----------------------------------------------------------------
-app.use(bodyParser.json());                                         // not sure exactly what this is used for
-app.set('views', __dirname + '/public/views');                      // sets filepath for view rendering
-app.set('view engine', 'ejs');                                      // sets the view engine to 'ejs'
-
-app.use(require('morgan')('combined'));                             // Use application-level middleware for common functionality, including
-app.use(bodyParser.urlencoded({ extended: true }));                 // logging, parsing, and session handling.
+//------------------------------------------------------------------------------
+//-------------------------------ENVIRONMENT SETUP------------------------------
+//------------------------------------------------------------------------------
+app.use(bodyParser.json());                                         			// not sure exactly what this is used for
+app.set('views', __dirname + '/public/views');                      			// sets filepath for view rendering
+app.set('view engine', 'ejs');                                      			// sets the view engine to 'ejs'
+app.use(require('morgan')('combined'));                             			// Use application-level middleware for common functionality, including
+app.use(bodyParser.urlencoded({ extended: true }));                 			// logging, parsing, and session handling.
 
 
 //------------------------------------------------------------------------------
@@ -130,357 +133,354 @@ var pg = require('pg')
 
 app.use(session({
 		  store: new pgSession({
-			pool : pool,                							// Connection pool
+			pool : pool,                										// Connection pool
 		  }),
 		secret: 'keyboard cat', 
 		resave: false, 
 		saveUninitialized: true, 
-		cookie: { maxAge: 60 * 60 * 1000 }							// 1 hour cookie
+		cookie: { maxAge: 60 * 60 * 1000 }										// 1 hour cookie
 	})
 );
 
-app.set("port", (process.env.PORT || 5000));                        // sets the port to 5000
-app.use(express.static(path.join(__dirname, '')));                  // this allows js and css files to be linked to the HTML
+app.set("port", (process.env.PORT || 5000));                        			// sets the port to 5000
+app.use(express.static(path.join(__dirname, '')));                  			// this allows js and css files to be linked to the HTML
 
-app.listen(app.get("port"), function () {                           // listens on the port and displays a message to the console
+app.listen(app.get("port"), function () {                           			// listens on the port and displays a message to the console
 	console.log("Now listening on port: " + app.get("port"));
 });
 
-//-----------------------------------------------------------------
-//--------------------------LOGIN MODULES--------------------------
-//-----------------------------------------------------------------
-passport.use(new Strategy(											// Configure the local strategy for use by Passport.
+//------------------------------------------------------------------------------
+//---------------------------------LOGIN MODULES--------------------------------
+//------------------------------------------------------------------------------
+passport.use(new Strategy(														// Configure the local strategy for use by Passport.
 	function(username, password, cb) {								
-	  db.users.findByUsername(username, function(err, user) {		// The local strategy require a `verify` function which receives the credentials
-	    if (err) { return cb(err); }								// (`username` and `password`) submitted by the user.  The function must verify
-		if (!user) { return cb(null, false); }						// that the password is correct and then invoke `cb` with a user object, which
-		if (user.password != password) { return cb(null, false); }	// will be set at `req.user` in route handlers after authentication.
+	  db.users.findByUsername(username, function(err, user) {					// The local strategy require a `verify` function which receives the credentials
+	    if (err) { return cb(err); }											// (`username` and `password`) submitted by the user.  The function must verify
+		if (!user) { return cb(null, false); }									// that the password is correct and then invoke `cb` with a user object, which
+		if (user.password != password) { return cb(null, false); }				// will be set at `req.user` in route handlers after authentication.
 		return cb(null, user);
 	  });
 	}
 ));
 
-passport.serializeUser(function(user, cb) {							// Configure Passport authenticated session persistence.
-	cb(null, user.id);												// In order to restore authentication state across HTTP requests, Passport needs
-});																	// to serialize users into and deserialize users out of the session.  The
+passport.serializeUser(function(user, cb) {										// Configure Passport authenticated session persistence.
+	cb(null, user.id);															// In order to restore authentication state across HTTP requests, Passport needs
+});																				// to serialize users into and deserialize users out of the session.  The
 
-passport.deserializeUser(function(id, cb) {							// typical implementation of this is as simple as supplying the user ID when
-	db.users.findById(id, function (err, user) {					// serializing, and querying the user record by ID from the database when
-		if (err) { return cb(err); }								// deserializing.
+passport.deserializeUser(function(id, cb) {										// typical implementation of this is as simple as supplying the user ID when
+	db.users.findById(id, function (err, user) {								// serializing, and querying the user record by ID from the database when
+		if (err) { return cb(err); }											// deserializing.
 		cb(null, user);
 	});
 });
 
-app.use(passport.initialize());										// Initialize Passport and restore authentication state, if any, from the session
+app.use(passport.initialize());													// Initialize Passport and restore authentication state, if any, from the session
 app.use(passport.session());
 
-//-----------------------------------------------------------------
-//-----------------------FUNCTIONAL QUERIES------------------------
-//-----------------------------------------------------------------
-app.post('/openProjects', 											// select only projects where status = 'Open'
+//------------------------------------------------------------------------------
+//------------------------------FUNCTIONAL QUERIES------------------------------
+//------------------------------------------------------------------------------
+app.post('/openProjects', 														// select only projects where status = 'Open'
 	require('connect-ensure-login').ensureLoggedIn(), 
 	db2.selectOpen
 	)
 	
-app.post('/openCharts', 											// renders the charts view
+app.post('/openCharts', 														// renders the charts view
 	require('connect-ensure-login').ensureLoggedIn(), 
 	db2.selectCharts
 	)
 	
-app.post('/filterCharts', 											// renders the filtered charts view
+app.post('/filterCharts', 														// renders the filtered charts view
 	require('connect-ensure-login').ensureLoggedIn(), 
 	db2.filterCharts
 	)
 
-app.post('/inprocessProjects', 										// select only projects where status = 'In-process'
+app.post('/inprocessProjects', 													// select only projects where status = 'In-process'
 	require('connect-ensure-login').ensureLoggedIn(), 
 	db2.selectInprocess
 	)
 
-app.post('/allProjects', 											// select every project that has been created
+app.post('/allProjects', 														// select every project that has been created
 	require('connect-ensure-login').ensureLoggedIn(), 
 	db2.selectAll
 	)
 
-app.post('/openProject', 											// displays individual project information when selected from a table of projects
+app.post('/openProject', 														// displays individual project information when selected from a table of projects
 	require('connect-ensure-login').ensureLoggedIn(), 
 	db2.getProject
 	)
 
-app.post('/createProject', 											// renders a form for project creation
+app.post('/createProject', 														// renders a form for project creation
 	require('connect-ensure-login').ensureLoggedIn(), 
 	db.users.createProject2
 	)
 
-app.post('/createTeamProject', 										// renders a form for team project creation
+app.post('/createTeamProject', 													// renders a form for team project creation
 	require('connect-ensure-login').ensureLoggedIn(), 
 	db.users.createTeamProject
 	)
 	
-app.post('/postProject', 											// posts project from previous form to the database
+app.post('/postProject', 														// posts project from previous form to the database
 	require('connect-ensure-login').ensureLoggedIn(), 
 	db.users.postProject
 	)
 	
-app.post('/postTeamProject', 										// posts team project from previous form to the database
+app.post('/postTeamProject', 													// posts team project from previous form to the database
 	require('connect-ensure-login').ensureLoggedIn(), 
 	db.users.postTeamProject
 	)
 	
-app.post('/updateProject', 											// allows users to change attributes of a project (currently only allows status to be changed
+app.post('/updateProject', 														// allows users to change attributes of a project (currently only allows status to be changed
 	require('connect-ensure-login').ensureLoggedIn(), 
 	db2.updateProject
 	)
 	
-app.post('/myProjects', 											// My projects selects all 'Open' and 'In-process' projects assigned to the current user
+app.post('/myProjects', 														// My projects selects all 'Open' and 'In-process' projects assigned to the current user
 	require('connect-ensure-login').ensureLoggedIn(), 
 	db2.selectMyProjects
 	)
 	
-app.post('/addComment', 											// Adds a comment to current project
+app.post('/addComment', 														// Adds a comment to current project
 	require('connect-ensure-login').ensureLoggedIn(), 
 	db2.plusComment
 	)
 	
-app.get('/adminPage',												// renders the 'tables' view
+app.get('/adminPage',															// renders the 'tables' view
 	require('connect-ensure-login').ensureLoggedIn(),
 	db2.deliverTables
 	)
 
-app.post('/categories',												// renders the 'categories' view
+app.post('/categories',															// renders the 'categories' view
 	require('connect-ensure-login').ensureLoggedIn(),
 	db2.deliverCategories
 	)
 	
-app.post('/customers',												// renders the 'customers' view
+app.post('/customers',															// renders the 'customers' view
 	require('connect-ensure-login').ensureLoggedIn(),
 	db2.deliverCustomers
 	)
 	
-app.post('/teamCategories',											// renders the 'team categories' view
+app.post('/teamCategories',														// renders the 'team categories' view
 	require('connect-ensure-login').ensureLoggedIn(),
 	db2.deliverTeamCategories
 	)
 	
-app.post('/teamCustomers',											// renders the 'team customers' view
+app.post('/teamCustomers',														// renders the 'team customers' view
 	require('connect-ensure-login').ensureLoggedIn(),
 	db2.deliverTeamCustomers
 	)
 	
-app.post('/teamAnnouncements',										// renders the 'team announcements' view
+app.post('/teamAnnouncements',													// renders the 'team announcements' view
 	require('connect-ensure-login').ensureLoggedIn(),
 	db2.deliverTeamAnnouncements
 	)
 	
-app.post('/deleteAnnouncement',										// deletes a team announcement
+app.post('/deleteAnnouncement',													// deletes a team announcement
 	require('connect-ensure-login').ensureLoggedIn(),
 	db2.deleteAnnouncement
 	)
 
-app.post('/addAnnouncement',										// adds a team announcement
+app.post('/addAnnouncement',													// adds a team announcement
 	require('connect-ensure-login').ensureLoggedIn(),
 	db2.addAnnouncement
 	)
 
-app.post('/deleteCategory',											// deletes the selected category
+app.post('/deleteCategory',														// deletes the selected category
 	require('connect-ensure-login').ensureLoggedIn(),
 	db2.deleteCategory
 	)
 
-app.post('/deleteTeamCategory',										// deletes the selected team category
+app.post('/deleteTeamCategory',													// deletes the selected team category
 	require('connect-ensure-login').ensureLoggedIn(),
 	db2.deleteTeamCategory
 	)
 
-app.post('/addCategory',											// adds the specified category
+app.post('/addCategory',														// adds the specified category
 	require('connect-ensure-login').ensureLoggedIn(),
 	db2.addCategory
 	)
 	
-app.post('/addTeamCategory',										// adds the specified team category
+app.post('/addTeamCategory',													// adds the specified team category
 	require('connect-ensure-login').ensureLoggedIn(),
 	db2.addTeamCategory
 	)
 
-app.post('/deleteCustomer',											// deletes the selected customer
+app.post('/deleteCustomer',														// deletes the selected customer
 	require('connect-ensure-login').ensureLoggedIn(),
 	db2.deleteCustomer
 	)
 	
-app.post('/deleteTeamCustomer',										// deletes the selected team customer
+app.post('/deleteTeamCustomer',													// deletes the selected team customer
 	require('connect-ensure-login').ensureLoggedIn(),
 	db2.deleteTeamCustomer
 	)
 	
-app.post('/deleteCampaign',											// deletes the selected campaign
+app.post('/deleteCampaign',														// deletes the selected campaign
 	require('connect-ensure-login').ensureLoggedIn(),
 	db2.deleteCampaign
 	)
 
-app.post('/addCustomer',											// adds the specified customer
+app.post('/addCustomer',														// adds the specified customer
 	require('connect-ensure-login').ensureLoggedIn(),
 	db2.addCustomer
 	)
 	
-app.post('/addTeamCustomer',										// adds the specified team customer
+app.post('/addTeamCustomer',													// adds the specified team customer
 	require('connect-ensure-login').ensureLoggedIn(),
 	db2.addTeamCustomer
 	)
 
-app.post('/addCampaign',											// adds the specified campaign
+app.post('/addCampaign',														// adds the specified campaign
 	require('connect-ensure-login').ensureLoggedIn(),
 	db2.addCampaign
 	)
 
-app.post('/addUser', 											    // creates a new user
+app.post('/addUser', 											    			// creates a new user
 	db2.createUser
 	)
 
-app.post('/defaultDark', 											// defaultDark theme change
+app.post('/defaultDark', 														// defaultDark theme change
 	require('connect-ensure-login').ensureLoggedIn(),
 	theme.defaultDark
 	)
 	
-app.post('/lightTheme', 											// light theme change
+app.post('/lightTheme', 														// light theme change
 	require('connect-ensure-login').ensureLoggedIn(),
 	theme.lightTheme
 	)
 	
-app.post('/dashboardTheme', 										// dashboard theme change
+app.post('/dashboardTheme', 													// dashboard theme change
 	require('connect-ensure-login').ensureLoggedIn(),
 	theme.dashboardTheme
 	)
 
-app.get('/Excel', 													// select every project that has been created for Excel scraping
+app.get('/Excel', 																// select every project that has been created for Excel scraping
 	db2.selectExcel
 	)
 
-//-----------------------------------------------------------------
-//-----------------------------ROUTES------------------------------
-//-----------------------------------------------------------------
-app.get('/admin', 													// renders a page which is used for administration
+//------------------------------------------------------------------------------
+//------------------------------------ROUTES------------------------------------
+//------------------------------------------------------------------------------
+app.get('/admin', 																// renders a page which is used for administration
 	require('connect-ensure-login').ensureLoggedIn(), 
 	db2.consoleCharts
 	); 
 
-app.get('/', 														// when the root directory loads, send the landing.html file to the client
-	(req, res) => 
+app.get('/', 																	// when the root directory loads, send the landing.html file to the client
+	(req, res) => 																// does this function even do anything?
 		res.sendFile(
 			path.join(__dirname, 'landing.html')
 		)
 	);
 
 app.get('/home', 
-	require('connect-ensure-login').ensureLoggedIn(),				// when the root directory loads, send the main.html file to the client
+	require('connect-ensure-login').ensureLoggedIn(),							// when the root directory loads, send the main.html file to the client
 	db2.homeView
 	);
 
-app.get('/login',													// Delivers the login screen
+app.get('/login',																// Delivers the login screen
 	db2.deliverLogin
 	)
 	
-app.get('/landing',													// Delivers the landing page
-//------------------------------------------------------------------------------
-//-----------------------------DELIVER LANDING PAGE-----------------------------
-//------------------------------------------------------------------------------
-(request, response) => {
-	var visitor_ip = ip.address();
-		const sqltracking = "INSERT INTO views(\
-					page\
-					, ipaddress\
-					) VALUES (\
-					'landing'\
-					, '" + visitor_ip + "'\
-					);";
-	pool.query(sqltracking, (error, results) => {
-		if (error) {
-			throw error;
+app.get('/landing',																// Delivers the landing page
+		(request, response) => {
+			var visitor_ip = ip.address();										// makes the visitors ip address a variable
+				const sqltracking = "INSERT INTO views(\
+							page\
+							, ipaddress\
+							) VALUES (\
+							'landing'\
+							, '" + visitor_ip + "'\
+							);";
+			pool.query(sqltracking, (error, results) => {						// Submits landing page view to database with ip address recorded
+				if (error) {
+					throw error;
+				}
+				response.sendFile('index3.html' , { root : __dirname});			// redirects to the landing page
+			});
 		}
-		response.sendFile('index3.html' , { root : __dirname});
-	});
-}
 	)
   
-app.post('/login', 													// Posts the login credentials
-  passport.authenticate('local', { failureRedirect: '/login' }),	// Tests credentials, if credentials fail the login screen is rendered again
+app.post('/login', 																// Posts the login credentials
+  passport.authenticate('local', { failureRedirect: '/login' }),				// Tests credentials, if credentials fail the login screen is rendered again
   function(req, res) {
-    res.redirect('/home');											// Home screen is delivered if credentials are tested successfully
+    res.redirect('/home');														// Home screen is delivered if credentials are tested successfully
   });
   
-app.get('/logout',													// logs the current user out and delivers the home screen
+app.get('/logout',																// logs the current user out and delivers the home screen
   function(req, res){
     req.logout();
     res.redirect('/login');
   });
 
-app.get('/profile',													// renders the 'profile' for the current user
+app.get('/profile',																// renders the 'profile' for the current user
   require('connect-ensure-login').ensureLoggedIn(),
   db2.profileView
 );
   
-app.get('/projects',												// renders the 'projects' view
+app.get('/projects',															// renders the 'projects' view
   require('connect-ensure-login').ensureLoggedIn(),
   db2. projectsView
 );
   
-app.get('/documentation',											// renders the 'documentation' view
+app.get('/documentation',														// renders the 'documentation' view
   require('connect-ensure-login').ensureLoggedIn(),
   db2.documentationView
 );
   
-app.get('/campaigns',											    // renders the 'campaigns' view
+app.get('/campaigns',											    			// renders the 'campaigns' view
   require('connect-ensure-login').ensureLoggedIn(),
     db2.deliverCampaigns
   );
   
-app.get('/teams',											        // renders the temporary 'teams' view
+app.get('/teams',											        			// renders the temporary 'teams' view
   require('connect-ensure-login').ensureLoggedIn(),
   db2.teamsView
 );
   
-app.get('/teams2',											        // renders the 'teams' view
+app.get('/teams2',											        			// renders the 'teams' view
   require('connect-ensure-login').ensureLoggedIn(),
     db2.teams2
   );
   
-app.post('/deliverTeam',											// delivers team view by id
+app.post('/deliverTeam',														// delivers team view by id
   require('connect-ensure-login').ensureLoggedIn(),
     db2.deliverTeams
   );
   
-app.post('/deliverJoinTeam',										// delivers the join team view
+app.post('/deliverJoinTeam',													// delivers the join team view
   require('connect-ensure-login').ensureLoggedIn(),
     db2.deliverJoinTeam
   );
   
-app.post('/deliverCreateTeam',										// delivers the create team view
+app.post('/deliverCreateTeam',													// delivers the create team view
   require('connect-ensure-login').ensureLoggedIn(),
     db2.deliverCreateTeam
   );
   
-app.post('/joinTeam',												// user joins a team
+app.post('/joinTeam',															// user joins a team
   require('connect-ensure-login').ensureLoggedIn(),
     db2.joinTeam
   );
   
-app.post('/createTeam',												// user creates a team
+app.post('/createTeam',															// user creates a team
   require('connect-ensure-login').ensureLoggedIn(),
     db2.createTeam
   );
   
-app.post('/updateCampaign',											// updates a campaign
+app.post('/updateCampaign',														// updates a campaign
   require('connect-ensure-login').ensureLoggedIn(),
     db2.updateCampaign
   );
   
-app.get('/forms',												    // renders the 'forms' view
+app.get('/forms',												    			// renders the 'forms' view
   require('connect-ensure-login').ensureLoggedIn(),
   db2.formsView
 );
 
-//-----------------------------------------------------------------
-//-------------------------GENERIC QUERIES-------------------------
-//-----------------------------------------------------------------
+//------------------------------------------------------------------------------
+//--------------------------------GENERIC QUERIES-------------------------------
+//------------------------------------------------------------------------------
 /*  These queries exist temporarily for reference and will 
 	ultimately be deleted                                        */
 app.get('/users', db2.createUser)

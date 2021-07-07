@@ -344,7 +344,11 @@ const selectAll = function(req, res) {
 		if (error) {
 			throw error;
 		}
-		var tableText = "<table class='styled-table'>\
+		var tableText = "<div class='projectFilters'><form action='/openProjects' method='post'><input type='submit' name='openprojects' value='Open Projects' class='filterButton'></form>\
+	<form action='/inprocessProjects' method='post'><input type='submit' name='inprocessprojects' value='In-Process Projects' class='filterButton'></form>\
+	<form action='/allProjects' method='post'><input type='submit' name='allprojects' value='All Projects' class='filterButton'></form>\
+	<form action='/myProjects' method='post'><input type='submit' name='myprojects' value='My Projects' class='filterButton'></form></div><br>\
+	<table class='styled-table'>\
 						<tr><th>TITLE</th><th>ID</th>\
 							<th>STATUS</th>\
 							<th>RESPONSIBLE</th>\
@@ -443,7 +447,11 @@ const selectOpen = function(req, res) {
 		if (error) {
 			throw error;
 		}
-		var tableText = "<table class='styled-table'>\
+		var tableText = "<div class='projectFilters'><form action='/openProjects' method='post'><input type='submit' name='openprojects' value='Open Projects' class='filterButton'></form>\
+	<form action='/inprocessProjects' method='post'><input type='submit' name='inprocessprojects' value='In-Process Projects' class='filterButton'></form>\
+	<form action='/allProjects' method='post'><input type='submit' name='allprojects' value='All Projects' class='filterButton'></form>\
+	<form action='/myProjects' method='post'><input type='submit' name='myprojects' value='My Projects' class='filterButton'></form></div><br>\
+	<table class='styled-table'>\
 						<tr><th>TITLE</th>\
 							<th>ID</th>\
 							<th>STATUS</th>\
@@ -496,7 +504,11 @@ const selectInprocess = function(req, res) {
 		if (error) {
 			throw error;
 		}
-		var tableText = "<table class='styled-table'>\
+		var tableText = "<div class='projectFilters'><form action='/openProjects' method='post'><input type='submit' name='openprojects' value='Open Projects' class='filterButton'></form>\
+	<form action='/inprocessProjects' method='post'><input type='submit' name='inprocessprojects' value='In-Process Projects' class='filterButton'></form>\
+	<form action='/allProjects' method='post'><input type='submit' name='allprojects' value='All Projects' class='filterButton'></form>\
+	<form action='/myProjects' method='post'><input type='submit' name='myprojects' value='My Projects' class='filterButton'></form></div><br>\
+	<table class='styled-table'>\
 				<tr><th>TITLE</th>\
 					<th>ID</th>\
 					<th>STATUS</th>\
@@ -551,7 +563,11 @@ const selectMyProjects = function(req, res) {
 		if (error) {
 			throw error;
 		}
-		var tableText = "<table class='styled-table'>\
+		var tableText = "<div class='projectFilters'><form action='/openProjects' method='post'><input type='submit' name='openprojects' value='Open Projects' class='filterButton'></form>\
+	<form action='/inprocessProjects' method='post'><input type='submit' name='inprocessprojects' value='In-Process Projects' class='filterButton'></form>\
+	<form action='/allProjects' method='post'><input type='submit' name='allprojects' value='All Projects' class='filterButton'></form>\
+	<form action='/myProjects' method='post'><input type='submit' name='myprojects' value='My Projects' class='filterButton'></form></div><br>\
+	<table class='styled-table'>\
 			<tr><th>TITLE</th>\
 				<th>ID</th>\
 				<th>STATUS</th>\
@@ -1546,23 +1562,6 @@ const deliverLoginSuccess = (request, response) => {
 }
 
 //------------------------------------------------------------------------------
-//-----------------------------DELIVER LANDING PAGE-----------------------------
-//------------------------------------------------------------------------------
-const deliverLanding = (request, response) => {
-		const sqltracking = "INSERT INTO views(\
-					page\
-					) VALUES (\
-					'landing'\
-					);";
-	pool.query(sqltracking, (error, results) => {
-		if (error) {
-			throw error;
-		}
-		response.sendFile('index3.html' , { root : __dirname});
-	});
-}
-
-//------------------------------------------------------------------------------
 //-----------------------------DELIVER TEAMS 2 VIEW-----------------------------
 //------------------------------------------------------------------------------
 const teams2 = (request, response) => {
@@ -2164,6 +2163,5 @@ module.exports = {
   filterCharts,
   deliverTeamAnnouncements,
   deleteAnnouncement,
-  addAnnouncement,
-  deliverLanding
+  addAnnouncement
 }

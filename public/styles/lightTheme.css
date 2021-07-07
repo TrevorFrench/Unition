@@ -68,8 +68,9 @@ body {
 	background-color:lightgray;
 	padding:10px;
 	border-radius: 5px;
-	box-shadow: 0 14px 28px rgb(0 0 0 / 25%);
+	/*box-shadow: 0 14px 28px rgb(0 0 0 / 25%);*/
 	color: black;
+	border: solid 2px black;
 }
 
 .title{
@@ -302,7 +303,8 @@ html, body {
 	padding: 20px;
 	border-radius: 5px;
 	color: lightslategray;
-	box-shadow: 0 14px 28px rgb(0 0 0 / 25%);
+	/*box-shadow: 0 14px 28px rgb(0 0 0 / 25%);*/
+	border: solid 2px black;
 }
 
 .commentDiv {
