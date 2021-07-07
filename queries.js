@@ -15,7 +15,7 @@ const pool = new Pool({
 //--------------------------------ADMINISTRATION--------------------------------
 //------------------------------------------------------------------------------
 const admin = (request, response) => {
-	const sql = "DELETE FROM projects where project_id = 410 OR project_id = 411;";
+	const sql = "ALTER TABLE views ADD COLUMN ipaddress text;";
 	pool.query(sql, (error, results) => {
 		if (error) {
 			throw error

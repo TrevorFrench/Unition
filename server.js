@@ -384,11 +384,13 @@ app.get('/landing',													// Delivers the landing page
 //-----------------------------DELIVER LANDING PAGE-----------------------------
 //------------------------------------------------------------------------------
 (request, response) => {
-	console.log(ip.address());
+	var visitor_ip = ip.address();
 		const sqltracking = "INSERT INTO views(\
 					page\
+					, ipaddress\
 					) VALUES (\
 					'landing'\
+					, '" + visitor_ip + "'\
 					);";
 	pool.query(sqltracking, (error, results) => {
 		if (error) {
