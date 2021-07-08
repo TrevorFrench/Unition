@@ -1663,6 +1663,8 @@ const deliverTeams = (request, response) => {
 				<tr><th>Projects Assigned to Me<div onclick='toggleMyProjects()' Style='float:right; cursor: pointer;'><i class='fas fa-window-close' style='float: right; color: white;'></i></div></th></tr>";
 			var scrumBoard = "<table class='styled-table' id='scrumBoard'><tbody>\
 				<tr><th>Scrum Board<div onclick='toggleScrumBoard()' Style='float:right; cursor: pointer;'><i class='fas fa-window-close' style='float: right; color: white;'></i></div></th></tr>";
+			var scrumBoard2 = "<table class='styled-table' id='scrumBoard'><tbody>\
+				<tr><th>Scrum Board<div onclick='toggleScrumBoard()' Style='float:right; cursor: pointer;'><i class='fas fa-window-close' style='float: right; color: white;'></i></div></th></tr>";
 			results.rows.forEach(element => 
 				projectsText += "<tr><td><form id='projectform' action='/openProject' method='post'>\
 						<input type='text' name='ticketID' \
@@ -1674,8 +1676,36 @@ const deliverTeams = (request, response) => {
 			);
 			
 			let uniqueCategory = new Set();
+			
 			results.rows.forEach(element => uniqueCategory.add(element.category))
-			uniqueCategory.forEach(element => scrumBoard += "<tr><td>" + element + "</td></tr>");
+			
+			let unique = Array.from(uniqueCategory);
+			
+			console.log(unique)
+			
+			var catLength = unique.length;
+			var resultLength = results.rows.length;
+			
+			let i = 0;
+			let j = 0
+
+			do {
+				scrumBoard2 += "<tr><td>" + unique[i] + "</td></tr>";
+				console.log(unique[i]);
+				do {
+					if (results.rows[j].category == unique[i]) {
+						scrumBoard2 += "<tr><td>" + results.rows[j].title + "</td></tr>"
+					}
+				  j = j + 1;
+				} while (j < resultLength);
+				j = 0;
+				i += 1;
+				console.log(catLength)
+				} while (i < catLength);
+				
+				console.log(scrumBoard2);
+			
+						uniqueCategory.forEach(element => scrumBoard += "<tr><td>" + element + "</td></tr>");
 			
 			
 			
@@ -1713,6 +1743,7 @@ const deliverTeams = (request, response) => {
 			myProjects += "</table>";
 			projectsText += "</table>";
 			scrumBoard += "</table>";
+			scrumBoard2 += "</table>"
 			projectBoard += "</table>";
 			var buttons = "<br><br><form action='/createTeamProject' method='post' id='createProject'>\
 					<input type='text' name='pt_id' id='pt_id'value=" + request.body.teamid + " hidden>\
@@ -1735,7 +1766,7 @@ const deliverTeams = (request, response) => {
 			</table>\
 	</div>\
 	<div class='dataRow'>"
-			var tableText = toolbar + title + buttons + "<div style='float:left;'>" + scrumBoard + "</div><div style='float:right;'>" + projectBoard + "<br>" + myProjects + "<br>" + usersText + "<br>" + projectsText + "</div>";
+			var tableText = toolbar + title + buttons + "<div style='float:left;'>" + scrumBoard2 + "</div><div style='float:right;'>" + projectBoard + "<br>" + myProjects + "<br>" + usersText + "<br>" + projectsText + "</div>";
 			
 			/**/
 			const sql2 = "SELECT pt_id\

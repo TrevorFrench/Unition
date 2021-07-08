@@ -81,11 +81,12 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - Priorities and colors for projects
    - Option to email on comments
    - Move Gantt Chart to bottom of graphs
-   - Let user choose the home screen image
+   - Let user choose the home screen image (change every refresh)
    - Make teams function a premium feature and then give it away for free
 		This will allow user feedback and gain potential evangelists as the
 		teams function might encourage invites
    - Performance review functionality
+   - CRM?
 */
 
 //------------------------------------------------------------------------------
