@@ -1061,6 +1061,17 @@ const getProject = (request, response) => {
 		if (error) {
 			throw error
 		}
+		var statustext = '';
+		if (results.rows[0].status == 'Open') {statustext += "<option value='Open'>Open</option>\
+							<option value='In-process'>In-process</option>\
+							<option value='Closed'>Closed</option>"} else if (results.rows[0].status == 'In-process') {
+							statustext += "<option value='In-process'>In-process</option>\
+							<option value='Open'>Open</option>\
+							<option value='Closed'>Closed</option>"} else {
+								statustext += "<option value='Closed'>Closed</option>\
+							<option value='In-process'>In-process</option>\
+							<option value='Open'>Open</option>"}
+							console.log(statustext);
 		var projectText = '';
 		projectText += "<div class='projectDiv' style='width:75%; margin-left:12%;'>\
 			<form action='/updateProject' method='post' \
@@ -1076,10 +1087,7 @@ const getProject = (request, response) => {
 						<select id='statusSQL' name='statusSQL' \
 							style='width: 75%;padding: 12px;\
 							border: 1px solid #ccc;border-radius: 4px; \
-							resize: vertical;'>\
-							<option value='Open'>Open</option>\
-							<option value='In-process'>In-process</option>\
-							<option value='Closed'>Closed</option>\
+							resize: vertical;'>" + statustext + "\
 						</select>\
 					</div>\
 				</div>\
