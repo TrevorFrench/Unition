@@ -1665,6 +1665,7 @@ const deliverTeams = (request, response) => {
 				<tr><th>Scrum Board<div onclick='toggleScrumBoard()' Style='float:right; cursor: pointer;'><i class='fas fa-window-close' style='float: right; color: white;'></i></div></th></tr>";
 			var scrumBoard2 = "<table class='styled-table' id='scrumBoard'><tbody>\
 				<tr><th>Scrum Board<div onclick='toggleScrumBoard()' Style='float:right; cursor: pointer;'><i class='fas fa-window-close' style='float: right; color: white;'></i></div></th></tr>";
+			var scripts = "";
 			results.rows.forEach(element => 
 				projectsText += "<tr><td><form id='projectform' action='/openProject' method='post'>\
 						<input type='text' name='ticketID' \
@@ -1690,11 +1691,13 @@ const deliverTeams = (request, response) => {
 			let j = 0
 
 			do {
-				scrumBoard2 += "<tr><td>" + unique[i] + "</td></tr>";
+				var texts = unique[i].replace(/\s/g, '');
+				scrumBoard2 += "<tr><td>" + unique[i] + "</td><td><div onclick='toggle" + texts + "()' Style='float:right; cursor: pointer;'><i class='fas fa-minus' style='float: right; color: white;'></i></div></td></tr>";
+				scripts += "<script> function toggle" + texts + "() { var x = document.getElementsByName('" + unique[i] + "Cat'); let h = 0; do {if (x[h].style.display === 'none') {x[h].style.display = 'table-row';} else { x[h].style.display = 'none';} h += 1;} while (h < x.length)}</script>"
 				console.log(unique[i]);
 				do {
 					if (results.rows[j].category == unique[i]) {
-						scrumBoard2 += "<tr><td>" + results.rows[j].title + "</td></tr>"
+						scrumBoard2 += "<tr name='" + unique[i] + "Cat' ><td>" + results.rows[j].title + "</td></tr>"
 					}
 				  j = j + 1;
 				} while (j < resultLength);
@@ -1743,7 +1746,7 @@ const deliverTeams = (request, response) => {
 			myProjects += "</table>";
 			projectsText += "</table>";
 			scrumBoard += "</table>";
-			scrumBoard2 += "</table>"
+			scrumBoard2 += "</table>" + scripts;
 			projectBoard += "</table>";
 			var buttons = "<br><br><form action='/createTeamProject' method='post' id='createProject'>\
 					<input type='text' name='pt_id' id='pt_id'value=" + request.body.teamid + " hidden>\
