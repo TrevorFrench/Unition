@@ -41,14 +41,14 @@
 			</div>
 			<div class="body">
 			  <ul>
-				<li><i class="fas fa-home icon"></i> <a href="./home"><div class="navText">Home</div></a></li>
-				<li><i class="fas fa-stream icon"></i><a href='./projects'><div class="navText"> Projects</div></a></li>				
-				<li><i class="fas fa-wrench icon"></i><a href='./adminPage'><div class="navText">Admin</div></a></li>
-				<li><i class="fab fa-wpforms icon"></i><a href="./forms"><div class="navText"> Forms</div></a></li>
-				<li><i class="fas fa-chart-pie icon"></i> <form id="opencharts" action="/openCharts" method="post"><a href="javascript: submitcharts()"><div class="navText">Charts</div></a></form></li>
-				<li><i class="fas fa-flag icon"></i><a href="./campaigns"><div class="navText">Campaigns</div></a></li>
-				<li><i class="fas fa-users icon"></i><a href="./teams"><div class="navText">Teams</div></a></li>
-				<li><i class="fas fa-book icon"></i><a href="./public/views/documentation.pdf"><div class="navText">Documentation</div></a></li>
+				<a href="./home"><li><i class="fas fa-home icon"></i> <div class="navText">Home</div></li></a>
+				<a href='./myProjects'><li><i class="fas fa-stream icon"></i><div class="navText"> Projects</div></li></a>			
+				<a href='./adminPage'><li><i class="fas fa-wrench icon"></i><div class="navText">Admin</div></li></a>
+				<a href="./forms"><li><i class="fab fa-wpforms icon"></i><div class="navText"> Forms</div></li></a>
+				<a href="javascript: submitcharts()"><li><i class="fas fa-chart-pie icon"></i> <form id="opencharts" action="/openCharts" method="post"><div class="navText">Charts</div></form></li></a>
+				<a href="./campaigns"><li><i class="fas fa-flag icon"></i><div class="navText">Campaigns</div></li></a>
+				<a href="./teams"><li><i class="fas fa-users icon"></i><div class="navText">Teams</div></li></a>
+				<a href="./public/views/documentation.pdf"><li><i class="fas fa-book icon"></i><div class="navText">Documentation</div></li></a>
 			  </ul>
 			</div>
 		</div>
@@ -57,7 +57,7 @@
 	<form action="/createProject" method="post">
 				<input class="redButton" type="submit" value="Create Project">
 			</form>
-			<form action="/myProjects" method="post">
+			<form action="/myProjects" method="get">
 				<input class="redButton" type="submit" value="My Projects">
 			</form>
 				<a href="/profile" class="profileButton" style="display:flex; float:right;"><i class="fas fa-user" height=45></i></a>

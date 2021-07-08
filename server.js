@@ -70,13 +70,11 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - Allow the user to make a customized home page
    - either manually escape apostrophes in titles on tables or make the link something different
    - normalize announcements table and add options such as color and style
-   - fix start date/end date bug (fixed now fix new pa campaign bug)
    - Recurring Projects
    - Testimonials and customers on the landing page
    - Create a feedback/bug page and feed the feedback/bugs to admin page
    - admin page could have a marketing email tool
    - map and track clicks
-   - ip address log
    - Tab titles on login page
    - Teams filter on charts/projects
    - Move projects filters to a single page
@@ -235,7 +233,7 @@ app.post('/updateProject', 														// allows users to change attributes of
 	db2.updateProject
 	)
 	
-app.post('/myProjects', 														// My projects selects all 'Open' and 'In-process' projects assigned to the current user
+app.get('/myProjects', 														// My projects selects all 'Open' and 'In-process' projects assigned to the current user
 	require('connect-ensure-login').ensureLoggedIn(), 
 	db2.selectMyProjects
 	)

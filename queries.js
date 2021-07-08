@@ -347,7 +347,7 @@ const selectAll = function(req, res) {
 		var tableText = "<div class='projectFilters'><form action='/openProjects' method='post'><input type='submit' name='openprojects' value='Open Projects' class='filterButton'></form>\
 	<form action='/inprocessProjects' method='post'><input type='submit' name='inprocessprojects' value='In-Process Projects' class='filterButton'></form>\
 	<form action='/allProjects' method='post'><input type='submit' name='allprojects' value='All Projects' class='filterButton'></form>\
-	<form action='/myProjects' method='post'><input type='submit' name='myprojects' value='My Projects' class='filterButton'></form></div><br>\
+	<form action='/myProjects' method='get'><input type='submit' name='myprojects' value='My Projects' class='filterButton'></form></div><br>\
 	<table class='styled-table'>\
 						<tr><th>TITLE</th><th>ID</th>\
 							<th>STATUS</th>\
@@ -450,7 +450,7 @@ const selectOpen = function(req, res) {
 		var tableText = "<div class='projectFilters'><form action='/openProjects' method='post'><input type='submit' name='openprojects' value='Open Projects' class='filterButton'></form>\
 	<form action='/inprocessProjects' method='post'><input type='submit' name='inprocessprojects' value='In-Process Projects' class='filterButton'></form>\
 	<form action='/allProjects' method='post'><input type='submit' name='allprojects' value='All Projects' class='filterButton'></form>\
-	<form action='/myProjects' method='post'><input type='submit' name='myprojects' value='My Projects' class='filterButton'></form></div><br>\
+	<form action='/myProjects' method='get'><input type='submit' name='myprojects' value='My Projects' class='filterButton'></form></div><br>\
 	<table class='styled-table'>\
 						<tr><th>TITLE</th>\
 							<th>ID</th>\
@@ -507,7 +507,7 @@ const selectInprocess = function(req, res) {
 		var tableText = "<div class='projectFilters'><form action='/openProjects' method='post'><input type='submit' name='openprojects' value='Open Projects' class='filterButton'></form>\
 	<form action='/inprocessProjects' method='post'><input type='submit' name='inprocessprojects' value='In-Process Projects' class='filterButton'></form>\
 	<form action='/allProjects' method='post'><input type='submit' name='allprojects' value='All Projects' class='filterButton'></form>\
-	<form action='/myProjects' method='post'><input type='submit' name='myprojects' value='My Projects' class='filterButton'></form></div><br>\
+	<form action='/myProjects' method='get'><input type='submit' name='myprojects' value='My Projects' class='filterButton'></form></div><br>\
 	<table class='styled-table'>\
 				<tr><th>TITLE</th>\
 					<th>ID</th>\
@@ -566,7 +566,7 @@ const selectMyProjects = function(req, res) {
 		var tableText = "<div class='projectFilters'><form action='/openProjects' method='post'><input type='submit' name='openprojects' value='Open Projects' class='filterButton'></form>\
 	<form action='/inprocessProjects' method='post'><input type='submit' name='inprocessprojects' value='In-Process Projects' class='filterButton'></form>\
 	<form action='/allProjects' method='post'><input type='submit' name='allprojects' value='All Projects' class='filterButton'></form>\
-	<form action='/myProjects' method='post'><input type='submit' name='myprojects' value='My Projects' class='filterButton'></form></div><br>\
+	<form action='/myProjects' method='get'><input type='submit' name='myprojects' value='My Projects' class='filterButton'></form></div><br>\
 	<table class='styled-table'>\
 			<tr><th>TITLE</th>\
 				<th>ID</th>\
@@ -2007,7 +2007,7 @@ const projectsView = (request, response) => {
 	<tr><td><form action='/openProjects' method='post'><input type='submit' name='openprojects' value='Open Projects' class='projectTitle'></form></td><td>Returns a list of all open projects for which the current user is responsible.</td></tr>\
 	<tr><td><form action='/inprocessProjects' method='post'><input type='submit' name='inprocessprojects' value='In-Process Projects' class='projectTitle'></form></td><td>Returns a list of all in-process projects for which the current user is responsible.</td></tr>\
 	<tr><td><form action='/allProjects' method='post'><input type='submit' name='allprojects' value='All Projects' class='projectTitle'></form></td><td>Returns a complete list of projects for which the current user is responsible.</td></tr>\
-	<tr><td><form action='/myProjects' method='post'><input type='submit' name='myprojects' value='My Projects' class='projectTitle'></form></td><td>Returns all 'open' and 'in-process' projects for which the current user is responsible.</td></tr>\
+	<tr><td><form action='/myProjects' method='get'><input type='submit' name='myprojects' value='My Projects' class='projectTitle'></form></td><td>Returns all 'open' and 'in-process' projects for which the current user is responsible.</td></tr>\
 	</tbody></table>", user: request.user
 	})
 	
