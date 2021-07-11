@@ -18,7 +18,6 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - Create a hidden option on projects so that sensitive projects don't show up in lists
    - Form creation wizard
    - Admin option to change image
-   - Create a status table
    - Put all queries into users.js or vice versa?
    - Bug where apostrophes are not escaped in values of inputs
    - Foreign Key for Categories (does foreign key make sense if I allow users to delete categories?
@@ -31,7 +30,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - can I delete inline functions?
    - delete unused login files
    - create campaign functionality
-   - ERROR HANDLING (model after create user error and expand on that no throw errors)
+   - ERROR HANDLING (model after create user error and expand on that no throw errors (maybe option to report errors/automatically report errors))
    - make sure there are valid redirects (no response.anything)
    - filtering by displayname which isn't unique (FIXED but still need to change responsible to INT4 and get rid of to-number function in joins)
    - excel page is a vulnerability
@@ -177,6 +176,148 @@ passport.deserializeUser(function(id, cb) {										// typical implementation o
 
 app.use(passport.initialize());													// Initialize Passport and restore authentication state, if any, from the session
 app.use(passport.session());
+
+//------------------------------------------------------------------------------
+//----------------------------------STRIPE API----------------------------------
+//------------------------------------------------------------------------------
+const stripe = require('stripe')(/*'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'*/'sk_test_51JAyJDKqakUFqghQPEPVuuOCcmYBX3leGRxeFAeOOli9IGCuxSdkHfho3zUK3uV4Le2y7gS4ckQv3R7mP3bPh6uZ00M0hHPm6O');
+
+// Fetch the Checkout Session to display the JSON result on the success page
+app.get("/checkout-session", async (req, res) => {
+  const { sessionId } = req.query;
+  const session = await stripe.checkout.sessions.retrieve(sessionId);
+  res.send(session);
+});
+
+app.post("/create-checkout-session", async (req, res) => {
+  const domainURL = process.env.DOMAIN;
+  const priceId = '{{PRICE_ID}}';
+
+  // Create new Checkout Session for the order
+  // Other optional params include:
+  // [billing_address_collection] - to display billing address details on the page
+  // [customer] - if you have an existing Stripe Customer ID
+  // [customer_email] - lets you prefill the email input in the form
+  // For full details see https://stripe.com/docs/api/checkout/sessions/create
+  
+  try {
+    const session = await stripe.checkout.sessions.create({
+      mode: "subscription",
+      payment_method_types: ["card"],
+      line_items: [
+        {
+          price: 'price_1JBXPxKqakUFqghQxDCrHnwj',
+          quantity: 1,
+        },
+      ],
+      // ?session_id={CHECKOUT_SESSION_ID} means the redirect will have the session ID set as a query param
+	  
+      success_url: 'https://unition.app/success.html?session_id={CHECKOUT_SESSION_ID}',
+      cancel_url: 'https://example.com/canceled.html',
+    });
+	console.log("session ID: " + session.id + " USER_ID: " + req.user.id);
+	
+	const sql = "INSERT INTO stripe (native_id, checkout_session_id) VALUES (" + req.user.id + ", '" + session.id + "');";
+	pool.query(sql, (error, results) => {
+		if (error) {
+			throw error
+		}
+		console.log("SUCCESSFULLY UPDATED TABLE")
+	});
+	
+    return res.redirect(303, session.url);
+  } catch (e) {
+    res.status(400);
+    return res.send({
+      error: {
+        message: e.message,
+      }
+    });
+  }
+});
+
+app.get("/config", (req, res) => {
+  res.send({
+    publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
+    basicPrice: process.env.BASIC_PRICE_ID,
+    proPrice: process.env.PRO_PRICE_ID,
+  });
+});
+
+app.post('/customer-portal', async (req, res) => {
+  // For demonstration purposes, we're using the Checkout session to retrieve the customer ID.
+  // Typically this is stored alongside the authenticated user in your database.
+  const { sessionId } = req.body;
+  const checkoutSession = await stripe.checkout.sessions.retrieve(sessionId);
+
+  // This is the url to which the customer will be redirected when they are done
+  // managing their billing with the portal.
+  const returnUrl = process.env.DOMAIN;
+
+  const portalSession = await stripe.billingPortal.sessions.create({
+    customer: checkoutSession.customer,
+    return_url: returnUrl,
+  });
+
+  res.redirect(303, portalSession.url);
+});
+
+// Webhook handler for asynchronous events.
+app.post("/webhook", async (req, res) => {
+  let data;
+  let eventType;
+  // Check if webhook signing is configured.
+  if (process.env.STRIPE_WEBHOOK_SECRET) {
+    // Retrieve the event by verifying the signature using the raw body and secret.
+    let event;
+    let signature = req.headers["stripe-signature"];
+
+    try {
+      event = stripe.webhooks.constructEvent(
+        req.rawBody,
+        signature,
+        process.env.STRIPE_WEBHOOK_SECRET
+      );
+    } catch (err) {
+      console.log(`⚠️  Webhook signature verification failed.`);
+      return res.sendStatus(400);
+    }
+    // Extract the object from the event.
+    data = event.data;
+    eventType = event.type;
+  } else {
+    // Webhook signing is recommended, but if the secret is not configured in `config.js`,
+    // retrieve the event data directly from the request body.
+    data = req.body.data;
+    eventType = req.body.type;
+  }
+
+  switch (eventType) {
+      case 'checkout.session.completed':
+        // Payment is successful and the subscription is created.
+        // You should provision the subscription and save the customer ID to your database.
+		console.log(session.id);
+        break;
+      case 'invoice.paid':
+        // Continue to provision the subscription as payments continue to be made.
+        // Store the status in your database and check when a user accesses your service.
+        // This approach helps you avoid hitting rate limits.
+        break;
+      case 'invoice.payment_failed':
+        // The payment failed or the customer does not have a valid payment method.
+        // The subscription becomes past_due. Notify your customer and send them to the
+        // customer portal to update their payment information.
+        break;
+		case 'customer.subscription.deleted':
+		console.log(session.id)
+		
+		break;
+      default:
+      // Unhandled event type
+    }
+
+  res.sendStatus(200);
+});
 
 //------------------------------------------------------------------------------
 //------------------------------FUNCTIONAL QUERIES------------------------------

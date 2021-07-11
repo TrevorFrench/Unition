@@ -15,7 +15,7 @@ const pool = new Pool({
 //--------------------------------ADMINISTRATION--------------------------------
 //------------------------------------------------------------------------------
 const admin = (request, response) => {
-	const sql = "ALTER TABLE views ADD COLUMN ipaddress text;";
+	const sql = "CREATE TABLE stripe ( native_id int4, checkout_session_id text, stripe_id text );";
 	pool.query(sql, (error, results) => {
 		if (error) {
 			throw error
@@ -362,7 +362,7 @@ const selectAll = function(req, res) {
 							value='" + element.project_id + "' \
 							id='" + element.project_id + "' hidden>\
 						<input type='submit' class='projectTitle' \
-							value='" + element.title + "'>\
+							value='" + element.title.replace(/'/g,"&#39;") + "'>\
 					</form>\
 				</td>\
 				<td>" + element.project_id + "</td>\
@@ -466,7 +466,7 @@ const selectOpen = function(req, res) {
 							value='" + element.project_id + "' \
 							id='" + element.project_id + "' hidden>\
 						<input type='submit' class='projectTitle' \
-						value='" + element.title + "'>\
+						value='" + element.title.replace(/'/g,"&#39;") + "'>\
 					</form>\
 				</td>\
 				<td>" + element.project_id + "</td>\
@@ -523,7 +523,7 @@ const selectInprocess = function(req, res) {
 							value='" + element.project_id + "' \
 							id='" + element.project_id + "' hidden>\
 						<input type='submit' class='projectTitle' \
-							value='" + element.title + "'>\
+							value='" + element.title.replace(/'/g,"&#39;") + "'>\
 					</form>\
 				</td>\
 				<td>" + element.project_id + "</td>\
@@ -582,7 +582,7 @@ const selectMyProjects = function(req, res) {
 							value='" + element.project_id + "' \
 							id='" + element.project_id + "' hidden>\
 						<input type='submit'  class='projectTitle' \
-							value='" + element.title.replace(/'/gi,"''") + "'>\
+							value='" + element.title.replace(/'/g,"&#39;") + "'>\
 					</form>\
 				</td>\
 				<td>" + element.project_id + "</td>\
@@ -1672,7 +1672,7 @@ const deliverTeams = (request, response) => {
 			var scrumBoard = "<table class='styled-table' id='scrumBoard'><tbody>\
 				<tr><th>Scrum Board<div onclick='toggleScrumBoard()' Style='float:right; cursor: pointer;'><i class='fas fa-window-close' style='float: right; color: white;'></i></div></th></tr>";
 			var scrumBoard2 = "<table class='styled-table' id='scrumBoard'><tbody>\
-				<tr><th>Scrum Board<div onclick='toggleScrumBoard()' Style='float:right; cursor: pointer;'><i class='fas fa-window-close' style='float: right; color: white;'></i></div></th></tr>";
+				<tr><th>Scrum Board<td><div onclick='toggleScrumBoard()' Style='float:right; cursor: pointer;'><i class='fas fa-window-close' style='float: right; color: white;'></i></div></td></th></tr>";
 			var scripts = "";
 			results.rows.forEach(element => 
 				projectsText += "<tr><td><form id='projectform' action='/openProject' method='post'>\
@@ -1680,7 +1680,7 @@ const deliverTeams = (request, response) => {
 							value='" + element.project_id + "' \
 							id='" + element.project_id + "' hidden>\
 						<input type='submit'  class='projectTitle' \
-							value='" + element.title.replace(/'/gi,"''") + "'>\
+							value='" + element.title.replace(/'/g,"&#39;") + "'>\
 					</form></td></tr>"				
 			);
 			
@@ -1700,21 +1700,19 @@ const deliverTeams = (request, response) => {
 
 			do {
 				var texts = unique[i].replace(/\s/g, '');
-				scrumBoard2 += "<tr><td>" + unique[i] + "</td><td><div onclick='toggle" + texts + "()' Style='float:right; cursor: pointer;'><i class='fas fa-minus' style='float: right; color: white;'></i></div></td></tr>";
-				scripts += "<script> function toggle" + texts + "() { var x = document.getElementsByName('" + unique[i] + "Cat'); let h = 0; do {if (x[h].style.display === 'none') {x[h].style.display = 'table-row';} else { x[h].style.display = 'none';} h += 1;} while (h < x.length)}</script>"
-				console.log(unique[i]);
+				scrumBoard2 += "<tr><td style='font-size: medium;'><b>" + unique[i] + "</b></td><td><div onclick='toggle" + texts + "()' Style='float:right; cursor: pointer;'><i id='" + texts + "Minus' class='fas fa-minus' style='float: right; color: white;'></i><i id='" + texts + "Plus' class='fas fa-plus' style='float: right; color: white; display: none;'></i></div></td></tr>";
+				scripts += "<script> function toggle" + texts + "() { var minus = document.getElementById('" + texts + "Minus'); var plus = document.getElementById('" + texts + "Plus'); if (minus.style.display == 'none') {minus.style.display = 'inline-block'; plus.style.display = 'none'} else {plus.style.display = 'inline-block'; minus.style.display = 'none'} var x = document.getElementsByName('" + unique[i] + "Cat'); let h = 0; do {if (x[h].style.display === 'none') {x[h].style.display = 'table-row';} else { x[h].style.display = 'none';} h += 1;} while (h < x.length)}</script>"
 				do {
 					if (results.rows[j].category == unique[i]) {
-						scrumBoard2 += "<tr name='" + unique[i] + "Cat' ><td>" + results.rows[j].title + "</td></tr>"
+						scrumBoard2 += "<tr name='" + unique[i] + "Cat' ><td></td><td><form id='projectForm' action='/openProject' method='post'>\
+						<input type='text' name='ticketID' value='" + results.rows[j].project_id + "' id='" + results.rows[j].project_id + "' hidden>\
+						<input type='submit' class='projectTitle' value='" + results.rows[j].title.replace(/'/gi,"''") + "'></form></td></tr>"
 					}
 				  j = j + 1;
 				} while (j < resultLength);
 				j = 0;
 				i += 1;
-				console.log(catLength)
 				} while (i < catLength);
-				
-				console.log(scrumBoard2);
 			
 						uniqueCategory.forEach(element => scrumBoard += "<tr><td>" + element + "</td></tr>");
 			
@@ -1726,7 +1724,7 @@ const deliverTeams = (request, response) => {
 							value='" + element.project_id + "' \
 							id='" + element.project_id + "' hidden>\
 						<input type='submit'  class='projectTitle' \
-							value='" + element.title.replace(/'/gi,"''") + "'>\
+							value='" + element.title.replace(/'/g,"&#39;") + "'>\
 					</form></td></tr>"				
 			);
 			
@@ -2095,7 +2093,11 @@ const teamsView = (request, response) => {
 			throw error;
 		}
 
-    response.render("dashboard.ejs", {statusMessage: "<div class='commentDiv'>COMING SOON<p>Teams functionality allows teams to efficiently define outcomes, track progress, and measure productivity.</p><div>", user: request.user})
+    response.render("dashboard.ejs", {statusMessage: "<div class='commentDiv'>COMING SOON<p>Teams functionality allows teams to efficiently define outcomes, track progress, and measure productivity. Sign up for an early-adopter membership for early access.\
+	<form action='/create-checkout-session' method='POST'>\
+      <input type='hidden' name='priceId' value='price_1JBVtmKqakUFqghQNtxN26pV' />\
+      <button type='submit'>Checkout</button>\
+    </form></p><div>", user: request.user})
 	
 	});
 }
