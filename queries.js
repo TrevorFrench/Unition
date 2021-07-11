@@ -2093,11 +2093,12 @@ const teamsView = (request, response) => {
 			throw error;
 		}
 
-    response.render("dashboard.ejs", {statusMessage: "<div class='commentDiv'>COMING SOON<p>Teams functionality allows teams to efficiently define outcomes, track progress, and measure productivity. Sign up for an early-adopter membership for early access.\
+    response.render("dashboard.ejs", {statusMessage: "<div class='commentDiv'>COMING SOON<p>Teams functionality allows teams to efficiently define outcomes, track progress, and measure productivity.\
+	<div style='display: none;'>Sign up for an early-adopter membership for early access.\
 	<form action='/create-checkout-session' method='POST'>\
       <input type='hidden' name='priceId' value='price_1JBVtmKqakUFqghQNtxN26pV' />\
       <button type='submit'>Checkout</button>\
-    </form></p><div>", user: request.user})
+    </form></div></p><div>", user: request.user})
 	
 	});
 }

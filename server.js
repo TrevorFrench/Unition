@@ -88,7 +88,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - CRM?
    - Align projects with overarching goals/competencies
    - 1 Month free ppremium when friend signs up with your link
-   - remove and roll stripe api keys after testing is complete
+   - Roll Database keys and create github secrets
 */
 
 //------------------------------------------------------------------------------
@@ -181,7 +181,7 @@ app.use(passport.session());
 //------------------------------------------------------------------------------
 //----------------------------------STRIPE API----------------------------------
 //------------------------------------------------------------------------------
-const stripe = require('stripe')(/*${{ secrets.STRIPE_KEY }}*/"'" + process.env.STRIPE_TEST_KEY + "'"/*'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'*/);
+const stripe = require('stripe')(/*"'" + process.env.STRIPE_KEY + "'"*/"'" + process.env.STRIPE_TEST_KEY + "'");
 
 // Fetch the Checkout Session to display the JSON result on the success page
 app.get("/checkout-session", async (req, res) => {
