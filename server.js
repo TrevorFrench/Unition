@@ -88,6 +88,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - CRM?
    - Align projects with overarching goals/competencies
    - 1 Month free ppremium when friend signs up with your link
+   - remove and roll stripe api keys after testing is complete
 */
 
 //------------------------------------------------------------------------------
@@ -309,7 +310,8 @@ app.post("/webhook", async (req, res) => {
         // customer portal to update their payment information.
         break;
 		case 'customer.subscription.deleted':
-		console.log(checkout.session.id)
+		console.log(data.checkout.session.id)
+		console.log(data.id)
 		
 		break;
       default:
