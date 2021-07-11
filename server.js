@@ -309,7 +309,7 @@ app.post("/webhook", async (req, res) => {
         // customer portal to update their payment information.
         break;
 		case 'customer.subscription.deleted':
-		console.log(session.id)
+		console.log(checkout.session.id)
 		
 		break;
       default:
