@@ -297,7 +297,9 @@ app.post("/webhook", async (req, res) => {
       case 'checkout.session.completed':
         // Payment is successful and the subscription is created.
         // You should provision the subscription and save the customer ID to your database.
-		console.log(session.id);
+		console.log("1: " + data.checkout.session.id);
+		console.log("2: " + data.id);
+		console.log("3: " + data.object.id);
         break;
       case 'invoice.paid':
         // Continue to provision the subscription as payments continue to be made.
@@ -310,9 +312,7 @@ app.post("/webhook", async (req, res) => {
         // customer portal to update their payment information.
         break;
 		case 'customer.subscription.deleted':
-		console.log("1: " + data.checkout.session.id)
-		console.log("2: " + data.id)
-		console.log("3: " + data.object.id)
+		
 		break;
       default:
       // Unhandled event type
