@@ -297,7 +297,6 @@ app.post("/webhook", async (req, res) => {
       case 'checkout.session.completed':
         // Payment is successful and the subscription is created.
         // You should provision the subscription and save the customer ID to your database.
-		console.log("1: " + data.checkout.session.id);
 		console.log("2: " + data.id);
 		console.log("3: " + data.object.id);
         break;
