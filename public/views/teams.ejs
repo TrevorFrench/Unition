@@ -70,6 +70,28 @@
 					x.style.display = "none";
 				  }
 			}
+			
+			function toggleTeams() {
+				  var left = document.getElementById("leftChevron");
+				  var right = document.getElementById("rightChevron");
+				  var card = document.getElementById("card");
+				  var all = document.getElementsByClassName('teamTitle');
+				  if (left.style.display === "none") {
+					left.style.display = "block";
+					right.style.display = 'none';
+					card.style.width = "170px";
+					for (var i = 0; i < all.length; i++) {
+					  all[i].style.display = 'block';
+					}
+				  } else {
+					right.style.display = "block";
+					left.style.display = 'none';
+					card.style.width = "20px";
+					for (var i = 0; i < all.length; i++) {
+					  all[i].style.display = 'none';
+					}
+				  }
+			}
 		</script>
 		<script defer src="./node_modules/@fortawesome/fontawesome-free/js/brands.js"></script>
 		<script defer src="./node_modules/@fortawesome/fontawesome-free/js/solid.js"></script>
@@ -102,7 +124,7 @@
 			</div>
 		</div>
 		
-		<div class="card" style="width: 170px;">
+		<div class="card" id="card" style="width: 170px;">
 			
 			<div class="body" style="height:80%;">
 

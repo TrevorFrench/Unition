@@ -1592,14 +1592,15 @@ const teams2 = (request, response) => {
 		if (error) {
 			throw error;
 		}
-		var tableText = "<table class='styled-table'><tbody>\
+		var tableText = "";
+		/*var tableText = "<table class='styled-table'><tbody>\
 			<tr><th>TEAM</th>\
 				<th>USER</th>\
 				<th>ROLE</th>\
 				<th>ACTION</th>\
-			</tr>";
+			</tr>";*/
 		var teamsVar = "";
-		results.rows.forEach(element =>
+		/*results.rows.forEach(element =>
 			tableText += "<tr>\
 				<td>" + element.pro_team_name + "</td>\
 				<td>" + element.displayname + "</td>\
@@ -1612,8 +1613,14 @@ const teams2 = (request, response) => {
 					</form>\
 				</td>\
 			</tr>"
-		);
-		tableText += '</table>';
+		); tableText = "</table>"*/
+		tableText += "<table style='width: 86%; margin-right: 14%; text-align:center;'>\
+			<tbody><tr>\
+			<td>\
+			<img type='image/png' src='./public/collaboration2.svg' style='margin-top:20px; height: 50%; width: 50%;'>\
+			</td>\
+			</tr>\
+			</tbody></table>";
 		results.rows.forEach(element =>
 			teamsVar += "<form action='deliverTeam' method='POST'>\
 						<input type='text' id='teamdid' name='teamid' \
@@ -1651,28 +1658,35 @@ const deliverTeams = (request, response) => {
 			throw error;
 		}
 		var title = "<div class='nextRow' id='announcements'><div onclick='toggleAnnouncement()' Style='float:right; cursor: pointer;'><i class='fas fa-window-close' style='float: right; color: white;'></i></div><h3>" + results.rows[0].pro_team_name + "</h3>Announcements: " + results.rows[0].announcements
-		var usersText = "<table class='styled-table' id='users'><tbody><tr><th>Users<div onclick='toggleUsers()' Style='float:right; cursor: pointer;'><i class='fas fa-window-close' style='float: right; color: white;'></i></div></th></tr>";
+		var usersText = "<table class='styled-table' id='users' style='width:100%;'><tbody><tr><th>Users<div onclick='toggleUsers()' Style='float:right; cursor: pointer;'><i class='fas fa-window-close' style='float: right; color: white;'></i></div></th></tr>";
 		/*var teamsVar = results.rows[0].pro_team_name;*/
 		results.rows.forEach(element => 
 			usersText += "<tr><td>" + element.displayname + "</td></tr>"
 		);
 		usersText += "</tbody></table>";
-		const sql2 = "SELECT * FROM projects \
+		const sql2 = "SELECT project_id\
+					, title\
+					, status\
+					, responsible\
+					, TO_CHAR(duedate, 'MM/DD/YYYY') AS duedate\
+					, description\
+					, category\
+					FROM projects \
 						WHERE pt_id =" + request.body.teamid + " AND status <> 'Closed';";
 		pool.query(sql2, (error, results) => {
 			if (error) {
 				throw error;
 			}
-			var projectBoard = "<table class='styled-table' id='projectBoard'><tbody>\
-				<tr><th>Project Board<div onclick='toggleBoard()' Style='float:right; cursor: pointer;'><i class='fas fa-window-close' style='float: right; color: white;'></i></div></th></tr>";
-			var projectsText = "<table class='styled-table' id='allProjects'><tbody>\
+			var projectBoard = "<table class='styled-table' id='projectBoard' style='width: 100%;'><tbody>\
+				<tr><th>Project Board</th><th>Due</th><th><div onclick='toggleBoard()' Style='float:right; cursor: pointer;'><i class='fas fa-window-close' style='float: right; color: white;'></i></div></th></tr>";
+			var projectsText = "<table class='styled-table' id='allProjects' style='width: 100%;'><tbody>\
 				<tr><th>All Active Projects<div onclick='toggleAllProjects()' Style='float:right; cursor: pointer;'><i class='fas fa-window-close' style='float: right; color: white;'></i></div></th></tr>";
-			var myProjects = "<table class='styled-table' id='myProjects'><tbody>\
+			var myProjects = "<table class='styled-table' id='myProjects' style='width: 100%;'><tbody>\
 				<tr><th>Projects Assigned to Me<div onclick='toggleMyProjects()' Style='float:right; cursor: pointer;'><i class='fas fa-window-close' style='float: right; color: white;'></i></div></th></tr>";
-			var scrumBoard = "<table class='styled-table' id='scrumBoard'><tbody>\
+			var scrumBoard = "<table class='styled-table' id='scrumBoard' style='width: 100%;'><tbody>\
 				<tr><th>Scrum Board<div onclick='toggleScrumBoard()' Style='float:right; cursor: pointer;'><i class='fas fa-window-close' style='float: right; color: white;'></i></div></th></tr>";
-			var scrumBoard2 = "<table class='styled-table' id='scrumBoard'><tbody>\
-				<tr><th>Scrum Board<td><div onclick='toggleScrumBoard()' Style='float:right; cursor: pointer;'><i class='fas fa-window-close' style='float: right; color: white;'></i></div></td></th></tr>";
+			var scrumBoard2 = "<table class='styled-table' id='scrumBoard' style='width: 100%;'><tbody>\
+				<tr><th>Scrum Board</th><td></td><td><div onclick='toggleScrumBoard()' Style='float:right; cursor: pointer;'><i class='fas fa-window-close' style='float: right; color: white;'></i></div></td></tr>";
 			var scripts = "";
 			results.rows.forEach(element => 
 				projectsText += "<tr><td><form id='projectform' action='/openProject' method='post'>\
@@ -1700,13 +1714,13 @@ const deliverTeams = (request, response) => {
 
 			do {
 				var texts = unique[i].replace(/\s/g, '');
-				scrumBoard2 += "<tr><td style='font-size: medium;'><b>" + unique[i] + "</b></td><td><div onclick='toggle" + texts + "()' Style='float:right; cursor: pointer;'><i id='" + texts + "Minus' class='fas fa-minus' style='float: right; color: white;'></i><i id='" + texts + "Plus' class='fas fa-plus' style='float: right; color: white; display: none;'></i></div></td></tr>";
+				scrumBoard2 += "<tr><td style='font-size: medium;'><b>" + unique[i] + "</b></td><td></td><td><div onclick='toggle" + texts + "()' Style='float:right; cursor: pointer;'><i id='" + texts + "Minus' class='fas fa-minus' style='float: right; color: white;'></i><i id='" + texts + "Plus' class='fas fa-plus' style='float: right; color: white; display: none;'></i></div></td></tr>";
 				scripts += "<script> function toggle" + texts + "() { var minus = document.getElementById('" + texts + "Minus'); var plus = document.getElementById('" + texts + "Plus'); if (minus.style.display == 'none') {minus.style.display = 'inline-block'; plus.style.display = 'none'} else {plus.style.display = 'inline-block'; minus.style.display = 'none'} var x = document.getElementsByName('" + unique[i] + "Cat'); let h = 0; do {if (x[h].style.display === 'none') {x[h].style.display = 'table-row';} else { x[h].style.display = 'none';} h += 1;} while (h < x.length)}</script>"
 				do {
 					if (results.rows[j].category == unique[i]) {
-						scrumBoard2 += "<tr name='" + unique[i] + "Cat' ><td></td><td><form id='projectForm' action='/openProject' method='post'>\
+						scrumBoard2 += "<tr name='" + unique[i] + "Cat' ><td><form id='projectForm' action='/openProject' method='post'>\
 						<input type='text' name='ticketID' value='" + results.rows[j].project_id + "' id='" + results.rows[j].project_id + "' hidden>\
-						<input type='submit' class='projectTitle' value='" + results.rows[j].title.replace(/'/gi,"''") + "'></form></td></tr>"
+						<input type='submit' class='projectTitle' value='" + results.rows[j].title.replace(/'/gi,"''") + "'></form></td><td><form><input style='width:50%;' type=number/><input type='submit' class='projectTitle' style='width: 50%;'/></form></td><td><form><input type='submit' value='Close' class='projectTitle'></form></td></tr>"
 					}
 				  j = j + 1;
 				} while (j < resultLength);
@@ -1748,7 +1762,10 @@ const deliverTeams = (request, response) => {
 			
 			
 			mineProjects.forEach(element => myProjects += "<tr><td>" + element.title + "</td></tr>");
-			openProjects.forEach(element => projectBoard += "<tr><td>" + element.title + "</td></tr>");
+			openProjects.forEach(element => projectBoard += "<tr><td>\
+			<form id='projectForm' action='openProject' method='post'>\
+			<input type='text' name='ticketID' value='" + element.project_id + "' id='" + element.project_id + "' hidden>\
+			<input type='submit' class='projectTitle' value='" + element.title.replace(/'/g,"&#39;") + "'></form></td><td>" + element.duedate + "</td><td>Take</td></tr>");
 			myProjects += "</table>";
 			projectsText += "</table>";
 			scrumBoard += "</table>";
@@ -1775,7 +1792,7 @@ const deliverTeams = (request, response) => {
 			</table>\
 	</div>\
 	<div class='dataRow'>"
-			var tableText = toolbar + title + buttons + "<div style='float:left;'>" + scrumBoard2 + "</div><div style='float:right;'>" + projectBoard + "<br>" + myProjects + "<br>" + usersText + "<br>" + projectsText + "</div>";
+			var tableText = toolbar + title + buttons + "<div style='float:left; width: 48%; min-width: 400px; margin-right: 4%;'>" + scrumBoard2 + "</div><div style='float:left; width: 48%; min-width:400px;'>" + projectBoard + "<br>" + myProjects + "<br>" + usersText + "<br>" + projectsText + "</div>";
 			
 			/**/
 			const sql2 = "SELECT pt_id\
@@ -1796,7 +1813,8 @@ const deliverTeams = (request, response) => {
 				if (error) {
 					throw error;
 				}
-				var teamsVar = "";
+				var teamsVar = "<div onclick='toggleTeams()' title='Toggle Teams' id='leftChevron' style='cursor: pointer;'><i class='fas fa-chevron-left' style='color: white;'></i></div>\
+					<div onclick='toggleTeams()' title='Toggle Teams' id='rightChevron' style='cursor: pointer; display: none;'><i class='fas fa-chevron-right' style='color: white;'></i></div>";
 				results.rows.forEach(element =>
 					teamsVar += "<form action='deliverTeam' method='POST'>\
 						<input type='text' id='teamdid' name='teamid' \

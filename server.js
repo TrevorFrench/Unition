@@ -89,6 +89,8 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - Align projects with overarching goals/competencies
    - 1 Month free ppremium when friend signs up with your link
    - Roll Database keys and create github secrets
+   - Custom forms for enterprise
+   - list teams forms on forms tab
 */
 
 //------------------------------------------------------------------------------
