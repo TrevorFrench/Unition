@@ -15,7 +15,7 @@ const pool = new Pool({
 //--------------------------------ADMINISTRATION--------------------------------
 //------------------------------------------------------------------------------
 const admin = (request, response) => {
-	const sql = "CREATE TABLE stripe ( native_id int4, checkout_session_id text, stripe_id text );";
+	const sql = "ALTER TABLE projects ADD COLUMN percent_complete INTEGER DEFAULT 0 NOT NULL;";
 	pool.query(sql, (error, results) => {
 		if (error) {
 			throw error
@@ -1035,6 +1035,25 @@ const updateCampaign = function(req, res) {
 };
 
 //------------------------------------------------------------------------------
+//--------------------------UPDATES PROJECT PERCENTAGE--------------------------
+//------------------------------------------------------------------------------
+const updatePercentage = function(req, res) {
+	const id = parseInt(req.body.ticketID);
+	const percent = parseInt(req.body.percent_complete);
+
+	const sql = "UPDATE projects\
+					SET percent_complete =" + percent + " WHERE project_id =" + id + ";";
+	pool.query(sql, (error, results) => {
+		if (error) {
+			throw error;
+		}
+	
+		deliverTeams(req, res);
+	});
+};
+
+
+//------------------------------------------------------------------------------
 //-------------------------------GETS PROJECT BY ID-----------------------------
 //------------------------------------------------------------------------------
 const getProject = (request, response) => {
@@ -1149,12 +1168,10 @@ const getProject = (request, response) => {
 //--------------------------------UPDATES PROJECT-------------------------------
 //------------------------------------------------------------------------------
 const updateProject = (request, response) => {
-	const title = request.body.title
-	const description = request.body.description
 	const statusSQL = request.body.statusSQL
-	const responsible = request.body.responsible
-	const duedate = request.body.duedate
 	const id = parseInt(request.body.ticketID)
+	
+	console.log(statusSQL + " " + id);
 	const sql = "UPDATE projects \
 					SET status = '" + statusSQL + "' \
 					WHERE project_id = " + id;
@@ -1163,6 +1180,25 @@ const updateProject = (request, response) => {
 			throw error;
 		}
 		getProject(request, response)
+	});
+}
+
+//------------------------------------------------------------------------------
+//------------------UPDATES PROJECT AND REDIRECTS BACK TO TEAM------------------
+//------------------------------------------------------------------------------
+const updateProjectTeam = (request, response) => {
+	const statusSQL = request.body.statusSQL
+	const id = parseInt(request.body.ticketID)
+	
+	console.log(statusSQL + " " + id);
+	const sql = "UPDATE projects \
+					SET status = '" + statusSQL + "' \
+					WHERE project_id = " + id;
+	pool.query(sql, (error, results) => {
+		if (error) {
+			throw error;
+		}
+		deliverTeams(request, response)
 	});
 }
 
@@ -1671,8 +1707,10 @@ const deliverTeams = (request, response) => {
 					, TO_CHAR(duedate, 'MM/DD/YYYY') AS duedate\
 					, description\
 					, category\
+					, percent_complete\
 					FROM projects \
-						WHERE pt_id =" + request.body.teamid + " AND status <> 'Closed';";
+						WHERE pt_id =" + request.body.teamid + " AND status <> 'Closed'\
+					ORDER by project_id desc;;";
 		pool.query(sql2, (error, results) => {
 			if (error) {
 				throw error;
@@ -1682,11 +1720,11 @@ const deliverTeams = (request, response) => {
 			var projectsText = "<table class='styled-table' id='allProjects' style='width: 100%;'><tbody>\
 				<tr><th>All Active Projects<div onclick='toggleAllProjects()' Style='float:right; cursor: pointer;'><i class='fas fa-window-close' style='float: right; color: white;'></i></div></th></tr>";
 			var myProjects = "<table class='styled-table' id='myProjects' style='width: 100%;'><tbody>\
-				<tr><th>Projects Assigned to Me<div onclick='toggleMyProjects()' Style='float:right; cursor: pointer;'><i class='fas fa-window-close' style='float: right; color: white;'></i></div></th></tr>";
+				<tr><th>Projects Assigned to Me</th><th>Due</th><th><div onclick='toggleMyProjects()' Style='float:right; cursor: pointer;'><i class='fas fa-window-close' style='float: right; color: white;'></i></div></th></tr>";
 			var scrumBoard = "<table class='styled-table' id='scrumBoard' style='width: 100%;'><tbody>\
 				<tr><th>Scrum Board<div onclick='toggleScrumBoard()' Style='float:right; cursor: pointer;'><i class='fas fa-window-close' style='float: right; color: white;'></i></div></th></tr>";
 			var scrumBoard2 = "<table class='styled-table' id='scrumBoard' style='width: 100%;'><tbody>\
-				<tr><th>Scrum Board</th><td></td><td><div onclick='toggleScrumBoard()' Style='float:right; cursor: pointer;'><i class='fas fa-window-close' style='float: right; color: white;'></i></div></td></tr>";
+				<tr><th>Unition Board</th><td></td><td><div onclick='toggleScrumBoard()' Style='float:right; cursor: pointer;'><i class='fas fa-window-close' style='float: right; color: white;'></i></div></td></tr>";
 			var scripts = "";
 			results.rows.forEach(element => 
 				projectsText += "<tr><td><form id='projectform' action='/openProject' method='post'>\
@@ -1714,13 +1752,35 @@ const deliverTeams = (request, response) => {
 
 			do {
 				var texts = unique[i].replace(/\s/g, '');
-				scrumBoard2 += "<tr><td style='font-size: medium;'><b>" + unique[i] + "</b></td><td></td><td><div onclick='toggle" + texts + "()' Style='float:right; cursor: pointer;'><i id='" + texts + "Minus' class='fas fa-minus' style='float: right; color: white;'></i><i id='" + texts + "Plus' class='fas fa-plus' style='float: right; color: white; display: none;'></i></div></td></tr>";
+				scrumBoard2 += "<tr ondrop='drop(event)' ondragover='allowDrop(event)'><td style='font-size: medium;'><b>" + unique[i] + "</b></td><td></td><td><div onclick='toggle" + texts + "()' Style='float:right; cursor: pointer;'><i id='" + texts + "Minus' class='fas fa-minus' style='float: right; color: white;'></i><i id='" + texts + "Plus' class='fas fa-plus' style='float: right; color: white; display: none;'></i></div></td></tr>";
 				scripts += "<script> function toggle" + texts + "() { var minus = document.getElementById('" + texts + "Minus'); var plus = document.getElementById('" + texts + "Plus'); if (minus.style.display == 'none') {minus.style.display = 'inline-block'; plus.style.display = 'none'} else {plus.style.display = 'inline-block'; minus.style.display = 'none'} var x = document.getElementsByName('" + unique[i] + "Cat'); let h = 0; do {if (x[h].style.display === 'none') {x[h].style.display = 'table-row';} else { x[h].style.display = 'none';} h += 1;} while (h < x.length)}</script>"
 				do {
 					if (results.rows[j].category == unique[i]) {
-						scrumBoard2 += "<tr name='" + unique[i] + "Cat' ><td><form id='projectForm' action='/openProject' method='post'>\
+						scrumBoard2 += "<tr name='" + unique[i] + "Cat' draggable='true' ondragstart='drag(event)'><td><form id='projectForm' action='/openProject' method='post'>\
 						<input type='text' name='ticketID' value='" + results.rows[j].project_id + "' id='" + results.rows[j].project_id + "' hidden>\
-						<input type='submit' class='projectTitle' value='" + results.rows[j].title.replace(/'/gi,"''") + "'></form></td><td><form><input style='width:50%;' type=number/><input type='submit' class='projectTitle' style='width: 50%;'/></form></td><td><form><input type='submit' value='Close' class='projectTitle'></form></td></tr>"
+						<input type='submit' class='projectTitle' value='" + results.rows[j].title.replace(/'/gi,"''") + "'></form></td><td>\
+						<form id='form" + results.rows[j].project_id + "' action='/updatePercentage' method='POST'>\
+						<label class='label" + results.rows[j].project_id + "label' for='label" + results.rows[j].project_id + "label'>" + results.rows[j].percent_complete + "</label>\
+						<input name='percent_complete' id='percent_complete" + results.rows[j].project_id + "' class='input" + results.rows[j].project_id + "input' value='" + results.rows[j].percent_complete + "' hidden />\
+						<input name='teamid' id='teamid' value='" + request.body.teamid + "' hidden />\
+						<input id='label" + results.rows[j].project_id + "label' type='range' min='0' max='100' value='" + results.rows[j].percent_complete + "'/>\
+						<input id='ticketID' name='ticketID' type='text' value='" + results.rows[j].project_id + "' hidden />\
+						</form></td>\
+						<td><form action='/updateProjectTeam' method='POST' name='closeProject'>\
+						<input id='statusSQL' name='statusSQL' type='text' value='Closed' hidden />\
+						<input id='ticketID' name='ticketID' type='text' value='" + results.rows[j].project_id + "' hidden />\
+						<input id='teamid' name='teamid' type='text' value='" + request.body.teamid + "' hidden />\
+						<input type='submit' value='Close' class='projectTitle'>\
+						</form></td></tr>\
+						<script>\
+						document.querySelector('#label" + results.rows[j].project_id + "label').addEventListener('change', function(e){\
+							document.querySelector('.label" + results.rows[j].project_id + "label').textContent=e.currentTarget.value;\
+							var slider = document.getElementById('label" + results.rows[j].project_id + "label');\
+							var input = document.getElementById('percent_complete" + results.rows[j].project_id + "');\
+							input.value = slider.value;\
+							document.forms['form" + results.rows[j].project_id + "'].submit();\
+						})\
+						</script>"
 					}
 				  j = j + 1;
 				} while (j < resultLength);
@@ -1761,7 +1821,10 @@ const deliverTeams = (request, response) => {
 			
 			
 			
-			mineProjects.forEach(element => myProjects += "<tr><td>" + element.title + "</td></tr>");
+			mineProjects.forEach(element => myProjects += "<tr><td>\
+			<form id='projectForm' action='openProject' method='post'>\
+			<input type='text' name='ticketID' value='" + element.project_id + "' id='" + element.project_id + "' hidden>\
+			<input type='submit' class='projectTitle' value='" + element.title.replace(/'/g,"&#39;") + "'></form></td><td>" + element.duedate + "</td><td>Release</td></tr>");
 			openProjects.forEach(element => projectBoard += "<tr><td>\
 			<form id='projectForm' action='openProject' method='post'>\
 			<input type='text' name='ticketID' value='" + element.project_id + "' id='" + element.project_id + "' hidden>\
@@ -1784,7 +1847,7 @@ const deliverTeams = (request, response) => {
 			<td><div onclick='toggleBoard()' title='Toggle Project Board' style='cursor: pointer;'><i class='fas fa-chalkboard-teacher' style='color: white;'></i></div></td>\
 			<td><div onclick='toggleMyProjects()' title='Toggle My Projects' style='cursor: pointer;'><i class='fas fa-clipboard-check' style='color: white;'></i></div></td>\
 			<td><div onclick='toggleAllProjects()' title='Toggle All Projects' style='cursor: pointer;'><i class='fas fa-stream' style='color: white;'></i></div></td>\
-			<td><a href='/profile'><i class='fas fa-user' style='color: white;'></i></a></td>\
+			<td><div onclick='toggleScrumBoard()' title='Toggle Unition Board' style='cursor: pointer;'><i class='fas fa-project-diagram' style='color: white;'></i></div></td>\
 			<td><a href='/profile'><i class='fas fa-user' style='color: white;'></i></a></td>\
 			<td><a href='/profile'><i class='fas fa-user' style='color: white;'></i></a></td>\
 			<td><a href='/profile'><i class='fas fa-user' style='color: white;'></i></a></td>\
@@ -1792,7 +1855,7 @@ const deliverTeams = (request, response) => {
 			</table>\
 	</div>\
 	<div class='dataRow'>"
-			var tableText = toolbar + title + buttons + "<div style='float:left; width: 48%; min-width: 400px; margin-right: 4%;'>" + scrumBoard2 + "</div><div style='float:left; width: 48%; min-width:400px;'>" + projectBoard + "<br>" + myProjects + "<br>" + usersText + "<br>" + projectsText + "</div>";
+			var tableText = toolbar + title + buttons + "<div style='float:left; width: 48%; min-width: 400px; margin-right: 4%;' id='leftDiv'>" + scrumBoard2 + "</div><div style='float:left; width: 48%; min-width:400px;'>" + projectBoard + "<br>" + myProjects + "<br>" + usersText + "<br>" + projectsText + "</div>";
 			
 			/**/
 			const sql2 = "SELECT pt_id\
@@ -2226,5 +2289,7 @@ module.exports = {
   filterCharts,
   deliverTeamAnnouncements,
   deleteAnnouncement,
-  addAnnouncement
+  addAnnouncement,
+  updatePercentage,
+  updateProjectTeam
 }

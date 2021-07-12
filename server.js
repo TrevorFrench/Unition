@@ -91,6 +91,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - Roll Database keys and create github secrets
    - Custom forms for enterprise
    - list teams forms on forms tab
+   - Track unique landing page views
 */
 
 //------------------------------------------------------------------------------
@@ -380,7 +381,12 @@ app.post('/updateProject', 														// allows users to change attributes of
 	db2.updateProject
 	)
 	
-app.get('/myProjects', 														// My projects selects all 'Open' and 'In-process' projects assigned to the current user
+app.post('/updateProjectTeam', 													// Close project from scrum board and redirect back to team page
+	require('connect-ensure-login').ensureLoggedIn(), 
+	db2.updateProjectTeam
+	)
+	
+app.get('/myProjects', 															// My projects selects all 'Open' and 'In-process' projects assigned to the current user
 	require('connect-ensure-login').ensureLoggedIn(), 
 	db2.selectMyProjects
 	)
@@ -616,6 +622,11 @@ app.post('/createTeam',															// user creates a team
 app.post('/updateCampaign',														// updates a campaign
   require('connect-ensure-login').ensureLoggedIn(),
     db2.updateCampaign
+  );
+  
+app.post('/updatePercentage',													// updates project percentage
+  require('connect-ensure-login').ensureLoggedIn(),
+    db2.updatePercentage
   );
   
 app.get('/forms',												    			// renders the 'forms' view

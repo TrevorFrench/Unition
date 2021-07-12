@@ -92,6 +92,32 @@
 					}
 				  }
 			}
+			
+			function toggleScrumBoard() {
+				  var x = document.getElementById("leftDiv");
+				  if (x.style.display === "none") {
+					x.style.display = "block";
+				  } else {
+					x.style.display = "none";
+				  }
+			}
+			
+
+			function allowDrop(ev) {
+			  ev.preventDefault();
+			}
+
+			function drag(ev) {
+			  ev.dataTransfer.setData("text", ev.target.id);
+			}
+
+			function drop(ev) {
+			  var data = ev.dataTransfer.getData("text");
+			  ev.target.appendChild(document.getElementById(data));
+			  ev.preventDefault();
+			}
+			
+			
 		</script>
 		<script defer src="./node_modules/@fortawesome/fontawesome-free/js/brands.js"></script>
 		<script defer src="./node_modules/@fortawesome/fontawesome-free/js/solid.js"></script>
@@ -146,7 +172,7 @@
 			
 		</div>
   
-  	<div class="main">
+  	<div class="main" style="width: 100%;">
 
           <%- statusMessage %>
 	</div>
