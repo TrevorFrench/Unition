@@ -92,6 +92,8 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - Custom forms for enterprise
    - list teams forms on forms tab
    - Track unique landing page views
+   - Redirect back to teams page after team project creation
+   - unition board alternating colors on lighttheme needs to be fixed
 */
 
 //------------------------------------------------------------------------------

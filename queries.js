@@ -1752,7 +1752,7 @@ const deliverTeams = (request, response) => {
 
 			do {
 				var texts = unique[i].replace(/\s/g, '');
-				scrumBoard2 += "<tr><td style='font-size: medium;'><b>" + unique[i] + "</b></td><td></td><td><div class='toolTableButton' onclick='toggle" + texts + "()' Style='float:right; cursor: pointer;'><i id='" + texts + "Minus' class='fas fa-minus' style='float: right; color: white;'></i><i id='" + texts + "Plus' class='fas fa-plus' style='float: right; color: white; display: none;'></i></div></td></tr>";
+				scrumBoard2 += "<tr><td style='font-size: medium;'><b>" + unique[i] + "</b></td><td></td><td><div class='toolTableButton' onclick='toggle" + texts + "()' Style='float:right; cursor: pointer;'><i id='" + texts + "Minus' class='fas fa-minus' style='float: right;'></i><i id='" + texts + "Plus' class='fas fa-plus' style='float: right; display: none;'></i></div></td></tr>";
 				scripts += "<script> function toggle" + texts + "() { var minus = document.getElementById('" + texts + "Minus'); var plus = document.getElementById('" + texts + "Plus'); if (minus.style.display == 'none') {minus.style.display = 'inline-block'; plus.style.display = 'none'} else {plus.style.display = 'inline-block'; minus.style.display = 'none'} var x = document.getElementsByName('" + unique[i] + "Cat'); let h = 0; do {if (x[h].style.display === 'none') {x[h].style.display = 'table-row';} else { x[h].style.display = 'none';} h += 1;} while (h < x.length)}</script>"
 				do {
 					if (results.rows[j].category == unique[i]) {
