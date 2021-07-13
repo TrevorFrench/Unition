@@ -1752,7 +1752,7 @@ const deliverTeams = (request, response) => {
 
 			do {
 				var texts = unique[i].replace(/\s/g, '');
-				scrumBoard2 += "<tr><td style='font-size: medium;'><b>" + unique[i] + "</b></td><td></td><td><div onclick='toggle" + texts + "()' Style='float:right; cursor: pointer;'><i id='" + texts + "Minus' class='fas fa-minus' style='float: right; color: white;'></i><i id='" + texts + "Plus' class='fas fa-plus' style='float: right; color: white; display: none;'></i></div></td></tr>";
+				scrumBoard2 += "<tr><td style='font-size: medium;'><b>" + unique[i] + "</b></td><td></td><td><div class='toolTableButton' onclick='toggle" + texts + "()' Style='float:right; cursor: pointer;'><i id='" + texts + "Minus' class='fas fa-minus' style='float: right; color: white;'></i><i id='" + texts + "Plus' class='fas fa-plus' style='float: right; color: white; display: none;'></i></div></td></tr>";
 				scripts += "<script> function toggle" + texts + "() { var minus = document.getElementById('" + texts + "Minus'); var plus = document.getElementById('" + texts + "Plus'); if (minus.style.display == 'none') {minus.style.display = 'inline-block'; plus.style.display = 'none'} else {plus.style.display = 'inline-block'; minus.style.display = 'none'} var x = document.getElementsByName('" + unique[i] + "Cat'); let h = 0; do {if (x[h].style.display === 'none') {x[h].style.display = 'table-row';} else { x[h].style.display = 'none';} h += 1;} while (h < x.length)}</script>"
 				do {
 					if (results.rows[j].category == unique[i]) {
@@ -1841,21 +1841,21 @@ const deliverTeams = (request, response) => {
 			var toolbar = "<div class='topRow' style='background-color: #32323e; height: 50px;'>\
 				<table style='width: 100%; height: 100%;' class='toolTable'>\
 			<tr>\
-			<td><div onclick='createProject()' title='Create Team Project' style='cursor: pointer;'><i class='fas fa-folder-plus' style='color: white;'></i></div></td>\
-			<td><div onclick='toggleAnnouncement()' title='Toggle Announcements' style='cursor: pointer;'><i class='fas fa-bullhorn' style='color: white;'></i></div></td>\
-			<td><div onclick='toggleUsers()' title='Toggle Users' style='cursor: pointer;'><i class='fas fa-users' style='color: white;'></i></div></td>\
-			<td><div onclick='toggleBoard()' title='Toggle Project Board' style='cursor: pointer;'><i class='fas fa-chalkboard-teacher' style='color: white;'></i></div></td>\
-			<td><div onclick='toggleMyProjects()' title='Toggle My Projects' style='cursor: pointer;'><i class='fas fa-clipboard-check' style='color: white;'></i></div></td>\
-			<td><div onclick='toggleAllProjects()' title='Toggle All Projects' style='cursor: pointer;'><i class='fas fa-stream' style='color: white;'></i></div></td>\
-			<td><div onclick='toggleScrumBoard()' title='Toggle Unition Board' style='cursor: pointer;'><i class='fas fa-project-diagram' style='color: white;'></i></div></td>\
-			<td><a href='/profile'><i class='fas fa-user' style='color: white;'></i></a></td>\
-			<td><a href='/profile'><i class='fas fa-user' style='color: white;'></i></a></td>\
-			<td><a href='/profile'><i class='fas fa-user' style='color: white;'></i></a></td>\
+			<td><div class='toolTableButton' onclick='createProject()' title='Create Team Project' style='cursor: pointer;'><i class='fas fa-folder-plus'></i></div></td>\
+			<td><div class='toolTableButton' onclick='toggleAnnouncement()' title='Toggle Announcements' style='cursor: pointer;'><i class='fas fa-bullhorn'></i></div></td>\
+			<td><div class='toolTableButton' onclick='toggleUsers()' title='Toggle Users' style='cursor: pointer;'><i class='fas fa-users'></i></div></td>\
+			<td><div class='toolTableButton' onclick='toggleBoard()' title='Toggle Project Board' style='cursor: pointer;'><i class='fas fa-chalkboard-teacher'></i></div></td>\
+			<td><div class='toolTableButton' onclick='toggleMyProjects()' title='Toggle My Projects' style='cursor: pointer;'><i class='fas fa-clipboard-check'></i></div></td>\
+			<td><div class='toolTableButton' onclick='toggleAllProjects()' title='Toggle All Projects' style='cursor: pointer;'><i class='fas fa-stream'></i></div></td>\
+			<td><div class='toolTableButton' onclick='toggleScrumBoard()' title='Toggle Unition Board' style='cursor: pointer;'><i class='fas fa-project-diagram'></i></div></td>\
+			<td><a href='/profile'><i class='fas fa-user'></i></a></td>\
+			<td><a href='/profile'><i class='fas fa-user'></i></a></td>\
+			<td><a href='/profile'><i class='fas fa-user'></i></a></td>\
 			</tr>\
 			</table>\
 	</div>\
 	<div class='dataRow'>"
-			var tableText = toolbar + title + buttons + "<div style='float:left; width: 48%; min-width: 400px; margin-right: 4%;' id='leftDiv'>" + scrumBoard2 + "</div><div style='float:left; width: 48%; min-width:400px;'>" + projectBoard + "<br>" + myProjects + "<br>" + usersText + "<br>" + projectsText + "</div>";
+			var tableText = toolbar + title + buttons + "<div id='leftDiv' class='leftDiv'>" + scrumBoard2 + "</div><div class='rightDiv'>" + projectBoard + "<br>" + myProjects + "<br>" + usersText + "<br>" + projectsText + "</div>";
 			
 			/**/
 			const sql2 = "SELECT pt_id\

@@ -39,15 +39,33 @@ body {
 	/*display:inline;*/
 	float:right;
 	padding: 20px 20px;
-	background-color: #32323e;
+	background-color: lightgray;
 	/*width: 86%;*/
 	/*margin-left: 14%;*/
 	border-radius: 5px;
 	box-shadow: 0 14px 28px rgb(0 0 0 / 25%);
 	width: 100%;
-	color: lightslategray;
+	color: black;
 	margin-top: 10px;
 	margin-bottom: 15px;
+	border: solid black 1px;
+}
+
+.nextRow h3{
+	color: black;
+}
+
+.toolTable td {
+	text-align: center;
+}
+
+.toolTable {
+	background-color: lightgray;
+	border: solid black 1px;
+}
+
+.toolTableButton {
+	color: black;
 }
 
 .dataRow{
@@ -95,7 +113,7 @@ body {
 .cardTeams{
   width: 14%;
   height: 100%;
-  background-color:   black;
+  background-color:   white;
   border-radius: 10;
   /*overflow: auto;*/
   /*position: fixed;*/
@@ -103,18 +121,17 @@ body {
 }
 
 .teamTitle{
-  background-color: #32323e;
-  border: none;
-  color: white;
+  background-color: lightgray;
+  border: solid 1px black;
   padding: 16px 16px;
   text-decoration: none;
   margin: 4px 2px;
   cursor: pointer;
-  width: 100%;
+  width: 98%;
   font-family: 'Roboto', sans-serif;
   font-size: large;
   text-align: center;
-  color: #fff;
+  color: black;
 }
 
 
@@ -246,7 +263,7 @@ input[type="submit"].blueButton {
 	color: black;
 	margin-bottom: 25px;
 	margin-right: 5%;
-	border: solid 2px black;
+	border: solid 1px black;
 }
 
 .styled-table thead tr {
@@ -476,4 +493,31 @@ canvas {
 
 .docul {
 	color: black;
+}
+
+.leftDiv {
+	float:left;
+	width: 48%;
+	min-width: 400px;
+	margin-right: 4%;
+	overflow: auto;
+	resize: both;
+}
+
+.rightDiv {
+	float:left;
+	width: 48%;
+	min-width:400px;
+	overflow: auto;
+	resize: both;
+}
+
+@media only screen and (max-width: 1000px) {
+  .leftDiv {
+    overflow: visible;
+  }
+  
+  .rightDiv {
+    overflow: visible;
+  }
 }

@@ -120,6 +120,10 @@ body {
 	text-align: center;
 }
 
+.toolTableButton {
+	color: white;
+}
+
 .header{
   padding: 5px;
 }
@@ -490,4 +494,31 @@ canvas {
 
 input[type="submit"].filterButton {
 	background-color: lightslategray;
+}
+
+.leftDiv {
+	float:left;
+	width: 48%;
+	min-width: 400px;
+	margin-right: 4%;
+	overflow: auto;
+	resize: both;
+}
+
+.rightDiv {
+	float:left;
+	width: 48%;
+	min-width:400px;
+	overflow: auto;
+	resize: both;
+}
+
+@media only screen and (max-width: 1000px) {
+  .leftDiv {
+    overflow: visible;
+  }
+  
+  .rightDiv {
+    overflow: visible;
+  }
 }
