@@ -1752,11 +1752,11 @@ const deliverTeams = (request, response) => {
 
 			do {
 				var texts = unique[i].replace(/\s/g, '');
-				scrumBoard2 += "<tr ondrop='drop(event)' ondragover='allowDrop(event)'><td style='font-size: medium;'><b>" + unique[i] + "</b></td><td></td><td><div onclick='toggle" + texts + "()' Style='float:right; cursor: pointer;'><i id='" + texts + "Minus' class='fas fa-minus' style='float: right; color: white;'></i><i id='" + texts + "Plus' class='fas fa-plus' style='float: right; color: white; display: none;'></i></div></td></tr>";
+				scrumBoard2 += "<tr><td style='font-size: medium;'><b>" + unique[i] + "</b></td><td></td><td><div onclick='toggle" + texts + "()' Style='float:right; cursor: pointer;'><i id='" + texts + "Minus' class='fas fa-minus' style='float: right; color: white;'></i><i id='" + texts + "Plus' class='fas fa-plus' style='float: right; color: white; display: none;'></i></div></td></tr>";
 				scripts += "<script> function toggle" + texts + "() { var minus = document.getElementById('" + texts + "Minus'); var plus = document.getElementById('" + texts + "Plus'); if (minus.style.display == 'none') {minus.style.display = 'inline-block'; plus.style.display = 'none'} else {plus.style.display = 'inline-block'; minus.style.display = 'none'} var x = document.getElementsByName('" + unique[i] + "Cat'); let h = 0; do {if (x[h].style.display === 'none') {x[h].style.display = 'table-row';} else { x[h].style.display = 'none';} h += 1;} while (h < x.length)}</script>"
 				do {
 					if (results.rows[j].category == unique[i]) {
-						scrumBoard2 += "<tr name='" + unique[i] + "Cat' draggable='true' ondragstart='drag(event)'><td><form id='projectForm' action='/openProject' method='post'>\
+						scrumBoard2 += "<tr name='" + unique[i] + "Cat' ><td><form id='projectForm' action='/openProject' method='post'>\
 						<input type='text' name='ticketID' value='" + results.rows[j].project_id + "' id='" + results.rows[j].project_id + "' hidden>\
 						<input type='submit' class='projectTitle' value='" + results.rows[j].title.replace(/'/gi,"''") + "'></form></td><td>\
 						<form id='form" + results.rows[j].project_id + "' action='/updatePercentage' method='POST'>\

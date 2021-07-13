@@ -102,21 +102,6 @@
 				  }
 			}
 			
-
-			function allowDrop(ev) {
-			  ev.preventDefault();
-			}
-
-			function drag(ev) {
-			  ev.dataTransfer.setData("text", ev.target.id);
-			}
-
-			function drop(ev) {
-			  var data = ev.dataTransfer.getData("text");
-			  ev.target.appendChild(document.getElementById(data));
-			  ev.preventDefault();
-			}
-			
 			
 		</script>
 		<script defer src="./node_modules/@fortawesome/fontawesome-free/js/brands.js"></script>
