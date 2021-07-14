@@ -15,7 +15,7 @@ const pool = new Pool({
 //--------------------------------ADMINISTRATION--------------------------------
 //------------------------------------------------------------------------------
 const admin = (request, response) => {
-	const sql = "ALTER TABLE USERS ADD COLUMN subscription_end DATE;";
+	const sql = "INSERT INTO stripe(checkout_session_id) VALUES('cs_00000000000000');";
 	pool.query(sql, (error, results) => {
 		if (error) {
 			throw error

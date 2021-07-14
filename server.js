@@ -307,7 +307,7 @@ app.post("/webhook", async (req, res) => {
 		console.log("Customer: " + data.object.customer);
 		
 			const sqlInsert = "INSERT INTO stripe(stripe_id) VALUES ('" + data.object.customer + "') WHERE checkout_session_id = data.object.id;"
-			pool.query(sqlInsert, [id], (error, results) => {
+			pool.query(sqlInsert, (error, results) => {
 				if (error) {
 					console.log(error)
 				}
