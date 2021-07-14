@@ -15,7 +15,7 @@ const pool = new Pool({
 //--------------------------------ADMINISTRATION--------------------------------
 //------------------------------------------------------------------------------
 const admin = (request, response) => {
-	const sql = "ALTER TABLE projects ADD COLUMN percent_complete INTEGER DEFAULT 0 NOT NULL;";
+	const sql = "DELETE * FROM stripe;";
 	pool.query(sql, (error, results) => {
 		if (error) {
 			throw error
