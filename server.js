@@ -197,6 +197,16 @@ app.get("/checkout-session", async (req, res) => {
   res.send(session);
 });
 
+app.post("/customerPortal", async (req, res) => {
+	const returnUrl = '{{DOMAIN_URL}}';
+	const customerId = '{{CUSTOMER_ID}}';
+
+	const portalSession = await stripe.billingPortal.sessions.create({
+	  customer: customerId,
+	  return_url: returnUrl,
+	});
+})
+
 app.post("/create-checkout-session", async (req, res) => {
   const domainURL = process.env.DOMAIN;
   const priceId = '{{PRICE_ID}}';
