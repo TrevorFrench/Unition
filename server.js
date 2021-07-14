@@ -310,6 +310,7 @@ app.post("/webhook", async (req, res) => {
         // Continue to provision the subscription as payments continue to be made.
         // Store the status in your database and check when a user accesses your service.
         // This approach helps you avoid hitting rate limits.
+		 console.log(data.customer);
         break;
       case 'invoice.payment_failed':
         // The payment failed or the customer does not have a valid payment method.
@@ -318,9 +319,6 @@ app.post("/webhook", async (req, res) => {
         break;
 		case 'customer.subscription.deleted':
 		
-		break;
-		case 'invoice.paid':
-		console.log(data.customer);
 		break;
       default:
       // Unhandled event type
