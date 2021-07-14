@@ -304,7 +304,7 @@ app.post("/webhook", async (req, res) => {
         // Payment is successful and the subscription is created.
         // You should provision the subscription and save the customer ID to your database.
 		console.log("Session: " + data.object.id);
-		console.log("Customer: " + data.customer.id);
+		console.log("Customer: " + data.customer);
         break;
       case 'invoice.paid':
         // Continue to provision the subscription as payments continue to be made.
@@ -320,7 +320,7 @@ app.post("/webhook", async (req, res) => {
 		
 		break;
 		case 'invoice.paid':
-		console.log(data.customer.id);
+		console.log(data.customer);
 		break;
       default:
       // Unhandled event type
