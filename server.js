@@ -199,7 +199,7 @@ app.get("/checkout-session", async (req, res) => {
 
 app.post("/customerPortal", async (req, res) => {
 	
-	const returnUrl = '{{DOMAIN_URL}}';
+	const returnUrl = 'https://www.unition.app/profile';
 	const customerId = req.user.stripe_id;
 	
 	const portalSession = await stripe.billingPortal.sessions.create({
