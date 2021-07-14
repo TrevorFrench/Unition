@@ -199,21 +199,15 @@ app.get("/checkout-session", async (req, res) => {
 
 app.post("/customerPortal", async (req, res) => {
 	
-	const sql = "SELECT stripe_id FROM stripe WHERE native_id = '" + user.id + "';";
-	pool.query(sql, (error, results) => {
-		if (error) {
-			throw error
-		}
-		console.log("SUCCESSFULLY UPDATED TABLE")
-	});
-	
 	const returnUrl = '{{DOMAIN_URL}}';
-	const customerId = '{{CUSTOMER_ID}}';
-
+	const customerId = results.rows.stripe_id;
+	
 	const portalSession = await stripe.billingPortal.sessions.create({
 	  customer: customerId,
 	  return_url: returnUrl,
 	});
+
+	
 })
 
 app.post("/create-checkout-session", async (req, res) => {
@@ -331,7 +325,24 @@ app.post("/webhook", async (req, res) => {
 				if (error) {
 					console.log(error)
 				}
+				
+				const sqlSelect = "SELECT * from stripe WHERE stripe_id = '" + data.object.customer + "';"
+				pool.query(sqlSelect, (error, results) => {
+				if (error) {
+					console.log(error)
+				}
+				const sqlUpdate = "UPDATE users SET stripe_id = '" + data.object.customer + "' WHERE id = '" + results.rows.native_id + "';"
+				pool.query(sqlUpdate, (error, results) => {
+				if (error) {
+					console.log(error)
+				}
+				
+				
+				});
+				
+				});
 			});
+			
 			
         break;
       case 'invoice.paid':
