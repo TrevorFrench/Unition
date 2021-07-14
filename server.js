@@ -188,7 +188,7 @@ app.use(passport.session());
 //------------------------------------------------------------------------------
 //----------------------------------STRIPE API----------------------------------
 //------------------------------------------------------------------------------
-const stripe = require('stripe')(/*"'" + process.env.STRIPE_KEY + "'"*/"'" + process.env.STRIPE_TEST_KEY + "'");
+const stripe = require('stripe')(/*"'" + process.env.STRIPE_KEY + "'"*//*"'" + process.env.STRIPE_TEST_KEY + "'"*/'sk_test_51JAyJDKqakUFqghQPEPVuuOCcmYBX3leGRxeFAeOOli9IGCuxSdkHfho3zUK3uV4Le2y7gS4ckQv3R7mP3bPh6uZ00M0hHPm6O');
 
 // Fetch the Checkout Session to display the JSON result on the success page
 app.get("/checkout-session", async (req, res) => {
