@@ -307,7 +307,7 @@ app.post("/webhook", async (req, res) => {
 		console.log("Session: " + data.object.id);
 		console.log("Customer: " + data.object.customer);
 		
-			const sqlInsert = "UPDATE stripe SET stripe_id = '" + data.object.customer + "', subscription_end =  DATEADD(day, 33, GETDATE()) WHERE checkout_session_id = '" +  data.object.id + "';"
+			const sqlInsert = "UPDATE stripe SET stripe_id = '" + data.object.customer + "', subscription_end =  CURRENT_DATE + INTERVAL '33 days' WHERE checkout_session_id = '" +  data.object.id + "';"
 			pool.query(sqlInsert, (error, results) => {
 				if (error) {
 					console.log(error)
