@@ -305,6 +305,13 @@ app.post("/webhook", async (req, res) => {
         // You should provision the subscription and save the customer ID to your database.
 		console.log("Session: " + data.object.id);
 		console.log("Customer: " + data.object.customer);
+		
+			const sqlInsert = "INSERT INTO stripe(stripe_id) VALUES ('" + data.object.customer + "') WHERE checkout_session_id = data.object.id;"
+			pool.query(sqlInsert, [id], (error, results) => {
+				if (error) {
+					throw error
+				}
+			});
         break;
       case 'invoice.paid':
         // Continue to provision the subscription as payments continue to be made.

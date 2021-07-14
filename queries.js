@@ -15,7 +15,7 @@ const pool = new Pool({
 //--------------------------------ADMINISTRATION--------------------------------
 //------------------------------------------------------------------------------
 const admin = (request, response) => {
-	const sql = "DELETE * FROM stripe;";
+	const sql = "ALTER TABLE USERS ADD COLUMN subscription_end DATE;";
 	pool.query(sql, (error, results) => {
 		if (error) {
 			throw error
