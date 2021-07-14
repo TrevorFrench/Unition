@@ -320,6 +320,12 @@ app.post("/webhook", async (req, res) => {
         // Store the status in your database and check when a user accesses your service.
         // This approach helps you avoid hitting rate limits.
 		 console.log(data.object.customer);
+		 const sql2 = "UPDATE stripe SET subscription_end =  CURRENT_DATE + INTERVAL '33 days' WHERE stripe_id = '" +  data.object.customer + "';"
+			pool.query(sql2, (error, results) => {
+				if (error) {
+					console.log(error)
+				}
+			});
         break;
       case 'invoice.payment_failed':
         // The payment failed or the customer does not have a valid payment method.
