@@ -15,7 +15,7 @@ const pool = new Pool({
 //--------------------------------ADMINISTRATION--------------------------------
 //------------------------------------------------------------------------------
 const admin = (request, response) => {
-	const sql = "INSERT INTO stripe(checkout_session_id) VALUES('cs_00000000000000');";
+	const sql = "ALTER TABLE stripe ADD COLUMN subscription_end DATE";
 	pool.query(sql, (error, results) => {
 		if (error) {
 			throw error
@@ -1876,8 +1876,8 @@ const deliverTeams = (request, response) => {
 				if (error) {
 					throw error;
 				}
-				var teamsVar = "<div onclick='toggleTeams()' title='Toggle Teams' id='leftChevron' style='cursor: pointer;'><i class='fas fa-chevron-left' style='color: white;'></i></div>\
-					<div onclick='toggleTeams()' title='Toggle Teams' id='rightChevron' style='cursor: pointer; display: none;'><i class='fas fa-chevron-right' style='color: white;'></i></div>";
+				var teamsVar = "<div class='toolTableButton' onclick='toggleTeams()' title='Toggle Teams' id='leftChevron' style='cursor: pointer;'><i class='fas fa-chevron-left'></i></div>\
+					<div class='toolTableButton' onclick='toggleTeams()' title='Toggle Teams' id='rightChevron' style='cursor: pointer; display: none;'><i class='fas fa-chevron-right'></i></div>";
 				results.rows.forEach(element =>
 					teamsVar += "<form action='deliverTeam' method='POST'>\
 						<input type='text' id='teamdid' name='teamid' \

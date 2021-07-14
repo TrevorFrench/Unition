@@ -58,7 +58,6 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - set recurring projects in the admin table
    - on ticket update, make value of status drop-down defauilted to true value rather than open
    - passport serializes ids based on position not id number we can return values in order but will break if an ID is ever removed
-   - get rid of open team input on sign up form
    - make documentation text color variable
    - get rid of responsible on project creation form (individual)
    - internal server error when you hit  home after cookie times out
@@ -95,6 +94,8 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - Redirect back to teams page after team project creation
    - unition board alternating colors on lighttheme needs to be fixed
    - Join Team/Create Team/Display Team ID to admins
+   - Redo libraries so that functions look more like 'campaigns.add'
+   - mass update projects with filters
 */
 
 //------------------------------------------------------------------------------
@@ -306,12 +307,13 @@ app.post("/webhook", async (req, res) => {
 		console.log("Session: " + data.object.id);
 		console.log("Customer: " + data.object.customer);
 		
-			const sqlInsert = "UPDATE stripe SET stripe_id = '" + data.object.customer + "' WHERE checkout_session_id = '" +  data.object.id + "';"
+			const sqlInsert = "UPDATE stripe SET stripe_id = '" + data.object.customer + "', subscription_end = '" + DATEADD(day, 33, GETDATE()) + "' WHERE checkout_session_id = '" +  data.object.id + "';"
 			pool.query(sqlInsert, (error, results) => {
 				if (error) {
 					console.log(error)
 				}
 			});
+			
         break;
       case 'invoice.paid':
         // Continue to provision the subscription as payments continue to be made.
