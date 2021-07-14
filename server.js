@@ -200,7 +200,7 @@ app.get("/checkout-session", async (req, res) => {
 app.post("/customerPortal", async (req, res) => {
 	
 	const returnUrl = '{{DOMAIN_URL}}';
-	const customerId = results.rows.stripe_id;
+	const customerId = req.user.stripe_id;
 	
 	const portalSession = await stripe.billingPortal.sessions.create({
 	  customer: customerId,

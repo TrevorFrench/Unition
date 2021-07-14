@@ -67,10 +67,11 @@ Email: <%= user.emails %><br/>
 <% } %>
 </p>
 <a href="/logout">Log out</a>
+</div>
 
-    <form action="/customerPortal" method="POST">
-      <button type="submit">Manage Billing</button>
-    </form>
+<div class="nextRow">
+<h3>Billing</h3>
+<%- statusMessage %>
 </div>
 
 </div>

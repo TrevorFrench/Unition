@@ -2087,7 +2087,9 @@ const deliverJoinTeam = function(req, res) {
 //-------------------------DELIVERS THE PROFILE VIEW--------------------------
 //------------------------------------------------------------------------------
 const profileView = (request, response) => {
-	const user = request.user.id
+	const user = request.user.id;
+	const stripe_id = request.user.stripe_id;
+	console.log("STRIPE ID: " + stripe_id);
 	const sql = "INSERT INTO views(\
 					page\
 					, user_id\
@@ -2099,9 +2101,11 @@ const profileView = (request, response) => {
 		if (error) {
 			throw error;
 		}
-
-      response.render('profile', { user: request.user });
-	
+		if (stripe_id != null && stripe_id != "null") {
+		  response.render('profile', { user: request.user, statusMessage: '<form action="/customerPortal" method="POST">\
+			<button type="submit">Manage Billing</button>\
+			</form>' });
+		} else {response.render('profile', { user: request.user, statusMessage: 'No subscription found. If you believe this is a mistake, please contact me at FrenchTrevor@outlook.com' });}
 	});
 }
 
