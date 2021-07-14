@@ -94,6 +94,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - Track unique landing page views
    - Redirect back to teams page after team project creation
    - unition board alternating colors on lighttheme needs to be fixed
+   - Join Team/Create Team/Display Team ID to admins
 */
 
 //------------------------------------------------------------------------------
@@ -303,7 +304,7 @@ app.post("/webhook", async (req, res) => {
         // Payment is successful and the subscription is created.
         // You should provision the subscription and save the customer ID to your database.
 		console.log("Session: " + data.object.id);
-		console.log("Customer: " + data.customer);
+		console.log("Customer: " + data.customer.id);
         break;
       case 'invoice.paid':
         // Continue to provision the subscription as payments continue to be made.
@@ -317,6 +318,9 @@ app.post("/webhook", async (req, res) => {
         break;
 		case 'customer.subscription.deleted':
 		
+		break;
+		case 'invoice.paid':
+		console.log(data.customer.id);
 		break;
       default:
       // Unhandled event type
