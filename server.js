@@ -331,7 +331,7 @@ app.post("/webhook", async (req, res) => {
 				if (error) {
 					console.log(error)
 				}
-				const sqlUpdate = "UPDATE users SET stripe_id = '" + data.object.customer + "' WHERE id = " + results.rows.native_id + ';"
+				const sqlUpdate = "UPDATE users SET stripe_id = '" + data.object.customer + "' WHERE id = " + results.rows.native_id + ";"
 				pool.query(sqlUpdate, (error, results) => {
 				if (error) {
 					console.log(error)
