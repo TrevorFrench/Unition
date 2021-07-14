@@ -316,21 +316,22 @@ html, body {
 
 .projectDiv {
 	width:95%;
-	background-color: #32323e;
+	background-color: lightgray;
 	padding: 20px;
 	border-radius: 5px;
 	color: lightslategray;
-	/*box-shadow: 0 14px 28px rgb(0 0 0 / 25%);*/
-	border: solid 2px black;
+	box-shadow: 0 14px 28px rgb(0 0 0 / 25%);
+	border: solid 1px black;
 }
 
 .commentDiv {
-	background-color: #32323e;
+	background-color: lightgray;
 	padding: 20px;
 	width: 50%;
 	border-radius: 5px;
 	color: lightslategray;
 	box-shadow: 0 14px 28px rgb(0 0 0 / 25%);
+	border: solid 1px black;
 }
 
 .chart-container {

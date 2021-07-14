@@ -86,7 +86,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - Performance review functionality
    - CRM?
    - Align projects with overarching goals/competencies
-   - 1 Month free ppremium when friend signs up with your link
+   - 1 Month free premium when friend signs up with your link
    - Roll Database keys and create github secrets
    - Custom forms for enterprise
    - list teams forms on forms tab
@@ -96,6 +96,8 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - Join Team/Create Team/Display Team ID to admins
    - Redo libraries so that functions look more like 'campaigns.add'
    - mass update projects with filters
+   - Custom email for support
+   -config vars in heroku for database credentialing
 */
 
 //------------------------------------------------------------------------------
@@ -111,6 +113,8 @@ var Strategy = require('passport-local').Strategy;								// method which is use
 var db = require('./db');														// folder which contains database files
 var theme = require('./theme')													// reference the theme.js file which contains theme change references
 const ip = require("ip")														// ip package for loggin a users ip address
+require('dotenv').config();
+
 
 //------------------------------------------------------------------------------
 //-------------------------------ENVIRONMENT SETUP------------------------------
@@ -120,7 +124,6 @@ app.set('views', __dirname + '/public/views');                      			// sets f
 app.set('view engine', 'ejs');                                      			// sets the view engine to 'ejs'
 app.use(require('morgan')('combined'));                             			// Use application-level middleware for common functionality, including
 app.use(bodyParser.urlencoded({ extended: true }));                 			// logging, parsing, and session handling.
-
 
 //------------------------------------------------------------------------------
 //---------------------------INITIALIZE DB CONNECTION---------------------------
@@ -188,7 +191,7 @@ app.use(passport.session());
 //------------------------------------------------------------------------------
 //----------------------------------STRIPE API----------------------------------
 //------------------------------------------------------------------------------
-const stripe = require('stripe')(/*"'" + process.env.STRIPE_KEY + "'"*//*"'" + process.env.STRIPE_TEST_KEY + "'"*/'sk_test_51JAyJDKqakUFqghQPEPVuuOCcmYBX3leGRxeFAeOOli9IGCuxSdkHfho3zUK3uV4Le2y7gS4ckQv3R7mP3bPh6uZ00M0hHPm6O');
+const stripe = require('stripe')(/*process.env.STRIPE_KEY*/process.env.STRIPE_TEST_KEY);
 
 // Fetch the Checkout Session to display the JSON result on the success page
 app.get("/checkout-session", async (req, res) => {
@@ -197,17 +200,19 @@ app.get("/checkout-session", async (req, res) => {
   res.send(session);
 });
 
-app.post("/customerPortal", async (req, res) => {
+app.post("/create-customer-portal-session", async (req, res) => {
 	
 	const returnUrl = 'https://www.unition.app/profile';
 	const customerId = req.user.stripe_id;
+	
+	console.log(customerId);
 	
 	const portalSession = await stripe.billingPortal.sessions.create({
 	  customer: customerId,
 	  return_url: returnUrl,
 	});
 
-	res.redirect(session.url);
+	res.redirect(portalSession.url);
 })
 
 app.post("/create-checkout-session", async (req, res) => {

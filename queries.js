@@ -2059,12 +2059,12 @@ const createTeam = function(req, res) {
 //------------------------DELIVERS THE CREATE TEAM VIEW-------------------------
 //------------------------------------------------------------------------------
 const deliverCreateTeam = function(req, res) {
-	var tableText = "<form action='/createTeam' method='POST'>\
+	var tableText = "<div class='nextRow'><form action='/createTeam' method='POST'>\
 			<input type='text' name='user_id' id='user_id' value=" + req.user.id + " hidden>\
 			<label for='team_name'>Team Name:</label><br><br>\
-			<input type='text' name='team_name' id='team_name'>\
+			<input type='text' name='team_name' id='team_name'><br><br>\
 			<input class='redButton' type='submit' style='width:250px;' value='Create Team'>\
-		</form>";
+		</form></div>";
 	res.render("dashboard.ejs", {statusMessage: tableText, user: req.user});
 };
 
@@ -2072,14 +2072,14 @@ const deliverCreateTeam = function(req, res) {
 //-------------------------DELIVERS THE JOIN TEAM VIEW--------------------------
 //------------------------------------------------------------------------------
 const deliverJoinTeam = function(req, res) {
-	var tableText = "<form action='/joinTeam' method='POST'>\
+	var tableText = "<div class='nextRow'><form action='/joinTeam' method='POST'>\
 			<input type='text' name='user_id' id='user_id' value=" + req.user.id + " hidden>\
 			<label for='team_name'>Team Name:</label><br><br>\
-			<input type='text' name='team_name' id='team_name'>\
+			<input type='text' name='team_name' id='team_name'><br><br>\
 			<label for='team_id'>Team ID:</label><br><br>\
-			<input type='number' name='team_id' id='team_id'>\
+			<input type='number' name='team_id' id='team_id'><br><br>\
 			<input class='redButton' type='submit' style='width:250px;' value='Join Team'>\
-		</form>";
+		</form></div>";
 	res.render("dashboard.ejs", {statusMessage: tableText, user: req.user});
 };
 
@@ -2102,7 +2102,7 @@ const profileView = (request, response) => {
 			throw error;
 		}
 		if (stripe_id != null && stripe_id != "null") {
-		  response.render('profile', { user: request.user, statusMessage: '<form action="/customerPortal" method="POST">\
+		  response.render('profile', { user: request.user, statusMessage: '<form action="/create-customer-portal-session" method="POST">\
 			<button type="submit">Manage Billing</button>\
 			</form>' });
 		} else {response.render('profile', { user: request.user, statusMessage: 'No subscription found. If you believe this is a mistake, please contact me at FrenchTrevor@outlook.com' });}
@@ -2173,18 +2173,32 @@ const teamsView = (request, response) => {
 					'teams'\
 					, '" + user + "'\
 					);";
+	const sql2 = "SELECT subscription_end from stripe where stripe_id = '" + request.user.stripe_id + "';";
+	let date = new Date();
+	console.log(date);
+
+
 	pool.query(sql, (error, results) => {
 		if (error) {
 			throw error;
 		}
+		pool.query(sql2, (error, results) => {
+		if (error) {
+			throw error;
+		}
+		let endDate = results.rows[0].subscription_end;
+		console.log(endDate)
+		console.log(new Date(endDate))
+		
+		if (new Date(endDate) >= date) { response.redirect("./teams2")} else {
 
-    response.render("dashboard.ejs", {statusMessage: "<div class='commentDiv'>COMING SOON<p>Teams functionality allows teams to efficiently define outcomes, track progress, and measure productivity.\
-	<div style='display: none;'>Sign up for an early-adopter membership for early access.\
+    response.render("dashboard.ejs", {statusMessage: "<div class='nextRow'>COMING SOON<p>Teams functionality allows teams to efficiently define outcomes, track progress, and measure productivity.\
+	<div>Sign up for an early-adopter membership for early access.\
 	<form action='/create-checkout-session' method='POST'>\
       <input type='hidden' name='priceId' value='price_1JBVtmKqakUFqghQNtxN26pV' />\
       <button type='submit'>Checkout</button>\
-    </form></div></p><div>", user: request.user})
-	
+		</form></div></p><div>", user: request.user})}
+	});
 	});
 }
 
