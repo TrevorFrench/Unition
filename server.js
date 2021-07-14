@@ -198,6 +198,15 @@ app.get("/checkout-session", async (req, res) => {
 });
 
 app.post("/customerPortal", async (req, res) => {
+	
+	const sql = "SELECT stripe_id FROM stripe WHERE native_id = '" + user.id + "';";
+	pool.query(sql, (error, results) => {
+		if (error) {
+			throw error
+		}
+		console.log("SUCCESSFULLY UPDATED TABLE")
+	});
+	
 	const returnUrl = '{{DOMAIN_URL}}';
 	const customerId = '{{CUSTOMER_ID}}';
 
