@@ -207,7 +207,7 @@ app.post("/customerPortal", async (req, res) => {
 	  return_url: returnUrl,
 	});
 
-	
+	res.redirect(session.url);
 })
 
 app.post("/create-checkout-session", async (req, res) => {
