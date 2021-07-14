@@ -97,7 +97,9 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - Redo libraries so that functions look more like 'campaigns.add'
    - mass update projects with filters
    - Custom email for support
-   -config vars in heroku for database credentialing
+   - config vars in heroku for database credentialing
+   - multiple checkouts is main vulnerability for stripe integration
+   - create documentation, blog, and sitemap for SEO
 */
 
 //------------------------------------------------------------------------------
@@ -544,6 +546,14 @@ app.post('/addCampaign',														// adds the specified campaign
 
 app.post('/addUser', 											    			// creates a new user
 	db2.createUser
+	)
+	
+app.post('/takeProject', 											    		// takes project from project board on teams site
+	db2.takeProject
+	)
+	
+app.post('/releaseProject', 											    	// releases project back to project board on teams site
+	db2.releaseProject
 	)
 
 app.post('/defaultDark', 														// defaultDark theme change

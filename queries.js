@@ -1677,6 +1677,39 @@ const teams2 = (request, response) => {
 }
 
 //------------------------------------------------------------------------------
+//---------------------------------TAKE PROJECT---------------------------------
+//------------------------------------------------------------------------------
+const takeProject = (req, res) => {
+	const id = parseInt(req.body.ticketID);
+
+	const sql = "UPDATE projects\
+					SET responsible ='" + req.user.id + "' WHERE project_id = " + id + ";";
+	pool.query(sql, (error, results) => {
+		if (error) {
+			throw error;
+		}
+		deliverTeams(req, res);
+	});
+};
+
+//------------------------------------------------------------------------------
+//--------------------------------RELEASE PROJECT-------------------------------
+//------------------------------------------------------------------------------
+const releaseProject = (req, res) => {
+	const id = parseInt(req.body.ticketID);
+	console.log(req.body.ticketID)
+
+	const sql = "UPDATE projects\
+					SET responsible ='1' WHERE project_id = " + id + ";";
+	pool.query(sql, (error, results) => {
+		if (error) {
+			throw error;
+		}
+		deliverTeams(req, res);
+	});
+};
+
+//------------------------------------------------------------------------------
 //-----------------------------DELIVER TEAMS BY ID------------------------------
 //------------------------------------------------------------------------------
 const deliverTeams = (request, response) => {
@@ -1822,13 +1855,19 @@ const deliverTeams = (request, response) => {
 			
 			
 			mineProjects.forEach(element => myProjects += "<tr><td>\
-			<form id='projectForm' action='openProject' method='post'>\
+			<form id='projectForm' action='/openProject' method='post'>\
 			<input type='text' name='ticketID' value='" + element.project_id + "' id='" + element.project_id + "' hidden>\
-			<input type='submit' class='projectTitle' value='" + element.title.replace(/'/g,"&#39;") + "'></form></td><td>" + element.duedate + "</td><td>Release</td></tr>");
+			<input type='submit' class='projectTitle' value='" + element.title.replace(/'/g,"&#39;") + "'></form></td><td>" + element.duedate + "</td><td><form id='projectForm' action='/releaseProject' method='post'>\
+			<input type='text' name='ticketID' value='" + element.project_id + "' id='" + element.project_id + "' hidden>\
+			<input id='teamid' name='teamid' type='text' value='" + request.body.teamid + "' hidden />\
+			<input type='submit' class='projectTitle' value='Release'></form></td></tr>");
 			openProjects.forEach(element => projectBoard += "<tr><td>\
-			<form id='projectForm' action='openProject' method='post'>\
+			<form id='projectForm' action='/openProject' method='post'>\
 			<input type='text' name='ticketID' value='" + element.project_id + "' id='" + element.project_id + "' hidden>\
-			<input type='submit' class='projectTitle' value='" + element.title.replace(/'/g,"&#39;") + "'></form></td><td>" + element.duedate + "</td><td>Take</td></tr>");
+			<input type='submit' class='projectTitle' value='" + element.title.replace(/'/g,"&#39;") + "'></form></td><td>" + element.duedate + "</td><td><form id='projectForm' action='/takeProject' method='post'>\
+			<input type='text' name='ticketID' value='" + element.project_id + "' id='" + element.project_id + "' hidden>\
+			<input id='teamid' name='teamid' type='text' value='" + request.body.teamid + "' hidden />\
+			<input type='submit' class='projectTitle' value='Take'></form></td></tr>");
 			myProjects += "</table>";
 			projectsText += "</table>";
 			scrumBoard += "</table>";
@@ -2105,7 +2144,7 @@ const profileView = (request, response) => {
 		  response.render('profile', { user: request.user, statusMessage: '<form action="/create-customer-portal-session" method="POST">\
 			<button type="submit">Manage Billing</button>\
 			</form>' });
-		} else {response.render('profile', { user: request.user, statusMessage: 'No subscription found. If you believe this is a mistake, please contact me at FrenchTrevor@outlook.com' });}
+		} else {response.render('profile', { user: request.user, statusMessage: 'No subscription found. If you believe this is a mistake, please contact me at Trevor@unition.app' });}
 	});
 }
 
@@ -2248,7 +2287,9 @@ const formsView = (request, response) => {
 		<input type='submit' name='createProject' value='Project Creation Form' class='projectTitle'>\
 		</form></td><td>Delivers the default project creation form.</td>\
 		<td>Internal</td></tr>\
-		</tbody></table>", user: request.user
+		</tbody></table>\
+		<br>\
+		<table class='styled-table'><tr><th>Custom Forms</th></tr><tr><td>Custom forms are available for enterprise customers. For inquiries, contact me here: Trevor@unition.app</td></tr></table>", user: request.user
 		})
 	
 	});
@@ -2309,5 +2350,7 @@ module.exports = {
   deleteAnnouncement,
   addAnnouncement,
   updatePercentage,
-  updateProjectTeam
+  updateProjectTeam,
+  takeProject,
+  releaseProject
 }
