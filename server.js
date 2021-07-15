@@ -96,10 +96,13 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - Join Team/Create Team/Display Team ID to admins
    - Redo libraries so that functions look more like 'campaigns.add'
    - mass update projects with filters
-   - Custom email for support
    - config vars in heroku for database credentialing
    - multiple checkouts is main vulnerability for stripe integration
    - create documentation, blog, and sitemap for SEO
+   - Forgot Password functionality
+   - Feedback/bug tables
+   - Create sub tasks (maybe as a type of comment)
+   - comments start offset to the right
 */
 
 //------------------------------------------------------------------------------
@@ -413,6 +416,11 @@ app.post('/openProject', 														// displays individual project informatio
 	require('connect-ensure-login').ensureLoggedIn(), 
 	db2.getProject
 	)
+	
+app.post('/openTeamProject', 													// displays individual team project information when selected from a table of projects
+	require('connect-ensure-login').ensureLoggedIn(), 
+	db2.getTeamProject
+	)
 
 app.post('/createProject', 														// renders a form for project creation
 	require('connect-ensure-login').ensureLoggedIn(), 
@@ -439,6 +447,11 @@ app.post('/updateProject', 														// allows users to change attributes of
 	db2.updateProject
 	)
 	
+app.post('/updateTeamProject', 													// allows users to change attributes of a team project (currently only allows status to be changed
+	require('connect-ensure-login').ensureLoggedIn(), 
+	db2.updateTeamProject
+	)
+	
 app.post('/updateProjectTeam', 													// Close project from scrum board and redirect back to team page
 	require('connect-ensure-login').ensureLoggedIn(), 
 	db2.updateProjectTeam
@@ -452,6 +465,11 @@ app.get('/myProjects', 															// My projects selects all 'Open' and 'In-
 app.post('/addComment', 														// Adds a comment to current project
 	require('connect-ensure-login').ensureLoggedIn(), 
 	db2.plusComment
+	)
+	
+app.post('/addTeamComment', 													// Adds a comment to current team project
+	require('connect-ensure-login').ensureLoggedIn(), 
+	db2.plusTeamComment
 	)
 	
 app.get('/adminPage',															// renders the 'tables' view

@@ -15,7 +15,7 @@ const pool = new Pool({
 //--------------------------------ADMINISTRATION--------------------------------
 //------------------------------------------------------------------------------
 const admin = (request, response) => {
-	const sql = "ALTER TABLE users ADD COLUMN stripe_id text;";
+	const sql = "UPDATE users SET displayname = 'unassigned' WHERE displayname = 'testdisplay';";
 	pool.query(sql, (error, results) => {
 		if (error) {
 			throw error
@@ -344,11 +344,22 @@ const selectAll = function(req, res) {
 		if (error) {
 			throw error;
 		}
-		var tableText = "<div class='projectFilters'><form action='/openProjects' method='post'><input type='submit' name='openprojects' value='Open Projects' class='filterButton'></form>\
-	<form action='/inprocessProjects' method='post'><input type='submit' name='inprocessprojects' value='In-Process Projects' class='filterButton'></form>\
-	<form action='/allProjects' method='post'><input type='submit' name='allprojects' value='All Projects' class='filterButton'></form>\
-	<form action='/myProjects' method='get'><input type='submit' name='myprojects' value='My Projects' class='filterButton'></form></div><br>\
-	<table class='styled-table'>\
+		var tableText = "<div class='projectFilters'>\
+			<form action='/openProjects' method='post'>\
+				<input type='submit' name='openprojects' value='Open Projects' class='filterButton'>\
+			</form>\
+			<form action='/inprocessProjects' method='post'>\
+				<input type='submit' name='inprocessprojects' value='In-Process Projects' class='filterButton'>\
+			</form>\
+			<form action='/allProjects' method='post'>\
+			<input type='submit' name='allprojects' value='All Projects' class='filterButton'>\
+			</form>\
+			<form action='/myProjects' method='get'>\
+				<input type='submit' name='myprojects' value='My Projects' class='filterButton'>\
+			</form>\
+			</div>\
+			<br>\
+		<table class='styled-table'>\
 						<tr><th>TITLE</th><th>ID</th>\
 							<th>STATUS</th>\
 							<th>RESPONSIBLE</th>\
@@ -358,11 +369,8 @@ const selectAll = function(req, res) {
 		results.rows.forEach(element => 
 			tableText += "<tr>\
 				<td><form id='projectform' action='/openProject' method='post'>\
-						<input type='text' name='ticketID' \
-							value='" + element.project_id + "' \
-							id='" + element.project_id + "' hidden>\
-						<input type='submit' class='projectTitle' \
-							value='" + element.title.replace(/'/g,"&#39;") + "'>\
+						<input type='text' name='ticketID' value='" + element.project_id + "' id='" + element.project_id + "' hidden>\
+						<input type='submit' class='projectTitle' value='" + element.title.replace(/'/g,"&#39;") + "'>\
 					</form>\
 				</td>\
 				<td>" + element.project_id + "</td>\
@@ -447,11 +455,22 @@ const selectOpen = function(req, res) {
 		if (error) {
 			throw error;
 		}
-		var tableText = "<div class='projectFilters'><form action='/openProjects' method='post'><input type='submit' name='openprojects' value='Open Projects' class='filterButton'></form>\
-	<form action='/inprocessProjects' method='post'><input type='submit' name='inprocessprojects' value='In-Process Projects' class='filterButton'></form>\
-	<form action='/allProjects' method='post'><input type='submit' name='allprojects' value='All Projects' class='filterButton'></form>\
-	<form action='/myProjects' method='get'><input type='submit' name='myprojects' value='My Projects' class='filterButton'></form></div><br>\
-	<table class='styled-table'>\
+		var tableText = "<div class='projectFilters'>\
+			<form action='/openProjects' method='post'>\
+				<input type='submit' name='openprojects' value='Open Projects' class='filterButton'>\
+			</form>\
+			<form action='/inprocessProjects' method='post'>\
+				<input type='submit' name='inprocessprojects' value='In-Process Projects' class='filterButton'>\
+			</form>\
+			<form action='/allProjects' method='post'>\
+				<input type='submit' name='allprojects' value='All Projects' class='filterButton'>\
+			</form>\
+			<form action='/myProjects' method='get'>\
+				<input type='submit' name='myprojects' value='My Projects' class='filterButton'>\
+			</form>\
+			</div>\
+			<br>\
+			<table class='styled-table'>\
 						<tr><th>TITLE</th>\
 							<th>ID</th>\
 							<th>STATUS</th>\
@@ -462,11 +481,8 @@ const selectOpen = function(req, res) {
 		results.rows.forEach(element => 
 			tableText += "<tr>\
 				<td><form id='projectform' action='/openProject' method='post'>\
-						<input type='text' name='ticketID' \
-							value='" + element.project_id + "' \
-							id='" + element.project_id + "' hidden>\
-						<input type='submit' class='projectTitle' \
-						value='" + element.title.replace(/'/g,"&#39;") + "'>\
+						<input type='text' name='ticketID' value='" + element.project_id + "' id='" + element.project_id + "' hidden>\
+						<input type='submit' class='projectTitle' value='" + element.title.replace(/'/g,"&#39;") + "'>\
 					</form>\
 				</td>\
 				<td>" + element.project_id + "</td>\
@@ -504,11 +520,20 @@ const selectInprocess = function(req, res) {
 		if (error) {
 			throw error;
 		}
-		var tableText = "<div class='projectFilters'><form action='/openProjects' method='post'><input type='submit' name='openprojects' value='Open Projects' class='filterButton'></form>\
-	<form action='/inprocessProjects' method='post'><input type='submit' name='inprocessprojects' value='In-Process Projects' class='filterButton'></form>\
-	<form action='/allProjects' method='post'><input type='submit' name='allprojects' value='All Projects' class='filterButton'></form>\
-	<form action='/myProjects' method='get'><input type='submit' name='myprojects' value='My Projects' class='filterButton'></form></div><br>\
-	<table class='styled-table'>\
+		var tableText = "<div class='projectFilters'>\
+			<form action='/openProjects' method='post'>\
+				<input type='submit' name='openprojects' value='Open Projects' class='filterButton'>\
+			</form>\
+			<form action='/inprocessProjects' method='post'>\
+				<input type='submit' name='inprocessprojects' value='In-Process Projects' class='filterButton'>\
+			</form>\
+			<form action='/allProjects' method='post'>\
+				<input type='submit' name='allprojects' value='All Projects' class='filterButton'>\
+			</form>\
+			<form action='/myProjects' method='get'>\
+				<input type='submit' name='myprojects' value='My Projects' class='filterButton'>\
+			</form></div><br>\
+			<table class='styled-table'>\
 				<tr><th>TITLE</th>\
 					<th>ID</th>\
 					<th>STATUS</th>\
@@ -519,11 +544,8 @@ const selectInprocess = function(req, res) {
 		results.rows.forEach(element => 
 			tableText += "<tr>\
 				<td><form id='projectform' action='/openProject' method='post'>\
-						<input type='text' name='ticketID' \
-							value='" + element.project_id + "' \
-							id='" + element.project_id + "' hidden>\
-						<input type='submit' class='projectTitle' \
-							value='" + element.title.replace(/'/g,"&#39;") + "'>\
+						<input type='text' name='ticketID' value='" + element.project_id + "' id='" + element.project_id + "' hidden>\
+						<input type='submit' class='projectTitle' value='" + element.title.replace(/'/g,"&#39;") + "'>\
 					</form>\
 				</td>\
 				<td>" + element.project_id + "</td>\
@@ -563,23 +585,33 @@ const selectMyProjects = function(req, res) {
 		if (error) {
 			throw error;
 		}
-		var tableText = "<div class='projectFilters'><form action='/openProjects' method='post'><input type='submit' name='openprojects' value='Open Projects' class='filterButton'></form>\
-	<form action='/inprocessProjects' method='post'><input type='submit' name='inprocessprojects' value='In-Process Projects' class='filterButton'></form>\
-	<form action='/allProjects' method='post'><input type='submit' name='allprojects' value='All Projects' class='filterButton'></form>\
-	<form action='/myProjects' method='get'><input type='submit' name='myprojects' value='My Projects' class='filterButton'></form></div><br>\
-	<table class='styled-table'>\
-			<tr><th>TITLE</th>\
-				<th>ID</th>\
-				<th>STATUS</th>\
-				<th>RESPONSIBLE</th>\
-				<th>DUE DATE</th>\
-				<th>DESCRIPTION</th>\
-			</tr>";
+		var tableText = "<div class='projectFilters'>\
+			<form action='/openProjects' method='post'>\
+				<input type='submit' name='openprojects' value='Open Projects' class='filterButton'>\
+			</form>\
+			<form action='/inprocessProjects' method='post'>\
+				<input type='submit' name='inprocessprojects' value='In-Process Projects' class='filterButton'>\
+			</form>\
+			<form action='/allProjects' method='post'>\
+				<input type='submit' name='allprojects' value='All Projects' class='filterButton'>\
+			</form>\
+			<form action='/myProjects' method='get'>\
+				<input type='submit' name='myprojects' value='My Projects' class='filterButton'>\
+			</form>\
+			</div>\
+			<br>\
+			<table class='styled-table'>\
+				<tr><th>TITLE</th>\
+					<th>ID</th>\
+					<th>STATUS</th>\
+					<th>RESPONSIBLE</th>\
+					<th>DUE DATE</th>\
+					<th>DESCRIPTION</th>\
+				</tr>";
 		results.rows.forEach(element =>
 			tableText += "<tr>\
 				<td><form id='projectform' action='/openProject' method='post'>\
-						<input type='text' name='ticketID' \
-							value='" + element.project_id + "' \
+						<input type='text' name='ticketID' value='" + element.project_id + "' \
 							id='" + element.project_id + "' hidden>\
 						<input type='submit'  class='projectTitle' \
 							value='" + element.title.replace(/'/g,"&#39;") + "'>\
@@ -1165,6 +1197,155 @@ const getProject = (request, response) => {
 }
 
 //------------------------------------------------------------------------------
+//----------------------------GETS TEAM PROJECT BY ID---------------------------
+//------------------------------------------------------------------------------
+const getTeamProject = (request, response) => {
+	const id = parseInt(request.body.ticketID);
+	const sql = "SELECT projects.project_id\
+					, title\
+					, status\
+					, responsible\
+					, TO_CHAR(duedate, 'MM/DD/YYYY') AS duedate\
+					, projects.description AS description\
+					, comments.description AS commentdescription\
+					, TO_CHAR(comments.created_date, 'MM/DD/YYYY') \
+						AS commentcreateddate\
+					, comments.created_by AS commentcreatedby\
+					, users.id\
+					, displayname \
+				FROM projects \
+					INNER JOIN users \
+						ON id = TO_NUMBER(responsible, '99G999D9S') \
+					LEFT JOIN comments \
+						ON projects.project_id = comments.project_id \
+					WHERE projects.project_id =" + id + ";";
+	pool.query(sql, (error, results) => {
+		if (error) {
+			throw error
+		}
+		var statustext = '';
+		if (results.rows[0].status == 'Open') {statustext += "<option value='Open'>Open</option>\
+							<option value='In-process'>In-process</option>\
+							<option value='Closed'>Closed</option>"} else if (results.rows[0].status == 'In-process') {
+							statustext += "<option value='In-process'>In-process</option>\
+							<option value='Open'>Open</option>\
+							<option value='Closed'>Closed</option>"} else {
+								statustext += "<option value='Closed'>Closed</option>\
+							<option value='In-process'>In-process</option>\
+							<option value='Open'>Open</option>"}
+							console.log(statustext);
+		var projectText = '';
+		projectText += "<div class='projectDiv' style='width:75%; margin-left:12%;'>\
+			<form action='/updateTeamProject' method='post' \
+				style='white-space:pre-line;'>\
+				<input type='text' name='title' id='title' \
+					value='" + results.rows[0].title + "' hidden>\
+				<h2 class='title'>" + results.rows[0].title + "</h2>\
+				<div class='row'>\
+					<div class='col-25'>\
+						<label for='statusSQL'><b>STATUS:</b></label>\
+					</div>\
+					<div class='col-75'>\
+						<select id='statusSQL' name='statusSQL' \
+							style='width: 75%;padding: 12px;\
+							border: 1px solid #ccc;border-radius: 4px; \
+							resize: vertical;'>" + statustext + "\
+						</select>\
+					</div>\
+				</div>\
+				<br><b>DUE DATE:</b>\
+					<input type='text' name='duedate' id='duedate' \
+						value='" + results.rows[0].duedate + "'hidden>\
+						" + results.rows[0].duedate + "\
+				<br><br><b>RESPONSIBLE:</b>\
+					<input type='text' name='responsible' id='responsible' \
+						value='" + results.rows[0].responsible + "' hidden>\
+						" + results.rows[0].displayname + "\
+				<br><br><b>PROJECT ID:</b>\
+					<input type='text' name='ticketID' id='ticketID' \
+						value='" + results.rows[0].project_id + "' hidden>\
+						" + results.rows[0].project_id + "\
+				<br><br><b>DESCRIPTION:</b>\
+					<input type='text' name='description' id=description \
+						value='" + results.rows[0].description + "' hidden>\
+						" + results.rows[0].description + "\
+				<br><br>\
+					<input type='submit' value='Update Project' class='blueButton'>\
+			</form>\
+			</div>\
+			<br><br>\
+			<div class='projectDiv' style='width:75%; margin-left:12%;'>\
+				<form action='/addTeamComment' method='post' id='commentDescription' \
+					style='white-space:pre-line;'>\
+					<label for='commentDescription'>Comments:</label>\
+					<br><br>\
+					<textarea \
+						style='width: 100%;padding: 12px;border: 1px solid #ccc;\
+						border-radius: 4px; resize: vertical;' \
+						name='commentDescription' id='commentDescription' \
+						form='commentDescription' \
+						Placeholder='Describe your comment here...'>\
+					</textarea>\
+					<input type='text' name='ticketID' id='ticketID' \
+						value='" + results.rows[0].project_id + "' hidden>\
+					<br><br>\
+					<input type='submit' value='Add Comment' class='redButton'>\
+					</input>\
+				</form>\
+			</div>";
+		if(results.rows[0].commentdescription != null) {
+			results.rows.forEach(element => 
+				projectText += "<br><br>\
+					<div class='commentDiv' style='width:75%; margin-left:12%;'>\
+						<b>" + element.commentcreatedby + "</b> \
+						(" + element.commentcreateddate + ")\
+						<br>" + element.commentdescription + "\
+					</div>"
+			);
+		}
+		
+	const user = request.user.id;
+	const sql = "SELECT pt_id\
+					, user_id\
+					, join_table.pt_role_id\
+					, users.displayname AS displayname\
+					, pro_team_name\
+					, pt_role_name \
+				FROM join_table \
+				INNER JOIN users \
+					ON users.id = join_table.user_id \
+				INNER JOIN pro_team \
+					ON pro_team_id = pt_id \
+				INNER JOIN pro_team_roles \
+					ON pro_team_roles.pt_role_id = join_table.pt_role_id \
+				WHERE user_id =" + user + ";";
+	pool.query(sql, (error, results) => {
+		if (error) {
+			throw error;
+		}
+		var teamsVar = "";
+		results.rows.forEach(element =>
+			teamsVar += "<form action='deliverTeam' method='POST'>\
+						<input type='text' id='teamdid' name='teamid' \
+							value='" + element.pt_id + "' hidden>\
+						<input type='submit' name='deliverTeam' \
+							value='" + element.pro_team_name + "' class='teamTitle'>\
+					</form>"
+		);
+		if (results.rows[0] == null) {
+			tableText = "NO TEAMS YET =(";
+			teamsVar = "CREATE A TEAM";
+			};
+		response.render("teams.ejs", {
+			statusMessage: projectText, teamsList: teamsVar, user: request.user
+			}
+		);
+	});
+	});
+}
+
+
+//------------------------------------------------------------------------------
 //--------------------------------UPDATES PROJECT-------------------------------
 //------------------------------------------------------------------------------
 const updateProject = (request, response) => {
@@ -1180,6 +1361,25 @@ const updateProject = (request, response) => {
 			throw error;
 		}
 		getProject(request, response)
+	});
+}
+
+//------------------------------------------------------------------------------
+//-----------------------------UPDATES TEAM PROJECT-----------------------------
+//------------------------------------------------------------------------------
+const updateTeamProject = (request, response) => {
+	const statusSQL = request.body.statusSQL
+	const id = parseInt(request.body.ticketID)
+	
+	console.log(statusSQL + " " + id);
+	const sql = "UPDATE projects \
+					SET status = '" + statusSQL + "' \
+					WHERE project_id = " + id;
+	pool.query(sql, (error, results) => {
+		if (error) {
+			throw error;
+		}
+		getTeamProject(request, response)
 	});
 }
 
@@ -1261,6 +1461,32 @@ const plusComment = (request, response) => {
 			throw error;
 		}
 		getProject(request, response)
+	});
+}
+
+//------------------------------------------------------------------------------
+//------------------------ADDS TEAM COMMENT TO PROJECT--------------------------
+//------------------------------------------------------------------------------
+const plusTeamComment = (request, response) => {
+	const descriptionstring = request.body.commentDescription
+	var description2 = descriptionstring.replace(/'/gi,"''");
+	var description = description2.replace(/\"/gi,"''");
+	const user = request.user.displayname;
+	const project_id = request.body.ticketID
+	const sql = "INSERT INTO comments(\
+					created_by\
+					, description\
+					, project_id\
+					) VALUES (\
+					'" + user + "'\
+					, '" + description + "'\
+					, '" + project_id + "' \
+					);";
+	pool.query(sql, (error, results) => {
+		if (error) {
+			throw error;
+		}
+		getTeamProject(request, response)
 	});
 }
 
@@ -1760,7 +1986,7 @@ const deliverTeams = (request, response) => {
 				<tr><th>Unition Board</th><td></td><td><div onclick='toggleScrumBoard()' Style='float:right; cursor: pointer;'><i class='fas fa-window-close' style='float: right; color: white;'></i></div></td></tr>";
 			var scripts = "";
 			results.rows.forEach(element => 
-				projectsText += "<tr><td><form id='projectform' action='/openProject' method='post'>\
+				projectsText += "<tr><td><form id='projectform' action='/openTeamProject' method='post'>\
 						<input type='text' name='ticketID' \
 							value='" + element.project_id + "' \
 							id='" + element.project_id + "' hidden>\
@@ -1789,7 +2015,7 @@ const deliverTeams = (request, response) => {
 				scripts += "<script> function toggle" + texts + "() { var minus = document.getElementById('" + texts + "Minus'); var plus = document.getElementById('" + texts + "Plus'); if (minus.style.display == 'none') {minus.style.display = 'inline-block'; plus.style.display = 'none'} else {plus.style.display = 'inline-block'; minus.style.display = 'none'} var x = document.getElementsByName('" + unique[i] + "Cat'); let h = 0; do {if (x[h].style.display === 'none') {x[h].style.display = 'table-row';} else { x[h].style.display = 'none';} h += 1;} while (h < x.length)}</script>"
 				do {
 					if (results.rows[j].category == unique[i]) {
-						scrumBoard2 += "<tr name='" + unique[i] + "Cat' ><td><form id='projectForm' action='/openProject' method='post'>\
+						scrumBoard2 += "<tr name='" + unique[i] + "Cat' ><td><form id='projectForm' action='/openTeamProject' method='post'>\
 						<input type='text' name='ticketID' value='" + results.rows[j].project_id + "' id='" + results.rows[j].project_id + "' hidden>\
 						<input type='submit' class='projectTitle' value='" + results.rows[j].title.replace(/'/gi,"''") + "'></form></td><td>\
 						<form id='form" + results.rows[j].project_id + "' action='/updatePercentage' method='POST'>\
@@ -1826,7 +2052,7 @@ const deliverTeams = (request, response) => {
 			
 			
 			results.rows.forEach(element => 
-				scrumBoard += "<tr><td><form id='projectform' action='/openProject' method='post'>\
+				scrumBoard += "<tr><td><form id='projectform' action='/openTeamProject' method='post'>\
 						<input type='text' name='ticketID' \
 							value='" + element.project_id + "' \
 							id='" + element.project_id + "' hidden>\
@@ -1855,14 +2081,14 @@ const deliverTeams = (request, response) => {
 			
 			
 			mineProjects.forEach(element => myProjects += "<tr><td>\
-			<form id='projectForm' action='/openProject' method='post'>\
+			<form id='projectForm' action='/openTeamProject' method='post'>\
 			<input type='text' name='ticketID' value='" + element.project_id + "' id='" + element.project_id + "' hidden>\
 			<input type='submit' class='projectTitle' value='" + element.title.replace(/'/g,"&#39;") + "'></form></td><td>" + element.duedate + "</td><td><form id='projectForm' action='/releaseProject' method='post'>\
 			<input type='text' name='ticketID' value='" + element.project_id + "' id='" + element.project_id + "' hidden>\
 			<input id='teamid' name='teamid' type='text' value='" + request.body.teamid + "' hidden />\
 			<input type='submit' class='projectTitle' value='Release'></form></td></tr>");
 			openProjects.forEach(element => projectBoard += "<tr><td>\
-			<form id='projectForm' action='/openProject' method='post'>\
+			<form id='projectForm' action='/openTeamProject' method='post'>\
 			<input type='text' name='ticketID' value='" + element.project_id + "' id='" + element.project_id + "' hidden>\
 			<input type='submit' class='projectTitle' value='" + element.title.replace(/'/g,"&#39;") + "'></form></td><td>" + element.duedate + "</td><td><form id='projectForm' action='/takeProject' method='post'>\
 			<input type='text' name='ticketID' value='" + element.project_id + "' id='" + element.project_id + "' hidden>\
@@ -2098,20 +2324,76 @@ const createTeam = function(req, res) {
 //------------------------DELIVERS THE CREATE TEAM VIEW-------------------------
 //------------------------------------------------------------------------------
 const deliverCreateTeam = function(req, res) {
-	var tableText = "<div class='nextRow'><form action='/createTeam' method='POST'>\
+	const user = req.user.id;
+	const sql = "SELECT pt_id\
+					, user_id\
+					, join_table.pt_role_id\
+					, users.displayname AS displayname\
+					, pro_team_name\
+					, pt_role_name \
+				FROM join_table \
+				INNER JOIN users \
+					ON users.id = join_table.user_id \
+				INNER JOIN pro_team \
+					ON pro_team_id = pt_id \
+				INNER JOIN pro_team_roles \
+					ON pro_team_roles.pt_role_id = join_table.pt_role_id \
+				WHERE user_id =" + user + ";";
+	pool.query(sql, (error, results) => {
+		if (error) {
+			throw error;
+		}
+		var teamsVar = "";
+			var tableText = "<div class='nextRow'><form action='/createTeam' method='POST'>\
 			<input type='text' name='user_id' id='user_id' value=" + req.user.id + " hidden>\
 			<label for='team_name'>Team Name:</label><br><br>\
 			<input type='text' name='team_name' id='team_name'><br><br>\
 			<input class='redButton' type='submit' style='width:250px;' value='Create Team'>\
 		</form></div>";
-	res.render("dashboard.ejs", {statusMessage: tableText, user: req.user});
+		results.rows.forEach(element =>
+			teamsVar += "<form action='deliverTeam' method='POST'>\
+						<input type='text' id='teamdid' name='teamid' \
+							value='" + element.pt_id + "' hidden>\
+						<input type='submit' name='deliverTeam' \
+							value='" + element.pro_team_name + "' class='teamTitle'>\
+					</form>"
+		);
+		if (results.rows[0] == null) {
+			tableText = "NO TEAMS YET =(";
+			teamsVar = "CREATE A TEAM";
+			};
+		res.render("teams.ejs", {
+			statusMessage: tableText, teamsList: teamsVar, user: req.user
+			}
+		);
+	});
 };
 
 //------------------------------------------------------------------------------
 //-------------------------DELIVERS THE JOIN TEAM VIEW--------------------------
 //------------------------------------------------------------------------------
 const deliverJoinTeam = function(req, res) {
-	var tableText = "<div class='nextRow'><form action='/joinTeam' method='POST'>\
+	const user = req.user.id;
+	const sql = "SELECT pt_id\
+					, user_id\
+					, join_table.pt_role_id\
+					, users.displayname AS displayname\
+					, pro_team_name\
+					, pt_role_name \
+				FROM join_table \
+				INNER JOIN users \
+					ON users.id = join_table.user_id \
+				INNER JOIN pro_team \
+					ON pro_team_id = pt_id \
+				INNER JOIN pro_team_roles \
+					ON pro_team_roles.pt_role_id = join_table.pt_role_id \
+				WHERE user_id =" + user + ";";
+	pool.query(sql, (error, results) => {
+		if (error) {
+			throw error;
+		}
+		var teamsVar = "";
+			var tableText = "<div class='nextRow'><form action='/joinTeam' method='POST'>\
 			<input type='text' name='user_id' id='user_id' value=" + req.user.id + " hidden>\
 			<label for='team_name'>Team Name:</label><br><br>\
 			<input type='text' name='team_name' id='team_name'><br><br>\
@@ -2119,7 +2401,23 @@ const deliverJoinTeam = function(req, res) {
 			<input type='number' name='team_id' id='team_id'><br><br>\
 			<input class='redButton' type='submit' style='width:250px;' value='Join Team'>\
 		</form></div>";
-	res.render("dashboard.ejs", {statusMessage: tableText, user: req.user});
+		results.rows.forEach(element =>
+			teamsVar += "<form action='deliverTeam' method='POST'>\
+						<input type='text' id='teamdid' name='teamid' \
+							value='" + element.pt_id + "' hidden>\
+						<input type='submit' name='deliverTeam' \
+							value='" + element.pro_team_name + "' class='teamTitle'>\
+					</form>"
+		);
+		if (results.rows[0] == null) {
+			tableText = "NO TEAMS YET =(";
+			teamsVar = "CREATE A TEAM";
+			};
+		res.render("teams.ejs", {
+			statusMessage: tableText, teamsList: teamsVar, user: req.user
+			}
+		);
+	});
 };
 
 //------------------------------------------------------------------------------
@@ -2232,7 +2530,7 @@ const teamsView = (request, response) => {
 		if (new Date(endDate) >= date) { response.redirect("./teams2")} else {
 
     response.render("dashboard.ejs", {statusMessage: "<div class='nextRow'>COMING SOON<p>Teams functionality allows teams to efficiently define outcomes, track progress, and measure productivity.\
-	<div>Sign up for an early-adopter membership for early access.\
+	<div style='display: none;'>Sign up for an early-adopter membership for early access.\
 	<form action='/create-checkout-session' method='POST'>\
       <input type='hidden' name='priceId' value='price_1JBVtmKqakUFqghQNtxN26pV' />\
       <button type='submit'>Checkout</button>\
@@ -2352,5 +2650,8 @@ module.exports = {
   updatePercentage,
   updateProjectTeam,
   takeProject,
-  releaseProject
+  releaseProject,
+  getTeamProject,
+  plusTeamComment,
+  updateTeamProject
 }
