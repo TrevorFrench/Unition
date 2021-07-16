@@ -77,25 +77,35 @@
         chart.draw(data, options);
       }
     </script>
-	
-	<script type="text/javascript">
-      google.charts.load("current", {packages:["corechart"]});
+	  
+	  	<script type="text/javascript">
+
+      // Load the Visualization API and the corechart package.
+      google.charts.load('current', {'packages':['corechart']});
+
+      // Set a callback to run when the Google Visualization API is loaded.
       google.charts.setOnLoadCallback(drawChart);
+
+      // Callback that creates and populates a data table,
+      // instantiates the pie chart, passes in the data and
+      // draws it.
       function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-          ['Customer', '# of Projects'],
-			<%- customerData %>
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Month');
+        data.addColumn('number', 'Projects');
+        data.addRows([
+		<%- customerData %>
         ]);
 
-        var options = {
-          title: 'Customers',
-          pieHole: 0.4,
-        };
+        // Set chart options
+        var options = {'title':'Unique landing page hits (by IP)'};
 
-        var chart = new google.visualization.PieChart(document.getElementById('donut2chart'));
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.ColumnChart(document.getElementById('donut2chart'));
         chart.draw(data, options);
       }
-	  </script>
+    </script>
 
 	</head>
 	

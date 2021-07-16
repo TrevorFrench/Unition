@@ -1780,17 +1780,41 @@ const consoleCharts = (request, response) => {
 			results.rows.forEach(element =>
 					categoryArray.push("['" + element.page + "', " + parseInt(element.page_count) + "]")
 				);
-			const sql3 = "SELECT customer, COUNT(customer) AS CUSTOMER_COUNT FROM projects WHERE (responsible = '" + user + "') GROUP BY customer ORDER BY CUSTOMER_COUNT DESC;";
+			const sql3 = "SELECT DISTINCT\
+					CONCAT(date_part('year', date_time)\
+						, '-'\
+						, date_part('month', date_time)) \
+					AS MONTH\
+					, COUNT(DISTINCT ipaddress) AS USER_COUNT\
+				FROM views \
+				WHERE (page = 'landing')\
+					GROUP BY date_part('year', date_time)\
+					, date_part('month', date_time)\
+				ORDER BY MONTH;";
 			pool.query(sql3, (error, results) => {
 				if (error) {
 					throw error;
 				}
-				let customerArray = [];
-				results.rows.forEach(element =>
-						customerArray.push("['" + element.customer + "', " + parseInt(element.customer_count) + "]")
-					);
+				let dataArray2 = [];
+				let labelArray2 = [];
+				results.rows.forEach(element => 
+				labelArray2.push("'" + element.month + "'")
+				);
+				var texts= "labels: [" + labelArray2 + "],\
+							datasets: [{\
+							label: '# of Users',\
+							data: " 
+				results.rows.forEach(element => 
+					dataArray2.push(element.user_count)
+				);
 				
-				response.render("console.ejs", {statusMessage: googleArray, categoryData: categoryArray, customerData: customerArray, user: request.user});
+				let googleArray2 = [];
+				results.rows.forEach(element =>
+					googleArray2.push("['" + element.month + "' ," + parseInt(element.user_count) + "]")
+				);
+				texts+= "[" + dataArray2 + "]";
+				
+				response.render("console.ejs", {statusMessage: googleArray, categoryData: categoryArray, customerData: googleArray2, user: request.user});
 
 			});
 		});

@@ -104,7 +104,10 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - Create sub tasks (maybe as a type of comment)
    - comments start offset to the right
    - Success form
-   - REDIRECT AFTER REATING A TEAM PROJECT
+   - REDIRECT AFTER CREATING A TEAM PROJECT
+   - Feedback/Bug/Help table and list on admin page
+   - Created date on users
+   - eventually drop team column from users and switch everything over to user_id (bg project, lots of testing)
 */
 
 //------------------------------------------------------------------------------
