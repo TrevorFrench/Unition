@@ -1983,7 +1983,7 @@ const deliverTeams = (request, response) => {
 			var scrumBoard = "<table class='styled-table' id='scrumBoard' style='width: 100%;'><tbody>\
 				<tr><th>Scrum Board<div onclick='toggleScrumBoard()' Style='float:right; cursor: pointer;'><i class='fas fa-window-close' style='float: right; color: white;'></i></div></th></tr>";
 			var scrumBoard2 = "<table class='styled-table' id='scrumBoard' style='width: 100%;'><tbody>\
-				<tr><th>Unition Board</th><td></td><td><div onclick='toggleScrumBoard()' Style='float:right; cursor: pointer;'><i class='fas fa-window-close' style='float: right; color: white;'></i></div></td></tr>";
+				<tr style='border: solid 1px black;'><th>Unition Board</th><td></td><td><div onclick='toggleScrumBoard()' Style='float:right; cursor: pointer;'><i class='fas fa-window-close' style='float: right; color: white;'></i></div></td></tr>";
 			var scripts = "";
 			results.rows.forEach(element => 
 				projectsText += "<tr><td><form id='projectform' action='/openTeamProject' method='post'>\
@@ -2011,11 +2011,11 @@ const deliverTeams = (request, response) => {
 
 			do {
 				var texts = unique[i].replace(/\s/g, '');
-				scrumBoard2 += "<tr><td style='font-size: medium;'><b>" + unique[i] + "</b></td><td></td><td><div class='toolTableButton' onclick='toggle" + texts + "()' Style='float:right; cursor: pointer;'><i id='" + texts + "Minus' class='fas fa-minus' style='float: right;'></i><i id='" + texts + "Plus' class='fas fa-plus' style='float: right; display: none;'></i></div></td></tr>";
+				scrumBoard2 += "<tr style='background-color: lightgray;'><td style='font-size: medium;'><b>" + unique[i] + "</b></td><td></td><td><div class='toolTableButton' onclick='toggle" + texts + "()' Style='float:right; cursor: pointer;'><i id='" + texts + "Minus' class='fas fa-minus' style='float: right;'></i><i id='" + texts + "Plus' class='fas fa-plus' style='float: right; display: none;'></i></div></td></tr>";
 				scripts += "<script> function toggle" + texts + "() { var minus = document.getElementById('" + texts + "Minus'); var plus = document.getElementById('" + texts + "Plus'); if (minus.style.display == 'none') {minus.style.display = 'inline-block'; plus.style.display = 'none'} else {plus.style.display = 'inline-block'; minus.style.display = 'none'} var x = document.getElementsByName('" + unique[i] + "Cat'); let h = 0; do {if (x[h].style.display === 'none') {x[h].style.display = 'table-row';} else { x[h].style.display = 'none';} h += 1;} while (h < x.length)}</script>"
 				do {
 					if (results.rows[j].category == unique[i]) {
-						scrumBoard2 += "<tr name='" + unique[i] + "Cat' ><td><form id='projectForm' action='/openTeamProject' method='post'>\
+						scrumBoard2 += "<tr name='" + unique[i] + "Cat' style='background-color: white;'><td><form id='projectForm' action='/openTeamProject' method='post'>\
 						<input type='text' name='ticketID' value='" + results.rows[j].project_id + "' id='" + results.rows[j].project_id + "' hidden>\
 						<input type='submit' class='projectTitle' value='" + results.rows[j].title.replace(/'/gi,"''") + "'></form></td><td>\
 						<form id='form" + results.rows[j].project_id + "' action='/updatePercentage' method='POST'>\
