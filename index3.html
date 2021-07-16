@@ -20,8 +20,64 @@
 	box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 	}
 	</style>
+	<script>
+	      google.charts.load('current', {'packages':['gantt']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+
+      var data = new google.visualization.DataTable();
+      data.addColumn('string', 'Task ID');
+      data.addColumn('string', 'Task Name');
+      data.addColumn('string', 'Resource');
+      data.addColumn('date', 'Start Date');
+      data.addColumn('date', 'End Date');
+      data.addColumn('number', 'Duration');
+      data.addColumn('number', 'Percent Complete');
+      data.addColumn('string', 'Dependencies');
+
+      data.addRows([
+        ['2014Spring', 'Create Training Program', 'spring',
+         new Date(2014, 2, 22), new Date(2014, 5, 20), null, 100, null],
+        ['2014Summer', 'Hire Employees', 'summer',
+         new Date(2014, 5, 21), new Date(2014, 8, 20), null, 100, null],
+        ['2014Autumn', 'Launch Admin Page', 'autumn',
+         new Date(2014, 8, 21), new Date(2014, 11, 20), null, 100, null],
+        ['2014Winter', 'Price Package Plan Analysis', 'winter',
+         new Date(2014, 11, 21), new Date(2015, 2, 21), null, 100, null],
+        ['2015Spring', 'Reporting', 'spring',
+         new Date(2015, 2, 22), new Date(2015, 5, 20), null, 50, null],
+        ['2015Summer', 'Ad Campaign', 'summer',
+         new Date(2015, 5, 21), new Date(2015, 8, 20), null, 0, null],
+        ['2015Autumn', 'New Office Space', 'autumn',
+         new Date(2015, 8, 21), new Date(2015, 11, 20), null, 0, null],
+        ['2015Winter', 'Engineering', 'winter',
+         new Date(2015, 11, 21), new Date(2016, 2, 21), null, 0, null],
+        ['Football', 'Plan Bonuses', 'sports',
+         new Date(2014, 8, 4), new Date(2015, 1, 1), null, 100, null],
+        ['Baseball', 'Employee Evaluations', 'sports',
+         new Date(2015, 2, 31), new Date(2015, 9, 20), null, 14, null],
+        ['Basketball', 'Launch on Product Hunt', 'sports',
+         new Date(2014, 9, 28), new Date(2015, 5, 20), null, 86, null],
+        ['Hockey', 'Pitch VCs', 'sports',
+         new Date(2014, 9, 8), new Date(2015, 5, 21), null, 89, null]
+      ]);
+
+      var options = {
+        height: 400,
+        gantt: {
+          trackHeight: 30
+        }
+      };
+
+      var chart = new google.visualization.Gantt(document.getElementById('chart_div'));
+
+      chart.draw(data, options);
+    }
+
+	</script>
 </head>
-<body style="background-color: #282832; margin: 0px; font-family: roboto, sans-serif;">
+<body style="background-color: white; margin: 0px; font-family: roboto, sans-serif;">
 	<div style="height:66px; width: 100%; background-color: white; padding-top: 34px; border-bottom: solid black 1px;">
 		<img type="image/png" src="./public/unitionBig.png" style="margin-left: auto; margin-right: auto; display: block;" class="unitionBig">
 	</div>
@@ -29,8 +85,8 @@
 	<table style="width: 100%;">
 		<tr>
 		<td style="text-align: left; padding: 25px;">
-		<h1>Welcome to your new work-life.</h1>
-		<p>We've been working hard to provide you with an easy solution to manage your busy workload. Plus, it's free for individuals.</p>
+		<h1><!--Welcome to your new work-life.-->The easiest way to make your work easier.</h1>
+		<p><!--We've been working hard to provide you with an easy solution to manage your busy workload.-->Tracking projects doesn't need to be a project in and of itself. Get started with a free account and see how things can be better. <!-- Plus, it's free for individuals.--></p>
 		<form action="/myProjects" method="get">
 			<input class="redButton"  style="width: 35%; margin-left:32.5%;"type="submit" value="Try it now!">
 		</form>
@@ -44,12 +100,48 @@
 	<div style="height:600px; width: 100%; background-color: lightgray;">
 		<table style="width: 100%; height: 100%;">
 		<tr>
-		<td style="text-align:center; width: 33%;"><h1>Create, View, and Assign Projects</h1><br><img type="image/png" src="./public/box2a.svg" style="margin-left: auto; margin-right: 50px; width: 100%; height: 300px; position: relative;" class="unitionBig"></td>
-		<td style="text-align:center; width: 33%;"><h1>Work within Teams</h1><br><img type="image/png" src="./public/box2b.svg" style="margin-left: auto; margin-right: 50px; width: 100%; height: 300px; position: relative;" class="unitionBig"></td>
-		<td style="text-align:center; width: 33%;"><h1>Track Progress</h1><br><img type="image/png" src="./public/box2c.svg" style="margin-left: auto; margin-right: 50px; width: 100%; height: 300px; position: relative;" class="unitionBig"></td>
+		<td style="text-align:center; width: 33%;"><h1>Create, View, and Assign Projects</h1><br><img type="image/png" src="./public/box2a.svg" style="margin-left: auto; margin-right: auto; width: 95%; height: 300px; position: relative;" class="unitionBig"></td>
+		<td style="text-align:center; width: 33%;"><h1>Work within Teams</h1><br><img type="image/png" src="./public/box2b.svg" style="margin-left: auto; margin-right: auto; width: 95%; height: 300px; position: relative;" class="unitionBig"></td>
+		<td style="text-align:center; width: 33%;"><h1>Track Progress</h1><br><img type="image/png" src="./public/box2c.svg" style="margin-left: auto; margin-right: auto; width: 95%; height: 300px; position: relative;" class="unitionBig"></td>
 		</tr>
 		</table>
 	</div>
+		<div style="width: 100%; background-color: white; ">
+		<br>
+		<h1 style='text-align: center;'>It's not that complicated</h1>
+		<p style='text-align: center;'>You don't need a training program to start using Unition. Just create a project and it shows up in your project list.</p><br>
+	</div>
+
+		<div style="height:600px; width: 100%; background-color: white; align-content: center;">
+		<img type="image/png" src="./public/gif1.gif" style="margin-left: auto; margin-right: auto; display: block;" class="unitionBig">
+	</div>
+		<div style="height:600px; width: 100%; background-color: lightgray;">
+		<table style="width: 100%; height: 100%;">
+		<tr>
+		<td style="text-align:center; width: 33%;"><img type="image/png" src="./public/gantt.JPG" style="margin-left: auto; margin-right: auto; width: 95%; position: relative;" class="unitionBig"></td>
+		<td style="text-align:center; width: 33%;"><h1>Create Gantt Charts for Longer Projects</h1></td>
+		</tr>
+		</table>
+	</div>
+			<div style="width: 100%; background-color: white; ">
+		<br>
+		<h1 style='text-align: center;'>Customize your Workspace</h1>
+		<p style='text-align: center;'>Choose from a growing collection of themes to make your work environment your own.</p><br>
+	</div>
+
+		<div style="height:600px; width: 100%; background-color: white; align-content: center;">
+		<img type="image/png" src="./public/gif2.gif" style="margin-left: auto; margin-right: auto; display: block;" class="unitionBig">
+	</div>
+	
+	<div style="height:600px; width: 100%; background-color: lightgray;">
+		<table style="width: 100%; height: 100%;">
+		<tr>
+		<td style="text-align:center; width: 33%;"><h1>Graph your Productivity</h1><p>Know where and why you are spending your time. Communicate value to your employer/customers</p></td>
+		<td style="text-align:center; width: 33%;"><img type="image/png" src="./public/frame5.JPG" style="margin-left: auto; margin-right: auto; width: 95%; position: relative;" class="unitionBig"></td>
+		</tr>
+		</table>
+	</div>
+	
 	<div style="height:350px; width: 100%; background-color: white; padding-top: 250px;">
 		<img type="image/png" src="./public/unitionBig.png" style="margin-left: auto; margin-right: auto; display: block;" class="unitionBig">
 		<br>
