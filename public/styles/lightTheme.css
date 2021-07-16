@@ -253,6 +253,19 @@ input[type="submit"].blueButton {
 /*--------------------------------------------*/
 /*----------------TABLE DESIGN----------------*/
 /*--------------------------------------------*/
+.scrumClass {
+	background-color: lightgray;
+}
+
+.scrumClass2 {
+	background-color: white;
+}
+
+.scrumTitle {
+	border: solid 1px black;
+	background-color: lightgray;
+}
+
 .styled-table {
     border-collapse: collapse;
     /*margin: 25px 0;*/
@@ -281,6 +294,30 @@ input[type="submit"].blueButton {
 .styled-table tbody tr {
     /*border-bottom: 3px solid #282832;*/
 	background-color: lightgray;
+}
+
+.scrum-table {
+    border-collapse: collapse;
+    /*margin: 25px 0;*/
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    /*box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);*/
+	color: black;
+	margin-bottom: 25px;
+	margin-right: 5%;
+	border: solid 1px black;
+}
+
+.scrum-table thead tr {
+    background-color: #32323e;
+    color: white;
+    text-align: left;
+}
+
+.scrum-table th,
+.scrum-table td {
+    padding: 12px 15px;
 }
 
 .styled-table tbody tr:nth-of-type(even) {
