@@ -104,6 +104,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - Create sub tasks (maybe as a type of comment)
    - comments start offset to the right
    - Success form
+   - REDIRECT AFTER REATING A TEAM PROJECT
 */
 
 //------------------------------------------------------------------------------
