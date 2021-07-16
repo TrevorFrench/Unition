@@ -15,7 +15,7 @@ const pool = new Pool({
 //--------------------------------ADMINISTRATION--------------------------------
 //------------------------------------------------------------------------------
 const admin = (request, response) => {
-	const sql = "UPDATE users SET displayname = 'unassigned' WHERE displayname = 'testdisplay';";
+	const sql = "delete from stripe where checkout_session_id = 'cs_00000000000000';";
 	pool.query(sql, (error, results) => {
 		if (error) {
 			throw error
@@ -2523,18 +2523,25 @@ const teamsView = (request, response) => {
 		if (error) {
 			throw error;
 		}
+		if (results.rows[0] != null) {
+			console.log(results.rows[0])
 		let endDate = results.rows[0].subscription_end;
 		console.log(endDate)
 		console.log(new Date(endDate))
 		
 		if (new Date(endDate) >= date) { response.redirect("./teams2")} else {
 
-    response.render("dashboard.ejs", {statusMessage: "<div class='nextRow'>COMING SOON<p>Teams functionality allows teams to efficiently define outcomes, track progress, and measure productivity.\
-	<div style='display: none;'>Sign up for an early-adopter membership for early access.\
+    response.render("dashboard.ejs", {statusMessage: "<div class='nextRow'><p>Teams functionality allows teams to efficiently define outcomes, track progress, and measure productivity.</p></div>\
+	<div class='nextRow'>Sign up for an early-adopter membership for early access.\
 	<form action='/create-checkout-session' method='POST'>\
       <input type='hidden' name='priceId' value='price_1JBVtmKqakUFqghQNtxN26pV' />\
       <button type='submit'>Checkout</button>\
-		</form></div></p><div>", user: request.user})}
+		</form></div>", user: request.user})}} else {    response.render("dashboard.ejs", {statusMessage: "<div class='nextRow'><p>Teams functionality allows teams to efficiently define outcomes, track progress, and measure productivity.</p></div>\
+	<div class='nextRow'>Sign up for an early-adopter membership for early access.\
+	<form action='/create-checkout-session' method='POST'>\
+      <input type='hidden' name='priceId' value='price_1JBVtmKqakUFqghQNtxN26pV' />\
+      <button type='submit'>Checkout</button>\
+		</form></div>", user: request.user})}
 	});
 	});
 }

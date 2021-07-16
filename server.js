@@ -103,6 +103,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - Feedback/bug tables
    - Create sub tasks (maybe as a type of comment)
    - comments start offset to the right
+   - Success form
 */
 
 //------------------------------------------------------------------------------
@@ -196,7 +197,7 @@ app.use(passport.session());
 //------------------------------------------------------------------------------
 //----------------------------------STRIPE API----------------------------------
 //------------------------------------------------------------------------------
-const stripe = require('stripe')(/*process.env.STRIPE_KEY*/process.env.STRIPE_TEST_KEY);
+const stripe = require('stripe')(process.env.STRIPE_KEY/*process.env.STRIPE_TEST_KEY*/);
 
 // Fetch the Checkout Session to display the JSON result on the success page
 app.get("/checkout-session", async (req, res) => {
@@ -237,14 +238,14 @@ app.post("/create-checkout-session", async (req, res) => {
       payment_method_types: ["card"],
       line_items: [
         {
-          price: 'price_1JBXPxKqakUFqghQxDCrHnwj',
+          price: 'price_1JBVtmKqakUFqghQNtxN26pV',
           quantity: 1,
         },
       ],
       // ?session_id={CHECKOUT_SESSION_ID} means the redirect will have the session ID set as a query param
 	  
-      success_url: 'https://unition.app/success.html?session_id={CHECKOUT_SESSION_ID}',
-      cancel_url: 'https://example.com/canceled.html',
+      success_url: 'https://unition.app/teams',
+      cancel_url: 'https://unition.app/teams',
     });
 	console.log("session ID: " + session.id + " USER_ID: " + req.user.id);
 	
