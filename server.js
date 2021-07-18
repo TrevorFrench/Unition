@@ -106,8 +106,10 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - Success form
    - REDIRECT AFTER CREATING A TEAM PROJECT
    - Feedback/Bug/Help table and list on admin page
-   - Created date on users
+   - Created date on users (IMPORTANT)
    - eventually drop team column from users and switch everything over to user_id (bg project, lots of testing)
+   - Upgrade Database
+   - Secure teams 2
 */
 
 //------------------------------------------------------------------------------
@@ -721,6 +723,16 @@ app.post('/updatePercentage',													// updates project percentage
 app.get('/forms',												    			// renders the 'forms' view
   require('connect-ensure-login').ensureLoggedIn(),
   db2.formsView
+);
+
+app.get('/calendarView',												    	// renders the 'calendar' view
+  require('connect-ensure-login').ensureLoggedIn(),
+  db2.calendarView
+);
+
+app.post('/calendarWithInput',												    // renders the 'calendar' view with user inputted number of days
+  require('connect-ensure-login').ensureLoggedIn(),
+  db2.calendarWithInput
 );
 
 //------------------------------------------------------------------------------

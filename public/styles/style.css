@@ -523,7 +523,6 @@ canvas {
 }
 
 .projectFilters {
-	border: solid 2px black;
 	margin-right: 5%;
 	padding: 10px;
 	background-color:#32323e;
@@ -561,4 +560,26 @@ input[type="submit"].filterButton {
   .rightDiv {
     overflow: visible;
   }
+}
+
+/*--------------------------------------------*/
+/*---------------CALENDAR VIEW----------------*/
+/*--------------------------------------------*/
+.calendarDay {
+	margin-right: 10px;
+	width: 200px;
+	display: inline-grid;
+	color: lightslategray;
+	margin-bottom: 10px;
+	backgRound-color: #32323e;
+	box-shadow: 0 0 20px rgb(0 0 0 / 15%);
+}
+
+.calendarDayTitle {
+	border-bottom: 3px solid #282832;
+	font-size: 150%;
+	text-align: center;
+}
+.calendarDayBody {
+	overflow: hidden;
 }

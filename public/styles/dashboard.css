@@ -473,3 +473,30 @@ canvas {
 .docul {
 	color: black;
 }
+
+.projectFilters {
+	margin-right: 5%;
+	border-radius: 5px;
+}
+
+/*--------------------------------------------*/
+/*---------------CALENDAR VIEW----------------*/
+/*--------------------------------------------*/
+.calendarDay {
+	margin-right: 10px;
+	width: 200px;
+	display: inline-grid;
+	color: black;
+	margin-bottom: 10px;
+	background-color: lightgray;
+	box-shadow: 0 0 20px rgb(0 0 0 / 15%);
+}
+
+.calendarDayTitle {
+	border-bottom: 3px solid #282832;
+	font-size: 150%;
+	text-align: center;
+}
+.calendarDayBody {
+	overflow: hidden;
+}

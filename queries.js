@@ -598,6 +598,7 @@ const selectMyProjects = function(req, res) {
 			<form action='/myProjects' method='get'>\
 				<input type='submit' name='myprojects' value='My Projects' class='filterButton'>\
 			</form>\
+			<a href='./calendarView'><div class='toolTableButton' title='Calendar View' style='cursor: pointer; float: right;'><i class='fas fa-calendar'></i></div></a>\
 			</div>\
 			<br>\
 			<table class='styled-table'>\
@@ -2555,17 +2556,29 @@ const teamsView = (request, response) => {
 		
 		if (new Date(endDate) >= date) { response.redirect("./teams2")} else {
 
-    response.render("dashboard.ejs", {statusMessage: "<div class='nextRow'><p>Teams functionality allows teams to efficiently define outcomes, track progress, and measure productivity.</p></div>\
-	<div class='nextRow'>Sign up for an early-adopter membership for early access.\
-	<form action='/create-checkout-session' method='POST'>\
+    response.render("dashboard.ejs", {statusMessage: "<div style='width: 100%; min-width: 1200px;' class='nextRow'>\
+		<br>\
+		<h1 style='text-align: center;'>Collaborate with Your Team</h1>\
+		<p style='text-align: center;'>Create worskpaces for each of your teams and committees. Keep everyone aligned and headed towards your goals.<br>Sign up for an early-adopter membership for early access.\
+	<form action='/create-checkout-session' method='POST' style='margin-left: auto; margin-right: auto;'>\
       <input type='hidden' name='priceId' value='price_1JBVtmKqakUFqghQNtxN26pV' />\
       <button type='submit'>Checkout</button>\
-		</form></div>", user: request.user})}} else {    response.render("dashboard.ejs", {statusMessage: "<div class='nextRow'><p>Teams functionality allows teams to efficiently define outcomes, track progress, and measure productivity.</p></div>\
-	<div class='nextRow'>Sign up for an early-adopter membership for early access.\
-	<form action='/create-checkout-session' method='POST'>\
+		</form></p>\
+	</div>\
+		<div style='height:600px; min-width: 1200px; width: 100%; class='nextRow' align-content: center;'>\
+		<img type='image/png' src='./public/gif3.gif' style='margin-left: auto; margin-right: auto; display: block;' class='unitionBig'>\
+	</div>", user: request.user})}} else {    response.render("dashboard.ejs", {statusMessage: "<div style='width: 100%; min-width: 1200px;' class='nextRow'>\
+		<br>\
+		<h1 style='text-align: center;'>Collaborate with Your Team</h1>\
+		<p style='text-align: center;'>Create worskpaces for each of your teams and committees. Keep everyone aligned and headed towards your goals.<br><br>Sign up for an early-adopter membership for early access.\
+	<form action='/create-checkout-session' method='POST' style='margin-left: auto; margin-right: auto;'>\
       <input type='hidden' name='priceId' value='price_1JBVtmKqakUFqghQNtxN26pV' />\
       <button type='submit'>Checkout</button>\
-		</form></div>", user: request.user})}
+		</form></p>\
+	</div>\
+		<div style='height:600px; min-width: 1200px; width: 100%; class='nextRow' align-content: center;'>\
+		<img type='image/png' src='./public/gif3.gif' style='margin-left: auto; margin-right: auto; display: block;' class='unitionBig'>\
+	</div>", user: request.user})}
 	});
 	});
 }
@@ -2619,6 +2632,230 @@ const formsView = (request, response) => {
 		</tbody></table>\
 		<br>\
 		<table class='styled-table'><tr><th>Custom Forms</th></tr><tr><td>Custom forms are available for enterprise customers. For inquiries, contact me here: Trevor@unition.app</td></tr></table>", user: request.user
+		})
+	
+	});
+}
+
+//------------------------------------------------------------------------------
+//-------------------------DELIVERS THE CALENDAR VIEW---------------------------
+//------------------------------------------------------------------------------
+const calendarView = (request, response) => {
+	
+	function getDayOfWeek(date) {
+	  const dayOfWeek = new Date(date).getDay();    
+	  return isNaN(dayOfWeek) ? null : 
+		['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][dayOfWeek];
+	}
+	
+	function getMonthOfYear(date) {
+	  const monthOfYear = new Date(date).getMonth();    
+	  return isNaN(monthOfYear) ? null : 
+		['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][monthOfYear];
+	}
+	
+	const user = request.user.id;
+	const today = new Date();
+	const tomorrow = new Date(today);
+	const varDate = new Date(today);
+	tomorrow.setDate(tomorrow.getDate() + 1);
+
+const isSameDay = (a, b) => {
+  return a.getFullYear() === b.getFullYear() &&
+    a.getMonth() === b.getMonth() &&
+    a.getDate()=== b.getDate()
+}
+
+	const sql = "SELECT project_id\
+					, title\
+					, status\
+					, responsible\
+					, duedate\
+					, description\
+					, id\
+					, displayname \
+				FROM projects \
+					INNER JOIN users \
+					ON id = TO_NUMBER(responsible, '99G999D9S') \
+					WHERE (status = 'In-process' \
+						AND responsible = '" + user + "') \
+					OR (status = 'Open' \
+						AND responsible = '" + user + "') \
+				ORDER BY project_id ASC;";
+	pool.query(sql, (error, results) => {
+		if (error) {
+			throw error;
+		}
+		
+		var myProjects = "<div class='projectFilters'>\
+			<form action='/openProjects' method='post'>\
+				<input type='submit' name='openprojects' value='Open Projects' class='filterButton'>\
+			</form>\
+			<form action='/inprocessProjects' method='post'>\
+				<input type='submit' name='inprocessprojects' value='In-Process Projects' class='filterButton'>\
+			</form>\
+			<form action='/allProjects' method='post'>\
+				<input type='submit' name='allprojects' value='All Projects' class='filterButton'>\
+			</form>\
+			<form action='/myProjects' method='get'>\
+				<input type='submit' name='myprojects' value='My Projects' class='filterButton'>\
+			</form>\
+			<form action='/calendarWithInput' method='post'>\
+				<input type='number' name='days' id='days' value='7' />\
+				<input type='submit' name='daysubmit' value='Days' class='CalendarWithInput'>\
+			</form>\
+			<a href='./calendarView'><div class='toolTableButton' title='Calendar View' style='cursor: pointer; float: right;'><i class='fas fa-calendar'></i></div></a>\
+			</div>\
+			<br>\<div>";
+		
+		var x = 7;
+		
+		for (let i = 0; i < x; i++) {
+			
+			Date.prototype.addDays = function(days) {
+				var date = new Date(this.valueOf());
+				date.setDate(date.getDate() + days);
+				return date;
+			}
+
+			varDates = varDate.addDays(i);
+			
+			myProjects += "<div class='calendarDay'><div class='calendarDayTitle'><b>" + getDayOfWeek(varDates) + ", " + getMonthOfYear(varDates) + " " + varDates.getDate() + ", " + varDates.getFullYear() + "</b></div>";
+			var n = 0;
+			myProjects += "<div class='calendarDayBody'>";
+			do {
+				console.log(isSameDay(results.rows[n].duedate, varDates))
+				if (isSameDay(results.rows[n].duedate, varDates)) {
+					myProjects += "<form id='projectform' action='/openProject' method='post'>\
+							<input type='text' name='ticketID' \
+								value='" + results.rows[n].project_id + "' \
+								id='" + results.rows[n].project_id + "' hidden>\
+							<input type='submit'  class='projectTitle' \
+								value='" + results.rows[n].title.replace(/'/g,"&#39;") + "'>\
+						</form>";
+					n++;
+				} else {
+					n++;
+					}
+			} while (n < results.rows.length);
+			myProjects += "</div>"
+			myProjects += "</div>";
+		}
+		myProjects += "</div>";
+		response.render("dashboard.ejs", {statusMessage:
+		myProjects, user: request.user
+		})
+	
+	});
+}
+
+//------------------------------------------------------------------------------
+//-------------------------DELIVERS THE CALENDAR VIEW---------------------------
+//------------------------------------------------------------------------------
+const calendarWithInput = (request, response) => {
+	
+	function getDayOfWeek(date) {
+	  const dayOfWeek = new Date(date).getDay();    
+	  return isNaN(dayOfWeek) ? null : 
+		['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][dayOfWeek];
+	}
+	
+	function getMonthOfYear(date) {
+	  const monthOfYear = new Date(date).getMonth();    
+	  return isNaN(monthOfYear) ? null : 
+		['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][monthOfYear];
+	}
+	
+	const user = request.user.id;
+	const today = new Date();
+	const tomorrow = new Date(today);
+	const varDate = new Date(today);
+	tomorrow.setDate(tomorrow.getDate() + 1);
+	var numDays = request.body.days;
+
+const isSameDay = (a, b) => {
+  return a.getFullYear() === b.getFullYear() &&
+    a.getMonth() === b.getMonth() &&
+    a.getDate()=== b.getDate()
+}
+
+	const sql = "SELECT project_id\
+					, title\
+					, status\
+					, responsible\
+					, duedate\
+					, description\
+					, id\
+					, displayname \
+				FROM projects \
+					INNER JOIN users \
+					ON id = TO_NUMBER(responsible, '99G999D9S') \
+					WHERE (status = 'In-process' \
+						AND responsible = '" + user + "') \
+					OR (status = 'Open' \
+						AND responsible = '" + user + "') \
+				ORDER BY project_id ASC;";
+	pool.query(sql, (error, results) => {
+		if (error) {
+			throw error;
+		}
+		
+		var myProjects = "<div class='projectFilters'>\
+			<form action='/openProjects' method='post'>\
+				<input type='submit' name='openprojects' value='Open Projects' class='filterButton'>\
+			</form>\
+			<form action='/inprocessProjects' method='post'>\
+				<input type='submit' name='inprocessprojects' value='In-Process Projects' class='filterButton'>\
+			</form>\
+			<form action='/allProjects' method='post'>\
+				<input type='submit' name='allprojects' value='All Projects' class='filterButton'>\
+			</form>\
+			<form action='/myProjects' method='get'>\
+				<input type='submit' name='myprojects' value='My Projects' class='filterButton'>\
+			</form>\
+			<form action='/calendarWithInput' method='post'>\
+				<input type='number' name='days' id='days' value='" + numDays + "' />\
+				<input type='submit' name='daysubmit' value='Days' class='CalendarWithInput'>\
+			</form>\
+			<a href='./calendarView'><div class='toolTableButton' title='Calendar View' style='cursor: pointer; float: right;'><i class='fas fa-calendar'></i></div></a>\
+			</div>\
+			<br>\<div>";
+		
+		var x = numDays;
+		
+		for (let i = 0; i < x; i++) {
+			Date.prototype.addDays = function(days) {
+				var date = new Date(this.valueOf());
+				date.setDate(date.getDate() + days);
+				return date;
+			}
+
+			varDates = varDate.addDays(i);
+
+			myProjects += "<div class='calendarDay'><div class='calendarDayTitle'><b>" + getDayOfWeek(varDates) + ", " + getMonthOfYear(varDates) + " " + varDates.getDate() + ", " + varDates.getFullYear() + "</b></div>";
+			var n = 0;
+			myProjects += "<div class='calendarDayBody'>";
+			do {
+				console.log(isSameDay(results.rows[n].duedate, varDates))
+				if (isSameDay(results.rows[n].duedate, varDates)) {
+					myProjects += "<form id='projectform' action='/openProject' method='post'>\
+							<input type='text' name='ticketID' \
+								value='" + results.rows[n].project_id + "' \
+								id='" + results.rows[n].project_id + "' hidden>\
+							<input type='submit'  class='projectTitle' \
+								value='" + results.rows[n].title.replace(/'/g,"&#39;") + "'>\
+						</form>";
+					n++;
+				} else {
+					n++;
+					}
+			} while (n < results.rows.length);
+			myProjects += "</div>"
+			myProjects += "</div>";
+		}
+		myProjects += "</div>";
+		response.render("dashboard.ejs", {statusMessage:
+		myProjects, user: request.user
 		})
 	
 	});
@@ -2684,5 +2921,7 @@ module.exports = {
   releaseProject,
   getTeamProject,
   plusTeamComment,
-  updateTeamProject
+  updateTeamProject,
+  calendarView,
+  calendarWithInput
 }
