@@ -2669,6 +2669,10 @@ const isSameDay = (a, b) => {
     a.getDate()=== b.getDate()
 }
 
+const rawDate = (a) => {
+  return new Date(a.getFullYear(), a.getMonth(), a.getDate(), 0, 0, 0, 0);
+}
+
 	const sql = "SELECT project_id\
 					, title\
 					, status\
@@ -2713,7 +2717,7 @@ const isSameDay = (a, b) => {
 			var o = 0;
 			myProjects += "<div class='calendarDay'><div class='calendarDayTitle'><b>OVERDUE</b></div><div class='calendarDayBody'>";
 			do {
-				if (results.rows[o].duedate < today) {
+				if (rawDate(results.rows[o].duedate) < rawDate(today)) {
 					myProjects += "<form id='projectform' action='/openProject' method='post'>\
 							<input type='text' name='ticketID' \
 								value='" + results.rows[o].project_id + "' \
@@ -2745,7 +2749,6 @@ const isSameDay = (a, b) => {
 			var n = 0;
 			myProjects += "<div class='calendarDayBody'>";
 			do {
-				console.log(isSameDay(results.rows[n].duedate, varDates))
 				if (isSameDay(results.rows[n].duedate, varDates)) {
 					myProjects += "<form id='projectform' action='/openProject' method='post'>\
 							<input type='text' name='ticketID' \

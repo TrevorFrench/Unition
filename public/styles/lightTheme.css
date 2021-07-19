@@ -270,7 +270,7 @@ input[type="submit"].blueButton {
     border-collapse: collapse;
     /*margin: 25px 0;*/
     font-size: 0.9em;
-    font-family: sans-serif;
+    font-family: 'roboto', sans-serif;
     min-width: 400px;
     /*box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);*/
 	color: black;
@@ -300,7 +300,7 @@ input[type="submit"].blueButton {
     border-collapse: collapse;
     /*margin: 25px 0;*/
     font-size: 0.9em;
-    font-family: sans-serif;
+    font-family: 'roboto', sans-serif;
     min-width: 400px;
     /*box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);*/
 	color: black;
@@ -402,6 +402,7 @@ canvas {
 	text-decoration: underline;
 	cursor: pointer; 
 	color: black;
+	font-family: 'roboto', sans-serif;
 }
 
 /******************FORM STYLING*********************/
