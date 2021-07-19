@@ -357,6 +357,7 @@ const selectAll = function(req, res) {
 			<form action='/myProjects' method='get'>\
 				<input type='submit' name='myprojects' value='My Projects' class='filterButton'>\
 			</form>\
+			<a href='./calendarView'><div class='toolTableButton' title='Calendar View' style='cursor: pointer; float: right;'><i class='fas fa-calendar'></i></div></a>\
 			</div>\
 			<br>\
 		<table class='styled-table'>\
@@ -468,6 +469,7 @@ const selectOpen = function(req, res) {
 			<form action='/myProjects' method='get'>\
 				<input type='submit' name='myprojects' value='My Projects' class='filterButton'>\
 			</form>\
+			<a href='./calendarView'><div class='toolTableButton' title='Calendar View' style='cursor: pointer; float: right;'><i class='fas fa-calendar'></i></div></a>\
 			</div>\
 			<br>\
 			<table class='styled-table'>\
@@ -532,7 +534,8 @@ const selectInprocess = function(req, res) {
 			</form>\
 			<form action='/myProjects' method='get'>\
 				<input type='submit' name='myprojects' value='My Projects' class='filterButton'>\
-			</form></div><br>\
+			</form>\
+			<a href='./calendarView'><div class='toolTableButton' title='Calendar View' style='cursor: pointer; float: right;'><i class='fas fa-calendar'></i></div></a>\</div><br>\
 			<table class='styled-table'>\
 				<tr><th>TITLE</th>\
 					<th>ID</th>\
@@ -2707,6 +2710,24 @@ const isSameDay = (a, b) => {
 			<a href='./calendarView'><div class='toolTableButton' title='Calendar View' style='cursor: pointer; float: right;'><i class='fas fa-calendar'></i></div></a>\
 			</div>\
 			<br>\<div>";
+			var o = 0;
+			myProjects += "<div class='calendarDay'><div class='calendarDayTitle'><b>OVERDUE</b></div><div class='calendarDayBody'>";
+			do {
+				if (results.rows[o].duedate < today) {
+					myProjects += "<form id='projectform' action='/openProject' method='post'>\
+							<input type='text' name='ticketID' \
+								value='" + results.rows[o].project_id + "' \
+								id='" + results.rows[o].project_id + "' hidden>\
+							<input type='submit'  class='projectTitle' \
+								value='" + results.rows[o].title.replace(/'/g,"&#39;") + "'>\
+						</form>";
+					o++;
+				} else {
+					o++;
+					}
+			} while (o < results.rows.length);
+			
+			myProjects += "</div></div>";
 		
 		var x = 7;
 		
@@ -2750,7 +2771,7 @@ const isSameDay = (a, b) => {
 }
 
 //------------------------------------------------------------------------------
-//-------------------------DELIVERS THE CALENDAR VIEW---------------------------
+//----------------DELIVERS THE CALENDAR VIEW BY NUMBER OF DAYS------------------
 //------------------------------------------------------------------------------
 const calendarWithInput = (request, response) => {
 	
