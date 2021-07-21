@@ -110,6 +110,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - eventually drop team column from users and switch everything over to user_id (bg project, lots of testing)
    - Upgrade Database
    - Secure teams 2
+   - Subtasks
 */
 
 //------------------------------------------------------------------------------

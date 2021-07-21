@@ -587,3 +587,9 @@ canvas {
 .calendarDayBody {
 	overflow: hidden;
 }
+
+.mainTable {
+	width: 86%;
+	margin-right: 14%;
+	text-align:center;
+}

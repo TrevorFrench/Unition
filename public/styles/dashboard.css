@@ -82,7 +82,7 @@ body {
 /*--------------------------------------------*/
 
 .card{
-  width: 14%;
+  width: 70px;;
   height: 100%;
   background-color:   #282832;
   border-radius: 10;
@@ -187,7 +187,7 @@ li:hover{
 	float:right;
 	padding: 20px 20px;
 	/*background-color: #282832;*/
-	width: 86%;
+	width: 100%;
 	/*margin-left: 14%;*/
 	border-radius: 5px;
 	/*box-shadow: 0 14px 28px rgb(0 0 0 / 25%);*/
@@ -367,7 +367,7 @@ canvas {
 }
 
 /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
-@media screen and (max-width: 600px) {
+
   .col-25, .col-75, input[type=submit] {
     width: 100%;
     margin-top: 0;
@@ -384,39 +384,9 @@ canvas {
   .unition {
 	  display: none;
   }
-}
 
-@media screen and (min-width: 1257px) {
 
-.unitionBig {
-	display: none;
-}
 
-.unitionSmall {
-	display: none;
-}
-
-.unition {
-	visibility: visible;
-}
-}
-
-@media screen and (min-width: 910px) and (max-width: 1257px) {
-
-.unitionBig {
-	visibility: visible;
-}
-
-.unitionSmall {
-	display: none;
-}
-
-.unition {
-	display: none;
-}
-}
-
-@media screen and (max-width: 910px) {
 
 .unitionBig {
 	display: none;
@@ -429,7 +399,7 @@ canvas {
 .unition {
 	display: none;
 }
-}
+
 
 .navText {
 	display: inline;
@@ -500,4 +470,9 @@ canvas {
 }
 .calendarDayBody {
 	overflow: hidden;
+}
+
+.mainTable {
+	width: 100%;
+	text-align:center;
 }
