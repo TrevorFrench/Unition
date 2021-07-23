@@ -58,7 +58,6 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - set recurring projects in the admin table
    - on ticket update, make value of status drop-down defauilted to true value rather than open
    - passport serializes ids based on position not id number we can return values in order but will break if an ID is ever removed
-   - make documentation text color variable
    - get rid of responsible on project creation form (individual)
    - internal server error when you hit  home after cookie times out
    - add an feature that allows you to "highlight" a project
@@ -107,10 +106,13 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED='0' // Also did this: npm config set st
    - REDIRECT AFTER CREATING A TEAM PROJECT
    - Feedback/Bug/Help table and list on admin page
    - Created date on users (IMPORTANT)
-   - eventually drop team column from users and switch everything over to user_id (bg project, lots of testing)
+   - eventually drop team column from users and switch everything over to user_id (big project, lots of testing)
    - Upgrade Database
    - Secure teams 2
    - Subtasks
+   - Design chart divs (border radius)
+   - Montserrat vs. Roboto?
+   - Maybe make teams look more like powerbi browser version
 */
 
 //------------------------------------------------------------------------------
@@ -595,6 +597,11 @@ app.post('/lightTheme', 														// light theme change
 app.post('/dashboardTheme', 													// dashboard theme change
 	require('connect-ensure-login').ensureLoggedIn(),
 	theme.dashboardTheme
+	)
+	
+app.post('/metalTheme', 														// metal theme change
+	require('connect-ensure-login').ensureLoggedIn(),
+	theme.metalTheme
 	)
 
 app.get('/Excel', 																// select every project that has been created for Excel scraping

@@ -691,6 +691,17 @@ const deliverTables = function(req, res) {
 					</form>\
 				</td>\
 			</tr>\
+			<tr><td>\
+					Metal\
+				</td>\
+				<td>Metal theme.</td>\
+				<td>\
+				<form action='/metalTheme' method='post'>\
+							<input type='submit' name='metalTheme' \
+								value='Change' class='projectTitle'>\
+					</form>\
+				</td>\
+			</tr>\
 		</tbody></table><br>";
 			
 		var tableText = "<table class='styled-table'><tbody>\

@@ -12,13 +12,13 @@ a {
 }
 
 body {
-	/*background-color:   #282832;*/
+	background-color:   #282832;
 }
 
 .container{
   padding: 0;
   display: flex;
-  height: 100%;
+  height: 97%;
   /*margin-top: 70px;*/
   /*margin: 10px;*/
 }
@@ -54,7 +54,7 @@ body {
 	/*display:inline;*/
 	float:right;
 	/*padding: 20px 20px;*/
-	/*background-color: #282832;*/
+	background-color: #282832;
 	width: 86%;
 	/*margin-left: 14%;*/
 	/*border-radius: 5px;*/
@@ -82,7 +82,7 @@ body {
 /*--------------------------------------------*/
 
 .card{
-  width: 70px;;
+  width: 14%;
   height: 100%;
   background-color:   #282832;
   border-radius: 10;
@@ -114,6 +114,14 @@ body {
   font-size: large;
   text-align: center;
   color: #fff;
+}
+
+.toolTable td {
+	text-align: center;
+}
+
+.toolTableButton {
+	color: white;
 }
 
 .header{
@@ -186,8 +194,8 @@ li:hover{
 	/*display:inline;*/
 	float:right;
 	padding: 20px 20px;
-	/*background-color: #282832;*/
-	width: 100%;
+	background-color: #282832;
+	width: 86%;
 	/*margin-left: 14%;*/
 	border-radius: 5px;
 	/*box-shadow: 0 14px 28px rgb(0 0 0 / 25%);*/
@@ -268,6 +276,46 @@ input[type="submit"].blueButton {
 }
 
 .styled-table tbody tr:last-of-type {
+    border-bottom: 3px solid #282832;
+}
+
+/*--------------------------------------------*/
+/*----------------TABLE DESIGN----------------*/
+/*--------------------------------------------*/
+.scrum-table {
+    border-collapse: collapse;
+    /*margin: 25px 0;*/
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+	color: lightslategray;
+	margin-bottom: 25px;
+	margin-right: 5%;
+}
+
+.scrum-table thead tr {
+    background-color: #32323e;
+    color: white;
+    text-align: left;
+}
+
+.scrum-table th,
+.scrum-table td {
+    padding: 12px 15px;
+}
+
+
+.scrum-table tbody tr {
+    border-bottom: 3px solid #282832;
+	background-color: #32323e;
+}
+
+.scrum-table tbody tr:nth-of-type(even) {
+    background-color: #32323e;
+}
+
+.scrum-table tbody tr:last-of-type {
     border-bottom: 3px solid #282832;
 }
 
@@ -366,12 +414,8 @@ canvas {
   clear: both;
 }
 
-.unitionMetal {
-	display: none;
-}
-
 /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
-
+@media screen and (max-width: 600px) {
   .col-25, .col-75, input[type=submit] {
     width: 100%;
     margin-top: 0;
@@ -382,28 +426,76 @@ canvas {
   }
   
   .unitionBig {
-	  visibility: visible;
+	  display: none;
+  }
+  
+  .unitionMetal {
+	visibility: visible;
+	width: 100%;
   }
   
   .unition {
 	  display: none;
   }
+}
 
-
-
+@media screen and (min-width: 1257px) {
 
 .unitionBig {
 	display: none;
 }
 
 .unitionSmall {
-	visibility: visible;
+	display: none;
 }
 
 .unition {
 	display: none;
 }
 
+.unitionMetal {
+	visibility: visible;
+  }
+}
+
+@media screen and (min-width: 910px) and (max-width: 1257px) {
+
+.unitionBig {
+	display: none;
+}
+.unitionMetal {
+	visibility: visible;
+	width: 100%;
+  }
+
+.unitionSmall {
+	display: none;
+}
+
+.unition {
+	display: none;
+}
+}
+
+@media screen and (max-width: 910px) {
+
+.unitionBig {
+	display: none;
+}
+
+.unitionSmall {
+	display: none;
+}
+
+.unitionMetal {
+	visibility: visible;
+	width: 100%;
+  }
+
+.unition {
+	display: none;
+}
+}
 
 .navText {
 	display: inline;
@@ -438,20 +530,55 @@ canvas {
 	}
 	
 .doch4 {
-	color: black;
+	color: white;
 }
 
 .docp {
-	color: black;
+	color: white;
 }
 
 .docul {
-	color: black;
+	color: white;
 }
 
 .projectFilters {
 	margin-right: 5%;
+	padding: 10px;
+	background-color:#32323e;
+	padding:10px;
 	border-radius: 5px;
+	box-shadow: 0 14px 28px rgb(0 0 0 / 25%);
+}
+
+input[type="submit"].filterButton {
+	background-color: lightslategray;
+}
+
+.leftDiv {
+	float:left;
+	width: 48%;
+	min-width: 400px;
+	margin-right: 4%;
+	overflow: auto;
+	resize: both;
+}
+
+.rightDiv {
+	float:left;
+	width: 48%;
+	min-width:400px;
+	overflow: auto;
+	resize: both;
+}
+
+@media only screen and (max-width: 1000px) {
+  .leftDiv {
+    overflow: visible;
+  }
+  
+  .rightDiv {
+    overflow: visible;
+  }
 }
 
 /*--------------------------------------------*/
@@ -461,9 +588,9 @@ canvas {
 	margin-right: 10px;
 	width: 200px;
 	display: inline-grid;
-	color: black;
+	color: lightslategray;
 	margin-bottom: 10px;
-	background-color: lightgray;
+	backgRound-color: #32323e;
 	box-shadow: 0 0 20px rgb(0 0 0 / 15%);
 }
 
@@ -477,6 +604,7 @@ canvas {
 }
 
 .mainTable {
-	width: 100%;
+	width: 86%;
+	margin-right: 14%;
 	text-align:center;
 }

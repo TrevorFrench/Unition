@@ -51,10 +51,24 @@ const dashboardTheme = (request, response) => {
 }
 
 //------------------------------------------------------------------------------
+//---------------------------------METAL THEME----------------------------------
+//------------------------------------------------------------------------------
+const metalTheme = (request, response) => {
+	const sql = "UPDATE users SET style = 'metal' where id = " + request.user.id + ";";
+	pool.query(sql, (error, results) => {
+		if (error) {
+			throw error;
+		}
+		response.redirect('./adminPage')
+	});
+}
+
+//------------------------------------------------------------------------------
 //--------------------------------EXPORT MODULES--------------------------------
 //------------------------------------------------------------------------------
 module.exports = {
 	defaultDark,
 	lightTheme,
-	dashboardTheme
+	dashboardTheme,
+	metalTheme
 }
