@@ -145,10 +145,10 @@ app.use(bodyParser.urlencoded({ extended: true }));                 			// loggin
 //------------------------------------------------------------------------------
 const Pool = require('pg').Pool
 const pool = new Pool({
-  user: 'xdlepbswgkuwsn',
-  host: 'ec2-54-236-146-234.compute-1.amazonaws.com',
-  database: 'd216rqdgnn6371',
-  password: '43fc7fd35e724f6a212661eb4fd3ae514003079f9d3a56a56b2d96eb959dbaeb',
+  user: 'haeylaqqqkjveg',
+  host: 'ec2-100-25-75-194.compute-1.amazonaws.com',
+  database: 'd4mt626ufi3h00',
+  password: '1c52845abaa1df2175c6da25b8f959485d69e792d02984ff4ee6a7a291d74a0e',
   port: 5432,
   ssl: true,
 })
